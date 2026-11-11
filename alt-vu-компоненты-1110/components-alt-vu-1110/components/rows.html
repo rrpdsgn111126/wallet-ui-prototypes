@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>alt.vu · Строки в плите</title>
+<script>/* тема — из адреса: components/rows.html#dark */
+if (location.hash === '#dark') document.documentElement.classList.add('dark');</script>
+<link rel="stylesheet" href="../css/alt-vu-wallet.css">
+<link rel="stylesheet" href="../showcase/states.css">
+<link rel="stylesheet" href="../showcase/specimen.css">
+</head>
+<body data-ds="rows">
+<div class="phone ds-ph">
+<!-- Строки в плите. Откуда: .box — src/alt.py:576; .row — src/alt.py:577; нажата — src/app.py:775; .row.dang — src/alt.py:588; разметка «Настройки» — src/screens2.py:391 -->
+<section class="ds-st">
+<div class="ds-lab">Обычное</div>
+<!-- состояние: Обычное -->
+<div class="box"><div class="row"><div class="ri"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8.5a6 6 0 1 0-12 0c0 6-2.2 7.5-2.2 7.5h16.4S18 14.5 18 8.5Z"></path><path d="M13.7 19.5a2 2 0 0 1-3.4 0"></path></svg></div><div class="rt">Уведомления<i class="sub-push"></i></div><div class="sw" data-act="push-toggle"></div></div><div class="row"><div class="ri"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--n850)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.6 3.4 3.4 10.3l6.9 3.4 3.4 6.9z"></path><path d="m20.6 3.4-10.3 10.3"></path></svg></div><div class="rt">Telegram-бот</div><div class="sw"></div></div><div class="row"><div class="ri"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--n850)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.6"></circle><path d="M3.4 12h17.2"></path><path d="M12 3.4a13 13 0 0 1 0 17.2 13 13 0 0 1 0-17.2Z"></path></svg></div><div class="rt">Язык интерфейса</div><div class="rv">Русский</div><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--n400)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 5 7 7-7 7"></path></svg></div></div>
+</section>
+<section class="ds-st">
+<div class="ds-lab">Нажата строка</div>
+<!-- состояние: Нажата строка -->
+<div class="box"><div class="row"><div class="ri"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8.5a6 6 0 1 0-12 0c0 6-2.2 7.5-2.2 7.5h16.4S18 14.5 18 8.5Z"></path><path d="M13.7 19.5a2 2 0 0 1-3.4 0"></path></svg></div><div class="rt">Уведомления<i class="sub-push"></i></div><div class="sw" data-act="push-toggle"></div></div><div class="row"><div class="ri"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--n850)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.6 3.4 3.4 10.3l6.9 3.4 3.4 6.9z"></path><path d="m20.6 3.4-10.3 10.3"></path></svg></div><div class="rt">Telegram-бот</div><div class="sw"></div></div><div class="row cp ds-press"><div class="ri"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--n850)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.6"></circle><path d="M3.4 12h17.2"></path><path d="M12 3.4a13 13 0 0 1 0 17.2 13 13 0 0 1 0-17.2Z"></path></svg></div><div class="rt">Язык интерфейса</div><div class="rv">Русский</div><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--n400)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 5 7 7-7 7"></path></svg></div></div>
+</section>
+<section class="ds-st">
+<div class="ds-lab">Опасное действие</div>
+<!-- состояние: Опасное действие -->
+<div class="box"><div class="row dang"><div class="rt">Закрыть счёт</div></div></div>
+</section>
+</div>
+<script src="../showcase/specimen.js"></script>
+</body>
+</html>

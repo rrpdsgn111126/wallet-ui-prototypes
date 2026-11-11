@@ -1,0 +1,161 @@
+/* Токены кошелька alt.vu. Сняты с живой сборки 10.11.2026 18:18 (коммит ae501917 2026-11-10T18:30:11+04:00).
+   Цвета — ровно те переменные, что стоят на .phone (светлая) и на
+   html.dark (тёмная) в css/alt-vu-wallet.css. Шрифт, шаг, радиусы, тени и
+   размеры в живом CSS стоят числами в правилах — здесь им даны имена
+   (--ds-*), значения взяты из тех же правил. */
+
+:root {
+  --brand: #cbf14a;  /* заливка главной кнопки, включённый переключатель, галочка «Готово», кольцо */
+  --brand-ink: #161514;  /* текст и знак поверх лайма */
+  --brand-600: #12833a;  /* ссылки действия, «пришло» */
+  --acc-bg: #f7fde2;  /* фон бейджа статуса цветом бренда */
+  --acc-ink: #607a09;  /* текст бейджа статуса цветом бренда */
+  --spot: #cbf14a;  /* пятно подкраски шапки (.tint) */
+  --spot2: #00d18a;  /* второе пятно шапки */
+  --card-a: #a9cf46;  /* заливка под лицом карты */
+  --card-b: #8fb833;  /* заливка под лицом карты */
+  --glow: #ffffff2e;  /* отсвет на карте */
+  --sbn-a: #171a12;  /* тёмная база системного баннера (день) */
+  --n50: #f6f7f8;  /* фон страницы и шторки */
+  --n100: #e9ecf0;  /* выбранное, дорожки, вторая кнопка */
+  --n300: #b9b7b7;  /* обводки, плейсхолдеры (не текст в тёмной) */
+  --n400: #8a8686;  /* шевроны, ручка шторки */
+  --n500: #6b6767;  /* вторичный текст, подписи полей */
+  --n850: #211e1d;  /* основной текст, значки */
+  --n900: #161514;  /* заголовки, суммы */
+  --ok: #0f7533;  /* успех, «зачислено» */
+  --err: #bd340e;  /* ошибка, отказ */
+  --err-mark: #ec5732;  /* крестик отказа, счётчик */
+  --warn-bg: #f2f8dc;  /* плашка предупреждения */
+  --warn-ink: #211e1d;  /* текст предупреждения */
+  --warn-mark: #5f7314;  /* значок предупреждения */
+  --ok-bg: #e6f2ea;  /* фон успеха */
+  --err-bg: #fbe9e4;  /* фон ошибки */
+  --info-bg: #e9ecf0;  /* справочная плашка */
+  --ghost: #e9f6c0;  /* карта до выпуска */
+  --ghost-line: #cbe08a;  /* обводка карты до выпуска */
+  --coin-plate: #e9ecf0;  /* оправа монет, сетей и знака бренда (в CSS: var(--n100)) */
+  --cat-food-bg: #fbeee0;
+  --cat-food-ink: #a8641c;
+  --cat-grocery-bg: #e3f1f1;
+  --cat-grocery-ink: #14696a;
+  --cat-transport-bg: #e7eefc;
+  --cat-transport-ink: #2b57bb;
+  --cat-shop-bg: #f1e9fa;
+  --cat-shop-ink: #653aa8;
+  --cat-fun-bg: #fbe9f1;
+  --cat-fun-ink: #a03668;
+  --cat-health-bg: #e6f0fb;
+  --cat-health-ink: #235c88;
+  --cat-home-bg: #f3eee7;
+  --cat-home-ink: #7a6444;
+  --cat-money-bg: #eceef2;
+  --cat-money-ink: #455063;
+  --cat-other-bg: #e9ecf0;
+  --cat-other-ink: #211e1d;
+  --surface: #fff;  /* плиты, поля, клавиши */
+  --text: #161514;  /* текст страницы */
+  --sh-1: #1615140a;  /* тень плиты */
+  --sh-2: #1615141a;  /* тень круглых кнопок, шторки */
+  --glass: #ffffffe0;  /* стекло кнопок шапки */
+  --glass-2: #ffffffb0;  /* стекло полей, плашка на карте */
+  --line: #e6e4e1;  /* обводка галочки */
+  --n200: #ebe8e6;  /* разделители */
+  --n700: #3d3a39;  /* вводный абзац */
+
+  --ds-font: Inter,"Noto Sans Thai",Thonburi,"Leelawadee UI",system-ui,sans-serif;
+  --ds-font-mono: ui-monospace,SFMono-Regular,Menlo, Consolas,monospace;
+  --ds-step: 12px;  /* вертикальный шаг между блоками */
+  --ds-gutter: 16px;  /* боковые поля экрана */
+  --ds-radius-pill: 999px;  /* Капсула, круг (.bdg) */
+  --ds-radius-card: 26px;  /* Лицо карты (.card) */
+  --ds-radius-sheet: 24px 24px 0 0;  /* Верх шторки (.sheet) */
+  --ds-radius-tile: 20px;  /* Плита, строка шторки (.box) */
+  --ds-radius-field: 16px;  /* Поле, кнопка, клавиша (.fld) */
+  --ds-radius-toast: 14px;  /* Тост (.toast) */
+  --ds-shadow-tile: 0 1px 2px var(--sh-1,#1615140a);  /* Плита (.box) */
+  --ds-shadow-field: 0 1px 2px var(--sh-1,#1615140a);  /* Поле (.fld.w) */
+  --ds-shadow-round: 0 1px 3px var(--sh-2,#1615141a),inset 0 0 0 1px var(--sh-1,#16151410);  /* Круглая кнопка шапки (.ha) */
+  --ds-shadow-action: 0 1px 3px var(--sh-1,#1615140f),inset 0 0 0 1px var(--sh-1,#1615140d);  /* Быстрое действие (.act .c) */
+  --ds-shadow-brand: 0 6px 14px #cbf14a5c;  /* Главная кнопка (.btn) */
+  --ds-shadow-card: 0 16px 32px var(--sh-2,#16151433),0 4px 10px var(--sh-2,#1615141a);  /* Лицо карты (.card) */
+  --ds-shadow-sheet: 0 -10px 30px var(--sh-2,#1615141a);  /* Шторка (.sheet) */
+  --ds-size-button: 52px;  /* Кнопка (.btn,.btno height) */
+  --ds-size-field: 68px;  /* Поле (.fld height) */
+  --ds-size-row: 60px;  /* Строка плиты (.row min-height) */
+  --ds-size-sheet-row: 64px;  /* Строка шторки (.m height) */
+  --ds-size-round: 40px;  /* Круглая кнопка (.ha width) */
+  --ds-size-icon-plate: 32px;  /* Значок в строке (.row .ri width) */
+  --ds-type-amount-hero: 600 32px/38px var(--ds-font);  /* Сумма-герой (детали операции) (.amt) */
+  --ds-type-card-balance: 600 36px/44px var(--ds-font);  /* Баланс на карте (.cbal) */
+  --ds-type-card-cents: 600 21px/normal var(--ds-font);  /* Центы и знак на карте (.cbal .cnt) */
+  --ds-type-title: 600 20px/24px var(--ds-font);  /* Заголовок экрана (.h1) */
+  --ds-type-sheet-title: 600 20px/24px var(--ds-font);  /* Заголовок шторки (.sh2) */
+  --ds-type-section: 600 20px/24px var(--ds-font);  /* Заголовок раздела (.hh h2) */
+  --ds-type-button: 600 16px/normal var(--ds-font);  /* Кнопка (.btn,.btno) */
+  --ds-type-row: 500 16px/22px var(--ds-font);  /* Строка в плите (.row .rt) */
+  --ds-type-field-value: 500 16px/22px var(--ds-font);  /* Значение поля (.fl b) */
+  --ds-type-field-label: 400 12px/16px var(--ds-font);  /* Подпись поля (.fl i) */
+  --ds-type-lead: None 15px/21px var(--ds-font);  /* Вводный абзац (.lead) */
+  --ds-type-note: 400 13px/18px var(--ds-font);  /* Заметка (.note) */
+  --ds-type-hint: 400 12px/16px var(--ds-font);  /* Подсказка (.hint) */
+  --ds-type-link: 500 14px/normal var(--ds-font);  /* Ссылка действия (.lnk) */
+  --ds-type-action-label: 500 11px/14px var(--ds-font);  /* Подпись быстрого действия (.act span) */
+  --ds-type-nav-label: 500 11px/13px var(--ds-font);  /* Подпись нижнего меню (.bnv-i) */
+}
+
+/* Тёмная тема: класс dark на <html>, как в кошельке. Его ставит скрипт в <head>
+   по настройке человека (Система / Светлая / Тёмная). */
+html.dark {
+  --brand: #cbf14a;
+  --brand-ink: #161514;
+  --brand-600: #5ecb7e;
+  --acc-bg: #464e26;
+  --acc-ink: #cbf14a;
+  --n50: #121211;
+  --n100: #2b2a28;
+  --n300: #343230;
+  --n400: #9d9892;
+  --n500: #b0aca7;
+  --n850: #f4f3f1;
+  --n900: #f4f3f1;
+  --ok: #5ecb7e;
+  --err: #ff7a58;
+  --err-mark: #ff7a58;
+  --warn-bg: #2a2f18;
+  --warn-ink: #f4f3f1;
+  --warn-mark: #c5dd6b;
+  --ok-bg: #1b2f21;
+  --err-bg: #3a1d15;
+  --info-bg: #2b2a28;
+  --ghost: #2c3313;
+  --ghost-line: #4b5a22;
+  --coin-plate: #232221;
+  --cat-food-bg: #33261a;
+  --cat-food-ink: #e5a055;
+  --cat-grocery-bg: #16302f;
+  --cat-grocery-ink: #5cc2c0;
+  --cat-transport-bg: #1a2340;
+  --cat-transport-ink: #7ea6f2;
+  --cat-shop-bg: #2e2347;
+  --cat-shop-ink: #b492e8;
+  --cat-fun-bg: #361d29;
+  --cat-fun-ink: #e88ab3;
+  --cat-health-bg: #182838;
+  --cat-health-ink: #79b4e0;
+  --cat-home-bg: #2b2620;
+  --cat-home-ink: #c9b189;
+  --cat-money-bg: #23262b;
+  --cat-money-ink: #a3adbd;
+  --cat-other-bg: #2b2a28;
+  --cat-other-ink: #b0aca7;
+  --surface: #1c1b1a;
+  --text: #f4f3f1;
+  --sh-1: #00000040;
+  --sh-2: #00000059;
+  --glass: #1c1b1ae6;
+  --glass-2: #ffffff0f;
+  --line: #343230;
+  --n200: #2b2a28;
+  --n700: #b0aca7;
+}

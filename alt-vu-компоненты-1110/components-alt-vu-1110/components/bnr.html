@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>alt.vu · Баннер выпуска</title>
+<script>/* тема — из адреса: components/bnr.html#dark */
+if (location.hash === '#dark') document.documentElement.classList.add('dark');</script>
+<link rel="stylesheet" href="../css/alt-vu-wallet.css">
+<link rel="stylesheet" href="../showcase/states.css">
+<link rel="stylesheet" href="../showcase/specimen.css">
+</head>
+<body data-ds="bnr">
+<div class="phone ds-ph">
+<!-- Баннер выпуска. Откуда: .bnr — src/alt.py:257; разметка — src/screens.py:145 -->
+<section class="ds-st">
+<div class="ds-lab">Обычное</div>
+<!-- состояние: Обычное -->
+<div class="bnr">
+    <div class="bg"></div>
+    <b>Выпустите карту</b>
+    <i>Долларовая Visa Platinum. Баланс станет доступен к оплате везде,
+       где принимают Visa: онлайн и в магазинах — через Apple Pay и Google Pay.</i>
+    <div class="go">Выпустить карту</div>
+  </div>
+</section>
+</div>
+<script src="../showcase/specimen.js"></script>
+</body>
+</html>

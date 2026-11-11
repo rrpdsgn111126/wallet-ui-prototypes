@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>alt.vu · Шапка экрана</title>
+<script>/* тема — из адреса: components/head.html#dark */
+if (location.hash === '#dark') document.documentElement.classList.add('dark');</script>
+<link rel="stylesheet" href="../css/alt-vu-wallet.css">
+<link rel="stylesheet" href="../showcase/states.css">
+<link rel="stylesheet" href="../showcase/specimen.css">
+</head>
+<body data-ds="head">
+<div class="phone ds-ph">
+<!-- Шапка экрана. Откуда: .head — src/alt.py:158; .back — src/alt.py:159; .head.hic — src/app.py:252; разметка «История» — src/screens2.py:159 -->
+<section class="ds-st">
+<div class="ds-lab">Только «назад»</div>
+<!-- состояние: Только «назад» -->
+<div class="head">
+  <div class="back" data-back="1"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 5-7 7 7 7"></path></svg></div><div class="h1">Страна</div>
+</div>
+</section>
+<section class="ds-st">
+<div class="ds-lab">С кнопками справа</div>
+<!-- состояние: С кнопками справа -->
+<div class="head hic">
+  <div class="back" data-back="1"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 5-7 7 7 7"></path></svg></div><div class="h1">История</div>
+  <div class="hacts"><div class="back" data-go="filters"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--n850)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 6h17"></path><path d="M6.5 12h11"></path><path d="M10 18h4"></path></svg></div>
+  <div class="back" data-act="report"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--n850)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11"></path><path d="m7.5 10.5 4.5 4.5 4.5-4.5"></path><path d="M4.5 19.5h15"></path></svg></div></div>
+</div>
+</section>
+</div>
+<script src="../showcase/specimen.js"></script>
+</body>
+</html>

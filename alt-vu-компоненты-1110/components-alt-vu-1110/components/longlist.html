@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>alt.vu · Выбор из длинного списка</title>
+<script>/* тема — из адреса: components/longlist.html#dark */
+if (location.hash === '#dark') document.documentElement.classList.add('dark');</script>
+<link rel="stylesheet" href="../css/alt-vu-wallet.css">
+<link rel="stylesheet" href="../showcase/states.css">
+<link rel="stylesheet" href="../showcase/specimen.css">
+</head>
+<body data-ds="longlist">
+<div class="phone ds-ph">
+<!-- Выбор из длинного списка. Откуда: экран — src/screens_verify.py:231; строки (скрипт) — src/app.py:2894; .ve-list — src/app.py:1071 -->
+<section class="ds-st">
+<div class="ds-lab">Список</div>
+<!-- состояние: Список -->
+<div class="pick-top"><div class="fld w ve-search">
+    <div class="fi"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--n400)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><path d="m16.5 16.5 4 4"></path></svg></div>
+    <input id="ve-q" type="search" autocomplete="off" autocorrect="off" spellcheck="false" placeholder="Поиск по названию">
+  </div></div><div style="height:12px"></div><div class="box ve-list" id="ve-list"><div class="row" data-cc="AU"><span class="ve-flag">🇦🇺</span><div class="rt">Австралия</div><div class="rv">+61</div></div><div class="row" data-cc="AT"><span class="ve-flag">🇦🇹</span><div class="rt">Австрия</div><div class="rv">+43</div></div><div class="row" data-cc="AZ"><span class="ve-flag">🇦🇿</span><div class="rt">Азербайджан</div><div class="rv">+994</div></div><div class="row" data-cc="AX"><span class="ve-flag">🇦🇽</span><div class="rt">Аландские о-ва</div><div class="rv">+358</div></div><div class="row" data-cc="AL"><span class="ve-flag">🇦🇱</span><div class="rt">Албания</div><div class="rv">+355</div></div></div>
+</section>
+<section class="ds-st">
+<div class="ds-lab">Ничего не нашлось</div>
+<!-- состояние: Ничего не нашлось -->
+<div class="pick-top"><div class="fld w ve-search">
+    <div class="fi"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--n400)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><path d="m16.5 16.5 4 4"></path></svg></div>
+    <input id="ve-q" type="search" autocomplete="off" autocorrect="off" spellcheck="false" placeholder="Поиск по названию" value="Атлантида">
+  </div></div><div style="height:12px"></div><div class="box ve-list"><div class="ve-empty">Ничего не нашлось</div></div>
+</section>
+</div>
+<script src="../showcase/specimen.js"></script>
+</body>
+</html>

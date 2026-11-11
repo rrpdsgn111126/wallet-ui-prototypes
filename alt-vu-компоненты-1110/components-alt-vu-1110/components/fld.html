@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>alt.vu · Поле ввода</title>
+<script>/* тема — из адреса: components/fld.html#dark */
+if (location.hash === '#dark') document.documentElement.classList.add('dark');</script>
+<link rel="stylesheet" href="../css/alt-vu-wallet.css">
+<link rel="stylesheet" href="../showcase/states.css">
+<link rel="stylesheet" href="../showcase/specimen.css">
+</head>
+<body data-ds="fld">
+<div class="phone ds-ph">
+<!-- Поле ввода. Откуда: .fld — src/alt.py:340; .fld.err — src/app.py:1171; .fld.off — src/app.py:944; .err-note — src/app.py:1198; разметка «Имя» — src/app_views.py:503 -->
+<section class="ds-st">
+<div class="ds-lab">Пустое</div>
+<!-- состояние: Пустое -->
+<div class="fld w"><div class="fi"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--n850)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8.2" r="3.6"></circle><path d="M5.4 19.6c0-3.2 2.9-5.4 6.6-5.4s6.6 2.2 6.6 5.4"></path></svg></div><div class="fl"><i>Имя</i><input id="fn" autocomplete="given-name" placeholder="Имя"></div></div>
+</section>
+<section class="ds-st">
+<div class="ds-lab">Заполнено</div>
+<!-- состояние: Заполнено -->
+<div class="fld w"><div class="fi"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--n850)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8.2" r="3.6"></circle><path d="M5.4 19.6c0-3.2 2.9-5.4 6.6-5.4s6.6 2.2 6.6 5.4"></path></svg></div><div class="fl"><i>Имя</i><input id="fn" autocomplete="given-name" placeholder="Имя" value="Анна"></div></div>
+</section>
+<section class="ds-st">
+<div class="ds-lab">Ошибка</div>
+<!-- состояние: Ошибка -->
+<div class="fld w err"><div class="fi"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--n850)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8.2" r="3.6"></circle><path d="M5.4 19.6c0-3.2 2.9-5.4 6.6-5.4s6.6 2.2 6.6 5.4"></path></svg></div><div class="fl"><i>Имя</i><input id="fn" autocomplete="given-name" placeholder="Имя" value="Анна"></div></div><div class="err-note">Только буквы — без цифр и знаков</div>
+</section>
+<section class="ds-st">
+<div class="ds-lab">Выключено</div>
+<!-- состояние: Выключено -->
+<div class="fld w off"><div class="fi"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--n850)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8.2" r="3.6"></circle><path d="M5.4 19.6c0-3.2 2.9-5.4 6.6-5.4s6.6 2.2 6.6 5.4"></path></svg></div><div class="fl"><i>Имя</i><input id="fn" autocomplete="given-name" placeholder="Имя" value="Анна"></div></div>
+</section>
+<section class="ds-st">
+<div class="ds-lab">Только чтение (серое)</div>
+<!-- состояние: Только чтение (серое) -->
+<div class="fld g"><div class="fi"><div class="cn" style="width:40px;height:40px"><img class="logo" width="24" height="24" style="border-radius:999px" src="../assets/img-27f3d8cf.png" alt="alt.vu"></div></div><div class="fl"><i>Со счёта alt.vu</i><b class="wd-avail">1 284.60 $</b></div></div>
+</section>
+</div>
+<script src="../showcase/specimen.js"></script>
+</body>
+</html>

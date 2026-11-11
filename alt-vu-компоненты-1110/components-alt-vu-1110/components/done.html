@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>alt.vu · Готово и ожидание</title>
+<script>/* тема — из адреса: components/done.html#dark */
+if (location.hash === '#dark') document.documentElement.classList.add('dark');</script>
+<link rel="stylesheet" href="../css/alt-vu-wallet.css">
+<link rel="stylesheet" href="../showcase/states.css">
+<link rel="stylesheet" href="../showcase/specimen.css">
+</head>
+<body data-ds="done">
+<div class="phone ds-ph">
+<!-- Готово и ожидание. Откуда: .okc — src/alt.py:733; .ring — src/alt.py:705; разметка «Кошелёк создан» — src/screens3.py:129 -->
+<section class="ds-st">
+<div class="ds-lab">Готово</div>
+<!-- состояние: Готово -->
+<div class="hero">
+    <div class="okc"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--n850)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 5 5 9-10"></path></svg></div>
+    <div class="h2">Кошелёк создан</div>
+    <div class="p">Долларовая карта уже выпущена.<br>Пополните счёт — и можно платить.</div>
+  </div>
+</section>
+<section class="ds-st">
+<div class="ds-lab">Ожидание</div>
+<!-- состояние: Ожидание -->
+<div style="display:flex;justify-content:center"><div class="ring"><div class="in"><img class="logo" width="56" height="56" style="border-radius:999px" src="../assets/img-27f3d8cf.png" alt="alt.vu"></div></div></div>
+</section>
+</div>
+<script src="../showcase/specimen.js"></script>
+</body>
+</html>

@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>alt.vu · Шторка выбора сети</title>
+<script>/* тема — из адреса: components/netsheet.html#dark */
+if (location.hash === '#dark') document.documentElement.classList.add('dark');</script>
+<link rel="stylesheet" href="../css/alt-vu-wallet.css">
+<link rel="stylesheet" href="../showcase/states.css">
+<link rel="stylesheet" href="../showcase/specimen.css">
+</head>
+<body data-ds="netsheet">
+<div class="phone ds-ph">
+<!-- Шторка выбора сети. Откуда: шаблон строк — src/app.py:13573; разметка шторки — src/app.py:16803 -->
+<section class="ds-st ds-full">
+<div class="ds-lab">Выбрана TRC20</div>
+<!-- состояние: Выбрана TRC20 -->
+<div class="ds-screen" style="height:520px"><div class="dim"></div><div class="sheet ns-sheet"><div class="grab"></div><div class="sh2">Сеть</div><div class="box ns-box"><div class="row" data-ns="tron"><div class="ri"><i class="nlg tron"></i></div><div class="rt">TRC20<i>мин. 10 USDT · 20 подтв.</i></div><div class="rd on"></div></div><div class="row" data-ns="bnb"><div class="ri"><i class="nlg bnb"></i></div><div class="rt">BEP-20<i>мин. 10 USDT · 15 подтв.</i></div><div class="rd"></div></div><div class="row" data-ns="polygon"><div class="ri"><i class="nlg polygon"></i></div><div class="rt">POLYGON<i>мин. 10 USDT · 128 подтв.</i></div><div class="rd"></div></div><div class="row" data-ns="ton"><div class="ri"><i class="nlg ton"></i></div><div class="rt">TON<i>мин. 10 USDT · 1 подтв.</i></div><div class="rd"></div></div></div><div class="note ns-note">Адрес у каждой сети свой. Отправляйте монеты только в той сети, которая выбрана здесь.</div></div></div>
+</section>
+</div>
+<script src="../showcase/specimen.js"></script>
+</body>
+</html>

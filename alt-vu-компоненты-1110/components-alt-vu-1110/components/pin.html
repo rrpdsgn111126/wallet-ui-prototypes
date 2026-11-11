@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>alt.vu · ПИН-код и клавиатура</title>
+<script>/* тема — из адреса: components/pin.html#dark */
+if (location.hash === '#dark') document.documentElement.classList.add('dark');</script>
+<link rel="stylesheet" href="../css/alt-vu-wallet.css">
+<link rel="stylesheet" href="../showcase/states.css">
+<link rel="stylesheet" href="../showcase/specimen.css">
+</head>
+<body data-ds="pin">
+<div class="phone ds-ph">
+<!-- ПИН-код и клавиатура. Откуда: .pin — src/alt.py:647; .kb .key — src/alt.py:643; нажата — src/app.py:759; клавиша Face ID — src/app.py:2067; разметка «Введите ПИН-код» — src/app.py:114 -->
+<section class="ds-st ds-full">
+<div class="ds-lab">Пусто, без биометрии</div>
+<!-- состояние: Пусто, без биометрии -->
+<div class="ds-screen" style="height:560px"><div class="sheet">
+  <div class="grab"></div>
+  <div class="sh2" style="text-align:center;margin-bottom:0">Введите ПИН-код</div>
+  <div class="msg" id="m-lock"></div><div class="pins" id="pins-lock"><div class="pin"></div><div class="pin"></div>
+    <div class="pin"></div><div class="pin"></div></div>
+  <div style="text-align:center">
+    <a class="lnk" href="#" data-act="pin-forgot">Не помню ПИН-код</a></div>
+  <div class="kb">
+    <div class="key" data-k="1">1</div><div class="key" data-k="2">2</div><div class="key" data-k="3">3</div><div class="key" data-k="4">4</div><div class="key" data-k="5">5</div><div class="key" data-k="6">6</div><div class="key" data-k="7">7</div><div class="key" data-k="8">8</div><div class="key" data-k="9">9</div>
+    <div class="key q bio off" data-act="bio-unlock"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--n850)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8.5V6a2 2 0 0 1 2-2h2.5M20 8.5V6a2 2 0 0 0-2-2h-2.5"></path><path d="M4 15.5V18a2 2 0 0 0 2 2h2.5M20 15.5V18a2 2 0 0 1-2 2h-2.5"></path><path d="M9 10v1.4M15 10v1.4"></path><path d="M12 10v3.4h-1"></path><path d="M9.6 16a3.6 3.6 0 0 0 4.8 0"></path></svg></div>
+    <div class="key" data-k="0">0</div>
+    <div class="key q" data-k="del"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--n850)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8.4 5.5h11a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-11L2.6 12z"></path><path d="m11.6 9.6 5 4.8M16.6 9.6l-5 4.8"></path></svg></div>
+  </div>
+</div></div>
+</section>
+<section class="ds-st ds-full">
+<div class="ds-lab">С Face ID: две цифры, нажата «5»</div>
+<!-- состояние: С Face ID: две цифры, нажата «5» -->
+<div class="ds-screen" style="height:560px"><div class="sheet">
+  <div class="grab"></div>
+  <div class="sh2" style="text-align:center;margin-bottom:0">Введите ПИН-код</div>
+  <div class="msg" id="m-lock"></div><div class="pins" id="pins-lock"><div class="pin f"></div><div class="pin f"></div>
+    <div class="pin"></div><div class="pin"></div></div>
+  <div style="text-align:center">
+    <a class="lnk" href="#" data-act="pin-forgot">Не помню ПИН-код</a></div>
+  <div class="kb">
+    <div class="key" data-k="1">1</div><div class="key" data-k="2">2</div><div class="key" data-k="3">3</div><div class="key" data-k="4">4</div><div class="key ds-press" data-k="5">5</div><div class="key" data-k="6">6</div><div class="key" data-k="7">7</div><div class="key" data-k="8">8</div><div class="key" data-k="9">9</div>
+    <div class="key q bio" data-act="bio-unlock"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--n850)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8.5V6a2 2 0 0 1 2-2h2.5M20 8.5V6a2 2 0 0 0-2-2h-2.5"></path><path d="M4 15.5V18a2 2 0 0 0 2 2h2.5M20 15.5V18a2 2 0 0 1-2 2h-2.5"></path><path d="M9 10v1.4M15 10v1.4"></path><path d="M12 10v3.4h-1"></path><path d="M9.6 16a3.6 3.6 0 0 0 4.8 0"></path></svg></div>
+    <div class="key" data-k="0">0</div>
+    <div class="key q" data-k="del"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--n850)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8.4 5.5h11a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-11L2.6 12z"></path><path d="m11.6 9.6 5 4.8M16.6 9.6l-5 4.8"></path></svg></div>
+  </div>
+</div></div>
+</section>
+</div>
+<script src="../showcase/specimen.js"></script>
+</body>
+</html>

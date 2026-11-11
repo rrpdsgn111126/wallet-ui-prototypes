@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>alt.vu · Вторая кнопка</title>
+<script>/* тема — из адреса: components/btno.html#dark */
+if (location.hash === '#dark') document.documentElement.classList.add('dark');</script>
+<link rel="stylesheet" href="../css/alt-vu-wallet.css">
+<link rel="stylesheet" href="../showcase/states.css">
+<link rel="stylesheet" href="../showcase/specimen.css">
+</head>
+<body data-ds="btno">
+<div class="phone ds-ph">
+<!-- Вторая кнопка. Откуда: .btno — src/alt.py:446; нажато — src/app.py:735; выключена — src/app.py:1191; разметка «Поделиться» — src/app_views.py:1057 -->
+<section class="ds-st">
+<div class="ds-lab">Обычное</div>
+<!-- состояние: Обычное -->
+<button class="btno dep-share" type="button"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V4"></path><path d="m8 7.6 4-3.6 4 3.6"></path><path d="M5 13v5.5A2.5 2.5 0 0 0 7.5 21h9a2.5 2.5 0 0 0 2.5-2.5V13"></path></svg> Поделиться</button>
+</section>
+<section class="ds-st">
+<div class="ds-lab">Нажато</div>
+<!-- состояние: Нажато -->
+<button class="btno dep-share ds-press" type="button"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V4"></path><path d="m8 7.6 4-3.6 4 3.6"></path><path d="M5 13v5.5A2.5 2.5 0 0 0 7.5 21h9a2.5 2.5 0 0 0 2.5-2.5V13"></path></svg> Поделиться</button>
+</section>
+<section class="ds-st">
+<div class="ds-lab">Выключено (.off)</div>
+<!-- состояние: Выключено (.off) -->
+<button class="btno dep-share off" type="button"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V4"></path><path d="m8 7.6 4-3.6 4 3.6"></path><path d="M5 13v5.5A2.5 2.5 0 0 0 7.5 21h9a2.5 2.5 0 0 0 2.5-2.5V13"></path></svg> Поделиться</button>
+</section>
+</div>
+<script src="../showcase/specimen.js"></script>
+</body>
+</html>

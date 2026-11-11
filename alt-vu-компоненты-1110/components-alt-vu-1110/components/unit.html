@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>alt.vu · Поле адреса с инструментами</title>
+<script>/* тема — из адреса: components/unit.html#dark */
+if (location.hash === '#dark') document.documentElement.classList.add('dark');</script>
+<link rel="stylesheet" href="../css/alt-vu-wallet.css">
+<link rel="stylesheet" href="../showcase/states.css">
+<link rel="stylesheet" href="../showcase/specimen.css">
+</head>
+<body data-ds="unit">
+<div class="phone ds-ph">
+<!-- Поле адреса с инструментами. Откуда: .unit — src/alt.py:383; .uzone — src/alt.py:420; разметка — src/app_views.py:1100 -->
+<section class="ds-st">
+<div class="ds-lab">Пустое</div>
+<!-- состояние: Пустое -->
+<div class="unit"><div class="urow"><div class="ui"><div class="cn" style="width:40px;height:40px"><img width="24" height="24" alt="USDT" style="display:block;border-radius:999px" src="../assets/img-df9900c4.png"></div></div><div class="ut"><i>На кошелёк USDT</i><b><textarea class="wd-addr" rows="1" placeholder="Адрес в сети" autocapitalize="off" autocorrect="off" spellcheck="false"></textarea></b></div></div><div class="uzones"><button type="button" class="uzone" data-act="wd-paste"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--n850)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="4.5" width="14" height="16" rx="2.6"></rect><path d="M9 4.5V3.2h6v1.3"></path><path d="M8.5 11h7M8.5 14.5h4.5"></path></svg><span>Вставить</span></button><button type="button" class="uzone" data-act="wd-scan"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--n850)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="3.5" width="7" height="7" rx="1.4"></rect><rect x="13.5" y="3.5" width="7" height="7" rx="1.4"></rect><rect x="3.5" y="13.5" width="7" height="7" rx="1.4"></rect><path d="M13.5 13.5h3v3h-3zM17.5 17.5h3v3h-3z"></path></svg><span>Сканировать</span></button><button type="button" class="uzone wd-book" data-act="wd-book"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--n850)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6.5h10M9 12h10M9 17.5h10"></path><path d="M5 6.5h.01M5 12h.01M5 17.5h.01"></path></svg><span>Из книжки</span></button></div></div>
+</section>
+<section class="ds-st">
+<div class="ds-lab">С адресом</div>
+<!-- состояние: С адресом -->
+<div class="unit"><div class="urow"><div class="ui"><div class="cn" style="width:40px;height:40px"><img width="24" height="24" alt="USDT" style="display:block;border-radius:999px" src="../assets/img-df9900c4.png"></div></div><div class="ut"><i>На кошелёк USDT</i><b><textarea class="wd-addr" rows="2" placeholder="Адрес в сети" autocapitalize="off" autocorrect="off" spellcheck="false">TDemoAddr00000000000000000000xY7q</textarea></b></div></div><div class="uzones"><button type="button" class="uzone" data-act="wd-paste"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--n850)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="4.5" width="14" height="16" rx="2.6"></rect><path d="M9 4.5V3.2h6v1.3"></path><path d="M8.5 11h7M8.5 14.5h4.5"></path></svg><span>Вставить</span></button><button type="button" class="uzone" data-act="wd-scan"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--n850)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="3.5" width="7" height="7" rx="1.4"></rect><rect x="13.5" y="3.5" width="7" height="7" rx="1.4"></rect><rect x="3.5" y="13.5" width="7" height="7" rx="1.4"></rect><path d="M13.5 13.5h3v3h-3zM17.5 17.5h3v3h-3z"></path></svg><span>Сканировать</span></button><button type="button" class="uzone wd-book" data-act="wd-book"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--n850)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6.5h10M9 12h10M9 17.5h10"></path><path d="M5 6.5h.01M5 12h.01M5 17.5h.01"></path></svg><span>Из книжки</span></button></div></div>
+</section>
+</div>
+<script src="../showcase/specimen.js"></script>
+</body>
+</html>
