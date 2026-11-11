@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Проверка витрины и PNG-листы.
 
-Открывает index.html с диска (file://) в Chromium без окна на 1440 и 390
+Открывает ui-kit/index.html с диска (file://) в Chromium без окна на 1440 и 390
 точках и проверяет:
   • ни страница, ни одно окно показа не ездит по ширине;
   • в консоли страницы и окон нет ошибок, все файлы нашлись;
@@ -18,7 +18,7 @@ import sys
 from playwright.async_api import async_playwright
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-URL = (ROOT / "index.html").as_uri()
+URL = (ROOT / "ui-kit" / "index.html").as_uri()
 
 OVERFLOW_JS = r"""() => {
   const W = document.documentElement.clientWidth, bad = [];

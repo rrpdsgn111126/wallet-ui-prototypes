@@ -13,7 +13,7 @@ www/index.html — её CSS и картинки, и исходники src/ — 
   tokens/tokens.json      то же для дизайнера и сборщиков
   components/<id>.html    каждый компонент отдельной страницей со всеми состояниями
   showcase/               стили и скрипт витрины (не продукта) + states.css
-  index.html              витрина
+  ui-kit/index.html       витрина
 
     python3 build/harvest.py && python3 build/build.py && python3 build/check.py
 """
@@ -1077,7 +1077,8 @@ INDEX = f"""<!doctype html>
 </body>
 </html>
 """
-write("index.html", INDEX)
+INDEX = re.sub(r'((?:src|href)=")(?=(?:showcase|assets|components)/)', r'\1../', INDEX)
+write("ui-kit/index.html", INDEX)
 
 # сводка для README и проверки
 write("build/manifest.json", json.dumps(dict(
