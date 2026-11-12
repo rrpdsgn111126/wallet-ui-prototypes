@@ -105,6 +105,9 @@ try{
          documentWidth:html.scrollWidth,
          documentHeight:html.scrollHeight,
          top:rect(top),phone:rect(phone),
+         phoneOffsetWidth:phone.offsetWidth,
+         phoneTransform:getComputedStyle(phone).transform,
+         bodyBeforeContent:getComputedStyle(body,'::before').content,
          content:{height:content.clientHeight,scrollHeight:content.scrollHeight},
          sidebarDisplay:getComputedStyle(document.querySelector('.sidebar')).display,
          mobileNavDisplay:getComputedStyle(document.querySelector('.mobilemenu')).display,
@@ -127,6 +130,12 @@ try{
        violations.push('body locked as fullscreen wallet rather than scrollable prototype');
      if(metrics.documentWidth>viewport.width+1)
        violations.push('horizontal document overflow '+(metrics.documentWidth-viewport.width));
+     if(Math.abs(metrics.phone.width-metrics.phoneOffsetWidth)>1)
+       violations.push('phone scaled: bounding '+metrics.phone.width+' vs layout '+metrics.phoneOffsetWidth);
+     if(metrics.phoneTransform!=='none')
+       violations.push('phone transformed by native stylesheet');
+     if(!['none','normal'].includes(metrics.bodyBeforeContent))
+       violations.push('native body pseudo-overlay visible');
      if(metrics.phone.left< -1||metrics.phone.right>viewport.width+1)
        violations.push('phone outside viewport');
      if(metrics.top.top < -1||metrics.top.bottom > viewport.height+1)
