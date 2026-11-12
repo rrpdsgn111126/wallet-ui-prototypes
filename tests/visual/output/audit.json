@@ -1,5 +1,5 @@
 {
-  "run": "2026-11-12T18:35:18.820Z",
+  "run": "2026-11-12T18:36:47.420Z",
   "cases": [
     {
       "label": "home",
@@ -327,7 +327,7 @@
         "bodyWidth": 430,
         "phone": {
           "width": 430,
-          "scrollWidth": 433,
+          "scrollWidth": 430,
           "height": 932,
           "scrollHeight": 932
         },
@@ -752,7 +752,7 @@
         "bodyWidth": 430,
         "phone": {
           "width": 430,
-          "scrollWidth": 433,
+          "scrollWidth": 430,
           "height": 932,
           "scrollHeight": 932
         },
@@ -1291,7 +1291,7 @@
         "bodyWidth": 390,
         "phone": {
           "width": 390,
-          "scrollWidth": 393,
+          "scrollWidth": 390,
           "height": 693,
           "scrollHeight": 693
         },
@@ -1716,7 +1716,7 @@
         "bodyWidth": 390,
         "phone": {
           "width": 390,
-          "scrollWidth": 393,
+          "scrollWidth": 390,
           "height": 693,
           "scrollHeight": 693
         },
@@ -2255,7 +2255,7 @@
         "bodyWidth": 430,
         "phone": {
           "width": 430,
-          "scrollWidth": 433,
+          "scrollWidth": 430,
           "height": 781,
           "scrollHeight": 781
         },
@@ -2680,7 +2680,7 @@
         "bodyWidth": 430,
         "phone": {
           "width": 430,
-          "scrollWidth": 433,
+          "scrollWidth": 430,
           "height": 781,
           "scrollHeight": 781
         },
@@ -3219,7 +3219,7 @@
         "bodyWidth": 1440,
         "phone": {
           "width": 420,
-          "scrollWidth": 423,
+          "scrollWidth": 420,
           "height": 922,
           "scrollHeight": 922
         },
@@ -3644,7 +3644,7 @@
         "bodyWidth": 1440,
         "phone": {
           "width": 420,
-          "scrollWidth": 423,
+          "scrollWidth": 420,
           "height": 922,
           "scrollHeight": 922
         },
@@ -3858,54 +3858,5 @@
       "errors": []
     }
   ],
-  "issues": [
-    {
-      "label": "in-pending",
-      "excess": 3,
-      "errors": [],
-      "badElements": []
-    },
-    {
-      "label": "out-progress",
-      "excess": 3,
-      "errors": [],
-      "badElements": []
-    },
-    {
-      "label": "in-pending-390",
-      "excess": 3,
-      "errors": [],
-      "badElements": []
-    },
-    {
-      "label": "out-progress-390",
-      "excess": 3,
-      "errors": [],
-      "badElements": []
-    },
-    {
-      "label": "in-pending-430",
-      "excess": 3,
-      "errors": [],
-      "badElements": []
-    },
-    {
-      "label": "out-progress-430",
-      "excess": 3,
-      "errors": [],
-      "badElements": []
-    },
-    {
-      "label": "in-pending-1440",
-      "excess": 3,
-      "errors": [],
-      "badElements": []
-    },
-    {
-      "label": "out-progress-1440",
-      "excess": 3,
-      "errors": [],
-      "badElements": []
-    }
-  ]
+  "issues": []
 }
