@@ -297,6 +297,16 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid 
 .phone.tf-phone .tf-copyrow{min-height:65px}
 .phone.tf-phone .tf-copyrow .rt{font-size:15px}
 .phone.tf-phone .tf-copyrow .rt i{font-size:12px;color:var(--n500)}
+/* Playwright audit 2026-11-12: width:100% + 16px side padding caused +32px of horizontal scrolling. */
+.phone.tf-phone .tf-field{box-sizing:border-box;width:100%;max-width:100%}
+.phone.tf-phone .tf-field .fl{min-width:0}
+.phone.tf-phone .tf-field .fl select,.phone.tf-phone .tf-field .fl input{min-width:0;max-width:100%}
+/* Match the reference home card position, height and aligned compact action row. */
+.phone.tf-phone .tf-home-card{height:238px;margin-top:24px}
+.phone.tf-phone .tf-home-actions{justify-content:flex-start;gap:24px;padding-left:6px}
+.phone.tf-phone .tf-home-action{flex:0 0 80px}
+.phone.tf-phone .tf-home-action .tf-home-action-icon{width:52px;height:52px}
+
 /* screenshot mode: 430 × 932 logical px; use Playwright deviceScaleFactor 3 for 1290 × 2796 raster */
 html.tf-capture,html.tf-capture body{width:430px;height:932px;min-height:0;overflow:hidden;background:#f6f7f8}
 .tf-capture .top,.tf-capture .sidebar,.tf-capture .apiBox,.tf-capture .stage,.tf-capture .mobilemenu,.tf-capture .devtools{display:none!important}
