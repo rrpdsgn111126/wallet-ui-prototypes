@@ -554,7 +554,7 @@ function uxOtherMethod(name){
 function uxMethodRow(name,description,symbol,handler){
   const logos={USDT:'img-df9900c4.png',USDC:'img-a82008b8.png','ALT.VU':'img-27f3d8cf.png',СБП:'img-61ce324e.png'};
   const img=logos[name]
-    ? `<div class="cn" style="width:40px;height:40px"><img src="../assets/${img}" alt="" width="24" height="24" style="border-radius:999px"/></div>`
+    ? `<div class="cn" style="width:40px;height:40px"><img src="../assets/${logos[name]}" alt="" width="24" height="24" style="border-radius:999px"/></div>`
     : `<span aria-hidden="true">${esc(symbol)}</span>`;
   return `<button type="button" class="m tf-method-row" onclick="${handler}"><span class="ic" aria-hidden="true">${img}</span><span class="mt"><b>${esc(name)}</b><i>${esc(description)}</i></span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--n400)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg></button>`;
 }
@@ -743,7 +743,7 @@ if(queryRail==='SEPA'||queryRail==='SWIFT'){
   if(S.flow==='in'){S.inRail=queryRail;if(queryRail==='SEPA')S.inCurrency='EUR'}
   else {S.outRail=queryRail;if(queryRail==='SEPA'){S.outCurrency='EUR';S.country='DE'}}
 }
-S.cardMode=tfQuery.get('card')==='ghost'?'ghost':'issued';
+S.cardMode=tfQuery.get('card')==='issued'?'issued':'ghost';
 const queryScreen=tfQuery.get('screen');
 if(queryScreen==='home'||SCREENS[S.flow].some(([screen])=>screen===queryScreen))S.screen=queryScreen;
 if(S.screen==='home'&&(tfQuery.get('modal')==='in'||tfQuery.get('modal')==='out'))S.modal=tfQuery.get('modal');
