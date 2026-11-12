@@ -309,6 +309,12 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid 
 .phone.tf-phone .tf-home-action .tf-home-action-icon{width:52px;height:52px}
 
 
+/* Component namespace collision: original alt.vu .dot is an absolute notification badge;
+   TransFi timeline .track .dot is a flow step and must remain in normal layout. */
+.phone.tf-phone .timeline .track .dot{
+  position:static;inset:auto;top:auto;right:auto;bottom:auto;left:auto;
+  box-sizing:border-box;flex:0 0 24px;line-height:24px;text-align:center;
+}
 /* SOURCE PARITY: markup/classes from build/snippets.json and native CSS from alt.vu.
    Existing wallet mock remains isolated; TransFi rails reuse the original components. */
 .phone.tf-phone.is-home>.head{display:none}
