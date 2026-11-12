@@ -158,12 +158,49 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid 
 @media(max-width:1130px){.proto-shell{grid-template-columns:210px minmax(390px,1fr)}.apiBox{display:none}}
 @media(max-width:740px){.top{height:53px;padding:0 14px}.top .brand{font-size:13px}.proto-shell{display:block;min-height:calc(100vh - 53px)}.sidebar{display:none}.mobilemenu{display:flex;gap:8px;padding:12px 14px 0}.mobilemenu button{flex:1;padding:10px 12px;border:1px solid #cbd2c6;border-radius:10px;background:#fff}.mobilemenu button.active{background:#cbf14a}.workspace{padding:12px 0 20px}.stage,.devtools{max-width:390px;width:calc(100% - 24px)}.phone.tf-phone{width:390px;max-width:100%;height:calc(100dvh - 152px);min-height:630px;border-radius:0;border:0;box-shadow:none}.phone.tf-phone .head{padding-top:10px}.tf-foot{padding-bottom:26px}}
 @media(max-width:390px){.phone.tf-phone{width:100%}.tf-scroll{padding-left:16px;padding-right:16px}}
+
+/* UX navigation 2026-11-12: sheet component adapted from components/sheet.html */
+.phone.tf-phone .tf-home-summary{background:var(--surface,#fff);border-radius:20px;padding:21px 18px;margin:3px 0 20px}
+.phone.tf-phone .tf-home-caption{font-size:13px;color:var(--n500,#6b6767);margin:0 0 7px}
+.phone.tf-phone .tf-home-amount{font-size:32px;line-height:39px;font-weight:650;letter-spacing:-.7px;color:var(--n900,#161514)}
+.phone.tf-phone .tf-home-actions{display:flex;gap:12px;margin-bottom:24px}
+.phone.tf-phone .tf-home-action{flex:1;border:0;min-height:108px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:12px;border-radius:20px;background:var(--surface,#fff);color:var(--n850,#211e1d);font:600 15px Inter,system-ui}
+.phone.tf-phone .tf-home-action.primary{background:var(--brand,#cbf14a);color:var(--brand-ink,#161514)}
+.phone.tf-phone .tf-home-arrow{font-size:26px;font-weight:450;line-height:1}
+.phone.tf-phone .tf-home-empty{font-size:14px;color:var(--n500,#6b6767);padding:18px 14px}
+.phone.tf-phone .tf-route{display:flex;align-items:center;gap:9px;font-size:14px;line-height:19px;margin:3px 0 17px;color:var(--n500,#6b6767)}
+.phone.tf-phone .tf-route strong{padding:6px 11px;background:var(--n100,#e9ecf0);color:var(--n850,#211e1d);font-size:13px;border-radius:999px}
+.phone.tf-phone .tf-method-layer{position:absolute;inset:0;z-index:20;display:flex;align-items:flex-end}
+.phone.tf-phone .tf-method-layer[hidden]{display:none!important}
+.phone.tf-phone .tf-method-dim{position:absolute;inset:0;background:#171b16a6;border:0;width:100%;cursor:pointer}
+.phone.tf-phone .tf-method-sheet{position:relative;z-index:1;background:var(--surface,#fff);color:var(--n900,#161514);border-radius:25px 25px 0 0;width:100%;max-height:86%;padding:11px 15px 28px;overflow:auto;box-shadow:0 -14px 36px #0002}
+.phone.tf-phone .tf-method-grab{height:5px;width:42px;border-radius:999px;background:var(--n300,#b9b7b7);margin:0 auto 20px}
+.phone.tf-phone .tf-method-title{font-size:21px;font-weight:650;margin:0 5px 11px}
+.phone.tf-phone .tf-method-group{font-size:12px;color:var(--n500,#6b6767);font-weight:500;margin:16px 6px 7px}
+.phone.tf-phone .tf-method-row{background:transparent;border:0;border-top:1px solid var(--n100,#e9ecf0);width:100%;min-height:63px;display:flex;align-items:center;gap:12px;text-align:left;padding:9px 6px;color:var(--n900,#161514)}
+.phone.tf-phone .tf-method-row:first-of-type{border-top:0}
+.phone.tf-phone .tf-method-row:active{background:var(--n50,#f6f7f8)}
+.phone.tf-phone .tf-method-icon{width:41px;height:41px;border-radius:50%;background:var(--n100,#e9ecf0);display:grid;place-items:center;font-size:14px;font-weight:700;flex:none}
+.phone.tf-phone .tf-method-details{flex:1;min-width:0}
+.phone.tf-phone .tf-method-details b{font-size:15px;font-weight:600;display:block}
+.phone.tf-phone .tf-method-details small{font-size:12px;line-height:17px;color:var(--n500,#6b6767);display:block;margin-top:3px}
+.phone.tf-phone .tf-method-chevron{font-size:25px;color:var(--n400,#8a8686);font-weight:300}
+.phone.tf-phone .tf-currency-pick{width:100%;display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--surface,#fff);color:var(--n900,#161514);border:1.5px solid transparent;border-radius:16px;min-height:72px;margin-bottom:10px;padding:12px 16px;text-align:left}
+.phone.tf-phone .tf-currency-pick.active{border-color:var(--brand-600,#12833a)}
+.phone.tf-phone .tf-currency-pick strong{display:block;font-size:16px}
+.phone.tf-phone .tf-currency-pick small{display:block;color:var(--n500,#6b6767);font-size:12px;margin-top:3px}
+.phone.tf-phone .tf-currency-check{font-size:19px;color:var(--brand-600,#12833a)}
+.phone.tf-phone .tf-static-source{display:flex;justify-content:space-between;align-items:center;background:var(--surface,#fff);padding:16px;border-radius:16px;font-size:15px;margin:4px 0 12px}
+.phone.tf-phone .tf-static-source strong{font-weight:600}
+.phone.tf-phone .back[hidden]{display:none}
+
 </style></head>
 <body>
 <header class="top"><div class="brand">alt.vu <span>/ Международные переводы · прототип</span></div><span class="chip">v8 · компоненты приложения</span></header>
 <div class="mobilemenu"><button data-flow="in" onclick="setFlow('in')">Пополнение</button><button data-flow="out" onclick="setFlow('out')">Вывод</button></div>
 <div class="proto-shell">
 <aside class="sidebar"><div class="sideLabel">Точки входа</div>
+<button id="flow-home" class="entry" onclick="go('home')"><span class="glyph">⌂</span><span><b>Главная</b><small>USD-баланс и действия</small></span></button>
 <button id="flow-in" class="entry" onclick="setFlow('in')"><span class="glyph">↓</span><span><b>Пополнение</b><small>Международный перевод</small></span></button>
 <button id="flow-out" class="entry" onclick="setFlow('out')"><span class="glyph">↑</span><span><b>Вывод</b><small>Международный перевод</small></span></button>
 <div class="divider"></div><div class="sideLabel">Экраны</div><div id="stepList"></div></aside>
@@ -277,6 +314,182 @@ function purposeName(){return {personal:'Перевод собственных �
 function timeline(flow){const items=flow==='in'?[['done','Отправлено внешним банком','Ожидаем подтверждение'],['current','Проверка поступления','Сопоставление платежа'],['','Зачислено','После проверок']]:[['done','Перевод создан','initiated'],['current','Обрабатывается','fund_processing'],['','Доставлен','fund_settled']];return `<div class="timeline">${items.map(([s,a,b],i)=>`<div class="track ${s}"><div><div class="dot">${s==='done'?'✓':i+1}</div>${i<2?'<div class="line"></div>':''}</div><div><b>${a}</b><small>${b}</small></div></div>`).join('')}</div>`}
 function renderQuote(){const t=$('quoteBlock');if(t)t.innerHTML=qSummary()}
 function render(){const steps=SCREENS[S.flow];document.querySelectorAll('[data-flow]').forEach(e=>e.classList.toggle('active',e.dataset.flow===S.flow));$('flow-in').classList.toggle('active',S.flow==='in');$('flow-out').classList.toggle('active',S.flow==='out');$('stepList').innerHTML=steps.map(([k,n],i)=>`<button class="stepBtn ${S.screen===k?'active':''}" onclick="go('${k}')"><span class="num">${i+1}</span>${esc(n)}</button>`).join('');$('stageLabel').textContent=S.flow==='in'?'Пополнение · Международный перевод':'Вывод · Международный перевод';$('stageIndex').textContent=(steps.findIndex(([k])=>k===S.screen)+1)+' / '+steps.length;$('recipientTools').hidden=S.screen!=='out-recipient';const d=renderScreen();$('phoneTitle').textContent=d.head;$('content').innerHTML=d.p;$('footer').innerHTML=d.f;const m=META[S.screen];$('metaTitle').textContent=m.title;$('metaDescription').textContent=m.desc;$('metaApi').innerHTML=m.apis.map(x=>`<div class="apiChip">${esc(x)}</div>`).join('');$('metaRules').innerHTML=m.rules.map(x=>`<li>${esc(x)}</li>`).join('');const sims=S.flow==='in'?[['Реквизиты', 'in-details'],['Ожидание поступления','in-pending'],['Зачислено','in-success'],['На проверке','in-held']]:[['Параметры','out-config'],['Реквизиты','out-recipient'],['Подтверждение','out-review'],['Обрабатывается','out-progress'],['Успех','out-success'],['Ошибка','out-failed'],['На проверке','out-held'],['Недоступно','out-unavailable']];$('simList').innerHTML=sims.map(([n,k])=>`<button onclick="go('${k}')">${esc(n)}</button>`).join('');$('content').scrollTop=0}
+function uxSelectMethod(rail) {
+  if(!['SEPA','SWIFT'].includes(rail))return;
+  if(S.flow==='in'){
+    S.inRail=rail;
+    if(rail==='SEPA')S.inCurrency='EUR';
+    go('in-currency');
+  } else {
+    S.outRail=rail;
+    S.sourceCurrency='USD';
+    if(rail==='SEPA'){
+      S.outCurrency='EUR';
+      if(!SEPA_COUNTRIES.includes(S.country))S.country='DE';
+    }
+    go('out-config');
+  }
+}
+
+function uxOtherMethod(name){
+  notify('Раздел '+name+' существует в alt.vu, но не входит в этот TransFi-прототип');
+}
+
+function uxMethodRow(name,description,symbol,handler){
+  return `<button type="button" class="tf-method-row" onclick="${handler}"><span class="tf-method-icon" aria-hidden="true">${esc(symbol)}</span><span class="tf-method-details"><b>${esc(name)}</b><small>${esc(description)}</small></span><span class="tf-method-chevron" aria-hidden="true">›</span></button>`;
+}
+
+function uxRenderMethods(){
+  const layer=$('methodLayer');
+  if(!S.modal){layer.hidden=true;layer.innerHTML='';return}
+  const isIn=S.modal==='in';
+  const rails=uxMethodRow('SEPA','Банковский перевод в евро','€',"uxSelectMethod('SEPA')")+uxMethodRow('SWIFT','Международный банковский перевод','↗',"uxSelectMethod('SWIFT')");
+  const other=isIn?[
+    ['СБП','Банковское пополнение в рублях','₽'],
+    ['USDT','Пополнение в криптовалюте','₮'],
+    ['USDC','Пополнение в криптовалюте','
+</body></html>],
+    ['ALT.VU','От другого пользователя alt.vu','A']
+  ]:[
+    ['USDT','Вывод в криптовалюте','₮'],
+    ['USDC','Вывод в криптовалюте','
+</body></html>],
+    ['ALT.VU','Перевод пользователю alt.vu','A']
+  ];
+  layer.innerHTML=`<button type="button" class="tf-method-dim" aria-label="Закрыть выбор способа" onclick="uxCloseMethods()"></button>
+    <section class="tf-method-sheet" role="dialog" aria-modal="true" aria-labelledby="tfMethodTitle">
+    <div class="tf-method-grab"></div><h2 class="tf-method-title" id="tfMethodTitle">${isIn?'Пополнить':'Вывести'}</h2>
+    <div class="tf-method-group">Банковский перевод</div>${rails}
+    <div class="tf-method-group">Другие способы</div>
+    ${other.map(([a,b,c])=>uxMethodRow(a,b,c,`uxOtherMethod('${a}')`)).join('')}
+    </section>`;
+  layer.hidden=false;
+}
+
+function uxCloseMethods(){S.modal=null;render()}
+
+function uxSetFlow(flow){S.flow=flow;S.screen='home';S.modal=flow;S.showError=false;render()}
+
+function uxGo(screen){S.screen=screen;S.modal=null;S.showError=false;render()}
+
+function uxBack(){
+  if(S.modal){uxCloseMethods();return}
+  if(S.screen==='in-currency'){S.screen='home';S.modal='in';render();return}
+  if(S.screen==='out-config'){S.screen='home';S.modal='out';render();return}
+  const map={
+    'in-details':'in-currency','in-pending':'in-details','in-success':'in-details','in-held':'in-details',
+    'out-recipient':'out-config','out-review':'out-recipient','out-progress':'out-review',
+    'out-success':'out-config','out-failed':'out-recipient','out-held':'out-progress','out-unavailable':'out-config'
+  };
+  if(map[S.screen])uxGo(map[S.screen]);else uxGo('home');
+}
+
+function uxSetIncomingCurrency(currency){
+  const available=S.inRail==='SEPA'?['EUR']:CURRENCY;
+  if(!available.includes(currency))return;
+  S.inCurrency=currency;render();
+}
+
+function uxSetOutCurrency(currency){
+  if(S.outRail==='SEPA'&&currency!=='EUR')return;
+  S.outCurrency=currency;render();
+}
+
+function uxSetOutCountry(country){
+  if(S.outRail==='SEPA'&&!SEPA_COUNTRIES.includes(country))return;
+  S.country=country;render();
+}
+
+function uxRenderScreen(){
+  if(S.screen==='home')return {
+    head:'Кошелёк',
+    p:`<div class="tf-home-summary"><p class="tf-home-caption">Общий баланс</p><div class="tf-home-amount">1 250,00 USD</div></div>
+    <div class="tf-home-actions">
+      <button type="button" class="tf-home-action primary" onclick="setFlow('in')"><span class="tf-home-arrow">↓</span>Пополнить</button>
+      <button type="button" class="tf-home-action" onclick="setFlow('out')"><span class="tf-home-arrow">↑</span>Вывести</button>
+    </div><div class="tf-label">История операций</div><div class="box"><div class="tf-home-empty">Операций пока нет</div></div>`,
+    f:''
+  };
+  if(S.screen==='in-currency'){
+    const currencies=S.inRail==='SEPA'?['EUR']:CURRENCY;
+    const labels={EUR:'Евро',USD:'Доллар США',GBP:'Британский фунт'};
+    return {
+      head:'Пополнение · '+S.inRail,
+      p:`<div class="tf-route"><strong>${esc(S.inRail)}</strong>Выберите валюту пополнения</div>${currencies.map(c=>`<button class="tf-currency-pick ${S.inCurrency===c?'active':''}" type="button" aria-pressed="${S.inCurrency===c}" onclick="setIncomingCurrency('${c}')"><span><strong>${c}</strong><small>${labels[c]}</small></span><span class="tf-currency-check">${S.inCurrency===c?'✓':''}</span></button>`).join('')}`,
+      f:primary('Получить реквизиты',"go('in-details')")
+    };
+  }
+  if(S.screen==='in-details'){
+    const rows=getRequisites();
+    return{
+      head:'Реквизиты · '+S.inRail,
+      p:`<div class="tf-route"><strong>${esc(S.inRail)}</strong>${esc(S.inCurrency)}</div>
+      <div class="box tf-requisites">${rows.map(([k,v],i)=>copyrow(k,v,i)).join('')}</div>`,
+      f:primary('Скопировать все реквизиты','copyAll()')
+    };
+  }
+  if(S.screen==='out-config'){
+    const q=quote();
+    const currencies=S.outRail==='SEPA'?['EUR']:CURRENCY;
+    const countries=S.outRail==='SEPA'?Object.entries(COUNTRY).filter(([code])=>SEPA_COUNTRIES.includes(code)):Object.entries(COUNTRY);
+    return{
+      head:'Вывод · '+S.outRail,
+      p:`<div class="tf-route"><strong>${esc(S.outRail)}</strong>Банковский перевод</div>
+      <div class="tf-label">Списать с баланса</div><div class="tf-static-source"><span>Валюта баланса</span><strong>USD</strong></div>
+      <div class="tf-label">Валюта получения</div>${segment(currencies.map(v=>({v})),S.outCurrency,'setOutCurrency')}
+      <div class="fld w tf-field"><div class="fi">${fieldIcon}</div><label class="fl"><i>Страна получателя</i><select class="tf-select" aria-label="Страна получателя" onchange="setOutCountry(this.value)">${countries.map(([c,name])=>`<option value="${c}" ${S.country===c?'selected':''}>${esc(name)}</option>`).join('')}</select></label></div>
+      <div class="fld w tf-field tf-amount"><div class="fi">${fieldIcon}</div><label class="fl"><i>Сумма перевода</i><input type="number" min="0" step="0.01" inputmode="decimal" aria-label="Сумма перевода" value="${esc(S.amount)}" oninput="store('amount',this.value);renderQuote()"/></label><div class="addon"><span class="cur">USD</span></div></div>
+      <div class="tbl tf-quote" id="quoteBlock">${qSummary()}</div>`,
+      f:primary('Продолжить','checkConfig()')
+    };
+  }
+  const old=_tfBaseRenderScreen();
+  if(S.flow==='out')old.head='Вывод · '+S.outRail;
+  if(S.flow==='in')old.head='Пополнение · '+S.inRail;
+  return old;
+}
+
+function uxRender(){
+  _tfBaseRender();
+  $('methodLayer').hidden=!S.modal;
+  uxRenderMethods();
+  document.querySelector('.phone.tf-phone .back').hidden=S.screen==='home';
+  const home=$('flow-home');
+  if(home)home.classList.toggle('active',S.screen==='home');
+  if(S.screen==='home'){
+    $('stageLabel').textContent='Главная · Кошелёк alt.vu';
+    $('stageIndex').textContent='Главная';
+  }else{
+    $('stageLabel').textContent=(S.flow==='in'?'Пополнение':'Вывод')+' · '+(S.flow==='in'?S.inRail:S.outRail);
+  }
+}
+const _tfBaseRender=render;
+const _tfBaseRenderScreen=renderScreen;
+S.screen='home';
+S.modal=null;
+S.sourceCurrency='USD';
+S.inRail='SEPA';
+S.inCurrency='EUR';
+S.outRail='SEPA';
+S.outCurrency='EUR';
+SCREENS.in.unshift(['in-currency','Валюта пополнения']);
+META.home={title:'Главная кошелька',desc:'Один общий USD-баланс, вход в пополнение и вывод через шторку. Баланс в прототипе условный.',apis:[],rules:['Все пополнения и выводы требуют KYC в основном приложении.','СБП, USDT/USDC и внутренние переводы не заменяются.']};
+META['in-currency']={title:'Валюта для '+S.inRail,desc:'Способ выбран в модальном меню, на этом экране выбирается только валюта.',apis:['GET /v3/config/supported-currencies','GET /v3/config/payment-methods/iban'],rules:['SEPA → EUR в mock-конфигурации.','SWIFT → EUR / USD / GBP в mock-конфигурации.','Список валют релизной версии зависит от конфигурации MID.']};
+const methodLayer=document.createElement('div');
+methodLayer.id='methodLayer';
+methodLayer.className='tf-method-layer';
+methodLayer.hidden=true;
+document.querySelector('.phone.tf-phone').appendChild(methodLayer);
+setFlow=uxSetFlow;
+go=uxGo;
+goBack=uxBack;
+setIncomingCurrency=uxSetIncomingCurrency;
+setOutCurrency=uxSetOutCurrency;
+setOutCountry=uxSetOutCountry;
+renderScreen=uxRenderScreen;
+render=uxRender;
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&S.modal)uxCloseMethods()});
+
 render();
 </script>
 </body></html>
