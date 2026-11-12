@@ -1,5 +1,5 @@
 {
-  "run": "2026-11-12T18:36:47.420Z",
+  "run": "2026-11-12T18:43:41.981Z",
   "cases": [
     {
       "label": "home",
@@ -34,6 +34,227 @@
           "clientWidth": 0
         },
         "fields": [],
+        "badElements": []
+      },
+      "errors": []
+    },
+    {
+      "label": "history",
+      "name": "history",
+      "flow": "in",
+      "screen": "history",
+      "rail": null,
+      "modal": null,
+      "capture": true,
+      "metrics": {
+        "viewport": {
+          "width": 430,
+          "height": 932
+        },
+        "rootWidth": 430,
+        "bodyWidth": 430,
+        "phone": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 932,
+          "scrollHeight": 932
+        },
+        "content": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 828,
+          "scrollHeight": 828
+        },
+        "footer": {
+          "height": 0,
+          "scrollWidth": 0,
+          "clientWidth": 0
+        },
+        "fields": [],
+        "badElements": []
+      },
+      "errors": []
+    },
+    {
+      "label": "wallet-card",
+      "name": "wallet-card",
+      "flow": "in",
+      "screen": "wallet-card",
+      "rail": null,
+      "modal": null,
+      "capture": true,
+      "metrics": {
+        "viewport": {
+          "width": 430,
+          "height": 932
+        },
+        "rootWidth": 430,
+        "bodyWidth": 430,
+        "phone": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 932,
+          "scrollHeight": 932
+        },
+        "content": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 732,
+          "scrollHeight": 732
+        },
+        "footer": {
+          "height": 96,
+          "scrollWidth": 430,
+          "clientWidth": 430
+        },
+        "fields": [
+          {
+            "name": "box",
+            "left": 16,
+            "right": 414,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          }
+        ],
+        "badElements": []
+      },
+      "errors": []
+    },
+    {
+      "label": "wallet-profile",
+      "name": "wallet-profile",
+      "flow": "in",
+      "screen": "wallet-profile",
+      "rail": null,
+      "modal": null,
+      "capture": true,
+      "metrics": {
+        "viewport": {
+          "width": 430,
+          "height": 932
+        },
+        "rootWidth": 430,
+        "bodyWidth": 430,
+        "phone": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 932,
+          "scrollHeight": 932
+        },
+        "content": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 828,
+          "scrollHeight": 828
+        },
+        "footer": {
+          "height": 0,
+          "scrollWidth": 0,
+          "clientWidth": 0
+        },
+        "fields": [
+          {
+            "name": "box",
+            "left": 16,
+            "right": 414,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          }
+        ],
+        "badElements": []
+      },
+      "errors": []
+    },
+    {
+      "label": "wallet-earn",
+      "name": "wallet-earn",
+      "flow": "in",
+      "screen": "wallet-earn",
+      "rail": null,
+      "modal": null,
+      "capture": true,
+      "metrics": {
+        "viewport": {
+          "width": 430,
+          "height": 932
+        },
+        "rootWidth": 430,
+        "bodyWidth": 430,
+        "phone": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 932,
+          "scrollHeight": 932
+        },
+        "content": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 828,
+          "scrollHeight": 828
+        },
+        "footer": {
+          "height": 0,
+          "scrollWidth": 0,
+          "clientWidth": 0
+        },
+        "fields": [
+          {
+            "name": "box",
+            "left": 16,
+            "right": 414,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          }
+        ],
+        "badElements": []
+      },
+      "errors": []
+    },
+    {
+      "label": "wallet-notes",
+      "name": "wallet-notes",
+      "flow": "in",
+      "screen": "wallet-notes",
+      "rail": null,
+      "modal": null,
+      "capture": true,
+      "metrics": {
+        "viewport": {
+          "width": 430,
+          "height": 932
+        },
+        "rootWidth": 430,
+        "bodyWidth": 430,
+        "phone": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 932,
+          "scrollHeight": 932
+        },
+        "content": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 828,
+          "scrollHeight": 828
+        },
+        "footer": {
+          "height": 0,
+          "scrollWidth": 0,
+          "clientWidth": 0
+        },
+        "fields": [
+          {
+            "name": "box",
+            "left": 16,
+            "right": 414,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          }
+        ],
         "badElements": []
       },
       "errors": []
@@ -1003,6 +1224,227 @@
       "errors": []
     },
     {
+      "label": "history-390",
+      "name": "history",
+      "flow": "in",
+      "screen": "history",
+      "rail": null,
+      "modal": null,
+      "capture": false,
+      "metrics": {
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "rootWidth": 390,
+        "bodyWidth": 390,
+        "phone": {
+          "width": 390,
+          "scrollWidth": 390,
+          "height": 693,
+          "scrollHeight": 693
+        },
+        "content": {
+          "width": 390,
+          "scrollWidth": 390,
+          "height": 589,
+          "scrollHeight": 589
+        },
+        "footer": {
+          "height": 0,
+          "scrollWidth": 0,
+          "clientWidth": 0
+        },
+        "fields": [],
+        "badElements": []
+      },
+      "errors": []
+    },
+    {
+      "label": "wallet-card-390",
+      "name": "wallet-card",
+      "flow": "in",
+      "screen": "wallet-card",
+      "rail": null,
+      "modal": null,
+      "capture": false,
+      "metrics": {
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "rootWidth": 390,
+        "bodyWidth": 390,
+        "phone": {
+          "width": 390,
+          "scrollWidth": 390,
+          "height": 693,
+          "scrollHeight": 693
+        },
+        "content": {
+          "width": 390,
+          "scrollWidth": 390,
+          "height": 493,
+          "scrollHeight": 493
+        },
+        "footer": {
+          "height": 96,
+          "scrollWidth": 390,
+          "clientWidth": 390
+        },
+        "fields": [
+          {
+            "name": "box",
+            "left": 16,
+            "right": 374,
+            "width": 358,
+            "scrollWidth": 358,
+            "clientWidth": 358
+          }
+        ],
+        "badElements": []
+      },
+      "errors": []
+    },
+    {
+      "label": "wallet-profile-390",
+      "name": "wallet-profile",
+      "flow": "in",
+      "screen": "wallet-profile",
+      "rail": null,
+      "modal": null,
+      "capture": false,
+      "metrics": {
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "rootWidth": 390,
+        "bodyWidth": 390,
+        "phone": {
+          "width": 390,
+          "scrollWidth": 390,
+          "height": 693,
+          "scrollHeight": 693
+        },
+        "content": {
+          "width": 390,
+          "scrollWidth": 390,
+          "height": 589,
+          "scrollHeight": 589
+        },
+        "footer": {
+          "height": 0,
+          "scrollWidth": 0,
+          "clientWidth": 0
+        },
+        "fields": [
+          {
+            "name": "box",
+            "left": 16,
+            "right": 374,
+            "width": 358,
+            "scrollWidth": 358,
+            "clientWidth": 358
+          }
+        ],
+        "badElements": []
+      },
+      "errors": []
+    },
+    {
+      "label": "wallet-earn-390",
+      "name": "wallet-earn",
+      "flow": "in",
+      "screen": "wallet-earn",
+      "rail": null,
+      "modal": null,
+      "capture": false,
+      "metrics": {
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "rootWidth": 390,
+        "bodyWidth": 390,
+        "phone": {
+          "width": 390,
+          "scrollWidth": 390,
+          "height": 693,
+          "scrollHeight": 693
+        },
+        "content": {
+          "width": 390,
+          "scrollWidth": 390,
+          "height": 589,
+          "scrollHeight": 589
+        },
+        "footer": {
+          "height": 0,
+          "scrollWidth": 0,
+          "clientWidth": 0
+        },
+        "fields": [
+          {
+            "name": "box",
+            "left": 16,
+            "right": 374,
+            "width": 358,
+            "scrollWidth": 358,
+            "clientWidth": 358
+          }
+        ],
+        "badElements": []
+      },
+      "errors": []
+    },
+    {
+      "label": "wallet-notes-390",
+      "name": "wallet-notes",
+      "flow": "in",
+      "screen": "wallet-notes",
+      "rail": null,
+      "modal": null,
+      "capture": false,
+      "metrics": {
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "rootWidth": 390,
+        "bodyWidth": 390,
+        "phone": {
+          "width": 390,
+          "scrollWidth": 390,
+          "height": 693,
+          "scrollHeight": 693
+        },
+        "content": {
+          "width": 390,
+          "scrollWidth": 390,
+          "height": 589,
+          "scrollHeight": 589
+        },
+        "footer": {
+          "height": 0,
+          "scrollWidth": 0,
+          "clientWidth": 0
+        },
+        "fields": [
+          {
+            "name": "box",
+            "left": 16,
+            "right": 374,
+            "width": 358,
+            "scrollWidth": 358,
+            "clientWidth": 358
+          }
+        ],
+        "badElements": []
+      },
+      "errors": []
+    },
+    {
       "label": "topup-sheet-390",
       "name": "topup-sheet",
       "flow": "in",
@@ -1967,6 +2409,227 @@
       "errors": []
     },
     {
+      "label": "history-430",
+      "name": "history",
+      "flow": "in",
+      "screen": "history",
+      "rail": null,
+      "modal": null,
+      "capture": false,
+      "metrics": {
+        "viewport": {
+          "width": 430,
+          "height": 932
+        },
+        "rootWidth": 430,
+        "bodyWidth": 430,
+        "phone": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 781,
+          "scrollHeight": 781
+        },
+        "content": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 677,
+          "scrollHeight": 677
+        },
+        "footer": {
+          "height": 0,
+          "scrollWidth": 0,
+          "clientWidth": 0
+        },
+        "fields": [],
+        "badElements": []
+      },
+      "errors": []
+    },
+    {
+      "label": "wallet-card-430",
+      "name": "wallet-card",
+      "flow": "in",
+      "screen": "wallet-card",
+      "rail": null,
+      "modal": null,
+      "capture": false,
+      "metrics": {
+        "viewport": {
+          "width": 430,
+          "height": 932
+        },
+        "rootWidth": 430,
+        "bodyWidth": 430,
+        "phone": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 781,
+          "scrollHeight": 781
+        },
+        "content": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 581,
+          "scrollHeight": 581
+        },
+        "footer": {
+          "height": 96,
+          "scrollWidth": 430,
+          "clientWidth": 430
+        },
+        "fields": [
+          {
+            "name": "box",
+            "left": 16,
+            "right": 414,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          }
+        ],
+        "badElements": []
+      },
+      "errors": []
+    },
+    {
+      "label": "wallet-profile-430",
+      "name": "wallet-profile",
+      "flow": "in",
+      "screen": "wallet-profile",
+      "rail": null,
+      "modal": null,
+      "capture": false,
+      "metrics": {
+        "viewport": {
+          "width": 430,
+          "height": 932
+        },
+        "rootWidth": 430,
+        "bodyWidth": 430,
+        "phone": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 781,
+          "scrollHeight": 781
+        },
+        "content": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 677,
+          "scrollHeight": 677
+        },
+        "footer": {
+          "height": 0,
+          "scrollWidth": 0,
+          "clientWidth": 0
+        },
+        "fields": [
+          {
+            "name": "box",
+            "left": 16,
+            "right": 414,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          }
+        ],
+        "badElements": []
+      },
+      "errors": []
+    },
+    {
+      "label": "wallet-earn-430",
+      "name": "wallet-earn",
+      "flow": "in",
+      "screen": "wallet-earn",
+      "rail": null,
+      "modal": null,
+      "capture": false,
+      "metrics": {
+        "viewport": {
+          "width": 430,
+          "height": 932
+        },
+        "rootWidth": 430,
+        "bodyWidth": 430,
+        "phone": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 781,
+          "scrollHeight": 781
+        },
+        "content": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 677,
+          "scrollHeight": 677
+        },
+        "footer": {
+          "height": 0,
+          "scrollWidth": 0,
+          "clientWidth": 0
+        },
+        "fields": [
+          {
+            "name": "box",
+            "left": 16,
+            "right": 414,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          }
+        ],
+        "badElements": []
+      },
+      "errors": []
+    },
+    {
+      "label": "wallet-notes-430",
+      "name": "wallet-notes",
+      "flow": "in",
+      "screen": "wallet-notes",
+      "rail": null,
+      "modal": null,
+      "capture": false,
+      "metrics": {
+        "viewport": {
+          "width": 430,
+          "height": 932
+        },
+        "rootWidth": 430,
+        "bodyWidth": 430,
+        "phone": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 781,
+          "scrollHeight": 781
+        },
+        "content": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 677,
+          "scrollHeight": 677
+        },
+        "footer": {
+          "height": 0,
+          "scrollWidth": 0,
+          "clientWidth": 0
+        },
+        "fields": [
+          {
+            "name": "box",
+            "left": 16,
+            "right": 414,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          }
+        ],
+        "badElements": []
+      },
+      "errors": []
+    },
+    {
       "label": "topup-sheet-430",
       "name": "topup-sheet",
       "flow": "in",
@@ -2926,6 +3589,227 @@
           "clientWidth": 0
         },
         "fields": [],
+        "badElements": []
+      },
+      "errors": []
+    },
+    {
+      "label": "history-1440",
+      "name": "history",
+      "flow": "in",
+      "screen": "history",
+      "rail": null,
+      "modal": null,
+      "capture": false,
+      "metrics": {
+        "viewport": {
+          "width": 1440,
+          "height": 900
+        },
+        "rootWidth": 1440,
+        "bodyWidth": 1440,
+        "phone": {
+          "width": 420,
+          "scrollWidth": 420,
+          "height": 922,
+          "scrollHeight": 922
+        },
+        "content": {
+          "width": 420,
+          "scrollWidth": 420,
+          "height": 818,
+          "scrollHeight": 818
+        },
+        "footer": {
+          "height": 0,
+          "scrollWidth": 0,
+          "clientWidth": 0
+        },
+        "fields": [],
+        "badElements": []
+      },
+      "errors": []
+    },
+    {
+      "label": "wallet-card-1440",
+      "name": "wallet-card",
+      "flow": "in",
+      "screen": "wallet-card",
+      "rail": null,
+      "modal": null,
+      "capture": false,
+      "metrics": {
+        "viewport": {
+          "width": 1440,
+          "height": 900
+        },
+        "rootWidth": 1440,
+        "bodyWidth": 1440,
+        "phone": {
+          "width": 420,
+          "scrollWidth": 420,
+          "height": 922,
+          "scrollHeight": 922
+        },
+        "content": {
+          "width": 420,
+          "scrollWidth": 420,
+          "height": 722,
+          "scrollHeight": 722
+        },
+        "footer": {
+          "height": 72,
+          "scrollWidth": 420,
+          "clientWidth": 420
+        },
+        "fields": [
+          {
+            "name": "box",
+            "left": 782,
+            "right": 1073,
+            "width": 291,
+            "scrollWidth": 388,
+            "clientWidth": 388
+          }
+        ],
+        "badElements": []
+      },
+      "errors": []
+    },
+    {
+      "label": "wallet-profile-1440",
+      "name": "wallet-profile",
+      "flow": "in",
+      "screen": "wallet-profile",
+      "rail": null,
+      "modal": null,
+      "capture": false,
+      "metrics": {
+        "viewport": {
+          "width": 1440,
+          "height": 900
+        },
+        "rootWidth": 1440,
+        "bodyWidth": 1440,
+        "phone": {
+          "width": 420,
+          "scrollWidth": 420,
+          "height": 922,
+          "scrollHeight": 922
+        },
+        "content": {
+          "width": 420,
+          "scrollWidth": 420,
+          "height": 818,
+          "scrollHeight": 818
+        },
+        "footer": {
+          "height": 0,
+          "scrollWidth": 0,
+          "clientWidth": 0
+        },
+        "fields": [
+          {
+            "name": "box",
+            "left": 782,
+            "right": 1073,
+            "width": 291,
+            "scrollWidth": 388,
+            "clientWidth": 388
+          }
+        ],
+        "badElements": []
+      },
+      "errors": []
+    },
+    {
+      "label": "wallet-earn-1440",
+      "name": "wallet-earn",
+      "flow": "in",
+      "screen": "wallet-earn",
+      "rail": null,
+      "modal": null,
+      "capture": false,
+      "metrics": {
+        "viewport": {
+          "width": 1440,
+          "height": 900
+        },
+        "rootWidth": 1440,
+        "bodyWidth": 1440,
+        "phone": {
+          "width": 420,
+          "scrollWidth": 420,
+          "height": 922,
+          "scrollHeight": 922
+        },
+        "content": {
+          "width": 420,
+          "scrollWidth": 420,
+          "height": 818,
+          "scrollHeight": 818
+        },
+        "footer": {
+          "height": 0,
+          "scrollWidth": 0,
+          "clientWidth": 0
+        },
+        "fields": [
+          {
+            "name": "box",
+            "left": 782,
+            "right": 1073,
+            "width": 291,
+            "scrollWidth": 388,
+            "clientWidth": 388
+          }
+        ],
+        "badElements": []
+      },
+      "errors": []
+    },
+    {
+      "label": "wallet-notes-1440",
+      "name": "wallet-notes",
+      "flow": "in",
+      "screen": "wallet-notes",
+      "rail": null,
+      "modal": null,
+      "capture": false,
+      "metrics": {
+        "viewport": {
+          "width": 1440,
+          "height": 900
+        },
+        "rootWidth": 1440,
+        "bodyWidth": 1440,
+        "phone": {
+          "width": 420,
+          "scrollWidth": 420,
+          "height": 922,
+          "scrollHeight": 922
+        },
+        "content": {
+          "width": 420,
+          "scrollWidth": 420,
+          "height": 818,
+          "scrollHeight": 818
+        },
+        "footer": {
+          "height": 0,
+          "scrollWidth": 0,
+          "clientWidth": 0
+        },
+        "fields": [
+          {
+            "name": "box",
+            "left": 782,
+            "right": 1073,
+            "width": 291,
+            "scrollWidth": 388,
+            "clientWidth": 388
+          }
+        ],
         "badElements": []
       },
       "errors": []
