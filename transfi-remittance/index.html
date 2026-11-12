@@ -1,10 +1,106 @@
 <!doctype html>
 <html lang="ru">
 <head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
-<title>Международные переводы · alt.vu · v7</title>
-<link rel="stylesheet" data-application-css href="../css/alt-vu-wallet.css" />
-<link rel="stylesheet" href="../tokens/tokens.css"/>
+<title>Международные переводы · alt.vu · v8</title>
 <style>
+/* Исходные правила компонентов alt.vu из css/alt-vu-wallet.css, изолированные внутри .tf-phone */
+@font-face{font-family:Inter;font-style:normal;font-weight:400;font-display:swap;src:url(../assets/inter-57776453.woff2)format("woff2");unicode-range:U+0E01-0E5B,U+0E5C-0E7F,U+200B,U+25CC}
+@font-face{font-family:Inter;font-style:normal;font-weight:600;font-display:swap;src:url(../assets/inter-8690b63c.woff2)format("woff2");unicode-range:U+0E01-0E5B,U+0E5C-0E7F,U+200B,U+25CC}
+@font-face{font-family:Inter;font-style:normal;font-weight:700;font-display:swap;src:url(../assets/inter-8690b63c.woff2)format("woff2");unicode-range:U+0E01-0E5B,U+0E5C-0E7F,U+200B,U+25CC}
+@font-face{font-family:Inter;src:url(../assets/inter-e06f6b1b.woff2)format("woff2");font-weight:400}
+@font-face{font-family:Inter;src:url(../assets/inter-0ff3e946.woff2)format("woff2");font-weight:500}
+@font-face{font-family:Inter;src:url(../assets/inter-5cb7103e.woff2)format("woff2");font-weight:600}
+@font-face{font-family:Inter;src:url(../assets/inter-fa888127.woff2)format("woff2");font-weight:700}
+.phone.tf-phone{position:relative;width:430px;height:var(--ph);overflow:hidden;background:var(--n50);
+  --brand:#cbf14a;--brand-ink:#161514;--brand-600:#12833a;
+  --acc-bg:#f7fde2;--acc-ink:#607a09;
+  --spot:#cbf14a;--spot2:#00d18a;
+  --card-a:#a9cf46;--card-b:#8fb833;--glow:#ffffff2e;
+  
+  --sbn-a:#171a12;
+  --n50:#f6f7f8;--n100:#e9ecf0;--n300:#b9b7b7;--n400:#8a8686;--n500:#6b6767;
+  --n850:#211e1d;--n900:#161514;--ok:#0f7533;--err:#bd340e;--err-mark:#ec5732;--warn-bg:#f2f8dc;--warn-ink:#211e1d;--warn-mark:#5f7314;--ok-bg:#e6f2ea;--err-bg:#fbe9e4;--info-bg:#e9ecf0;--ghost:#e9f6c0;--ghost-line:#cbe08a;--coin-plate:var(--n100);
+  --cat-food-bg:#fbeee0;--cat-food-ink:#a8641c;--cat-grocery-bg:#e3f1f1;--cat-grocery-ink:#14696a;--cat-transport-bg:#e7eefc;--cat-transport-ink:#2b57bb;--cat-shop-bg:#f1e9fa;--cat-shop-ink:#653aa8;--cat-fun-bg:#fbe9f1;--cat-fun-ink:#a03668;--cat-health-bg:#e6f0fb;--cat-health-ink:#235c88;--cat-home-bg:#f3eee7;--cat-home-ink:#7a6444;--cat-money-bg:#eceef2;--cat-money-ink:#455063;--cat-other-bg:#e9ecf0;--cat-other-ink:#211e1d;}
+.phone.tf-phone .sb{position:absolute;top:0;left:0;width:430px;height:52px;z-index:5;
+  display:flex;align-items:center;justify-content:space-between;padding:16px 26px 0;
+  font-size:15px;font-weight:600;color:var(--n900)}
+.phone.tf-phone .sb .r{display:flex;align-items:center;gap:5px}
+.phone.tf-phone .home{position:absolute;left:50%;transform:translateX(-50%);bottom:8px;
+  width:140px;height:5px;border-radius:3px;background:var(--n900);z-index:6}
+.phone.tf-phone .head{position:relative;z-index:1;padding:52px 16px 14px;display:flex;align-items:center;gap:12px}
+.phone.tf-phone .back{flex:0 0 40px;width:40px;height:40px;border-radius:999px;background:var(--glass,#ffffffe6);
+  box-shadow:0 1px 3px var(--sh-2,#1615141a),inset 0 0 0 1px var(--sh-1,#16151410);
+  display:flex;align-items:center;justify-content:center;color:var(--n850)}
+.phone.tf-phone .h1{font-size:20px;font-weight:600;line-height:24px}
+.phone.tf-phone .fld{display:flex;align-items:center;gap:14px;height:68px;border-radius:16px;
+  padding:0 16px;margin-bottom:12px}
+.phone.tf-phone .fld.w{background:var(--surface,#fff);box-shadow:0 1px 2px var(--sh-1,#1615140a)}
+.phone.tf-phone .fld.g{background:var(--n100)}
+.phone.tf-phone .fld .fi{flex:0 0 40px;width:40px;height:40px;border-radius:999px;background:var(--n50);
+  display:flex;align-items:center;justify-content:center}
+.phone.tf-phone .fld.w .fi{background:var(--n50)}
+.phone.tf-phone .fl{flex:1;min-width:0}
+.phone.tf-phone .fl i{display:block;font-size:12px;font-weight:400;line-height:16px;color:var(--n500);font-style:normal}
+.phone.tf-phone .fl b{display:block;font-size:16px;font-weight:500;line-height:22px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.phone.tf-phone .addon{display:flex;align-items:center;gap:12px;flex:0 0 auto}
+.phone.tf-phone .mx{padding:10px 14px;border-radius:999px;background:var(--n100);
+  font-size:13px;font-weight:600;color:var(--n850);letter-spacing:.3px}
+.phone.tf-phone .cur{font-size:16px;font-weight:500;color:var(--n500)}
+.phone.tf-phone .btn, .phone.tf-phone .btno{height:52px;border-radius:16px;font-size:16px;font-weight:600;
+  display:flex;align-items:center;justify-content:center;gap:8px}
+.phone.tf-phone .btn{background:var(--brand);color:var(--brand-ink);box-shadow:0 6px 14px #cbf14a5c}
+.phone.tf-phone .btno{background:var(--n100);color:var(--n850);border:0;margin-top:12px}
+.phone.tf-phone .fl input{display:block;width:100%;border:0;outline:0;background:none;padding:0;
+  font:inherit;font-size:16px;font-weight:500;line-height:22px;color:var(--n900)}
+.phone.tf-phone .fl input::placeholder{color:var(--n300);font-weight:400}
+.phone.tf-phone .box{background:var(--surface,#fff);border-radius:20px;overflow:hidden;box-shadow:0 1px 2px var(--sh-1,#1615140a);margin-bottom:12px}
+.phone.tf-phone .row{display:flex;align-items:center;gap:12px;min-height:60px;padding:10px 16px;
+  box-shadow:inset 0 1px 0 var(--n50)}
+.phone.tf-phone .row:first-child{box-shadow:none}
+.phone.tf-phone .row .rt{flex:1;min-width:0;font-size:16px;font-weight:500;line-height:22px}
+.phone.tf-phone .row .rt i{display:block;font-size:12px;font-weight:400;line-height:16px;color:var(--n500);font-style:normal}
+.phone.tf-phone .rl{display:flex;justify-content:space-between;gap:16px;padding:8px 0;font-size:14px;line-height:20px}
+.phone.tf-phone .rl span{color:var(--n500);flex:1 1 auto;min-width:0;overflow-wrap:anywhere}
+.phone.tf-phone .rl b{font-weight:500;text-align:right;flex:0 0 auto;max-width:52%;overflow-wrap:anywhere}
+.phone.tf-phone .hero{text-align:center;padding:0 8px}
+.phone.tf-phone .hero .h2{font-size:28px;font-weight:600;line-height:34px;margin:18px 0 8px}
+.phone.tf-phone .hero .p{font-size:15px;font-weight:400;line-height:21px;color:var(--n500);
+  margin-bottom:22px;text-wrap:balance}
+.phone.tf-phone .okc{width:88px;height:88px;border-radius:999px;background:var(--brand);margin:0 auto;
+  display:flex;align-items:center;justify-content:center}
+.phone.tf-phone .head{padding-top:calc(14px + env(safe-area-inset-top))}
+.phone.tf-phone .btn{cursor:pointer;user-select:none;border:0;width:100%;font:inherit}
+.phone.tf-phone .mx{cursor:pointer;user-select:none}
+.phone.tf-phone .btn:disabled{opacity:.45;pointer-events:none}
+.phone.tf-phone .btn:active{transform:scale(.985)}
+.phone.tf-phone .seg{display:flex;gap:2px;padding:3px;border-radius:15px;background:var(--n100)}
+.phone.tf-phone .seg button{flex:1 1 0;min-width:0;height:40px;border:0;border-radius:12px;
+  background:transparent;color:var(--n500);cursor:pointer;
+  font:600 14px/40px Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:0 4px;
+  transition:background .18s ease,color .18s ease,box-shadow .18s ease}
+.phone.tf-phone .seg button.on{background:var(--surface,#fff);color:var(--n900);box-shadow:0 1px 3px var(--sh-1,#1615140f)}
+.phone.tf-phone .seg button[disabled]{color:var(--n300);pointer-events:none}
+.phone.tf-phone .seg button:active{transform:none}
+.phone.tf-phone .fld input{flex:1;min-width:0;border:0;outline:0;background:transparent;
+  font:600 16px/22px Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  color:var(--n900);letter-spacing:0;padding:0}
+.phone.tf-phone .fld input::placeholder{color:var(--n300);font-weight:500}
+.phone.tf-phone .tbl{background:var(--surface,#fff);border-radius:20px;padding:8px 16px;box-shadow:0 1px 2px var(--sh-1,#1615140a);margin-bottom:12px}
+.phone.tf-phone .tbl .rl{padding:11px 0;border-top:1px solid var(--n50);font-size:15px;align-items:center}
+.phone.tf-phone .tbl .rl:first-child{border-top:0}
+.phone.tf-phone .tbl .rl span{color:var(--n850);font-weight:400}
+.phone.tf-phone .tbl .rl b{font-weight:500;display:flex;align-items:center;gap:8px}
+.phone.tf-phone .tbl .rl i{display:block;font-style:normal;font-size:12px;line-height:16px;color:var(--n500)}
+.phone.tf-phone .seg{display:flex;padding:4px;border-radius:999px;background:var(--n100);margin-bottom:14px}
+.phone.tf-phone .tbl .rl{border-top-color:var(--n100);margin-left:16px;padding-left:0}
+.phone.tf-phone .tbl .rl:first-child{border-top:0}
+.phone.tf-phone .tbl .rl span{display:block}
+.phone.tf-phone .tbl .rl{margin-left:0}
+.phone.tf-phone svg{display:block}
+.phone.tf-phone .fl{display:block;flex:1;min-width:0}
+.phone.tf-phone .fld .fl input{width:100%}
 
 :root{--proto-bg:#eef0f0;--proto-line:#dadddf;--proto-ink:#242522;--proto-secondary:#777b77}
 html,body{margin:0;min-height:100%;background:var(--proto-bg);color:var(--proto-ink);font-family:Inter,system-ui,sans-serif}
@@ -62,17 +158,9 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid 
 @media(max-width:1130px){.proto-shell{grid-template-columns:210px minmax(390px,1fr)}.apiBox{display:none}}
 @media(max-width:740px){.top{height:53px;padding:0 14px}.top .brand{font-size:13px}.proto-shell{display:block;min-height:calc(100vh - 53px)}.sidebar{display:none}.mobilemenu{display:flex;gap:8px;padding:12px 14px 0}.mobilemenu button{flex:1;padding:10px 12px;border:1px solid #cbd2c6;border-radius:10px;background:#fff}.mobilemenu button.active{background:#cbf14a}.workspace{padding:12px 0 20px}.stage,.devtools{max-width:390px;width:calc(100% - 24px)}.phone.tf-phone{width:390px;max-width:100%;height:calc(100dvh - 152px);min-height:630px;border-radius:0;border:0;box-shadow:none}.phone.tf-phone .head{padding-top:10px}.tf-foot{padding-bottom:26px}}
 @media(max-width:390px){.phone.tf-phone{width:100%}.tf-scroll{padding-left:16px;padding-right:16px}}
-/* Offline fallbacks — only activated when original application stylesheet is unavailable. */
-.tf-fallback .phone{--brand:#cbf14a;--brand-ink:#161514;--n50:#f6f7f8;--n100:#e9ecf0;--n500:#6b6767;--n850:#211e1d;--n900:#161514;--surface:#fff;--warn-bg:#f2f8dc;--err-bg:#fbe9e4;--err:#bd340e;--glass:#ffffffe0;--sh-1:#1615140a;--sh-2:#1615141a}
-.tf-fallback .phone .sb{font-size:12px;font-weight:600}.tf-fallback .phone .head{display:flex}.tf-fallback .phone .back{width:40px;height:40px;display:grid;place-items:center;background:#fff;border-radius:50%;box-shadow:0 1px 3px #16151417;color:#211e1d}.tf-fallback .phone .h1{font-weight:600}
-.tf-fallback .phone .seg{display:flex;gap:2px;background:#e9ecf0;padding:3px;border-radius:15px}.tf-fallback .phone .seg button{flex:1;background:transparent;border:0;height:40px;border-radius:12px;color:#6b6767;font-size:14px;font-weight:600}.tf-fallback .phone .seg .on{background:#fff;color:#161514;box-shadow:0 1px 3px #16151417}
-.tf-fallback .phone .fld{display:flex;align-items:center;gap:14px;height:68px;border-radius:16px;padding:0 16px;background:#fff}.tf-fallback .phone .fld .fi{flex:0 0 40px;width:40px;height:40px;border-radius:50%;background:#f6f7f8;display:grid;place-items:center}.tf-fallback .phone .fl{flex:1;min-width:0}.tf-fallback .phone .fl i{font-size:12px;font-style:normal;color:#6b6767;display:block}.tf-fallback .phone .fl input{font-size:16px;border:0;outline:0;background:none;width:100%;color:#161514}.tf-fallback .phone .cur{color:#6b6767}
-.tf-fallback .phone .box,.tf-fallback .phone .tbl{background:#fff;border-radius:20px;margin-bottom:12px;overflow:hidden}.tf-fallback .phone .row{display:flex;align-items:center;gap:12px;min-height:60px;padding:10px 16px;border-top:1px solid #f6f7f8}.tf-fallback .phone .row:first-child{border:0}.tf-fallback .phone .row .rt{flex:1;min-width:0}.tf-fallback .phone .row .rt i{display:block;color:#6b6767;font-size:12px;font-style:normal}.tf-fallback .phone .tbl{padding:8px 16px}.tf-fallback .phone .rl{padding:11px 0;border-top:1px solid #f6f7f8}.tf-fallback .phone .rl:first-child{border:0}
-.tf-fallback .phone .btn,.tf-fallback .phone .btno{width:100%;height:52px;border:0;border-radius:16px;font-weight:600;font-size:16px}.tf-fallback .phone .btn{background:#cbf14a;color:#161514}.tf-fallback .phone .btno{background:#e9ecf0;color:#161514}
-
 </style></head>
 <body>
-<header class="top"><div class="brand">alt.vu <span>/ Международные переводы · прототип</span></div><span class="chip">v7 · компоненты приложения</span></header>
+<header class="top"><div class="brand">alt.vu <span>/ Международные переводы · прототип</span></div><span class="chip">v8 · компоненты приложения</span></header>
 <div class="mobilemenu"><button data-flow="in" onclick="setFlow('in')">Пополнение</button><button data-flow="out" onclick="setFlow('out')">Вывод</button></div>
 <div class="proto-shell">
 <aside class="sidebar"><div class="sideLabel">Точки входа</div>
@@ -92,8 +180,6 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid 
 <div class="sideLabel">Демо-состояния</div><div class="simBtns" id="simList"></div></aside>
 </div><div class="alert" id="toast" role="status" aria-live="polite"></div>
 <script>
-// CSS fallback only for standalone HTML without the repository's application assets.
-if(!document.querySelector('[data-application-css]')?.sheet)document.documentElement.classList.add('tf-fallback');
 const COUNTRY={DE:'Германия',FR:'Франция',NL:'Нидерланды',GB:'Великобритания',US:'США',ES:'Испания'};
 const SEPA_COUNTRIES=['DE','FR','NL','ES'];
 const CURRENCY=['EUR','USD','GBP'];
