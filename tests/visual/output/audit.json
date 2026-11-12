@@ -1,5 +1,5 @@
 {
-  "run": "2026-11-12T18:32:37.854Z",
+  "run": "2026-11-12T18:35:18.820Z",
   "cases": [
     {
       "label": "home",
@@ -70,12 +70,59 @@
           "scrollWidth": 0,
           "clientWidth": 0
         },
-        "fields": [],
+        "fields": [
+          {
+            "name": "m tf-method-row",
+            "left": 16,
+            "right": 414,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          },
+          {
+            "name": "m tf-method-row",
+            "left": 16,
+            "right": 414,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          },
+          {
+            "name": "m tf-method-row",
+            "left": 16,
+            "right": 414,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          },
+          {
+            "name": "m tf-method-row",
+            "left": 16,
+            "right": 414,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          },
+          {
+            "name": "m tf-method-row",
+            "left": 16,
+            "right": 414,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          },
+          {
+            "name": "m tf-method-row",
+            "left": 16,
+            "right": 414,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          }
+        ],
         "badElements": []
       },
-      "errors": [
-        "ReferenceError: Cannot access 'img' before initialization"
-      ]
+      "errors": []
     },
     {
       "label": "withdraw-sheet",
@@ -109,12 +156,51 @@
           "scrollWidth": 0,
           "clientWidth": 0
         },
-        "fields": [],
+        "fields": [
+          {
+            "name": "m tf-method-row",
+            "left": 16,
+            "right": 414,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          },
+          {
+            "name": "m tf-method-row",
+            "left": 16,
+            "right": 414,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          },
+          {
+            "name": "m tf-method-row",
+            "left": 16,
+            "right": 414,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          },
+          {
+            "name": "m tf-method-row",
+            "left": 16,
+            "right": 414,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          },
+          {
+            "name": "m tf-method-row",
+            "left": 16,
+            "right": 414,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          }
+        ],
         "badElements": []
       },
-      "errors": [
-        "ReferenceError: Cannot access 'img' before initialization"
-      ]
+      "errors": []
     },
     {
       "label": "in-sepa",
@@ -948,12 +1034,59 @@
           "scrollWidth": 0,
           "clientWidth": 0
         },
-        "fields": [],
+        "fields": [
+          {
+            "name": "m tf-method-row",
+            "left": 16,
+            "right": 374,
+            "width": 358,
+            "scrollWidth": 358,
+            "clientWidth": 358
+          },
+          {
+            "name": "m tf-method-row",
+            "left": 16,
+            "right": 374,
+            "width": 358,
+            "scrollWidth": 358,
+            "clientWidth": 358
+          },
+          {
+            "name": "m tf-method-row",
+            "left": 16,
+            "right": 374,
+            "width": 358,
+            "scrollWidth": 358,
+            "clientWidth": 358
+          },
+          {
+            "name": "m tf-method-row",
+            "left": 16,
+            "right": 374,
+            "width": 358,
+            "scrollWidth": 358,
+            "clientWidth": 358
+          },
+          {
+            "name": "m tf-method-row",
+            "left": 16,
+            "right": 374,
+            "width": 358,
+            "scrollWidth": 358,
+            "clientWidth": 358
+          },
+          {
+            "name": "m tf-method-row",
+            "left": 16,
+            "right": 374,
+            "width": 358,
+            "scrollWidth": 358,
+            "clientWidth": 358
+          }
+        ],
         "badElements": []
       },
-      "errors": [
-        "ReferenceError: Cannot access 'img' before initialization"
-      ]
+      "errors": []
     },
     {
       "label": "withdraw-sheet-390",
@@ -987,12 +1120,51 @@
           "scrollWidth": 0,
           "clientWidth": 0
         },
-        "fields": [],
+        "fields": [
+          {
+            "name": "m tf-method-row",
+            "left": 16,
+            "right": 374,
+            "width": 358,
+            "scrollWidth": 358,
+            "clientWidth": 358
+          },
+          {
+            "name": "m tf-method-row",
+            "left": 16,
+            "right": 374,
+            "width": 358,
+            "scrollWidth": 358,
+            "clientWidth": 358
+          },
+          {
+            "name": "m tf-method-row",
+            "left": 16,
+            "right": 374,
+            "width": 358,
+            "scrollWidth": 358,
+            "clientWidth": 358
+          },
+          {
+            "name": "m tf-method-row",
+            "left": 16,
+            "right": 374,
+            "width": 358,
+            "scrollWidth": 358,
+            "clientWidth": 358
+          },
+          {
+            "name": "m tf-method-row",
+            "left": 16,
+            "right": 374,
+            "width": 358,
+            "scrollWidth": 358,
+            "clientWidth": 358
+          }
+        ],
         "badElements": []
       },
-      "errors": [
-        "ReferenceError: Cannot access 'img' before initialization"
-      ]
+      "errors": []
     },
     {
       "label": "in-sepa-390",
@@ -1826,12 +1998,59 @@
           "scrollWidth": 0,
           "clientWidth": 0
         },
-        "fields": [],
+        "fields": [
+          {
+            "name": "m tf-method-row",
+            "left": 16,
+            "right": 414,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          },
+          {
+            "name": "m tf-method-row",
+            "left": 16,
+            "right": 414,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          },
+          {
+            "name": "m tf-method-row",
+            "left": 16,
+            "right": 414,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          },
+          {
+            "name": "m tf-method-row",
+            "left": 16,
+            "right": 414,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          },
+          {
+            "name": "m tf-method-row",
+            "left": 16,
+            "right": 414,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          },
+          {
+            "name": "m tf-method-row",
+            "left": 16,
+            "right": 414,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          }
+        ],
         "badElements": []
       },
-      "errors": [
-        "ReferenceError: Cannot access 'img' before initialization"
-      ]
+      "errors": []
     },
     {
       "label": "withdraw-sheet-430",
@@ -1865,12 +2084,51 @@
           "scrollWidth": 0,
           "clientWidth": 0
         },
-        "fields": [],
+        "fields": [
+          {
+            "name": "m tf-method-row",
+            "left": 16,
+            "right": 414,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          },
+          {
+            "name": "m tf-method-row",
+            "left": 16,
+            "right": 414,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          },
+          {
+            "name": "m tf-method-row",
+            "left": 16,
+            "right": 414,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          },
+          {
+            "name": "m tf-method-row",
+            "left": 16,
+            "right": 414,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          },
+          {
+            "name": "m tf-method-row",
+            "left": 16,
+            "right": 414,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          }
+        ],
         "badElements": []
       },
-      "errors": [
-        "ReferenceError: Cannot access 'img' before initialization"
-      ]
+      "errors": []
     },
     {
       "label": "in-sepa-430",
@@ -2704,12 +2962,59 @@
           "scrollWidth": 0,
           "clientWidth": 0
         },
-        "fields": [],
+        "fields": [
+          {
+            "name": "m tf-method-row",
+            "left": 782,
+            "right": 1073,
+            "width": 291,
+            "scrollWidth": 388,
+            "clientWidth": 388
+          },
+          {
+            "name": "m tf-method-row",
+            "left": 782,
+            "right": 1073,
+            "width": 291,
+            "scrollWidth": 388,
+            "clientWidth": 388
+          },
+          {
+            "name": "m tf-method-row",
+            "left": 782,
+            "right": 1073,
+            "width": 291,
+            "scrollWidth": 388,
+            "clientWidth": 388
+          },
+          {
+            "name": "m tf-method-row",
+            "left": 782,
+            "right": 1073,
+            "width": 291,
+            "scrollWidth": 388,
+            "clientWidth": 388
+          },
+          {
+            "name": "m tf-method-row",
+            "left": 782,
+            "right": 1073,
+            "width": 291,
+            "scrollWidth": 388,
+            "clientWidth": 388
+          },
+          {
+            "name": "m tf-method-row",
+            "left": 782,
+            "right": 1073,
+            "width": 291,
+            "scrollWidth": 388,
+            "clientWidth": 388
+          }
+        ],
         "badElements": []
       },
-      "errors": [
-        "ReferenceError: Cannot access 'img' before initialization"
-      ]
+      "errors": []
     },
     {
       "label": "withdraw-sheet-1440",
@@ -2743,12 +3048,51 @@
           "scrollWidth": 0,
           "clientWidth": 0
         },
-        "fields": [],
+        "fields": [
+          {
+            "name": "m tf-method-row",
+            "left": 782,
+            "right": 1073,
+            "width": 291,
+            "scrollWidth": 388,
+            "clientWidth": 388
+          },
+          {
+            "name": "m tf-method-row",
+            "left": 782,
+            "right": 1073,
+            "width": 291,
+            "scrollWidth": 388,
+            "clientWidth": 388
+          },
+          {
+            "name": "m tf-method-row",
+            "left": 782,
+            "right": 1073,
+            "width": 291,
+            "scrollWidth": 388,
+            "clientWidth": 388
+          },
+          {
+            "name": "m tf-method-row",
+            "left": 782,
+            "right": 1073,
+            "width": 291,
+            "scrollWidth": 388,
+            "clientWidth": 388
+          },
+          {
+            "name": "m tf-method-row",
+            "left": 782,
+            "right": 1073,
+            "width": 291,
+            "scrollWidth": 388,
+            "clientWidth": 388
+          }
+        ],
         "badElements": []
       },
-      "errors": [
-        "ReferenceError: Cannot access 'img' before initialization"
-      ]
+      "errors": []
     },
     {
       "label": "in-sepa-1440",
@@ -3516,22 +3860,6 @@
   ],
   "issues": [
     {
-      "label": "topup-sheet",
-      "excess": 0,
-      "errors": [
-        "ReferenceError: Cannot access 'img' before initialization"
-      ],
-      "badElements": []
-    },
-    {
-      "label": "withdraw-sheet",
-      "excess": 0,
-      "errors": [
-        "ReferenceError: Cannot access 'img' before initialization"
-      ],
-      "badElements": []
-    },
-    {
       "label": "in-pending",
       "excess": 3,
       "errors": [],
@@ -3541,22 +3869,6 @@
       "label": "out-progress",
       "excess": 3,
       "errors": [],
-      "badElements": []
-    },
-    {
-      "label": "topup-sheet-390",
-      "excess": 0,
-      "errors": [
-        "ReferenceError: Cannot access 'img' before initialization"
-      ],
-      "badElements": []
-    },
-    {
-      "label": "withdraw-sheet-390",
-      "excess": 0,
-      "errors": [
-        "ReferenceError: Cannot access 'img' before initialization"
-      ],
       "badElements": []
     },
     {
@@ -3572,22 +3884,6 @@
       "badElements": []
     },
     {
-      "label": "topup-sheet-430",
-      "excess": 0,
-      "errors": [
-        "ReferenceError: Cannot access 'img' before initialization"
-      ],
-      "badElements": []
-    },
-    {
-      "label": "withdraw-sheet-430",
-      "excess": 0,
-      "errors": [
-        "ReferenceError: Cannot access 'img' before initialization"
-      ],
-      "badElements": []
-    },
-    {
       "label": "in-pending-430",
       "excess": 3,
       "errors": [],
@@ -3597,22 +3893,6 @@
       "label": "out-progress-430",
       "excess": 3,
       "errors": [],
-      "badElements": []
-    },
-    {
-      "label": "topup-sheet-1440",
-      "excess": 0,
-      "errors": [
-        "ReferenceError: Cannot access 'img' before initialization"
-      ],
-      "badElements": []
-    },
-    {
-      "label": "withdraw-sheet-1440",
-      "excess": 0,
-      "errors": [
-        "ReferenceError: Cannot access 'img' before initialization"
-      ],
       "badElements": []
     },
     {
