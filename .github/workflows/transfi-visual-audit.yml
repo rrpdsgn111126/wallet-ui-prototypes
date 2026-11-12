@@ -8,6 +8,9 @@ on:
       - '.github/workflows/transfi-visual-audit.yml'
       - 'transfi-remittance/index.html'
   workflow_dispatch:
+concurrency:
+  group: transfi-visual-audit-main
+  cancel-in-progress: true
 permissions:
   contents: write
 jobs:
@@ -42,6 +45,7 @@ jobs:
           git add tests/visual/output
           if ! git diff --cached --quiet; then
             git commit -m "Update TransFi visual QA screenshots"
+            git pull --rebase -X theirs origin main
             git push origin HEAD:main
           fi
       - name: Fail on reproducible layout errors
