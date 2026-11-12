@@ -50,7 +50,13 @@ jobs:
               await page.locator('#methodLayer .tf-method-row').filter({hasText:'SWIFT'}).click();
               await page.getByRole('button',{name:'Получить реквизиты'}).click();
               await snapshot('in SWIFT details');
-              await page.locator('#flow-home').click();
+              if(width<740) {
+                await page.locator('.phone.tf-phone .back').click();
+                await page.locator('.phone.tf-phone .back').click();
+                await page.locator('#methodLayer .tf-method-dim').click();
+              } else {
+                await page.locator('#flow-home').click();
+              }
               await page.locator('.tf-home-action').filter({hasText:'Вывести'}).click();
               await page.locator('#methodLayer .tf-method-row').filter({hasText:'SWIFT'}).click();
               await snapshot('out SWIFT');
