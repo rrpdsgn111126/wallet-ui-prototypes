@@ -1,0 +1,35 @@
+{
+  "home": {
+    "original": [
+      1290,
+      2796
+    ],
+    "current": [
+      1290,
+      2796
+    ],
+    "mean_absolute_error_0_255": 30.94
+  },
+  "topup-sheet": {
+    "original": [
+      1290,
+      2796
+    ],
+    "current": [
+      1290,
+      2796
+    ],
+    "mean_absolute_error_0_255": 58.39
+  },
+  "withdraw-sheet": {
+    "original": [
+      1290,
+      2796
+    ],
+    "current": [
+      1290,
+      2796
+    ],
+    "mean_absolute_error_0_255": 49.89
+  }
+}

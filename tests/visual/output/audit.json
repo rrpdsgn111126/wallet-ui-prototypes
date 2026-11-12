@@ -1,0 +1,3983 @@
+{
+  "run": "2026-11-12T17:25:38.281Z",
+  "cases": [
+    {
+      "label": "home",
+      "name": "home",
+      "flow": "in",
+      "screen": "home",
+      "rail": null,
+      "modal": null,
+      "capture": true,
+      "metrics": {
+        "viewport": {
+          "width": 430,
+          "height": 932
+        },
+        "rootWidth": 430,
+        "bodyWidth": 430,
+        "phone": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 932,
+          "scrollHeight": 932
+        },
+        "content": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 828,
+          "scrollHeight": 828
+        },
+        "footer": {
+          "height": 0,
+          "scrollWidth": 0,
+          "clientWidth": 0
+        },
+        "fields": [],
+        "badElements": []
+      },
+      "errors": []
+    },
+    {
+      "label": "topup-sheet",
+      "name": "topup-sheet",
+      "flow": "in",
+      "screen": "home",
+      "rail": null,
+      "modal": "in",
+      "capture": true,
+      "metrics": {
+        "viewport": {
+          "width": 430,
+          "height": 932
+        },
+        "rootWidth": 430,
+        "bodyWidth": 430,
+        "phone": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 932,
+          "scrollHeight": 932
+        },
+        "content": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 828,
+          "scrollHeight": 828
+        },
+        "footer": {
+          "height": 0,
+          "scrollWidth": 0,
+          "clientWidth": 0
+        },
+        "fields": [
+          {
+            "name": "tf-method-row",
+            "left": 16,
+            "right": 414,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          },
+          {
+            "name": "tf-method-row",
+            "left": 16,
+            "right": 414,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          },
+          {
+            "name": "tf-method-row",
+            "left": 16,
+            "right": 414,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          },
+          {
+            "name": "tf-method-row",
+            "left": 16,
+            "right": 414,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          },
+          {
+            "name": "tf-method-row",
+            "left": 16,
+            "right": 414,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          },
+          {
+            "name": "tf-method-row",
+            "left": 16,
+            "right": 414,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          }
+        ],
+        "badElements": []
+      },
+      "errors": []
+    },
+    {
+      "label": "withdraw-sheet",
+      "name": "withdraw-sheet",
+      "flow": "out",
+      "screen": "home",
+      "rail": null,
+      "modal": "out",
+      "capture": true,
+      "metrics": {
+        "viewport": {
+          "width": 430,
+          "height": 932
+        },
+        "rootWidth": 430,
+        "bodyWidth": 430,
+        "phone": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 932,
+          "scrollHeight": 932
+        },
+        "content": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 828,
+          "scrollHeight": 828
+        },
+        "footer": {
+          "height": 0,
+          "scrollWidth": 0,
+          "clientWidth": 0
+        },
+        "fields": [
+          {
+            "name": "tf-method-row",
+            "left": 16,
+            "right": 414,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          },
+          {
+            "name": "tf-method-row",
+            "left": 16,
+            "right": 414,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          },
+          {
+            "name": "tf-method-row",
+            "left": 16,
+            "right": 414,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          },
+          {
+            "name": "tf-method-row",
+            "left": 16,
+            "right": 414,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          },
+          {
+            "name": "tf-method-row",
+            "left": 16,
+            "right": 414,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          }
+        ],
+        "badElements": []
+      },
+      "errors": []
+    },
+    {
+      "label": "in-sepa",
+      "name": "in-sepa",
+      "flow": "in",
+      "screen": "in-details",
+      "rail": "SEPA",
+      "modal": null,
+      "capture": true,
+      "metrics": {
+        "viewport": {
+          "width": 430,
+          "height": 932
+        },
+        "rootWidth": 430,
+        "bodyWidth": 430,
+        "phone": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 932,
+          "scrollHeight": 932
+        },
+        "content": {
+          "width": 430,
+          "scrollWidth": 462,
+          "height": 732,
+          "scrollHeight": 732
+        },
+        "footer": {
+          "height": 96,
+          "scrollWidth": 430,
+          "clientWidth": 430
+        },
+        "fields": [
+          {
+            "name": "fld w tf-field tf-deposit-currency",
+            "left": 16,
+            "right": 446,
+            "width": 430,
+            "scrollWidth": 430,
+            "clientWidth": 430
+          },
+          {
+            "name": "box tf-requisites",
+            "left": 16,
+            "right": 414,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          }
+        ],
+        "badElements": []
+      },
+      "errors": []
+    },
+    {
+      "label": "in-swift",
+      "name": "in-swift",
+      "flow": "in",
+      "screen": "in-details",
+      "rail": "SWIFT",
+      "modal": null,
+      "capture": true,
+      "metrics": {
+        "viewport": {
+          "width": 430,
+          "height": 932
+        },
+        "rootWidth": 430,
+        "bodyWidth": 430,
+        "phone": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 932,
+          "scrollHeight": 932
+        },
+        "content": {
+          "width": 430,
+          "scrollWidth": 462,
+          "height": 732,
+          "scrollHeight": 732
+        },
+        "footer": {
+          "height": 96,
+          "scrollWidth": 430,
+          "clientWidth": 430
+        },
+        "fields": [
+          {
+            "name": "fld w tf-field tf-deposit-currency",
+            "left": 16,
+            "right": 446,
+            "width": 430,
+            "scrollWidth": 430,
+            "clientWidth": 430
+          },
+          {
+            "name": "box tf-requisites",
+            "left": 16,
+            "right": 414,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          }
+        ],
+        "badElements": []
+      },
+      "errors": []
+    },
+    {
+      "label": "in-pending",
+      "name": "in-pending",
+      "flow": "in",
+      "screen": "in-pending",
+      "rail": "SEPA",
+      "modal": null,
+      "capture": true,
+      "metrics": {
+        "viewport": {
+          "width": 430,
+          "height": 932
+        },
+        "rootWidth": 430,
+        "bodyWidth": 430,
+        "phone": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 932,
+          "scrollHeight": 932
+        },
+        "content": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 720,
+          "scrollHeight": 720
+        },
+        "footer": {
+          "height": 108,
+          "scrollWidth": 430,
+          "clientWidth": 430
+        },
+        "fields": [],
+        "badElements": []
+      },
+      "errors": []
+    },
+    {
+      "label": "in-success",
+      "name": "in-success",
+      "flow": "in",
+      "screen": "in-success",
+      "rail": "SEPA",
+      "modal": null,
+      "capture": true,
+      "metrics": {
+        "viewport": {
+          "width": 430,
+          "height": 932
+        },
+        "rootWidth": 430,
+        "bodyWidth": 430,
+        "phone": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 932,
+          "scrollHeight": 932
+        },
+        "content": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 732,
+          "scrollHeight": 732
+        },
+        "footer": {
+          "height": 96,
+          "scrollWidth": 430,
+          "clientWidth": 430
+        },
+        "fields": [
+          {
+            "name": "tbl",
+            "left": 16,
+            "right": 414,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          }
+        ],
+        "badElements": []
+      },
+      "errors": []
+    },
+    {
+      "label": "in-held",
+      "name": "in-held",
+      "flow": "in",
+      "screen": "in-held",
+      "rail": "SEPA",
+      "modal": null,
+      "capture": true,
+      "metrics": {
+        "viewport": {
+          "width": 430,
+          "height": 932
+        },
+        "rootWidth": 430,
+        "bodyWidth": 430,
+        "phone": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 932,
+          "scrollHeight": 932
+        },
+        "content": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 732,
+          "scrollHeight": 732
+        },
+        "footer": {
+          "height": 96,
+          "scrollWidth": 430,
+          "clientWidth": 430
+        },
+        "fields": [
+          {
+            "name": "tbl",
+            "left": 16,
+            "right": 414,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          }
+        ],
+        "badElements": []
+      },
+      "errors": []
+    },
+    {
+      "label": "out-sepa",
+      "name": "out-sepa",
+      "flow": "out",
+      "screen": "out-config",
+      "rail": "SEPA",
+      "modal": null,
+      "capture": true,
+      "metrics": {
+        "viewport": {
+          "width": 430,
+          "height": 932
+        },
+        "rootWidth": 430,
+        "bodyWidth": 430,
+        "phone": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 932,
+          "scrollHeight": 932
+        },
+        "content": {
+          "width": 430,
+          "scrollWidth": 462,
+          "height": 732,
+          "scrollHeight": 732
+        },
+        "footer": {
+          "height": 96,
+          "scrollWidth": 430,
+          "clientWidth": 430
+        },
+        "fields": [
+          {
+            "name": "fld w tf-field",
+            "left": 16,
+            "right": 446,
+            "width": 430,
+            "scrollWidth": 430,
+            "clientWidth": 430
+          },
+          {
+            "name": "fld w tf-field tf-amount",
+            "left": 16,
+            "right": 446,
+            "width": 430,
+            "scrollWidth": 430,
+            "clientWidth": 430
+          },
+          {
+            "name": "tbl tf-quote",
+            "left": 16,
+            "right": 414,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          }
+        ],
+        "badElements": []
+      },
+      "errors": []
+    },
+    {
+      "label": "out-swift",
+      "name": "out-swift",
+      "flow": "out",
+      "screen": "out-config",
+      "rail": "SWIFT",
+      "modal": null,
+      "capture": true,
+      "metrics": {
+        "viewport": {
+          "width": 430,
+          "height": 932
+        },
+        "rootWidth": 430,
+        "bodyWidth": 430,
+        "phone": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 932,
+          "scrollHeight": 932
+        },
+        "content": {
+          "width": 430,
+          "scrollWidth": 462,
+          "height": 732,
+          "scrollHeight": 732
+        },
+        "footer": {
+          "height": 96,
+          "scrollWidth": 430,
+          "clientWidth": 430
+        },
+        "fields": [
+          {
+            "name": "fld w tf-field",
+            "left": 16,
+            "right": 446,
+            "width": 430,
+            "scrollWidth": 430,
+            "clientWidth": 430
+          },
+          {
+            "name": "fld w tf-field tf-amount",
+            "left": 16,
+            "right": 446,
+            "width": 430,
+            "scrollWidth": 430,
+            "clientWidth": 430
+          },
+          {
+            "name": "tbl tf-quote",
+            "left": 16,
+            "right": 414,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          }
+        ],
+        "badElements": []
+      },
+      "errors": []
+    },
+    {
+      "label": "out-recipient",
+      "name": "out-recipient",
+      "flow": "out",
+      "screen": "out-recipient",
+      "rail": "SWIFT",
+      "modal": null,
+      "capture": true,
+      "metrics": {
+        "viewport": {
+          "width": 430,
+          "height": 932
+        },
+        "rootWidth": 430,
+        "bodyWidth": 430,
+        "phone": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 932,
+          "scrollHeight": 932
+        },
+        "content": {
+          "width": 430,
+          "scrollWidth": 462,
+          "height": 732,
+          "scrollHeight": 732
+        },
+        "footer": {
+          "height": 96,
+          "scrollWidth": 430,
+          "clientWidth": 430
+        },
+        "fields": [
+          {
+            "name": "fld w tf-field",
+            "left": 16,
+            "right": 446,
+            "width": 430,
+            "scrollWidth": 430,
+            "clientWidth": 430
+          },
+          {
+            "name": "fld w tf-field",
+            "left": 16,
+            "right": 446,
+            "width": 430,
+            "scrollWidth": 430,
+            "clientWidth": 430
+          },
+          {
+            "name": "fld w tf-field",
+            "left": 16,
+            "right": 446,
+            "width": 430,
+            "scrollWidth": 430,
+            "clientWidth": 430
+          },
+          {
+            "name": "fld w tf-field",
+            "left": 16,
+            "right": 446,
+            "width": 430,
+            "scrollWidth": 430,
+            "clientWidth": 430
+          },
+          {
+            "name": "fld w tf-field",
+            "left": 16,
+            "right": 446,
+            "width": 430,
+            "scrollWidth": 430,
+            "clientWidth": 430
+          },
+          {
+            "name": "fld w tf-field",
+            "left": 28,
+            "right": 434,
+            "width": 406,
+            "scrollWidth": 406,
+            "clientWidth": 406
+          },
+          {
+            "name": "fld w tf-field",
+            "left": 28,
+            "right": 434,
+            "width": 406,
+            "scrollWidth": 406,
+            "clientWidth": 406
+          },
+          {
+            "name": "fld w tf-field",
+            "left": 28,
+            "right": 434,
+            "width": 406,
+            "scrollWidth": 406,
+            "clientWidth": 406
+          },
+          {
+            "name": "fld w tf-field",
+            "left": 28,
+            "right": 434,
+            "width": 406,
+            "scrollWidth": 406,
+            "clientWidth": 406
+          },
+          {
+            "name": "fld w tf-field",
+            "left": 16,
+            "right": 446,
+            "width": 430,
+            "scrollWidth": 430,
+            "clientWidth": 430
+          }
+        ],
+        "badElements": []
+      },
+      "errors": []
+    },
+    {
+      "label": "out-review",
+      "name": "out-review",
+      "flow": "out",
+      "screen": "out-review",
+      "rail": "SWIFT",
+      "modal": null,
+      "capture": true,
+      "metrics": {
+        "viewport": {
+          "width": 430,
+          "height": 932
+        },
+        "rootWidth": 430,
+        "bodyWidth": 430,
+        "phone": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 932,
+          "scrollHeight": 932
+        },
+        "content": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 732,
+          "scrollHeight": 732
+        },
+        "footer": {
+          "height": 96,
+          "scrollWidth": 430,
+          "clientWidth": 430
+        },
+        "fields": [
+          {
+            "name": "tbl",
+            "left": 16,
+            "right": 414,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          },
+          {
+            "name": "tbl tf-quote",
+            "left": 16,
+            "right": 414,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          }
+        ],
+        "badElements": []
+      },
+      "errors": []
+    },
+    {
+      "label": "out-progress",
+      "name": "out-progress",
+      "flow": "out",
+      "screen": "out-progress",
+      "rail": "SWIFT",
+      "modal": null,
+      "capture": true,
+      "metrics": {
+        "viewport": {
+          "width": 430,
+          "height": 932
+        },
+        "rootWidth": 430,
+        "bodyWidth": 430,
+        "phone": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 932,
+          "scrollHeight": 932
+        },
+        "content": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 828,
+          "scrollHeight": 828
+        },
+        "footer": {
+          "height": 0,
+          "scrollWidth": 0,
+          "clientWidth": 0
+        },
+        "fields": [
+          {
+            "name": "tbl",
+            "left": 16,
+            "right": 414,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          }
+        ],
+        "badElements": []
+      },
+      "errors": []
+    },
+    {
+      "label": "out-success",
+      "name": "out-success",
+      "flow": "out",
+      "screen": "out-success",
+      "rail": "SWIFT",
+      "modal": null,
+      "capture": true,
+      "metrics": {
+        "viewport": {
+          "width": 430,
+          "height": 932
+        },
+        "rootWidth": 430,
+        "bodyWidth": 430,
+        "phone": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 932,
+          "scrollHeight": 932
+        },
+        "content": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 732,
+          "scrollHeight": 732
+        },
+        "footer": {
+          "height": 96,
+          "scrollWidth": 430,
+          "clientWidth": 430
+        },
+        "fields": [
+          {
+            "name": "tbl",
+            "left": 16,
+            "right": 414,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          }
+        ],
+        "badElements": []
+      },
+      "errors": []
+    },
+    {
+      "label": "out-failed",
+      "name": "out-failed",
+      "flow": "out",
+      "screen": "out-failed",
+      "rail": "SWIFT",
+      "modal": null,
+      "capture": true,
+      "metrics": {
+        "viewport": {
+          "width": 430,
+          "height": 932
+        },
+        "rootWidth": 430,
+        "bodyWidth": 430,
+        "phone": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 932,
+          "scrollHeight": 932
+        },
+        "content": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 732,
+          "scrollHeight": 732
+        },
+        "footer": {
+          "height": 96,
+          "scrollWidth": 430,
+          "clientWidth": 430
+        },
+        "fields": [
+          {
+            "name": "tbl",
+            "left": 16,
+            "right": 414,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          }
+        ],
+        "badElements": []
+      },
+      "errors": []
+    },
+    {
+      "label": "out-held",
+      "name": "out-held",
+      "flow": "out",
+      "screen": "out-held",
+      "rail": "SWIFT",
+      "modal": null,
+      "capture": true,
+      "metrics": {
+        "viewport": {
+          "width": 430,
+          "height": 932
+        },
+        "rootWidth": 430,
+        "bodyWidth": 430,
+        "phone": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 932,
+          "scrollHeight": 932
+        },
+        "content": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 828,
+          "scrollHeight": 828
+        },
+        "footer": {
+          "height": 0,
+          "scrollWidth": 0,
+          "clientWidth": 0
+        },
+        "fields": [
+          {
+            "name": "tbl",
+            "left": 16,
+            "right": 414,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          }
+        ],
+        "badElements": []
+      },
+      "errors": []
+    },
+    {
+      "label": "out-unavailable",
+      "name": "out-unavailable",
+      "flow": "out",
+      "screen": "out-unavailable",
+      "rail": "SWIFT",
+      "modal": null,
+      "capture": true,
+      "metrics": {
+        "viewport": {
+          "width": 430,
+          "height": 932
+        },
+        "rootWidth": 430,
+        "bodyWidth": 430,
+        "phone": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 932,
+          "scrollHeight": 932
+        },
+        "content": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 732,
+          "scrollHeight": 732
+        },
+        "footer": {
+          "height": 96,
+          "scrollWidth": 430,
+          "clientWidth": 430
+        },
+        "fields": [
+          {
+            "name": "tbl",
+            "left": 16,
+            "right": 414,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          }
+        ],
+        "badElements": []
+      },
+      "errors": []
+    },
+    {
+      "label": "home-390",
+      "name": "home",
+      "flow": "in",
+      "screen": "home",
+      "rail": null,
+      "modal": null,
+      "capture": false,
+      "metrics": {
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "rootWidth": 390,
+        "bodyWidth": 390,
+        "phone": {
+          "width": 390,
+          "scrollWidth": 390,
+          "height": 693,
+          "scrollHeight": 693
+        },
+        "content": {
+          "width": 390,
+          "scrollWidth": 390,
+          "height": 589,
+          "scrollHeight": 818
+        },
+        "footer": {
+          "height": 0,
+          "scrollWidth": 0,
+          "clientWidth": 0
+        },
+        "fields": [],
+        "badElements": []
+      },
+      "errors": []
+    },
+    {
+      "label": "topup-sheet-390",
+      "name": "topup-sheet",
+      "flow": "in",
+      "screen": "home",
+      "rail": null,
+      "modal": "in",
+      "capture": false,
+      "metrics": {
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "rootWidth": 390,
+        "bodyWidth": 390,
+        "phone": {
+          "width": 390,
+          "scrollWidth": 390,
+          "height": 693,
+          "scrollHeight": 693
+        },
+        "content": {
+          "width": 390,
+          "scrollWidth": 390,
+          "height": 589,
+          "scrollHeight": 818
+        },
+        "footer": {
+          "height": 0,
+          "scrollWidth": 0,
+          "clientWidth": 0
+        },
+        "fields": [
+          {
+            "name": "tf-method-row",
+            "left": 16,
+            "right": 374,
+            "width": 358,
+            "scrollWidth": 358,
+            "clientWidth": 358
+          },
+          {
+            "name": "tf-method-row",
+            "left": 16,
+            "right": 374,
+            "width": 358,
+            "scrollWidth": 358,
+            "clientWidth": 358
+          },
+          {
+            "name": "tf-method-row",
+            "left": 16,
+            "right": 374,
+            "width": 358,
+            "scrollWidth": 358,
+            "clientWidth": 358
+          },
+          {
+            "name": "tf-method-row",
+            "left": 16,
+            "right": 374,
+            "width": 358,
+            "scrollWidth": 358,
+            "clientWidth": 358
+          },
+          {
+            "name": "tf-method-row",
+            "left": 16,
+            "right": 374,
+            "width": 358,
+            "scrollWidth": 358,
+            "clientWidth": 358
+          },
+          {
+            "name": "tf-method-row",
+            "left": 16,
+            "right": 374,
+            "width": 358,
+            "scrollWidth": 358,
+            "clientWidth": 358
+          }
+        ],
+        "badElements": []
+      },
+      "errors": []
+    },
+    {
+      "label": "withdraw-sheet-390",
+      "name": "withdraw-sheet",
+      "flow": "out",
+      "screen": "home",
+      "rail": null,
+      "modal": "out",
+      "capture": false,
+      "metrics": {
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "rootWidth": 390,
+        "bodyWidth": 390,
+        "phone": {
+          "width": 390,
+          "scrollWidth": 390,
+          "height": 693,
+          "scrollHeight": 693
+        },
+        "content": {
+          "width": 390,
+          "scrollWidth": 390,
+          "height": 589,
+          "scrollHeight": 818
+        },
+        "footer": {
+          "height": 0,
+          "scrollWidth": 0,
+          "clientWidth": 0
+        },
+        "fields": [
+          {
+            "name": "tf-method-row",
+            "left": 16,
+            "right": 374,
+            "width": 358,
+            "scrollWidth": 358,
+            "clientWidth": 358
+          },
+          {
+            "name": "tf-method-row",
+            "left": 16,
+            "right": 374,
+            "width": 358,
+            "scrollWidth": 358,
+            "clientWidth": 358
+          },
+          {
+            "name": "tf-method-row",
+            "left": 16,
+            "right": 374,
+            "width": 358,
+            "scrollWidth": 358,
+            "clientWidth": 358
+          },
+          {
+            "name": "tf-method-row",
+            "left": 16,
+            "right": 374,
+            "width": 358,
+            "scrollWidth": 358,
+            "clientWidth": 358
+          },
+          {
+            "name": "tf-method-row",
+            "left": 16,
+            "right": 374,
+            "width": 358,
+            "scrollWidth": 358,
+            "clientWidth": 358
+          }
+        ],
+        "badElements": []
+      },
+      "errors": []
+    },
+    {
+      "label": "in-sepa-390",
+      "name": "in-sepa",
+      "flow": "in",
+      "screen": "in-details",
+      "rail": "SEPA",
+      "modal": null,
+      "capture": false,
+      "metrics": {
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "rootWidth": 390,
+        "bodyWidth": 390,
+        "phone": {
+          "width": 390,
+          "scrollWidth": 390,
+          "height": 693,
+          "scrollHeight": 693
+        },
+        "content": {
+          "width": 390,
+          "scrollWidth": 422,
+          "height": 493,
+          "scrollHeight": 628
+        },
+        "footer": {
+          "height": 96,
+          "scrollWidth": 390,
+          "clientWidth": 390
+        },
+        "fields": [
+          {
+            "name": "fld w tf-field tf-deposit-currency",
+            "left": 16,
+            "right": 406,
+            "width": 390,
+            "scrollWidth": 390,
+            "clientWidth": 390
+          },
+          {
+            "name": "box tf-requisites",
+            "left": 16,
+            "right": 374,
+            "width": 358,
+            "scrollWidth": 358,
+            "clientWidth": 358
+          }
+        ],
+        "badElements": []
+      },
+      "errors": []
+    },
+    {
+      "label": "in-swift-390",
+      "name": "in-swift",
+      "flow": "in",
+      "screen": "in-details",
+      "rail": "SWIFT",
+      "modal": null,
+      "capture": false,
+      "metrics": {
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "rootWidth": 390,
+        "bodyWidth": 390,
+        "phone": {
+          "width": 390,
+          "scrollWidth": 390,
+          "height": 693,
+          "scrollHeight": 693
+        },
+        "content": {
+          "width": 390,
+          "scrollWidth": 422,
+          "height": 493,
+          "scrollHeight": 628
+        },
+        "footer": {
+          "height": 96,
+          "scrollWidth": 390,
+          "clientWidth": 390
+        },
+        "fields": [
+          {
+            "name": "fld w tf-field tf-deposit-currency",
+            "left": 16,
+            "right": 406,
+            "width": 390,
+            "scrollWidth": 390,
+            "clientWidth": 390
+          },
+          {
+            "name": "box tf-requisites",
+            "left": 16,
+            "right": 374,
+            "width": 358,
+            "scrollWidth": 358,
+            "clientWidth": 358
+          }
+        ],
+        "badElements": []
+      },
+      "errors": []
+    },
+    {
+      "label": "in-pending-390",
+      "name": "in-pending",
+      "flow": "in",
+      "screen": "in-pending",
+      "rail": "SEPA",
+      "modal": null,
+      "capture": false,
+      "metrics": {
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "rootWidth": 390,
+        "bodyWidth": 390,
+        "phone": {
+          "width": 390,
+          "scrollWidth": 390,
+          "height": 693,
+          "scrollHeight": 693
+        },
+        "content": {
+          "width": 390,
+          "scrollWidth": 390,
+          "height": 481,
+          "scrollHeight": 481
+        },
+        "footer": {
+          "height": 108,
+          "scrollWidth": 390,
+          "clientWidth": 390
+        },
+        "fields": [],
+        "badElements": []
+      },
+      "errors": []
+    },
+    {
+      "label": "in-success-390",
+      "name": "in-success",
+      "flow": "in",
+      "screen": "in-success",
+      "rail": "SEPA",
+      "modal": null,
+      "capture": false,
+      "metrics": {
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "rootWidth": 390,
+        "bodyWidth": 390,
+        "phone": {
+          "width": 390,
+          "scrollWidth": 390,
+          "height": 693,
+          "scrollHeight": 693
+        },
+        "content": {
+          "width": 390,
+          "scrollWidth": 390,
+          "height": 493,
+          "scrollHeight": 493
+        },
+        "footer": {
+          "height": 96,
+          "scrollWidth": 390,
+          "clientWidth": 390
+        },
+        "fields": [
+          {
+            "name": "tbl",
+            "left": 16,
+            "right": 374,
+            "width": 358,
+            "scrollWidth": 358,
+            "clientWidth": 358
+          }
+        ],
+        "badElements": []
+      },
+      "errors": []
+    },
+    {
+      "label": "in-held-390",
+      "name": "in-held",
+      "flow": "in",
+      "screen": "in-held",
+      "rail": "SEPA",
+      "modal": null,
+      "capture": false,
+      "metrics": {
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "rootWidth": 390,
+        "bodyWidth": 390,
+        "phone": {
+          "width": 390,
+          "scrollWidth": 390,
+          "height": 693,
+          "scrollHeight": 693
+        },
+        "content": {
+          "width": 390,
+          "scrollWidth": 390,
+          "height": 493,
+          "scrollHeight": 493
+        },
+        "footer": {
+          "height": 96,
+          "scrollWidth": 390,
+          "clientWidth": 390
+        },
+        "fields": [
+          {
+            "name": "tbl",
+            "left": 16,
+            "right": 374,
+            "width": 358,
+            "scrollWidth": 358,
+            "clientWidth": 358
+          }
+        ],
+        "badElements": []
+      },
+      "errors": []
+    },
+    {
+      "label": "out-sepa-390",
+      "name": "out-sepa",
+      "flow": "out",
+      "screen": "out-config",
+      "rail": "SEPA",
+      "modal": null,
+      "capture": false,
+      "metrics": {
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "rootWidth": 390,
+        "bodyWidth": 390,
+        "phone": {
+          "width": 390,
+          "scrollWidth": 390,
+          "height": 693,
+          "scrollHeight": 693
+        },
+        "content": {
+          "width": 390,
+          "scrollWidth": 422,
+          "height": 493,
+          "scrollHeight": 617
+        },
+        "footer": {
+          "height": 96,
+          "scrollWidth": 390,
+          "clientWidth": 390
+        },
+        "fields": [
+          {
+            "name": "fld w tf-field",
+            "left": 16,
+            "right": 406,
+            "width": 390,
+            "scrollWidth": 390,
+            "clientWidth": 390
+          },
+          {
+            "name": "fld w tf-field tf-amount",
+            "left": 16,
+            "right": 406,
+            "width": 390,
+            "scrollWidth": 390,
+            "clientWidth": 390
+          },
+          {
+            "name": "tbl tf-quote",
+            "left": 16,
+            "right": 374,
+            "width": 358,
+            "scrollWidth": 358,
+            "clientWidth": 358
+          }
+        ],
+        "badElements": []
+      },
+      "errors": []
+    },
+    {
+      "label": "out-swift-390",
+      "name": "out-swift",
+      "flow": "out",
+      "screen": "out-config",
+      "rail": "SWIFT",
+      "modal": null,
+      "capture": false,
+      "metrics": {
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "rootWidth": 390,
+        "bodyWidth": 390,
+        "phone": {
+          "width": 390,
+          "scrollWidth": 390,
+          "height": 693,
+          "scrollHeight": 693
+        },
+        "content": {
+          "width": 390,
+          "scrollWidth": 422,
+          "height": 493,
+          "scrollHeight": 617
+        },
+        "footer": {
+          "height": 96,
+          "scrollWidth": 390,
+          "clientWidth": 390
+        },
+        "fields": [
+          {
+            "name": "fld w tf-field",
+            "left": 16,
+            "right": 406,
+            "width": 390,
+            "scrollWidth": 390,
+            "clientWidth": 390
+          },
+          {
+            "name": "fld w tf-field tf-amount",
+            "left": 16,
+            "right": 406,
+            "width": 390,
+            "scrollWidth": 390,
+            "clientWidth": 390
+          },
+          {
+            "name": "tbl tf-quote",
+            "left": 16,
+            "right": 374,
+            "width": 358,
+            "scrollWidth": 358,
+            "clientWidth": 358
+          }
+        ],
+        "badElements": []
+      },
+      "errors": []
+    },
+    {
+      "label": "out-recipient-390",
+      "name": "out-recipient",
+      "flow": "out",
+      "screen": "out-recipient",
+      "rail": "SWIFT",
+      "modal": null,
+      "capture": false,
+      "metrics": {
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "rootWidth": 390,
+        "bodyWidth": 390,
+        "phone": {
+          "width": 390,
+          "scrollWidth": 390,
+          "height": 693,
+          "scrollHeight": 693
+        },
+        "content": {
+          "width": 390,
+          "scrollWidth": 422,
+          "height": 493,
+          "scrollHeight": 565
+        },
+        "footer": {
+          "height": 96,
+          "scrollWidth": 390,
+          "clientWidth": 390
+        },
+        "fields": [
+          {
+            "name": "fld w tf-field",
+            "left": 16,
+            "right": 406,
+            "width": 390,
+            "scrollWidth": 390,
+            "clientWidth": 390
+          },
+          {
+            "name": "fld w tf-field",
+            "left": 16,
+            "right": 406,
+            "width": 390,
+            "scrollWidth": 390,
+            "clientWidth": 390
+          },
+          {
+            "name": "fld w tf-field",
+            "left": 16,
+            "right": 406,
+            "width": 390,
+            "scrollWidth": 390,
+            "clientWidth": 390
+          },
+          {
+            "name": "fld w tf-field",
+            "left": 16,
+            "right": 406,
+            "width": 390,
+            "scrollWidth": 390,
+            "clientWidth": 390
+          },
+          {
+            "name": "fld w tf-field",
+            "left": 16,
+            "right": 406,
+            "width": 390,
+            "scrollWidth": 390,
+            "clientWidth": 390
+          },
+          {
+            "name": "fld w tf-field",
+            "left": 28,
+            "right": 394,
+            "width": 366,
+            "scrollWidth": 366,
+            "clientWidth": 366
+          },
+          {
+            "name": "fld w tf-field",
+            "left": 28,
+            "right": 394,
+            "width": 366,
+            "scrollWidth": 366,
+            "clientWidth": 366
+          },
+          {
+            "name": "fld w tf-field",
+            "left": 28,
+            "right": 394,
+            "width": 366,
+            "scrollWidth": 366,
+            "clientWidth": 366
+          },
+          {
+            "name": "fld w tf-field",
+            "left": 28,
+            "right": 394,
+            "width": 366,
+            "scrollWidth": 366,
+            "clientWidth": 366
+          },
+          {
+            "name": "fld w tf-field",
+            "left": 16,
+            "right": 406,
+            "width": 390,
+            "scrollWidth": 390,
+            "clientWidth": 390
+          }
+        ],
+        "badElements": []
+      },
+      "errors": []
+    },
+    {
+      "label": "out-review-390",
+      "name": "out-review",
+      "flow": "out",
+      "screen": "out-review",
+      "rail": "SWIFT",
+      "modal": null,
+      "capture": false,
+      "metrics": {
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "rootWidth": 390,
+        "bodyWidth": 390,
+        "phone": {
+          "width": 390,
+          "scrollWidth": 390,
+          "height": 693,
+          "scrollHeight": 693
+        },
+        "content": {
+          "width": 390,
+          "scrollWidth": 390,
+          "height": 493,
+          "scrollHeight": 515
+        },
+        "footer": {
+          "height": 96,
+          "scrollWidth": 390,
+          "clientWidth": 390
+        },
+        "fields": [
+          {
+            "name": "tbl",
+            "left": 16,
+            "right": 374,
+            "width": 358,
+            "scrollWidth": 358,
+            "clientWidth": 358
+          },
+          {
+            "name": "tbl tf-quote",
+            "left": 16,
+            "right": 374,
+            "width": 358,
+            "scrollWidth": 358,
+            "clientWidth": 358
+          }
+        ],
+        "badElements": []
+      },
+      "errors": []
+    },
+    {
+      "label": "out-progress-390",
+      "name": "out-progress",
+      "flow": "out",
+      "screen": "out-progress",
+      "rail": "SWIFT",
+      "modal": null,
+      "capture": false,
+      "metrics": {
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "rootWidth": 390,
+        "bodyWidth": 390,
+        "phone": {
+          "width": 390,
+          "scrollWidth": 390,
+          "height": 693,
+          "scrollHeight": 693
+        },
+        "content": {
+          "width": 390,
+          "scrollWidth": 390,
+          "height": 589,
+          "scrollHeight": 610
+        },
+        "footer": {
+          "height": 0,
+          "scrollWidth": 0,
+          "clientWidth": 0
+        },
+        "fields": [
+          {
+            "name": "tbl",
+            "left": 16,
+            "right": 374,
+            "width": 358,
+            "scrollWidth": 358,
+            "clientWidth": 358
+          }
+        ],
+        "badElements": []
+      },
+      "errors": []
+    },
+    {
+      "label": "out-success-390",
+      "name": "out-success",
+      "flow": "out",
+      "screen": "out-success",
+      "rail": "SWIFT",
+      "modal": null,
+      "capture": false,
+      "metrics": {
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "rootWidth": 390,
+        "bodyWidth": 390,
+        "phone": {
+          "width": 390,
+          "scrollWidth": 390,
+          "height": 693,
+          "scrollHeight": 693
+        },
+        "content": {
+          "width": 390,
+          "scrollWidth": 390,
+          "height": 493,
+          "scrollHeight": 493
+        },
+        "footer": {
+          "height": 96,
+          "scrollWidth": 390,
+          "clientWidth": 390
+        },
+        "fields": [
+          {
+            "name": "tbl",
+            "left": 16,
+            "right": 374,
+            "width": 358,
+            "scrollWidth": 358,
+            "clientWidth": 358
+          }
+        ],
+        "badElements": []
+      },
+      "errors": []
+    },
+    {
+      "label": "out-failed-390",
+      "name": "out-failed",
+      "flow": "out",
+      "screen": "out-failed",
+      "rail": "SWIFT",
+      "modal": null,
+      "capture": false,
+      "metrics": {
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "rootWidth": 390,
+        "bodyWidth": 390,
+        "phone": {
+          "width": 390,
+          "scrollWidth": 390,
+          "height": 693,
+          "scrollHeight": 693
+        },
+        "content": {
+          "width": 390,
+          "scrollWidth": 390,
+          "height": 493,
+          "scrollHeight": 493
+        },
+        "footer": {
+          "height": 96,
+          "scrollWidth": 390,
+          "clientWidth": 390
+        },
+        "fields": [
+          {
+            "name": "tbl",
+            "left": 16,
+            "right": 374,
+            "width": 358,
+            "scrollWidth": 358,
+            "clientWidth": 358
+          }
+        ],
+        "badElements": []
+      },
+      "errors": []
+    },
+    {
+      "label": "out-held-390",
+      "name": "out-held",
+      "flow": "out",
+      "screen": "out-held",
+      "rail": "SWIFT",
+      "modal": null,
+      "capture": false,
+      "metrics": {
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "rootWidth": 390,
+        "bodyWidth": 390,
+        "phone": {
+          "width": 390,
+          "scrollWidth": 390,
+          "height": 693,
+          "scrollHeight": 693
+        },
+        "content": {
+          "width": 390,
+          "scrollWidth": 390,
+          "height": 589,
+          "scrollHeight": 589
+        },
+        "footer": {
+          "height": 0,
+          "scrollWidth": 0,
+          "clientWidth": 0
+        },
+        "fields": [
+          {
+            "name": "tbl",
+            "left": 16,
+            "right": 374,
+            "width": 358,
+            "scrollWidth": 358,
+            "clientWidth": 358
+          }
+        ],
+        "badElements": []
+      },
+      "errors": []
+    },
+    {
+      "label": "out-unavailable-390",
+      "name": "out-unavailable",
+      "flow": "out",
+      "screen": "out-unavailable",
+      "rail": "SWIFT",
+      "modal": null,
+      "capture": false,
+      "metrics": {
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "rootWidth": 390,
+        "bodyWidth": 390,
+        "phone": {
+          "width": 390,
+          "scrollWidth": 390,
+          "height": 693,
+          "scrollHeight": 693
+        },
+        "content": {
+          "width": 390,
+          "scrollWidth": 390,
+          "height": 493,
+          "scrollHeight": 493
+        },
+        "footer": {
+          "height": 96,
+          "scrollWidth": 390,
+          "clientWidth": 390
+        },
+        "fields": [
+          {
+            "name": "tbl",
+            "left": 16,
+            "right": 374,
+            "width": 358,
+            "scrollWidth": 358,
+            "clientWidth": 358
+          }
+        ],
+        "badElements": []
+      },
+      "errors": []
+    },
+    {
+      "label": "home-430",
+      "name": "home",
+      "flow": "in",
+      "screen": "home",
+      "rail": null,
+      "modal": null,
+      "capture": false,
+      "metrics": {
+        "viewport": {
+          "width": 430,
+          "height": 932
+        },
+        "rootWidth": 430,
+        "bodyWidth": 430,
+        "phone": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 781,
+          "scrollHeight": 781
+        },
+        "content": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 677,
+          "scrollHeight": 818
+        },
+        "footer": {
+          "height": 0,
+          "scrollWidth": 0,
+          "clientWidth": 0
+        },
+        "fields": [],
+        "badElements": []
+      },
+      "errors": []
+    },
+    {
+      "label": "topup-sheet-430",
+      "name": "topup-sheet",
+      "flow": "in",
+      "screen": "home",
+      "rail": null,
+      "modal": "in",
+      "capture": false,
+      "metrics": {
+        "viewport": {
+          "width": 430,
+          "height": 932
+        },
+        "rootWidth": 430,
+        "bodyWidth": 430,
+        "phone": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 781,
+          "scrollHeight": 781
+        },
+        "content": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 677,
+          "scrollHeight": 818
+        },
+        "footer": {
+          "height": 0,
+          "scrollWidth": 0,
+          "clientWidth": 0
+        },
+        "fields": [
+          {
+            "name": "tf-method-row",
+            "left": 16,
+            "right": 414,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          },
+          {
+            "name": "tf-method-row",
+            "left": 16,
+            "right": 414,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          },
+          {
+            "name": "tf-method-row",
+            "left": 16,
+            "right": 414,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          },
+          {
+            "name": "tf-method-row",
+            "left": 16,
+            "right": 414,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          },
+          {
+            "name": "tf-method-row",
+            "left": 16,
+            "right": 414,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          },
+          {
+            "name": "tf-method-row",
+            "left": 16,
+            "right": 414,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          }
+        ],
+        "badElements": []
+      },
+      "errors": []
+    },
+    {
+      "label": "withdraw-sheet-430",
+      "name": "withdraw-sheet",
+      "flow": "out",
+      "screen": "home",
+      "rail": null,
+      "modal": "out",
+      "capture": false,
+      "metrics": {
+        "viewport": {
+          "width": 430,
+          "height": 932
+        },
+        "rootWidth": 430,
+        "bodyWidth": 430,
+        "phone": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 781,
+          "scrollHeight": 781
+        },
+        "content": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 677,
+          "scrollHeight": 818
+        },
+        "footer": {
+          "height": 0,
+          "scrollWidth": 0,
+          "clientWidth": 0
+        },
+        "fields": [
+          {
+            "name": "tf-method-row",
+            "left": 16,
+            "right": 414,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          },
+          {
+            "name": "tf-method-row",
+            "left": 16,
+            "right": 414,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          },
+          {
+            "name": "tf-method-row",
+            "left": 16,
+            "right": 414,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          },
+          {
+            "name": "tf-method-row",
+            "left": 16,
+            "right": 414,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          },
+          {
+            "name": "tf-method-row",
+            "left": 16,
+            "right": 414,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          }
+        ],
+        "badElements": []
+      },
+      "errors": []
+    },
+    {
+      "label": "in-sepa-430",
+      "name": "in-sepa",
+      "flow": "in",
+      "screen": "in-details",
+      "rail": "SEPA",
+      "modal": null,
+      "capture": false,
+      "metrics": {
+        "viewport": {
+          "width": 430,
+          "height": 932
+        },
+        "rootWidth": 430,
+        "bodyWidth": 430,
+        "phone": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 781,
+          "scrollHeight": 781
+        },
+        "content": {
+          "width": 430,
+          "scrollWidth": 462,
+          "height": 581,
+          "scrollHeight": 628
+        },
+        "footer": {
+          "height": 96,
+          "scrollWidth": 430,
+          "clientWidth": 430
+        },
+        "fields": [
+          {
+            "name": "fld w tf-field tf-deposit-currency",
+            "left": 16,
+            "right": 446,
+            "width": 430,
+            "scrollWidth": 430,
+            "clientWidth": 430
+          },
+          {
+            "name": "box tf-requisites",
+            "left": 16,
+            "right": 414,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          }
+        ],
+        "badElements": []
+      },
+      "errors": []
+    },
+    {
+      "label": "in-swift-430",
+      "name": "in-swift",
+      "flow": "in",
+      "screen": "in-details",
+      "rail": "SWIFT",
+      "modal": null,
+      "capture": false,
+      "metrics": {
+        "viewport": {
+          "width": 430,
+          "height": 932
+        },
+        "rootWidth": 430,
+        "bodyWidth": 430,
+        "phone": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 781,
+          "scrollHeight": 781
+        },
+        "content": {
+          "width": 430,
+          "scrollWidth": 462,
+          "height": 581,
+          "scrollHeight": 628
+        },
+        "footer": {
+          "height": 96,
+          "scrollWidth": 430,
+          "clientWidth": 430
+        },
+        "fields": [
+          {
+            "name": "fld w tf-field tf-deposit-currency",
+            "left": 16,
+            "right": 446,
+            "width": 430,
+            "scrollWidth": 430,
+            "clientWidth": 430
+          },
+          {
+            "name": "box tf-requisites",
+            "left": 16,
+            "right": 414,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          }
+        ],
+        "badElements": []
+      },
+      "errors": []
+    },
+    {
+      "label": "in-pending-430",
+      "name": "in-pending",
+      "flow": "in",
+      "screen": "in-pending",
+      "rail": "SEPA",
+      "modal": null,
+      "capture": false,
+      "metrics": {
+        "viewport": {
+          "width": 430,
+          "height": 932
+        },
+        "rootWidth": 430,
+        "bodyWidth": 430,
+        "phone": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 781,
+          "scrollHeight": 781
+        },
+        "content": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 569,
+          "scrollHeight": 569
+        },
+        "footer": {
+          "height": 108,
+          "scrollWidth": 430,
+          "clientWidth": 430
+        },
+        "fields": [],
+        "badElements": []
+      },
+      "errors": []
+    },
+    {
+      "label": "in-success-430",
+      "name": "in-success",
+      "flow": "in",
+      "screen": "in-success",
+      "rail": "SEPA",
+      "modal": null,
+      "capture": false,
+      "metrics": {
+        "viewport": {
+          "width": 430,
+          "height": 932
+        },
+        "rootWidth": 430,
+        "bodyWidth": 430,
+        "phone": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 781,
+          "scrollHeight": 781
+        },
+        "content": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 581,
+          "scrollHeight": 581
+        },
+        "footer": {
+          "height": 96,
+          "scrollWidth": 430,
+          "clientWidth": 430
+        },
+        "fields": [
+          {
+            "name": "tbl",
+            "left": 16,
+            "right": 414,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          }
+        ],
+        "badElements": []
+      },
+      "errors": []
+    },
+    {
+      "label": "in-held-430",
+      "name": "in-held",
+      "flow": "in",
+      "screen": "in-held",
+      "rail": "SEPA",
+      "modal": null,
+      "capture": false,
+      "metrics": {
+        "viewport": {
+          "width": 430,
+          "height": 932
+        },
+        "rootWidth": 430,
+        "bodyWidth": 430,
+        "phone": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 781,
+          "scrollHeight": 781
+        },
+        "content": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 581,
+          "scrollHeight": 581
+        },
+        "footer": {
+          "height": 96,
+          "scrollWidth": 430,
+          "clientWidth": 430
+        },
+        "fields": [
+          {
+            "name": "tbl",
+            "left": 16,
+            "right": 414,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          }
+        ],
+        "badElements": []
+      },
+      "errors": []
+    },
+    {
+      "label": "out-sepa-430",
+      "name": "out-sepa",
+      "flow": "out",
+      "screen": "out-config",
+      "rail": "SEPA",
+      "modal": null,
+      "capture": false,
+      "metrics": {
+        "viewport": {
+          "width": 430,
+          "height": 932
+        },
+        "rootWidth": 430,
+        "bodyWidth": 430,
+        "phone": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 781,
+          "scrollHeight": 781
+        },
+        "content": {
+          "width": 430,
+          "scrollWidth": 462,
+          "height": 581,
+          "scrollHeight": 617
+        },
+        "footer": {
+          "height": 96,
+          "scrollWidth": 430,
+          "clientWidth": 430
+        },
+        "fields": [
+          {
+            "name": "fld w tf-field",
+            "left": 16,
+            "right": 446,
+            "width": 430,
+            "scrollWidth": 430,
+            "clientWidth": 430
+          },
+          {
+            "name": "fld w tf-field tf-amount",
+            "left": 16,
+            "right": 446,
+            "width": 430,
+            "scrollWidth": 430,
+            "clientWidth": 430
+          },
+          {
+            "name": "tbl tf-quote",
+            "left": 16,
+            "right": 414,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          }
+        ],
+        "badElements": []
+      },
+      "errors": []
+    },
+    {
+      "label": "out-swift-430",
+      "name": "out-swift",
+      "flow": "out",
+      "screen": "out-config",
+      "rail": "SWIFT",
+      "modal": null,
+      "capture": false,
+      "metrics": {
+        "viewport": {
+          "width": 430,
+          "height": 932
+        },
+        "rootWidth": 430,
+        "bodyWidth": 430,
+        "phone": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 781,
+          "scrollHeight": 781
+        },
+        "content": {
+          "width": 430,
+          "scrollWidth": 462,
+          "height": 581,
+          "scrollHeight": 617
+        },
+        "footer": {
+          "height": 96,
+          "scrollWidth": 430,
+          "clientWidth": 430
+        },
+        "fields": [
+          {
+            "name": "fld w tf-field",
+            "left": 16,
+            "right": 446,
+            "width": 430,
+            "scrollWidth": 430,
+            "clientWidth": 430
+          },
+          {
+            "name": "fld w tf-field tf-amount",
+            "left": 16,
+            "right": 446,
+            "width": 430,
+            "scrollWidth": 430,
+            "clientWidth": 430
+          },
+          {
+            "name": "tbl tf-quote",
+            "left": 16,
+            "right": 414,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          }
+        ],
+        "badElements": []
+      },
+      "errors": []
+    },
+    {
+      "label": "out-recipient-430",
+      "name": "out-recipient",
+      "flow": "out",
+      "screen": "out-recipient",
+      "rail": "SWIFT",
+      "modal": null,
+      "capture": false,
+      "metrics": {
+        "viewport": {
+          "width": 430,
+          "height": 932
+        },
+        "rootWidth": 430,
+        "bodyWidth": 430,
+        "phone": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 781,
+          "scrollHeight": 781
+        },
+        "content": {
+          "width": 430,
+          "scrollWidth": 462,
+          "height": 581,
+          "scrollHeight": 581
+        },
+        "footer": {
+          "height": 96,
+          "scrollWidth": 430,
+          "clientWidth": 430
+        },
+        "fields": [
+          {
+            "name": "fld w tf-field",
+            "left": 16,
+            "right": 446,
+            "width": 430,
+            "scrollWidth": 430,
+            "clientWidth": 430
+          },
+          {
+            "name": "fld w tf-field",
+            "left": 16,
+            "right": 446,
+            "width": 430,
+            "scrollWidth": 430,
+            "clientWidth": 430
+          },
+          {
+            "name": "fld w tf-field",
+            "left": 16,
+            "right": 446,
+            "width": 430,
+            "scrollWidth": 430,
+            "clientWidth": 430
+          },
+          {
+            "name": "fld w tf-field",
+            "left": 16,
+            "right": 446,
+            "width": 430,
+            "scrollWidth": 430,
+            "clientWidth": 430
+          },
+          {
+            "name": "fld w tf-field",
+            "left": 16,
+            "right": 446,
+            "width": 430,
+            "scrollWidth": 430,
+            "clientWidth": 430
+          },
+          {
+            "name": "fld w tf-field",
+            "left": 28,
+            "right": 434,
+            "width": 406,
+            "scrollWidth": 406,
+            "clientWidth": 406
+          },
+          {
+            "name": "fld w tf-field",
+            "left": 28,
+            "right": 434,
+            "width": 406,
+            "scrollWidth": 406,
+            "clientWidth": 406
+          },
+          {
+            "name": "fld w tf-field",
+            "left": 28,
+            "right": 434,
+            "width": 406,
+            "scrollWidth": 406,
+            "clientWidth": 406
+          },
+          {
+            "name": "fld w tf-field",
+            "left": 28,
+            "right": 434,
+            "width": 406,
+            "scrollWidth": 406,
+            "clientWidth": 406
+          },
+          {
+            "name": "fld w tf-field",
+            "left": 16,
+            "right": 446,
+            "width": 430,
+            "scrollWidth": 430,
+            "clientWidth": 430
+          }
+        ],
+        "badElements": []
+      },
+      "errors": []
+    },
+    {
+      "label": "out-review-430",
+      "name": "out-review",
+      "flow": "out",
+      "screen": "out-review",
+      "rail": "SWIFT",
+      "modal": null,
+      "capture": false,
+      "metrics": {
+        "viewport": {
+          "width": 430,
+          "height": 932
+        },
+        "rootWidth": 430,
+        "bodyWidth": 430,
+        "phone": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 781,
+          "scrollHeight": 781
+        },
+        "content": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 581,
+          "scrollHeight": 581
+        },
+        "footer": {
+          "height": 96,
+          "scrollWidth": 430,
+          "clientWidth": 430
+        },
+        "fields": [
+          {
+            "name": "tbl",
+            "left": 16,
+            "right": 414,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          },
+          {
+            "name": "tbl tf-quote",
+            "left": 16,
+            "right": 414,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          }
+        ],
+        "badElements": []
+      },
+      "errors": []
+    },
+    {
+      "label": "out-progress-430",
+      "name": "out-progress",
+      "flow": "out",
+      "screen": "out-progress",
+      "rail": "SWIFT",
+      "modal": null,
+      "capture": false,
+      "metrics": {
+        "viewport": {
+          "width": 430,
+          "height": 932
+        },
+        "rootWidth": 430,
+        "bodyWidth": 430,
+        "phone": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 781,
+          "scrollHeight": 781
+        },
+        "content": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 677,
+          "scrollHeight": 677
+        },
+        "footer": {
+          "height": 0,
+          "scrollWidth": 0,
+          "clientWidth": 0
+        },
+        "fields": [
+          {
+            "name": "tbl",
+            "left": 16,
+            "right": 414,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          }
+        ],
+        "badElements": []
+      },
+      "errors": []
+    },
+    {
+      "label": "out-success-430",
+      "name": "out-success",
+      "flow": "out",
+      "screen": "out-success",
+      "rail": "SWIFT",
+      "modal": null,
+      "capture": false,
+      "metrics": {
+        "viewport": {
+          "width": 430,
+          "height": 932
+        },
+        "rootWidth": 430,
+        "bodyWidth": 430,
+        "phone": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 781,
+          "scrollHeight": 781
+        },
+        "content": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 581,
+          "scrollHeight": 581
+        },
+        "footer": {
+          "height": 96,
+          "scrollWidth": 430,
+          "clientWidth": 430
+        },
+        "fields": [
+          {
+            "name": "tbl",
+            "left": 16,
+            "right": 414,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          }
+        ],
+        "badElements": []
+      },
+      "errors": []
+    },
+    {
+      "label": "out-failed-430",
+      "name": "out-failed",
+      "flow": "out",
+      "screen": "out-failed",
+      "rail": "SWIFT",
+      "modal": null,
+      "capture": false,
+      "metrics": {
+        "viewport": {
+          "width": 430,
+          "height": 932
+        },
+        "rootWidth": 430,
+        "bodyWidth": 430,
+        "phone": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 781,
+          "scrollHeight": 781
+        },
+        "content": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 581,
+          "scrollHeight": 581
+        },
+        "footer": {
+          "height": 96,
+          "scrollWidth": 430,
+          "clientWidth": 430
+        },
+        "fields": [
+          {
+            "name": "tbl",
+            "left": 16,
+            "right": 414,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          }
+        ],
+        "badElements": []
+      },
+      "errors": []
+    },
+    {
+      "label": "out-held-430",
+      "name": "out-held",
+      "flow": "out",
+      "screen": "out-held",
+      "rail": "SWIFT",
+      "modal": null,
+      "capture": false,
+      "metrics": {
+        "viewport": {
+          "width": 430,
+          "height": 932
+        },
+        "rootWidth": 430,
+        "bodyWidth": 430,
+        "phone": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 781,
+          "scrollHeight": 781
+        },
+        "content": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 677,
+          "scrollHeight": 677
+        },
+        "footer": {
+          "height": 0,
+          "scrollWidth": 0,
+          "clientWidth": 0
+        },
+        "fields": [
+          {
+            "name": "tbl",
+            "left": 16,
+            "right": 414,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          }
+        ],
+        "badElements": []
+      },
+      "errors": []
+    },
+    {
+      "label": "out-unavailable-430",
+      "name": "out-unavailable",
+      "flow": "out",
+      "screen": "out-unavailable",
+      "rail": "SWIFT",
+      "modal": null,
+      "capture": false,
+      "metrics": {
+        "viewport": {
+          "width": 430,
+          "height": 932
+        },
+        "rootWidth": 430,
+        "bodyWidth": 430,
+        "phone": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 781,
+          "scrollHeight": 781
+        },
+        "content": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 581,
+          "scrollHeight": 581
+        },
+        "footer": {
+          "height": 96,
+          "scrollWidth": 430,
+          "clientWidth": 430
+        },
+        "fields": [
+          {
+            "name": "tbl",
+            "left": 16,
+            "right": 414,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          }
+        ],
+        "badElements": []
+      },
+      "errors": []
+    },
+    {
+      "label": "home-1440",
+      "name": "home",
+      "flow": "in",
+      "screen": "home",
+      "rail": null,
+      "modal": null,
+      "capture": false,
+      "metrics": {
+        "viewport": {
+          "width": 1440,
+          "height": 900
+        },
+        "rootWidth": 1440,
+        "bodyWidth": 1440,
+        "phone": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 932,
+          "scrollHeight": 932
+        },
+        "content": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 828,
+          "scrollHeight": 828
+        },
+        "footer": {
+          "height": 0,
+          "scrollWidth": 0,
+          "clientWidth": 0
+        },
+        "fields": [],
+        "badElements": []
+      },
+      "errors": []
+    },
+    {
+      "label": "topup-sheet-1440",
+      "name": "topup-sheet",
+      "flow": "in",
+      "screen": "home",
+      "rail": null,
+      "modal": "in",
+      "capture": false,
+      "metrics": {
+        "viewport": {
+          "width": 1440,
+          "height": 900
+        },
+        "rootWidth": 1440,
+        "bodyWidth": 1440,
+        "phone": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 932,
+          "scrollHeight": 932
+        },
+        "content": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 828,
+          "scrollHeight": 828
+        },
+        "footer": {
+          "height": 0,
+          "scrollWidth": 0,
+          "clientWidth": 0
+        },
+        "fields": [
+          {
+            "name": "tf-method-row",
+            "left": 494,
+            "right": 892,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          },
+          {
+            "name": "tf-method-row",
+            "left": 494,
+            "right": 892,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          },
+          {
+            "name": "tf-method-row",
+            "left": 494,
+            "right": 892,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          },
+          {
+            "name": "tf-method-row",
+            "left": 494,
+            "right": 892,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          },
+          {
+            "name": "tf-method-row",
+            "left": 494,
+            "right": 892,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          },
+          {
+            "name": "tf-method-row",
+            "left": 494,
+            "right": 892,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          }
+        ],
+        "badElements": []
+      },
+      "errors": []
+    },
+    {
+      "label": "withdraw-sheet-1440",
+      "name": "withdraw-sheet",
+      "flow": "out",
+      "screen": "home",
+      "rail": null,
+      "modal": "out",
+      "capture": false,
+      "metrics": {
+        "viewport": {
+          "width": 1440,
+          "height": 900
+        },
+        "rootWidth": 1440,
+        "bodyWidth": 1440,
+        "phone": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 932,
+          "scrollHeight": 932
+        },
+        "content": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 828,
+          "scrollHeight": 828
+        },
+        "footer": {
+          "height": 0,
+          "scrollWidth": 0,
+          "clientWidth": 0
+        },
+        "fields": [
+          {
+            "name": "tf-method-row",
+            "left": 494,
+            "right": 892,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          },
+          {
+            "name": "tf-method-row",
+            "left": 494,
+            "right": 892,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          },
+          {
+            "name": "tf-method-row",
+            "left": 494,
+            "right": 892,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          },
+          {
+            "name": "tf-method-row",
+            "left": 494,
+            "right": 892,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          },
+          {
+            "name": "tf-method-row",
+            "left": 494,
+            "right": 892,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          }
+        ],
+        "badElements": []
+      },
+      "errors": []
+    },
+    {
+      "label": "in-sepa-1440",
+      "name": "in-sepa",
+      "flow": "in",
+      "screen": "in-details",
+      "rail": "SEPA",
+      "modal": null,
+      "capture": false,
+      "metrics": {
+        "viewport": {
+          "width": 1440,
+          "height": 900
+        },
+        "rootWidth": 1440,
+        "bodyWidth": 1440,
+        "phone": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 932,
+          "scrollHeight": 932
+        },
+        "content": {
+          "width": 430,
+          "scrollWidth": 462,
+          "height": 732,
+          "scrollHeight": 732
+        },
+        "footer": {
+          "height": 96,
+          "scrollWidth": 430,
+          "clientWidth": 430
+        },
+        "fields": [
+          {
+            "name": "fld w tf-field tf-deposit-currency",
+            "left": 494,
+            "right": 924,
+            "width": 430,
+            "scrollWidth": 430,
+            "clientWidth": 430
+          },
+          {
+            "name": "box tf-requisites",
+            "left": 494,
+            "right": 892,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          }
+        ],
+        "badElements": []
+      },
+      "errors": []
+    },
+    {
+      "label": "in-swift-1440",
+      "name": "in-swift",
+      "flow": "in",
+      "screen": "in-details",
+      "rail": "SWIFT",
+      "modal": null,
+      "capture": false,
+      "metrics": {
+        "viewport": {
+          "width": 1440,
+          "height": 900
+        },
+        "rootWidth": 1440,
+        "bodyWidth": 1440,
+        "phone": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 932,
+          "scrollHeight": 932
+        },
+        "content": {
+          "width": 430,
+          "scrollWidth": 462,
+          "height": 732,
+          "scrollHeight": 732
+        },
+        "footer": {
+          "height": 96,
+          "scrollWidth": 430,
+          "clientWidth": 430
+        },
+        "fields": [
+          {
+            "name": "fld w tf-field tf-deposit-currency",
+            "left": 494,
+            "right": 924,
+            "width": 430,
+            "scrollWidth": 430,
+            "clientWidth": 430
+          },
+          {
+            "name": "box tf-requisites",
+            "left": 494,
+            "right": 892,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          }
+        ],
+        "badElements": []
+      },
+      "errors": []
+    },
+    {
+      "label": "in-pending-1440",
+      "name": "in-pending",
+      "flow": "in",
+      "screen": "in-pending",
+      "rail": "SEPA",
+      "modal": null,
+      "capture": false,
+      "metrics": {
+        "viewport": {
+          "width": 1440,
+          "height": 900
+        },
+        "rootWidth": 1440,
+        "bodyWidth": 1440,
+        "phone": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 932,
+          "scrollHeight": 932
+        },
+        "content": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 720,
+          "scrollHeight": 720
+        },
+        "footer": {
+          "height": 108,
+          "scrollWidth": 430,
+          "clientWidth": 430
+        },
+        "fields": [],
+        "badElements": []
+      },
+      "errors": []
+    },
+    {
+      "label": "in-success-1440",
+      "name": "in-success",
+      "flow": "in",
+      "screen": "in-success",
+      "rail": "SEPA",
+      "modal": null,
+      "capture": false,
+      "metrics": {
+        "viewport": {
+          "width": 1440,
+          "height": 900
+        },
+        "rootWidth": 1440,
+        "bodyWidth": 1440,
+        "phone": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 932,
+          "scrollHeight": 932
+        },
+        "content": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 732,
+          "scrollHeight": 732
+        },
+        "footer": {
+          "height": 96,
+          "scrollWidth": 430,
+          "clientWidth": 430
+        },
+        "fields": [
+          {
+            "name": "tbl",
+            "left": 494,
+            "right": 892,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          }
+        ],
+        "badElements": []
+      },
+      "errors": []
+    },
+    {
+      "label": "in-held-1440",
+      "name": "in-held",
+      "flow": "in",
+      "screen": "in-held",
+      "rail": "SEPA",
+      "modal": null,
+      "capture": false,
+      "metrics": {
+        "viewport": {
+          "width": 1440,
+          "height": 900
+        },
+        "rootWidth": 1440,
+        "bodyWidth": 1440,
+        "phone": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 932,
+          "scrollHeight": 932
+        },
+        "content": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 732,
+          "scrollHeight": 732
+        },
+        "footer": {
+          "height": 96,
+          "scrollWidth": 430,
+          "clientWidth": 430
+        },
+        "fields": [
+          {
+            "name": "tbl",
+            "left": 494,
+            "right": 892,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          }
+        ],
+        "badElements": []
+      },
+      "errors": []
+    },
+    {
+      "label": "out-sepa-1440",
+      "name": "out-sepa",
+      "flow": "out",
+      "screen": "out-config",
+      "rail": "SEPA",
+      "modal": null,
+      "capture": false,
+      "metrics": {
+        "viewport": {
+          "width": 1440,
+          "height": 900
+        },
+        "rootWidth": 1440,
+        "bodyWidth": 1440,
+        "phone": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 932,
+          "scrollHeight": 932
+        },
+        "content": {
+          "width": 430,
+          "scrollWidth": 462,
+          "height": 732,
+          "scrollHeight": 732
+        },
+        "footer": {
+          "height": 96,
+          "scrollWidth": 430,
+          "clientWidth": 430
+        },
+        "fields": [
+          {
+            "name": "fld w tf-field",
+            "left": 494,
+            "right": 924,
+            "width": 430,
+            "scrollWidth": 430,
+            "clientWidth": 430
+          },
+          {
+            "name": "fld w tf-field tf-amount",
+            "left": 494,
+            "right": 924,
+            "width": 430,
+            "scrollWidth": 430,
+            "clientWidth": 430
+          },
+          {
+            "name": "tbl tf-quote",
+            "left": 494,
+            "right": 892,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          }
+        ],
+        "badElements": []
+      },
+      "errors": []
+    },
+    {
+      "label": "out-swift-1440",
+      "name": "out-swift",
+      "flow": "out",
+      "screen": "out-config",
+      "rail": "SWIFT",
+      "modal": null,
+      "capture": false,
+      "metrics": {
+        "viewport": {
+          "width": 1440,
+          "height": 900
+        },
+        "rootWidth": 1440,
+        "bodyWidth": 1440,
+        "phone": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 932,
+          "scrollHeight": 932
+        },
+        "content": {
+          "width": 430,
+          "scrollWidth": 462,
+          "height": 732,
+          "scrollHeight": 732
+        },
+        "footer": {
+          "height": 96,
+          "scrollWidth": 430,
+          "clientWidth": 430
+        },
+        "fields": [
+          {
+            "name": "fld w tf-field",
+            "left": 494,
+            "right": 924,
+            "width": 430,
+            "scrollWidth": 430,
+            "clientWidth": 430
+          },
+          {
+            "name": "fld w tf-field tf-amount",
+            "left": 494,
+            "right": 924,
+            "width": 430,
+            "scrollWidth": 430,
+            "clientWidth": 430
+          },
+          {
+            "name": "tbl tf-quote",
+            "left": 494,
+            "right": 892,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          }
+        ],
+        "badElements": []
+      },
+      "errors": []
+    },
+    {
+      "label": "out-recipient-1440",
+      "name": "out-recipient",
+      "flow": "out",
+      "screen": "out-recipient",
+      "rail": "SWIFT",
+      "modal": null,
+      "capture": false,
+      "metrics": {
+        "viewport": {
+          "width": 1440,
+          "height": 900
+        },
+        "rootWidth": 1440,
+        "bodyWidth": 1440,
+        "phone": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 932,
+          "scrollHeight": 932
+        },
+        "content": {
+          "width": 430,
+          "scrollWidth": 462,
+          "height": 732,
+          "scrollHeight": 732
+        },
+        "footer": {
+          "height": 96,
+          "scrollWidth": 430,
+          "clientWidth": 430
+        },
+        "fields": [
+          {
+            "name": "fld w tf-field",
+            "left": 494,
+            "right": 924,
+            "width": 430,
+            "scrollWidth": 430,
+            "clientWidth": 430
+          },
+          {
+            "name": "fld w tf-field",
+            "left": 494,
+            "right": 924,
+            "width": 430,
+            "scrollWidth": 430,
+            "clientWidth": 430
+          },
+          {
+            "name": "fld w tf-field",
+            "left": 494,
+            "right": 924,
+            "width": 430,
+            "scrollWidth": 430,
+            "clientWidth": 430
+          },
+          {
+            "name": "fld w tf-field",
+            "left": 494,
+            "right": 924,
+            "width": 430,
+            "scrollWidth": 430,
+            "clientWidth": 430
+          },
+          {
+            "name": "fld w tf-field",
+            "left": 494,
+            "right": 924,
+            "width": 430,
+            "scrollWidth": 430,
+            "clientWidth": 430
+          },
+          {
+            "name": "fld w tf-field",
+            "left": 506,
+            "right": 912,
+            "width": 406,
+            "scrollWidth": 406,
+            "clientWidth": 406
+          },
+          {
+            "name": "fld w tf-field",
+            "left": 506,
+            "right": 912,
+            "width": 406,
+            "scrollWidth": 406,
+            "clientWidth": 406
+          },
+          {
+            "name": "fld w tf-field",
+            "left": 506,
+            "right": 912,
+            "width": 406,
+            "scrollWidth": 406,
+            "clientWidth": 406
+          },
+          {
+            "name": "fld w tf-field",
+            "left": 506,
+            "right": 912,
+            "width": 406,
+            "scrollWidth": 406,
+            "clientWidth": 406
+          },
+          {
+            "name": "fld w tf-field",
+            "left": 494,
+            "right": 924,
+            "width": 430,
+            "scrollWidth": 430,
+            "clientWidth": 430
+          }
+        ],
+        "badElements": []
+      },
+      "errors": []
+    },
+    {
+      "label": "out-review-1440",
+      "name": "out-review",
+      "flow": "out",
+      "screen": "out-review",
+      "rail": "SWIFT",
+      "modal": null,
+      "capture": false,
+      "metrics": {
+        "viewport": {
+          "width": 1440,
+          "height": 900
+        },
+        "rootWidth": 1440,
+        "bodyWidth": 1440,
+        "phone": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 932,
+          "scrollHeight": 932
+        },
+        "content": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 732,
+          "scrollHeight": 732
+        },
+        "footer": {
+          "height": 96,
+          "scrollWidth": 430,
+          "clientWidth": 430
+        },
+        "fields": [
+          {
+            "name": "tbl",
+            "left": 494,
+            "right": 892,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          },
+          {
+            "name": "tbl tf-quote",
+            "left": 494,
+            "right": 892,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          }
+        ],
+        "badElements": []
+      },
+      "errors": []
+    },
+    {
+      "label": "out-progress-1440",
+      "name": "out-progress",
+      "flow": "out",
+      "screen": "out-progress",
+      "rail": "SWIFT",
+      "modal": null,
+      "capture": false,
+      "metrics": {
+        "viewport": {
+          "width": 1440,
+          "height": 900
+        },
+        "rootWidth": 1440,
+        "bodyWidth": 1440,
+        "phone": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 932,
+          "scrollHeight": 932
+        },
+        "content": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 828,
+          "scrollHeight": 828
+        },
+        "footer": {
+          "height": 0,
+          "scrollWidth": 0,
+          "clientWidth": 0
+        },
+        "fields": [
+          {
+            "name": "tbl",
+            "left": 494,
+            "right": 892,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          }
+        ],
+        "badElements": []
+      },
+      "errors": []
+    },
+    {
+      "label": "out-success-1440",
+      "name": "out-success",
+      "flow": "out",
+      "screen": "out-success",
+      "rail": "SWIFT",
+      "modal": null,
+      "capture": false,
+      "metrics": {
+        "viewport": {
+          "width": 1440,
+          "height": 900
+        },
+        "rootWidth": 1440,
+        "bodyWidth": 1440,
+        "phone": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 932,
+          "scrollHeight": 932
+        },
+        "content": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 732,
+          "scrollHeight": 732
+        },
+        "footer": {
+          "height": 96,
+          "scrollWidth": 430,
+          "clientWidth": 430
+        },
+        "fields": [
+          {
+            "name": "tbl",
+            "left": 494,
+            "right": 892,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          }
+        ],
+        "badElements": []
+      },
+      "errors": []
+    },
+    {
+      "label": "out-failed-1440",
+      "name": "out-failed",
+      "flow": "out",
+      "screen": "out-failed",
+      "rail": "SWIFT",
+      "modal": null,
+      "capture": false,
+      "metrics": {
+        "viewport": {
+          "width": 1440,
+          "height": 900
+        },
+        "rootWidth": 1440,
+        "bodyWidth": 1440,
+        "phone": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 932,
+          "scrollHeight": 932
+        },
+        "content": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 732,
+          "scrollHeight": 732
+        },
+        "footer": {
+          "height": 96,
+          "scrollWidth": 430,
+          "clientWidth": 430
+        },
+        "fields": [
+          {
+            "name": "tbl",
+            "left": 494,
+            "right": 892,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          }
+        ],
+        "badElements": []
+      },
+      "errors": []
+    },
+    {
+      "label": "out-held-1440",
+      "name": "out-held",
+      "flow": "out",
+      "screen": "out-held",
+      "rail": "SWIFT",
+      "modal": null,
+      "capture": false,
+      "metrics": {
+        "viewport": {
+          "width": 1440,
+          "height": 900
+        },
+        "rootWidth": 1440,
+        "bodyWidth": 1440,
+        "phone": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 932,
+          "scrollHeight": 932
+        },
+        "content": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 828,
+          "scrollHeight": 828
+        },
+        "footer": {
+          "height": 0,
+          "scrollWidth": 0,
+          "clientWidth": 0
+        },
+        "fields": [
+          {
+            "name": "tbl",
+            "left": 494,
+            "right": 892,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          }
+        ],
+        "badElements": []
+      },
+      "errors": []
+    },
+    {
+      "label": "out-unavailable-1440",
+      "name": "out-unavailable",
+      "flow": "out",
+      "screen": "out-unavailable",
+      "rail": "SWIFT",
+      "modal": null,
+      "capture": false,
+      "metrics": {
+        "viewport": {
+          "width": 1440,
+          "height": 900
+        },
+        "rootWidth": 1440,
+        "bodyWidth": 1440,
+        "phone": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 932,
+          "scrollHeight": 932
+        },
+        "content": {
+          "width": 430,
+          "scrollWidth": 430,
+          "height": 732,
+          "scrollHeight": 732
+        },
+        "footer": {
+          "height": 96,
+          "scrollWidth": 430,
+          "clientWidth": 430
+        },
+        "fields": [
+          {
+            "name": "tbl",
+            "left": 494,
+            "right": 892,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          }
+        ],
+        "badElements": []
+      },
+      "errors": []
+    }
+  ],
+  "issues": [
+    {
+      "label": "in-sepa",
+      "excess": 32,
+      "errors": [],
+      "badElements": []
+    },
+    {
+      "label": "in-swift",
+      "excess": 32,
+      "errors": [],
+      "badElements": []
+    },
+    {
+      "label": "out-sepa",
+      "excess": 32,
+      "errors": [],
+      "badElements": []
+    },
+    {
+      "label": "out-swift",
+      "excess": 32,
+      "errors": [],
+      "badElements": []
+    },
+    {
+      "label": "out-recipient",
+      "excess": 32,
+      "errors": [],
+      "badElements": []
+    },
+    {
+      "label": "in-sepa-390",
+      "excess": 32,
+      "errors": [],
+      "badElements": []
+    },
+    {
+      "label": "in-swift-390",
+      "excess": 32,
+      "errors": [],
+      "badElements": []
+    },
+    {
+      "label": "out-sepa-390",
+      "excess": 32,
+      "errors": [],
+      "badElements": []
+    },
+    {
+      "label": "out-swift-390",
+      "excess": 32,
+      "errors": [],
+      "badElements": []
+    },
+    {
+      "label": "out-recipient-390",
+      "excess": 32,
+      "errors": [],
+      "badElements": []
+    },
+    {
+      "label": "in-sepa-430",
+      "excess": 32,
+      "errors": [],
+      "badElements": []
+    },
+    {
+      "label": "in-swift-430",
+      "excess": 32,
+      "errors": [],
+      "badElements": []
+    },
+    {
+      "label": "out-sepa-430",
+      "excess": 32,
+      "errors": [],
+      "badElements": []
+    },
+    {
+      "label": "out-swift-430",
+      "excess": 32,
+      "errors": [],
+      "badElements": []
+    },
+    {
+      "label": "out-recipient-430",
+      "excess": 32,
+      "errors": [],
+      "badElements": []
+    },
+    {
+      "label": "in-sepa-1440",
+      "excess": 32,
+      "errors": [],
+      "badElements": []
+    },
+    {
+      "label": "in-swift-1440",
+      "excess": 32,
+      "errors": [],
+      "badElements": []
+    },
+    {
+      "label": "out-sepa-1440",
+      "excess": 32,
+      "errors": [],
+      "badElements": []
+    },
+    {
+      "label": "out-swift-1440",
+      "excess": 32,
+      "errors": [],
+      "badElements": []
+    },
+    {
+      "label": "out-recipient-1440",
+      "excess": 32,
+      "errors": [],
+      "badElements": []
+    }
+  ]
+}
