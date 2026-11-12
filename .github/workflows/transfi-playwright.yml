@@ -1,0 +1,61 @@
+name: TransFi Playwright smoke
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'transfi-remittance/index.html'
+      - '.github/workflows/transfi-playwright.yml'
+  workflow_dispatch:
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Playwright
+        run: npm install --no-save playwright@1.56.1
+      - name: Check flow in Chromium
+        run: |
+          node <<'JS'
+          const { chromium } = require('playwright');
+          const path = require('path');
+          (async () => {
+            const browser = await chromium.launch({channel:'chrome',headless:true});
+            for(const width of [390,1440]) {
+              const page=await browser.newPage({viewport:{width,height:900}});
+              const errors=[];
+              page.on('pageerror',e=>errors.push(String(e)));
+              page.on('console',msg=>{if(msg.type()==='error')errors.push(msg.text())});
+              await page.goto('file://'+path.resolve('transfi-remittance/index.html'));
+              await page.waitForTimeout(200);
+              const snapshot=async(label)=>console.log(JSON.stringify({width,label,title:await page.locator('#phoneTitle').innerText().catch(()=>null),steps:await page.locator('#stageLabel').innerText().catch(()=>null),errors:[...errors]}));
+              await snapshot('initial');
+              if(errors.length)throw Error('JS initialization error: '+errors.join(' / '));
+              await page.locator('.tf-home-action.primary').click();
+              if(!await page.locator('#methodLayer .tf-method-sheet').isVisible())throw Error('in method sheet not visible');
+              await page.locator('#methodLayer .tf-method-row').filter({hasText:'SEPA'}).click();
+              await snapshot('in SEPA select');
+              if(!await page.getByRole('button',{name:'Получить реквизиты'}).isVisible())throw Error('currency CTA missing');
+              await page.getByRole('button',{name:'Получить реквизиты'}).click();
+              await snapshot('in details');
+              if(!await page.getByRole('button',{name:'Скопировать все реквизиты'}).isVisible())throw Error('details CTA missing');
+              await page.locator('.phone.tf-phone .back').click();
+              await snapshot('back currency');
+              await page.locator('.phone.tf-phone .back').click();
+              await snapshot('back methods');
+              await page.locator('#methodLayer .tf-method-row').filter({hasText:'SWIFT'}).click();
+              await page.getByRole('button',{name:'Получить реквизиты'}).click();
+              await snapshot('in SWIFT details');
+              await page.locator('#flow-home').click();
+              await page.locator('.tf-home-action').filter({hasText:'Вывести'}).click();
+              await page.locator('#methodLayer .tf-method-row').filter({hasText:'SWIFT'}).click();
+              await snapshot('out SWIFT');
+              await page.getByRole('button',{name:'Продолжить'}).click();
+              await snapshot('out recipient');
+              if(!await page.locator('#f-firstName').isVisible())throw Error('recipient fields missing');
+              if(errors.length)throw Error('JS console/page errors: '+errors.join(' / '));
+              await page.close();
+            }
+            await browser.close();
+          })().catch(e=>{console.error(e);process.exit(1)});
+          JS
