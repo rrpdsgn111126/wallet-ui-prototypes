@@ -75,6 +75,77 @@ try{
      await snap(name,flow,screen,rail,modal,size,false,1);
    }
  }
+
+ // Whole-page audit, not just the isolated phone: catches page-level scroll locks
+ // from the native alt.vu stylesheet as well as clipping and responsive misalignment.
+ report.pageCases=[];
+ for(const viewport of [
+   {width:375,height:667},{width:390,height:844},{width:430,height:932},
+   {width:768,height:800},{width:1280,height:800},{width:1440,height:900}
+ ]) {
+   for(const mode of ['home','topup-sheet','in-sepa']){
+     const page=await browser.newPage({viewport,deviceScaleFactor:1});
+     const errors=[];page.on('pageerror',e=>errors.push(String(e)));
+     const url=new URL(html.href);
+     url.searchParams.set('flow','in');
+     url.searchParams.set('screen',mode==='in-sepa'?'in-details':'home');
+     if(mode==='topup-sheet')url.searchParams.set('modal','in');
+     await page.goto(url.href,{waitUntil:'domcontentloaded'});
+     await page.evaluate(()=>document.fonts.ready);
+     const metrics=await page.evaluate(()=>{
+       const html=document.documentElement,body=document.body;
+       const top=document.querySelector('.top'),phone=document.querySelector('.phone.tf-phone'),content=document.querySelector('.tf-scroll');
+       const rect=(node)=>{const r=node.getBoundingClientRect();return {left:r.left,right:r.right,top:r.top,bottom:r.bottom,width:r.width,height:r.height}};
+       const out={
+         viewport:{width:innerWidth,height:innerHeight},
+         htmlPosition:getComputedStyle(html).position,
+         bodyPosition:getComputedStyle(body).position,
+         htmlOverflowY:getComputedStyle(html).overflowY,
+         bodyOverflowY:getComputedStyle(body).overflowY,
+         documentWidth:html.scrollWidth,
+         documentHeight:html.scrollHeight,
+         top:rect(top),phone:rect(phone),
+         content:{height:content.clientHeight,scrollHeight:content.scrollHeight},
+         sidebarDisplay:getComputedStyle(document.querySelector('.sidebar')).display,
+         mobileNavDisplay:getComputedStyle(document.querySelector('.mobilemenu')).display,
+       };
+       const oldScroll=scrollY;
+       window.scrollTo(0,Math.max(0,html.scrollHeight-innerHeight));
+       out.scrollYAfter=scrollY;
+       window.scrollTo(0,oldScroll);
+       if(content.scrollHeight>content.clientHeight+1){
+         content.scrollTop=100;
+         out.innerScrollTop=content.scrollTop;
+         content.scrollTop=0;
+       } else {out.innerScrollTop=null}
+       return out;
+     });
+     const label='full-'+mode+'-'+viewport.width;
+     await page.screenshot({path:path.join(output,label+'.png'),fullPage:true,animations:'disabled'});
+     const violations=[];
+     if(metrics.bodyPosition==='fixed'||metrics.htmlOverflowY==='hidden')
+       violations.push('body locked as fullscreen wallet rather than scrollable prototype');
+     if(metrics.documentWidth>viewport.width+1)
+       violations.push('horizontal document overflow '+(metrics.documentWidth-viewport.width));
+     if(metrics.phone.left< -1||metrics.phone.right>viewport.width+1)
+       violations.push('phone outside viewport');
+     if(metrics.top.top < -1||metrics.top.bottom > viewport.height+1)
+       violations.push('top page controls clipped');
+     if(metrics.documentHeight>viewport.height+2&&metrics.scrollYAfter<=0)
+       violations.push('cannot scroll to lower page content');
+     if(metrics.content.scrollHeight>metrics.content.height+2&&metrics.innerScrollTop<=0)
+       violations.push('phone content cannot scroll');
+     if(viewport.width>=1131&&metrics.sidebarDisplay==='none')
+       violations.push('desktop sidebar unexpectedly hidden');
+     if(viewport.width<=740&&metrics.mobileNavDisplay==='none')
+       violations.push('mobile controls unexpectedly hidden');
+     if(errors.length)violations.push(...errors);
+     report.pageCases.push({label,metrics,violations});
+     if(violations.length)report.issues.push({label,violations});
+     console.log('FULLPAGE',label,JSON.stringify({metrics,violations}));
+     await page.close();
+   }
+ }
 }finally{
  fs.writeFileSync(path.join(output,'audit.json'),JSON.stringify(report,null,2));
  await browser.close();
