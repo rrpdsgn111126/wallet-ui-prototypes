@@ -1,5 +1,5 @@
 {
-  "run": "2026-11-12T18:54:40.483Z",
+  "run": "2026-11-12T18:58:28.441Z",
   "cases": [
     {
       "label": "home",
@@ -3658,16 +3658,16 @@
           "scrollHeight": 722
         },
         "footer": {
-          "height": 72,
+          "height": 96,
           "scrollWidth": 420,
           "clientWidth": 420
         },
         "fields": [
           {
             "name": "box",
-            "left": 782,
-            "right": 1073,
-            "width": 291,
+            "left": 499,
+            "right": 887,
+            "width": 388,
             "scrollWidth": 388,
             "clientWidth": 388
           }
@@ -3711,9 +3711,9 @@
         "fields": [
           {
             "name": "box",
-            "left": 782,
-            "right": 1073,
-            "width": 291,
+            "left": 499,
+            "right": 887,
+            "width": 388,
             "scrollWidth": 388,
             "clientWidth": 388
           }
@@ -3757,9 +3757,9 @@
         "fields": [
           {
             "name": "box",
-            "left": 782,
-            "right": 1073,
-            "width": 291,
+            "left": 499,
+            "right": 887,
+            "width": 388,
             "scrollWidth": 388,
             "clientWidth": 388
           }
@@ -3803,9 +3803,9 @@
         "fields": [
           {
             "name": "box",
-            "left": 782,
-            "right": 1073,
-            "width": 291,
+            "left": 499,
+            "right": 887,
+            "width": 388,
             "scrollWidth": 388,
             "clientWidth": 388
           }
@@ -3849,49 +3849,49 @@
         "fields": [
           {
             "name": "m tf-method-row",
-            "left": 782,
-            "right": 1073,
-            "width": 291,
+            "left": 499,
+            "right": 887,
+            "width": 388,
             "scrollWidth": 388,
             "clientWidth": 388
           },
           {
             "name": "m tf-method-row",
-            "left": 782,
-            "right": 1073,
-            "width": 291,
+            "left": 499,
+            "right": 887,
+            "width": 388,
             "scrollWidth": 388,
             "clientWidth": 388
           },
           {
             "name": "m tf-method-row",
-            "left": 782,
-            "right": 1073,
-            "width": 291,
+            "left": 499,
+            "right": 887,
+            "width": 388,
             "scrollWidth": 388,
             "clientWidth": 388
           },
           {
             "name": "m tf-method-row",
-            "left": 782,
-            "right": 1073,
-            "width": 291,
+            "left": 499,
+            "right": 887,
+            "width": 388,
             "scrollWidth": 388,
             "clientWidth": 388
           },
           {
             "name": "m tf-method-row",
-            "left": 782,
-            "right": 1073,
-            "width": 291,
+            "left": 499,
+            "right": 887,
+            "width": 388,
             "scrollWidth": 388,
             "clientWidth": 388
           },
           {
             "name": "m tf-method-row",
-            "left": 782,
-            "right": 1073,
-            "width": 291,
+            "left": 499,
+            "right": 887,
+            "width": 388,
             "scrollWidth": 388,
             "clientWidth": 388
           }
@@ -3935,41 +3935,41 @@
         "fields": [
           {
             "name": "m tf-method-row",
-            "left": 782,
-            "right": 1073,
-            "width": 291,
+            "left": 499,
+            "right": 887,
+            "width": 388,
             "scrollWidth": 388,
             "clientWidth": 388
           },
           {
             "name": "m tf-method-row",
-            "left": 782,
-            "right": 1073,
-            "width": 291,
+            "left": 499,
+            "right": 887,
+            "width": 388,
             "scrollWidth": 388,
             "clientWidth": 388
           },
           {
             "name": "m tf-method-row",
-            "left": 782,
-            "right": 1073,
-            "width": 291,
+            "left": 499,
+            "right": 887,
+            "width": 388,
             "scrollWidth": 388,
             "clientWidth": 388
           },
           {
             "name": "m tf-method-row",
-            "left": 782,
-            "right": 1073,
-            "width": 291,
+            "left": 499,
+            "right": 887,
+            "width": 388,
             "scrollWidth": 388,
             "clientWidth": 388
           },
           {
             "name": "m tf-method-row",
-            "left": 782,
-            "right": 1073,
-            "width": 291,
+            "left": 499,
+            "right": 887,
+            "width": 388,
             "scrollWidth": 388,
             "clientWidth": 388
           }
@@ -4006,24 +4006,24 @@
           "scrollHeight": 722
         },
         "footer": {
-          "height": 72,
+          "height": 96,
           "scrollWidth": 420,
           "clientWidth": 420
         },
         "fields": [
           {
             "name": "fld w tf-field tf-deposit-currency",
-            "left": 782,
-            "right": 1073,
-            "width": 291,
+            "left": 499,
+            "right": 887,
+            "width": 388,
             "scrollWidth": 388,
             "clientWidth": 388
           },
           {
             "name": "box tf-requisites",
-            "left": 782,
-            "right": 1073,
-            "width": 291,
+            "left": 499,
+            "right": 887,
+            "width": 388,
             "scrollWidth": 388,
             "clientWidth": 388
           }
@@ -4060,24 +4060,24 @@
           "scrollHeight": 722
         },
         "footer": {
-          "height": 72,
+          "height": 96,
           "scrollWidth": 420,
           "clientWidth": 420
         },
         "fields": [
           {
             "name": "fld w tf-field tf-deposit-currency",
-            "left": 782,
-            "right": 1073,
-            "width": 291,
+            "left": 499,
+            "right": 887,
+            "width": 388,
             "scrollWidth": 388,
             "clientWidth": 388
           },
           {
             "name": "box tf-requisites",
-            "left": 782,
-            "right": 1073,
-            "width": 291,
+            "left": 499,
+            "right": 887,
+            "width": 388,
             "scrollWidth": 388,
             "clientWidth": 388
           }
@@ -4114,7 +4114,7 @@
           "scrollHeight": 710
         },
         "footer": {
-          "height": 81,
+          "height": 108,
           "scrollWidth": 420,
           "clientWidth": 420
         },
@@ -4151,16 +4151,16 @@
           "scrollHeight": 722
         },
         "footer": {
-          "height": 72,
+          "height": 96,
           "scrollWidth": 420,
           "clientWidth": 420
         },
         "fields": [
           {
             "name": "tbl",
-            "left": 782,
-            "right": 1073,
-            "width": 291,
+            "left": 499,
+            "right": 887,
+            "width": 388,
             "scrollWidth": 388,
             "clientWidth": 388
           }
@@ -4197,16 +4197,16 @@
           "scrollHeight": 722
         },
         "footer": {
-          "height": 72,
+          "height": 96,
           "scrollWidth": 420,
           "clientWidth": 420
         },
         "fields": [
           {
             "name": "tbl",
-            "left": 782,
-            "right": 1073,
-            "width": 291,
+            "left": 499,
+            "right": 887,
+            "width": 388,
             "scrollWidth": 388,
             "clientWidth": 388
           }
@@ -4243,32 +4243,32 @@
           "scrollHeight": 722
         },
         "footer": {
-          "height": 72,
+          "height": 96,
           "scrollWidth": 420,
           "clientWidth": 420
         },
         "fields": [
           {
             "name": "fld w tf-field",
-            "left": 782,
-            "right": 1073,
-            "width": 291,
+            "left": 499,
+            "right": 887,
+            "width": 388,
             "scrollWidth": 388,
             "clientWidth": 388
           },
           {
             "name": "fld w tf-field tf-amount",
-            "left": 782,
-            "right": 1073,
-            "width": 291,
+            "left": 499,
+            "right": 887,
+            "width": 388,
             "scrollWidth": 388,
             "clientWidth": 388
           },
           {
             "name": "tbl tf-quote",
-            "left": 782,
-            "right": 1073,
-            "width": 291,
+            "left": 499,
+            "right": 887,
+            "width": 388,
             "scrollWidth": 388,
             "clientWidth": 388
           }
@@ -4305,32 +4305,32 @@
           "scrollHeight": 722
         },
         "footer": {
-          "height": 72,
+          "height": 96,
           "scrollWidth": 420,
           "clientWidth": 420
         },
         "fields": [
           {
             "name": "fld w tf-field",
-            "left": 782,
-            "right": 1073,
-            "width": 291,
+            "left": 499,
+            "right": 887,
+            "width": 388,
             "scrollWidth": 388,
             "clientWidth": 388
           },
           {
             "name": "fld w tf-field tf-amount",
-            "left": 782,
-            "right": 1073,
-            "width": 291,
+            "left": 499,
+            "right": 887,
+            "width": 388,
             "scrollWidth": 388,
             "clientWidth": 388
           },
           {
             "name": "tbl tf-quote",
-            "left": 782,
-            "right": 1073,
-            "width": 291,
+            "left": 499,
+            "right": 887,
+            "width": 388,
             "scrollWidth": 388,
             "clientWidth": 388
           }
@@ -4367,88 +4367,88 @@
           "scrollHeight": 722
         },
         "footer": {
-          "height": 72,
+          "height": 96,
           "scrollWidth": 420,
           "clientWidth": 420
         },
         "fields": [
           {
             "name": "fld w tf-field",
-            "left": 782,
-            "right": 1073,
-            "width": 291,
+            "left": 499,
+            "right": 887,
+            "width": 388,
             "scrollWidth": 388,
             "clientWidth": 388
           },
           {
             "name": "fld w tf-field",
-            "left": 782,
-            "right": 1073,
-            "width": 291,
+            "left": 499,
+            "right": 887,
+            "width": 388,
             "scrollWidth": 388,
             "clientWidth": 388
           },
           {
             "name": "fld w tf-field",
-            "left": 782,
-            "right": 1073,
-            "width": 291,
+            "left": 499,
+            "right": 887,
+            "width": 388,
             "scrollWidth": 388,
             "clientWidth": 388
           },
           {
             "name": "fld w tf-field",
-            "left": 782,
-            "right": 1073,
-            "width": 291,
+            "left": 499,
+            "right": 887,
+            "width": 388,
             "scrollWidth": 388,
             "clientWidth": 388
           },
           {
             "name": "fld w tf-field",
-            "left": 782,
-            "right": 1073,
-            "width": 291,
+            "left": 499,
+            "right": 887,
+            "width": 388,
             "scrollWidth": 388,
             "clientWidth": 388
           },
           {
             "name": "fld w tf-field",
-            "left": 791,
-            "right": 1064,
-            "width": 273,
+            "left": 511,
+            "right": 875,
+            "width": 364,
             "scrollWidth": 364,
             "clientWidth": 364
           },
           {
             "name": "fld w tf-field",
-            "left": 791,
-            "right": 1064,
-            "width": 273,
+            "left": 511,
+            "right": 875,
+            "width": 364,
             "scrollWidth": 364,
             "clientWidth": 364
           },
           {
             "name": "fld w tf-field",
-            "left": 791,
-            "right": 1064,
-            "width": 273,
+            "left": 511,
+            "right": 875,
+            "width": 364,
             "scrollWidth": 364,
             "clientWidth": 364
           },
           {
             "name": "fld w tf-field",
-            "left": 791,
-            "right": 1064,
-            "width": 273,
+            "left": 511,
+            "right": 875,
+            "width": 364,
             "scrollWidth": 364,
             "clientWidth": 364
           },
           {
             "name": "fld w tf-field",
-            "left": 782,
-            "right": 1073,
-            "width": 291,
+            "left": 499,
+            "right": 887,
+            "width": 388,
             "scrollWidth": 388,
             "clientWidth": 388
           }
@@ -4485,24 +4485,24 @@
           "scrollHeight": 722
         },
         "footer": {
-          "height": 72,
+          "height": 96,
           "scrollWidth": 420,
           "clientWidth": 420
         },
         "fields": [
           {
             "name": "tbl",
-            "left": 782,
-            "right": 1073,
-            "width": 291,
+            "left": 499,
+            "right": 887,
+            "width": 388,
             "scrollWidth": 388,
             "clientWidth": 388
           },
           {
             "name": "tbl tf-quote",
-            "left": 782,
-            "right": 1073,
-            "width": 291,
+            "left": 499,
+            "right": 887,
+            "width": 388,
             "scrollWidth": 388,
             "clientWidth": 388
           }
@@ -4546,9 +4546,9 @@
         "fields": [
           {
             "name": "tbl",
-            "left": 782,
-            "right": 1073,
-            "width": 291,
+            "left": 499,
+            "right": 887,
+            "width": 388,
             "scrollWidth": 388,
             "clientWidth": 388
           }
@@ -4585,16 +4585,16 @@
           "scrollHeight": 722
         },
         "footer": {
-          "height": 72,
+          "height": 96,
           "scrollWidth": 420,
           "clientWidth": 420
         },
         "fields": [
           {
             "name": "tbl",
-            "left": 782,
-            "right": 1073,
-            "width": 291,
+            "left": 499,
+            "right": 887,
+            "width": 388,
             "scrollWidth": 388,
             "clientWidth": 388
           }
@@ -4631,16 +4631,16 @@
           "scrollHeight": 722
         },
         "footer": {
-          "height": 72,
+          "height": 96,
           "scrollWidth": 420,
           "clientWidth": 420
         },
         "fields": [
           {
             "name": "tbl",
-            "left": 782,
-            "right": 1073,
-            "width": 291,
+            "left": 499,
+            "right": 887,
+            "width": 388,
             "scrollWidth": 388,
             "clientWidth": 388
           }
@@ -4684,9 +4684,9 @@
         "fields": [
           {
             "name": "tbl",
-            "left": 782,
-            "right": 1073,
-            "width": 291,
+            "left": 499,
+            "right": 887,
+            "width": 388,
             "scrollWidth": 388,
             "clientWidth": 388
           }
@@ -4723,16 +4723,16 @@
           "scrollHeight": 722
         },
         "footer": {
-          "height": 72,
+          "height": 96,
           "scrollWidth": 420,
           "clientWidth": 420
         },
         "fields": [
           {
             "name": "tbl",
-            "left": 782,
-            "right": 1073,
-            "width": 291,
+            "left": 499,
+            "right": 887,
+            "width": 388,
             "scrollWidth": 388,
             "clientWidth": 388
           }
@@ -4773,6 +4773,9 @@
           "width": 375,
           "height": 630
         },
+        "phoneOffsetWidth": 375,
+        "phoneTransform": "none",
+        "bodyBeforeContent": "none",
         "content": {
           "height": 588,
           "scrollHeight": 880
@@ -4813,6 +4816,9 @@
           "width": 375,
           "height": 630
         },
+        "phoneOffsetWidth": 375,
+        "phoneTransform": "none",
+        "bodyBeforeContent": "none",
         "content": {
           "height": 588,
           "scrollHeight": 880
@@ -4853,6 +4859,9 @@
           "width": 375,
           "height": 630
         },
+        "phoneOffsetWidth": 375,
+        "phoneTransform": "none",
+        "bodyBeforeContent": "none",
         "content": {
           "height": 430,
           "scrollHeight": 508
@@ -4893,6 +4902,9 @@
           "width": 390,
           "height": 693
         },
+        "phoneOffsetWidth": 390,
+        "phoneTransform": "none",
+        "bodyBeforeContent": "none",
         "content": {
           "height": 651,
           "scrollHeight": 889
@@ -4933,6 +4945,9 @@
           "width": 390,
           "height": 693
         },
+        "phoneOffsetWidth": 390,
+        "phoneTransform": "none",
+        "bodyBeforeContent": "none",
         "content": {
           "height": 651,
           "scrollHeight": 889
@@ -4973,6 +4988,9 @@
           "width": 390,
           "height": 693
         },
+        "phoneOffsetWidth": 390,
+        "phoneTransform": "none",
+        "bodyBeforeContent": "none",
         "content": {
           "height": 493,
           "scrollHeight": 508
@@ -5013,6 +5031,9 @@
           "width": 430,
           "height": 781
         },
+        "phoneOffsetWidth": 430,
+        "phoneTransform": "none",
+        "bodyBeforeContent": "none",
         "content": {
           "height": 739,
           "scrollHeight": 913
@@ -5053,6 +5074,9 @@
           "width": 430,
           "height": 781
         },
+        "phoneOffsetWidth": 430,
+        "phoneTransform": "none",
+        "bodyBeforeContent": "none",
         "content": {
           "height": 739,
           "scrollHeight": 913
@@ -5093,6 +5117,9 @@
           "width": 430,
           "height": 781
         },
+        "phoneOffsetWidth": 430,
+        "phoneTransform": "none",
+        "bodyBeforeContent": "none",
         "content": {
           "height": 581,
           "scrollHeight": 581
@@ -5133,6 +5160,9 @@
           "width": 430,
           "height": 932
         },
+        "phoneOffsetWidth": 430,
+        "phoneTransform": "none",
+        "bodyBeforeContent": "none",
         "content": {
           "height": 880,
           "scrollHeight": 907
@@ -5173,6 +5203,9 @@
           "width": 430,
           "height": 932
         },
+        "phoneOffsetWidth": 430,
+        "phoneTransform": "none",
+        "bodyBeforeContent": "none",
         "content": {
           "height": 880,
           "scrollHeight": 907
@@ -5213,6 +5246,9 @@
           "width": 430,
           "height": 932
         },
+        "phoneOffsetWidth": 430,
+        "phoneTransform": "none",
+        "bodyBeforeContent": "none",
         "content": {
           "height": 722,
           "scrollHeight": 722
@@ -5246,13 +5282,16 @@
           "height": 62
         },
         "phone": {
-          "left": 605.75,
-          "right": 928.25,
-          "top": 235.5,
-          "bottom": 934.5,
-          "width": 322.5,
-          "height": 699
+          "left": 398,
+          "right": 828,
+          "top": 106,
+          "bottom": 1038,
+          "width": 430,
+          "height": 932
         },
+        "phoneOffsetWidth": 430,
+        "phoneTransform": "none",
+        "bodyBeforeContent": "none",
         "content": {
           "height": 880,
           "scrollHeight": 907
@@ -5286,13 +5325,16 @@
           "height": 62
         },
         "phone": {
-          "left": 605.75,
-          "right": 928.25,
-          "top": 235.5,
-          "bottom": 934.5,
-          "width": 322.5,
-          "height": 699
+          "left": 398,
+          "right": 828,
+          "top": 106,
+          "bottom": 1038,
+          "width": 430,
+          "height": 932
         },
+        "phoneOffsetWidth": 430,
+        "phoneTransform": "none",
+        "bodyBeforeContent": "none",
         "content": {
           "height": 880,
           "scrollHeight": 907
@@ -5326,13 +5368,16 @@
           "height": 62
         },
         "phone": {
-          "left": 605.75,
-          "right": 928.25,
-          "top": 235.5,
-          "bottom": 934.5,
-          "width": 322.5,
-          "height": 699
+          "left": 398,
+          "right": 828,
+          "top": 106,
+          "bottom": 1038,
+          "width": 430,
+          "height": 932
         },
+        "phoneOffsetWidth": 430,
+        "phoneTransform": "none",
+        "bodyBeforeContent": "none",
         "content": {
           "height": 722,
           "scrollHeight": 722
@@ -5366,13 +5411,16 @@
           "height": 62
         },
         "phone": {
-          "left": 765.75,
-          "right": 1088.25,
-          "top": 235.5,
-          "bottom": 934.5,
-          "width": 322.5,
-          "height": 699
+          "left": 478,
+          "right": 908,
+          "top": 106,
+          "bottom": 1038,
+          "width": 430,
+          "height": 932
         },
+        "phoneOffsetWidth": 430,
+        "phoneTransform": "none",
+        "bodyBeforeContent": "none",
         "content": {
           "height": 880,
           "scrollHeight": 907
@@ -5406,13 +5454,16 @@
           "height": 62
         },
         "phone": {
-          "left": 765.75,
-          "right": 1088.25,
-          "top": 235.5,
-          "bottom": 934.5,
-          "width": 322.5,
-          "height": 699
+          "left": 478,
+          "right": 908,
+          "top": 106,
+          "bottom": 1038,
+          "width": 430,
+          "height": 932
         },
+        "phoneOffsetWidth": 430,
+        "phoneTransform": "none",
+        "bodyBeforeContent": "none",
         "content": {
           "height": 880,
           "scrollHeight": 907
@@ -5446,13 +5497,16 @@
           "height": 62
         },
         "phone": {
-          "left": 765.75,
-          "right": 1088.25,
-          "top": 235.5,
-          "bottom": 934.5,
-          "width": 322.5,
-          "height": 699
+          "left": 478,
+          "right": 908,
+          "top": 106,
+          "bottom": 1038,
+          "width": 430,
+          "height": 932
         },
+        "phoneOffsetWidth": 430,
+        "phoneTransform": "none",
+        "bodyBeforeContent": "none",
         "content": {
           "height": 722,
           "scrollHeight": 722
