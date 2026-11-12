@@ -36,6 +36,20 @@ jobs:
               const snapshot=async(label)=>console.log(JSON.stringify({width,label,title:await page.locator('#phoneTitle').innerText().catch(()=>null),steps:await page.locator('#stageLabel').innerText().catch(()=>null),errors:[...errors]}));
               await snapshot('initial');
               if(errors.length)throw Error('JS initialization error: '+errors.join(' / '));
+              for (const [selector,screen] of [
+                ['.tf-source-home .who','Профиль'],
+                ['.tf-source-home .act[data-go="card"]','Карта'],
+                ['.tf-source-home .act[data-go="earn"]','Заработать'],
+                ['.tf-source-home .ha[data-go="notes"]','Уведомления'],
+                ['.tf-source-home .hh [data-go="history"]','История']
+              ]) {
+                await page.locator(selector).click();
+                const title=await page.locator('#phoneTitle').innerText();
+                if(title!==screen)throw Error('Main navigation failed for '+screen+': '+title);
+                await page.locator('.phone.tf-phone .back').click();
+                if(!await page.locator('.tf-source-home').isVisible())throw Error('Back to home failed from '+screen);
+              }
+
               await page.locator('.tf-home-action.primary').click();
               if(!await page.locator('#methodLayer .tf-method-sheet').isVisible())throw Error('Deposit method sheet not visible');
               await page.locator('#methodLayer .tf-method-row').filter({hasText:'SEPA'}).click();
