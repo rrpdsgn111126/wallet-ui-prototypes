@@ -1,5 +1,5 @@
 {
-  "run": "2026-11-12T17:30:29.085Z",
+  "run": "2026-11-12T18:32:37.854Z",
   "cases": [
     {
       "label": "home",
@@ -25,8 +25,8 @@
         "content": {
           "width": 430,
           "scrollWidth": 430,
-          "height": 828,
-          "scrollHeight": 877
+          "height": 890,
+          "scrollHeight": 913
         },
         "footer": {
           "height": 0,
@@ -62,67 +62,20 @@
         "content": {
           "width": 430,
           "scrollWidth": 430,
-          "height": 828,
-          "scrollHeight": 877
+          "height": 890,
+          "scrollHeight": 913
         },
         "footer": {
           "height": 0,
           "scrollWidth": 0,
           "clientWidth": 0
         },
-        "fields": [
-          {
-            "name": "tf-method-row",
-            "left": 16,
-            "right": 414,
-            "width": 398,
-            "scrollWidth": 398,
-            "clientWidth": 398
-          },
-          {
-            "name": "tf-method-row",
-            "left": 16,
-            "right": 414,
-            "width": 398,
-            "scrollWidth": 398,
-            "clientWidth": 398
-          },
-          {
-            "name": "tf-method-row",
-            "left": 16,
-            "right": 414,
-            "width": 398,
-            "scrollWidth": 398,
-            "clientWidth": 398
-          },
-          {
-            "name": "tf-method-row",
-            "left": 16,
-            "right": 414,
-            "width": 398,
-            "scrollWidth": 398,
-            "clientWidth": 398
-          },
-          {
-            "name": "tf-method-row",
-            "left": 16,
-            "right": 414,
-            "width": 398,
-            "scrollWidth": 398,
-            "clientWidth": 398
-          },
-          {
-            "name": "tf-method-row",
-            "left": 16,
-            "right": 414,
-            "width": 398,
-            "scrollWidth": 398,
-            "clientWidth": 398
-          }
-        ],
+        "fields": [],
         "badElements": []
       },
-      "errors": []
+      "errors": [
+        "ReferenceError: Cannot access 'img' before initialization"
+      ]
     },
     {
       "label": "withdraw-sheet",
@@ -148,59 +101,20 @@
         "content": {
           "width": 430,
           "scrollWidth": 430,
-          "height": 828,
-          "scrollHeight": 877
+          "height": 890,
+          "scrollHeight": 913
         },
         "footer": {
           "height": 0,
           "scrollWidth": 0,
           "clientWidth": 0
         },
-        "fields": [
-          {
-            "name": "tf-method-row",
-            "left": 16,
-            "right": 414,
-            "width": 398,
-            "scrollWidth": 398,
-            "clientWidth": 398
-          },
-          {
-            "name": "tf-method-row",
-            "left": 16,
-            "right": 414,
-            "width": 398,
-            "scrollWidth": 398,
-            "clientWidth": 398
-          },
-          {
-            "name": "tf-method-row",
-            "left": 16,
-            "right": 414,
-            "width": 398,
-            "scrollWidth": 398,
-            "clientWidth": 398
-          },
-          {
-            "name": "tf-method-row",
-            "left": 16,
-            "right": 414,
-            "width": 398,
-            "scrollWidth": 398,
-            "clientWidth": 398
-          },
-          {
-            "name": "tf-method-row",
-            "left": 16,
-            "right": 414,
-            "width": 398,
-            "scrollWidth": 398,
-            "clientWidth": 398
-          }
-        ],
+        "fields": [],
         "badElements": []
       },
-      "errors": []
+      "errors": [
+        "ReferenceError: Cannot access 'img' before initialization"
+      ]
     },
     {
       "label": "in-sepa",
@@ -327,7 +241,7 @@
         "bodyWidth": 430,
         "phone": {
           "width": 430,
-          "scrollWidth": 430,
+          "scrollWidth": 433,
           "height": 932,
           "scrollHeight": 932
         },
@@ -752,7 +666,7 @@
         "bodyWidth": 430,
         "phone": {
           "width": 430,
-          "scrollWidth": 430,
+          "scrollWidth": 433,
           "height": 932,
           "scrollHeight": 932
         },
@@ -989,8 +903,8 @@
         "content": {
           "width": 390,
           "scrollWidth": 390,
-          "height": 589,
-          "scrollHeight": 877
+          "height": 651,
+          "scrollHeight": 889
         },
         "footer": {
           "height": 0,
@@ -1026,67 +940,20 @@
         "content": {
           "width": 390,
           "scrollWidth": 390,
-          "height": 589,
-          "scrollHeight": 877
+          "height": 651,
+          "scrollHeight": 889
         },
         "footer": {
           "height": 0,
           "scrollWidth": 0,
           "clientWidth": 0
         },
-        "fields": [
-          {
-            "name": "tf-method-row",
-            "left": 16,
-            "right": 374,
-            "width": 358,
-            "scrollWidth": 358,
-            "clientWidth": 358
-          },
-          {
-            "name": "tf-method-row",
-            "left": 16,
-            "right": 374,
-            "width": 358,
-            "scrollWidth": 358,
-            "clientWidth": 358
-          },
-          {
-            "name": "tf-method-row",
-            "left": 16,
-            "right": 374,
-            "width": 358,
-            "scrollWidth": 358,
-            "clientWidth": 358
-          },
-          {
-            "name": "tf-method-row",
-            "left": 16,
-            "right": 374,
-            "width": 358,
-            "scrollWidth": 358,
-            "clientWidth": 358
-          },
-          {
-            "name": "tf-method-row",
-            "left": 16,
-            "right": 374,
-            "width": 358,
-            "scrollWidth": 358,
-            "clientWidth": 358
-          },
-          {
-            "name": "tf-method-row",
-            "left": 16,
-            "right": 374,
-            "width": 358,
-            "scrollWidth": 358,
-            "clientWidth": 358
-          }
-        ],
+        "fields": [],
         "badElements": []
       },
-      "errors": []
+      "errors": [
+        "ReferenceError: Cannot access 'img' before initialization"
+      ]
     },
     {
       "label": "withdraw-sheet-390",
@@ -1112,59 +979,20 @@
         "content": {
           "width": 390,
           "scrollWidth": 390,
-          "height": 589,
-          "scrollHeight": 877
+          "height": 651,
+          "scrollHeight": 889
         },
         "footer": {
           "height": 0,
           "scrollWidth": 0,
           "clientWidth": 0
         },
-        "fields": [
-          {
-            "name": "tf-method-row",
-            "left": 16,
-            "right": 374,
-            "width": 358,
-            "scrollWidth": 358,
-            "clientWidth": 358
-          },
-          {
-            "name": "tf-method-row",
-            "left": 16,
-            "right": 374,
-            "width": 358,
-            "scrollWidth": 358,
-            "clientWidth": 358
-          },
-          {
-            "name": "tf-method-row",
-            "left": 16,
-            "right": 374,
-            "width": 358,
-            "scrollWidth": 358,
-            "clientWidth": 358
-          },
-          {
-            "name": "tf-method-row",
-            "left": 16,
-            "right": 374,
-            "width": 358,
-            "scrollWidth": 358,
-            "clientWidth": 358
-          },
-          {
-            "name": "tf-method-row",
-            "left": 16,
-            "right": 374,
-            "width": 358,
-            "scrollWidth": 358,
-            "clientWidth": 358
-          }
-        ],
+        "fields": [],
         "badElements": []
       },
-      "errors": []
+      "errors": [
+        "ReferenceError: Cannot access 'img' before initialization"
+      ]
     },
     {
       "label": "in-sepa-390",
@@ -1191,7 +1019,7 @@
           "width": 390,
           "scrollWidth": 390,
           "height": 493,
-          "scrollHeight": 628
+          "scrollHeight": 508
         },
         "footer": {
           "height": 96,
@@ -1245,7 +1073,7 @@
           "width": 390,
           "scrollWidth": 390,
           "height": 493,
-          "scrollHeight": 628
+          "scrollHeight": 508
         },
         "footer": {
           "height": 96,
@@ -1291,7 +1119,7 @@
         "bodyWidth": 390,
         "phone": {
           "width": 390,
-          "scrollWidth": 390,
+          "scrollWidth": 393,
           "height": 693,
           "scrollHeight": 693
         },
@@ -1716,7 +1544,7 @@
         "bodyWidth": 390,
         "phone": {
           "width": 390,
-          "scrollWidth": 390,
+          "scrollWidth": 393,
           "height": 693,
           "scrollHeight": 693
         },
@@ -1724,7 +1552,7 @@
           "width": 390,
           "scrollWidth": 390,
           "height": 589,
-          "scrollHeight": 610
+          "scrollHeight": 608
         },
         "footer": {
           "height": 0,
@@ -1953,8 +1781,8 @@
         "content": {
           "width": 430,
           "scrollWidth": 430,
-          "height": 677,
-          "scrollHeight": 877
+          "height": 739,
+          "scrollHeight": 913
         },
         "footer": {
           "height": 0,
@@ -1990,67 +1818,20 @@
         "content": {
           "width": 430,
           "scrollWidth": 430,
-          "height": 677,
-          "scrollHeight": 877
+          "height": 739,
+          "scrollHeight": 913
         },
         "footer": {
           "height": 0,
           "scrollWidth": 0,
           "clientWidth": 0
         },
-        "fields": [
-          {
-            "name": "tf-method-row",
-            "left": 16,
-            "right": 414,
-            "width": 398,
-            "scrollWidth": 398,
-            "clientWidth": 398
-          },
-          {
-            "name": "tf-method-row",
-            "left": 16,
-            "right": 414,
-            "width": 398,
-            "scrollWidth": 398,
-            "clientWidth": 398
-          },
-          {
-            "name": "tf-method-row",
-            "left": 16,
-            "right": 414,
-            "width": 398,
-            "scrollWidth": 398,
-            "clientWidth": 398
-          },
-          {
-            "name": "tf-method-row",
-            "left": 16,
-            "right": 414,
-            "width": 398,
-            "scrollWidth": 398,
-            "clientWidth": 398
-          },
-          {
-            "name": "tf-method-row",
-            "left": 16,
-            "right": 414,
-            "width": 398,
-            "scrollWidth": 398,
-            "clientWidth": 398
-          },
-          {
-            "name": "tf-method-row",
-            "left": 16,
-            "right": 414,
-            "width": 398,
-            "scrollWidth": 398,
-            "clientWidth": 398
-          }
-        ],
+        "fields": [],
         "badElements": []
       },
-      "errors": []
+      "errors": [
+        "ReferenceError: Cannot access 'img' before initialization"
+      ]
     },
     {
       "label": "withdraw-sheet-430",
@@ -2076,59 +1857,20 @@
         "content": {
           "width": 430,
           "scrollWidth": 430,
-          "height": 677,
-          "scrollHeight": 877
+          "height": 739,
+          "scrollHeight": 913
         },
         "footer": {
           "height": 0,
           "scrollWidth": 0,
           "clientWidth": 0
         },
-        "fields": [
-          {
-            "name": "tf-method-row",
-            "left": 16,
-            "right": 414,
-            "width": 398,
-            "scrollWidth": 398,
-            "clientWidth": 398
-          },
-          {
-            "name": "tf-method-row",
-            "left": 16,
-            "right": 414,
-            "width": 398,
-            "scrollWidth": 398,
-            "clientWidth": 398
-          },
-          {
-            "name": "tf-method-row",
-            "left": 16,
-            "right": 414,
-            "width": 398,
-            "scrollWidth": 398,
-            "clientWidth": 398
-          },
-          {
-            "name": "tf-method-row",
-            "left": 16,
-            "right": 414,
-            "width": 398,
-            "scrollWidth": 398,
-            "clientWidth": 398
-          },
-          {
-            "name": "tf-method-row",
-            "left": 16,
-            "right": 414,
-            "width": 398,
-            "scrollWidth": 398,
-            "clientWidth": 398
-          }
-        ],
+        "fields": [],
         "badElements": []
       },
-      "errors": []
+      "errors": [
+        "ReferenceError: Cannot access 'img' before initialization"
+      ]
     },
     {
       "label": "in-sepa-430",
@@ -2155,7 +1897,7 @@
           "width": 430,
           "scrollWidth": 430,
           "height": 581,
-          "scrollHeight": 628
+          "scrollHeight": 581
         },
         "footer": {
           "height": 96,
@@ -2209,7 +1951,7 @@
           "width": 430,
           "scrollWidth": 430,
           "height": 581,
-          "scrollHeight": 628
+          "scrollHeight": 581
         },
         "footer": {
           "height": 96,
@@ -2255,7 +1997,7 @@
         "bodyWidth": 430,
         "phone": {
           "width": 430,
-          "scrollWidth": 430,
+          "scrollWidth": 433,
           "height": 781,
           "scrollHeight": 781
         },
@@ -2680,7 +2422,7 @@
         "bodyWidth": 430,
         "phone": {
           "width": 430,
-          "scrollWidth": 430,
+          "scrollWidth": 433,
           "height": 781,
           "scrollHeight": 781
         },
@@ -2909,16 +2651,16 @@
         "rootWidth": 1440,
         "bodyWidth": 1440,
         "phone": {
-          "width": 430,
-          "scrollWidth": 430,
-          "height": 932,
-          "scrollHeight": 932
+          "width": 420,
+          "scrollWidth": 420,
+          "height": 922,
+          "scrollHeight": 922
         },
         "content": {
-          "width": 430,
-          "scrollWidth": 430,
-          "height": 828,
-          "scrollHeight": 877
+          "width": 420,
+          "scrollWidth": 420,
+          "height": 880,
+          "scrollHeight": 907
         },
         "footer": {
           "height": 0,
@@ -2946,75 +2688,28 @@
         "rootWidth": 1440,
         "bodyWidth": 1440,
         "phone": {
-          "width": 430,
-          "scrollWidth": 430,
-          "height": 932,
-          "scrollHeight": 932
+          "width": 420,
+          "scrollWidth": 420,
+          "height": 922,
+          "scrollHeight": 922
         },
         "content": {
-          "width": 430,
-          "scrollWidth": 430,
-          "height": 828,
-          "scrollHeight": 877
+          "width": 420,
+          "scrollWidth": 420,
+          "height": 880,
+          "scrollHeight": 907
         },
         "footer": {
           "height": 0,
           "scrollWidth": 0,
           "clientWidth": 0
         },
-        "fields": [
-          {
-            "name": "tf-method-row",
-            "left": 494,
-            "right": 892,
-            "width": 398,
-            "scrollWidth": 398,
-            "clientWidth": 398
-          },
-          {
-            "name": "tf-method-row",
-            "left": 494,
-            "right": 892,
-            "width": 398,
-            "scrollWidth": 398,
-            "clientWidth": 398
-          },
-          {
-            "name": "tf-method-row",
-            "left": 494,
-            "right": 892,
-            "width": 398,
-            "scrollWidth": 398,
-            "clientWidth": 398
-          },
-          {
-            "name": "tf-method-row",
-            "left": 494,
-            "right": 892,
-            "width": 398,
-            "scrollWidth": 398,
-            "clientWidth": 398
-          },
-          {
-            "name": "tf-method-row",
-            "left": 494,
-            "right": 892,
-            "width": 398,
-            "scrollWidth": 398,
-            "clientWidth": 398
-          },
-          {
-            "name": "tf-method-row",
-            "left": 494,
-            "right": 892,
-            "width": 398,
-            "scrollWidth": 398,
-            "clientWidth": 398
-          }
-        ],
+        "fields": [],
         "badElements": []
       },
-      "errors": []
+      "errors": [
+        "ReferenceError: Cannot access 'img' before initialization"
+      ]
     },
     {
       "label": "withdraw-sheet-1440",
@@ -3032,67 +2727,28 @@
         "rootWidth": 1440,
         "bodyWidth": 1440,
         "phone": {
-          "width": 430,
-          "scrollWidth": 430,
-          "height": 932,
-          "scrollHeight": 932
+          "width": 420,
+          "scrollWidth": 420,
+          "height": 922,
+          "scrollHeight": 922
         },
         "content": {
-          "width": 430,
-          "scrollWidth": 430,
-          "height": 828,
-          "scrollHeight": 877
+          "width": 420,
+          "scrollWidth": 420,
+          "height": 880,
+          "scrollHeight": 907
         },
         "footer": {
           "height": 0,
           "scrollWidth": 0,
           "clientWidth": 0
         },
-        "fields": [
-          {
-            "name": "tf-method-row",
-            "left": 494,
-            "right": 892,
-            "width": 398,
-            "scrollWidth": 398,
-            "clientWidth": 398
-          },
-          {
-            "name": "tf-method-row",
-            "left": 494,
-            "right": 892,
-            "width": 398,
-            "scrollWidth": 398,
-            "clientWidth": 398
-          },
-          {
-            "name": "tf-method-row",
-            "left": 494,
-            "right": 892,
-            "width": 398,
-            "scrollWidth": 398,
-            "clientWidth": 398
-          },
-          {
-            "name": "tf-method-row",
-            "left": 494,
-            "right": 892,
-            "width": 398,
-            "scrollWidth": 398,
-            "clientWidth": 398
-          },
-          {
-            "name": "tf-method-row",
-            "left": 494,
-            "right": 892,
-            "width": 398,
-            "scrollWidth": 398,
-            "clientWidth": 398
-          }
-        ],
+        "fields": [],
         "badElements": []
       },
-      "errors": []
+      "errors": [
+        "ReferenceError: Cannot access 'img' before initialization"
+      ]
     },
     {
       "label": "in-sepa-1440",
@@ -3110,38 +2766,38 @@
         "rootWidth": 1440,
         "bodyWidth": 1440,
         "phone": {
-          "width": 430,
-          "scrollWidth": 430,
-          "height": 932,
-          "scrollHeight": 932
+          "width": 420,
+          "scrollWidth": 420,
+          "height": 922,
+          "scrollHeight": 922
         },
         "content": {
-          "width": 430,
-          "scrollWidth": 430,
-          "height": 732,
-          "scrollHeight": 732
+          "width": 420,
+          "scrollWidth": 420,
+          "height": 722,
+          "scrollHeight": 722
         },
         "footer": {
-          "height": 96,
-          "scrollWidth": 430,
-          "clientWidth": 430
+          "height": 72,
+          "scrollWidth": 420,
+          "clientWidth": 420
         },
         "fields": [
           {
             "name": "fld w tf-field tf-deposit-currency",
-            "left": 494,
-            "right": 892,
-            "width": 398,
-            "scrollWidth": 398,
-            "clientWidth": 398
+            "left": 782,
+            "right": 1073,
+            "width": 291,
+            "scrollWidth": 388,
+            "clientWidth": 388
           },
           {
             "name": "box tf-requisites",
-            "left": 494,
-            "right": 892,
-            "width": 398,
-            "scrollWidth": 398,
-            "clientWidth": 398
+            "left": 782,
+            "right": 1073,
+            "width": 291,
+            "scrollWidth": 388,
+            "clientWidth": 388
           }
         ],
         "badElements": []
@@ -3164,38 +2820,38 @@
         "rootWidth": 1440,
         "bodyWidth": 1440,
         "phone": {
-          "width": 430,
-          "scrollWidth": 430,
-          "height": 932,
-          "scrollHeight": 932
+          "width": 420,
+          "scrollWidth": 420,
+          "height": 922,
+          "scrollHeight": 922
         },
         "content": {
-          "width": 430,
-          "scrollWidth": 430,
-          "height": 732,
-          "scrollHeight": 732
+          "width": 420,
+          "scrollWidth": 420,
+          "height": 722,
+          "scrollHeight": 722
         },
         "footer": {
-          "height": 96,
-          "scrollWidth": 430,
-          "clientWidth": 430
+          "height": 72,
+          "scrollWidth": 420,
+          "clientWidth": 420
         },
         "fields": [
           {
             "name": "fld w tf-field tf-deposit-currency",
-            "left": 494,
-            "right": 892,
-            "width": 398,
-            "scrollWidth": 398,
-            "clientWidth": 398
+            "left": 782,
+            "right": 1073,
+            "width": 291,
+            "scrollWidth": 388,
+            "clientWidth": 388
           },
           {
             "name": "box tf-requisites",
-            "left": 494,
-            "right": 892,
-            "width": 398,
-            "scrollWidth": 398,
-            "clientWidth": 398
+            "left": 782,
+            "right": 1073,
+            "width": 291,
+            "scrollWidth": 388,
+            "clientWidth": 388
           }
         ],
         "badElements": []
@@ -3218,21 +2874,21 @@
         "rootWidth": 1440,
         "bodyWidth": 1440,
         "phone": {
-          "width": 430,
-          "scrollWidth": 430,
-          "height": 932,
-          "scrollHeight": 932
+          "width": 420,
+          "scrollWidth": 423,
+          "height": 922,
+          "scrollHeight": 922
         },
         "content": {
-          "width": 430,
-          "scrollWidth": 430,
-          "height": 720,
-          "scrollHeight": 720
+          "width": 420,
+          "scrollWidth": 420,
+          "height": 710,
+          "scrollHeight": 710
         },
         "footer": {
-          "height": 108,
-          "scrollWidth": 430,
-          "clientWidth": 430
+          "height": 81,
+          "scrollWidth": 420,
+          "clientWidth": 420
         },
         "fields": [],
         "badElements": []
@@ -3255,30 +2911,30 @@
         "rootWidth": 1440,
         "bodyWidth": 1440,
         "phone": {
-          "width": 430,
-          "scrollWidth": 430,
-          "height": 932,
-          "scrollHeight": 932
+          "width": 420,
+          "scrollWidth": 420,
+          "height": 922,
+          "scrollHeight": 922
         },
         "content": {
-          "width": 430,
-          "scrollWidth": 430,
-          "height": 732,
-          "scrollHeight": 732
+          "width": 420,
+          "scrollWidth": 420,
+          "height": 722,
+          "scrollHeight": 722
         },
         "footer": {
-          "height": 96,
-          "scrollWidth": 430,
-          "clientWidth": 430
+          "height": 72,
+          "scrollWidth": 420,
+          "clientWidth": 420
         },
         "fields": [
           {
             "name": "tbl",
-            "left": 494,
-            "right": 892,
-            "width": 398,
-            "scrollWidth": 398,
-            "clientWidth": 398
+            "left": 782,
+            "right": 1073,
+            "width": 291,
+            "scrollWidth": 388,
+            "clientWidth": 388
           }
         ],
         "badElements": []
@@ -3301,30 +2957,30 @@
         "rootWidth": 1440,
         "bodyWidth": 1440,
         "phone": {
-          "width": 430,
-          "scrollWidth": 430,
-          "height": 932,
-          "scrollHeight": 932
+          "width": 420,
+          "scrollWidth": 420,
+          "height": 922,
+          "scrollHeight": 922
         },
         "content": {
-          "width": 430,
-          "scrollWidth": 430,
-          "height": 732,
-          "scrollHeight": 732
+          "width": 420,
+          "scrollWidth": 420,
+          "height": 722,
+          "scrollHeight": 722
         },
         "footer": {
-          "height": 96,
-          "scrollWidth": 430,
-          "clientWidth": 430
+          "height": 72,
+          "scrollWidth": 420,
+          "clientWidth": 420
         },
         "fields": [
           {
             "name": "tbl",
-            "left": 494,
-            "right": 892,
-            "width": 398,
-            "scrollWidth": 398,
-            "clientWidth": 398
+            "left": 782,
+            "right": 1073,
+            "width": 291,
+            "scrollWidth": 388,
+            "clientWidth": 388
           }
         ],
         "badElements": []
@@ -3347,46 +3003,46 @@
         "rootWidth": 1440,
         "bodyWidth": 1440,
         "phone": {
-          "width": 430,
-          "scrollWidth": 430,
-          "height": 932,
-          "scrollHeight": 932
+          "width": 420,
+          "scrollWidth": 420,
+          "height": 922,
+          "scrollHeight": 922
         },
         "content": {
-          "width": 430,
-          "scrollWidth": 430,
-          "height": 732,
-          "scrollHeight": 732
+          "width": 420,
+          "scrollWidth": 420,
+          "height": 722,
+          "scrollHeight": 722
         },
         "footer": {
-          "height": 96,
-          "scrollWidth": 430,
-          "clientWidth": 430
+          "height": 72,
+          "scrollWidth": 420,
+          "clientWidth": 420
         },
         "fields": [
           {
             "name": "fld w tf-field",
-            "left": 494,
-            "right": 892,
-            "width": 398,
-            "scrollWidth": 398,
-            "clientWidth": 398
+            "left": 782,
+            "right": 1073,
+            "width": 291,
+            "scrollWidth": 388,
+            "clientWidth": 388
           },
           {
             "name": "fld w tf-field tf-amount",
-            "left": 494,
-            "right": 892,
-            "width": 398,
-            "scrollWidth": 398,
-            "clientWidth": 398
+            "left": 782,
+            "right": 1073,
+            "width": 291,
+            "scrollWidth": 388,
+            "clientWidth": 388
           },
           {
             "name": "tbl tf-quote",
-            "left": 494,
-            "right": 892,
-            "width": 398,
-            "scrollWidth": 398,
-            "clientWidth": 398
+            "left": 782,
+            "right": 1073,
+            "width": 291,
+            "scrollWidth": 388,
+            "clientWidth": 388
           }
         ],
         "badElements": []
@@ -3409,46 +3065,46 @@
         "rootWidth": 1440,
         "bodyWidth": 1440,
         "phone": {
-          "width": 430,
-          "scrollWidth": 430,
-          "height": 932,
-          "scrollHeight": 932
+          "width": 420,
+          "scrollWidth": 420,
+          "height": 922,
+          "scrollHeight": 922
         },
         "content": {
-          "width": 430,
-          "scrollWidth": 430,
-          "height": 732,
-          "scrollHeight": 732
+          "width": 420,
+          "scrollWidth": 420,
+          "height": 722,
+          "scrollHeight": 722
         },
         "footer": {
-          "height": 96,
-          "scrollWidth": 430,
-          "clientWidth": 430
+          "height": 72,
+          "scrollWidth": 420,
+          "clientWidth": 420
         },
         "fields": [
           {
             "name": "fld w tf-field",
-            "left": 494,
-            "right": 892,
-            "width": 398,
-            "scrollWidth": 398,
-            "clientWidth": 398
+            "left": 782,
+            "right": 1073,
+            "width": 291,
+            "scrollWidth": 388,
+            "clientWidth": 388
           },
           {
             "name": "fld w tf-field tf-amount",
-            "left": 494,
-            "right": 892,
-            "width": 398,
-            "scrollWidth": 398,
-            "clientWidth": 398
+            "left": 782,
+            "right": 1073,
+            "width": 291,
+            "scrollWidth": 388,
+            "clientWidth": 388
           },
           {
             "name": "tbl tf-quote",
-            "left": 494,
-            "right": 892,
-            "width": 398,
-            "scrollWidth": 398,
-            "clientWidth": 398
+            "left": 782,
+            "right": 1073,
+            "width": 291,
+            "scrollWidth": 388,
+            "clientWidth": 388
           }
         ],
         "badElements": []
@@ -3471,102 +3127,102 @@
         "rootWidth": 1440,
         "bodyWidth": 1440,
         "phone": {
-          "width": 430,
-          "scrollWidth": 430,
-          "height": 932,
-          "scrollHeight": 932
+          "width": 420,
+          "scrollWidth": 420,
+          "height": 922,
+          "scrollHeight": 922
         },
         "content": {
-          "width": 430,
-          "scrollWidth": 430,
-          "height": 732,
-          "scrollHeight": 732
+          "width": 420,
+          "scrollWidth": 420,
+          "height": 722,
+          "scrollHeight": 722
         },
         "footer": {
-          "height": 96,
-          "scrollWidth": 430,
-          "clientWidth": 430
+          "height": 72,
+          "scrollWidth": 420,
+          "clientWidth": 420
         },
         "fields": [
           {
             "name": "fld w tf-field",
-            "left": 494,
-            "right": 892,
-            "width": 398,
-            "scrollWidth": 398,
-            "clientWidth": 398
+            "left": 782,
+            "right": 1073,
+            "width": 291,
+            "scrollWidth": 388,
+            "clientWidth": 388
           },
           {
             "name": "fld w tf-field",
-            "left": 494,
-            "right": 892,
-            "width": 398,
-            "scrollWidth": 398,
-            "clientWidth": 398
+            "left": 782,
+            "right": 1073,
+            "width": 291,
+            "scrollWidth": 388,
+            "clientWidth": 388
           },
           {
             "name": "fld w tf-field",
-            "left": 494,
-            "right": 892,
-            "width": 398,
-            "scrollWidth": 398,
-            "clientWidth": 398
+            "left": 782,
+            "right": 1073,
+            "width": 291,
+            "scrollWidth": 388,
+            "clientWidth": 388
           },
           {
             "name": "fld w tf-field",
-            "left": 494,
-            "right": 892,
-            "width": 398,
-            "scrollWidth": 398,
-            "clientWidth": 398
+            "left": 782,
+            "right": 1073,
+            "width": 291,
+            "scrollWidth": 388,
+            "clientWidth": 388
           },
           {
             "name": "fld w tf-field",
-            "left": 494,
-            "right": 892,
-            "width": 398,
-            "scrollWidth": 398,
-            "clientWidth": 398
+            "left": 782,
+            "right": 1073,
+            "width": 291,
+            "scrollWidth": 388,
+            "clientWidth": 388
           },
           {
             "name": "fld w tf-field",
-            "left": 506,
-            "right": 880,
-            "width": 374,
-            "scrollWidth": 374,
-            "clientWidth": 374
+            "left": 791,
+            "right": 1064,
+            "width": 273,
+            "scrollWidth": 364,
+            "clientWidth": 364
           },
           {
             "name": "fld w tf-field",
-            "left": 506,
-            "right": 880,
-            "width": 374,
-            "scrollWidth": 374,
-            "clientWidth": 374
+            "left": 791,
+            "right": 1064,
+            "width": 273,
+            "scrollWidth": 364,
+            "clientWidth": 364
           },
           {
             "name": "fld w tf-field",
-            "left": 506,
-            "right": 880,
-            "width": 374,
-            "scrollWidth": 374,
-            "clientWidth": 374
+            "left": 791,
+            "right": 1064,
+            "width": 273,
+            "scrollWidth": 364,
+            "clientWidth": 364
           },
           {
             "name": "fld w tf-field",
-            "left": 506,
-            "right": 880,
-            "width": 374,
-            "scrollWidth": 374,
-            "clientWidth": 374
+            "left": 791,
+            "right": 1064,
+            "width": 273,
+            "scrollWidth": 364,
+            "clientWidth": 364
           },
           {
             "name": "fld w tf-field",
-            "left": 494,
-            "right": 892,
-            "width": 398,
-            "scrollWidth": 398,
-            "clientWidth": 398
+            "left": 782,
+            "right": 1073,
+            "width": 291,
+            "scrollWidth": 388,
+            "clientWidth": 388
           }
         ],
         "badElements": []
@@ -3589,38 +3245,38 @@
         "rootWidth": 1440,
         "bodyWidth": 1440,
         "phone": {
-          "width": 430,
-          "scrollWidth": 430,
-          "height": 932,
-          "scrollHeight": 932
+          "width": 420,
+          "scrollWidth": 420,
+          "height": 922,
+          "scrollHeight": 922
         },
         "content": {
-          "width": 430,
-          "scrollWidth": 430,
-          "height": 732,
-          "scrollHeight": 732
+          "width": 420,
+          "scrollWidth": 420,
+          "height": 722,
+          "scrollHeight": 722
         },
         "footer": {
-          "height": 96,
-          "scrollWidth": 430,
-          "clientWidth": 430
+          "height": 72,
+          "scrollWidth": 420,
+          "clientWidth": 420
         },
         "fields": [
           {
             "name": "tbl",
-            "left": 494,
-            "right": 892,
-            "width": 398,
-            "scrollWidth": 398,
-            "clientWidth": 398
+            "left": 782,
+            "right": 1073,
+            "width": 291,
+            "scrollWidth": 388,
+            "clientWidth": 388
           },
           {
             "name": "tbl tf-quote",
-            "left": 494,
-            "right": 892,
-            "width": 398,
-            "scrollWidth": 398,
-            "clientWidth": 398
+            "left": 782,
+            "right": 1073,
+            "width": 291,
+            "scrollWidth": 388,
+            "clientWidth": 388
           }
         ],
         "badElements": []
@@ -3643,16 +3299,16 @@
         "rootWidth": 1440,
         "bodyWidth": 1440,
         "phone": {
-          "width": 430,
-          "scrollWidth": 430,
-          "height": 932,
-          "scrollHeight": 932
+          "width": 420,
+          "scrollWidth": 423,
+          "height": 922,
+          "scrollHeight": 922
         },
         "content": {
-          "width": 430,
-          "scrollWidth": 430,
-          "height": 828,
-          "scrollHeight": 828
+          "width": 420,
+          "scrollWidth": 420,
+          "height": 818,
+          "scrollHeight": 818
         },
         "footer": {
           "height": 0,
@@ -3662,11 +3318,11 @@
         "fields": [
           {
             "name": "tbl",
-            "left": 494,
-            "right": 892,
-            "width": 398,
-            "scrollWidth": 398,
-            "clientWidth": 398
+            "left": 782,
+            "right": 1073,
+            "width": 291,
+            "scrollWidth": 388,
+            "clientWidth": 388
           }
         ],
         "badElements": []
@@ -3689,30 +3345,30 @@
         "rootWidth": 1440,
         "bodyWidth": 1440,
         "phone": {
-          "width": 430,
-          "scrollWidth": 430,
-          "height": 932,
-          "scrollHeight": 932
+          "width": 420,
+          "scrollWidth": 420,
+          "height": 922,
+          "scrollHeight": 922
         },
         "content": {
-          "width": 430,
-          "scrollWidth": 430,
-          "height": 732,
-          "scrollHeight": 732
+          "width": 420,
+          "scrollWidth": 420,
+          "height": 722,
+          "scrollHeight": 722
         },
         "footer": {
-          "height": 96,
-          "scrollWidth": 430,
-          "clientWidth": 430
+          "height": 72,
+          "scrollWidth": 420,
+          "clientWidth": 420
         },
         "fields": [
           {
             "name": "tbl",
-            "left": 494,
-            "right": 892,
-            "width": 398,
-            "scrollWidth": 398,
-            "clientWidth": 398
+            "left": 782,
+            "right": 1073,
+            "width": 291,
+            "scrollWidth": 388,
+            "clientWidth": 388
           }
         ],
         "badElements": []
@@ -3735,30 +3391,30 @@
         "rootWidth": 1440,
         "bodyWidth": 1440,
         "phone": {
-          "width": 430,
-          "scrollWidth": 430,
-          "height": 932,
-          "scrollHeight": 932
+          "width": 420,
+          "scrollWidth": 420,
+          "height": 922,
+          "scrollHeight": 922
         },
         "content": {
-          "width": 430,
-          "scrollWidth": 430,
-          "height": 732,
-          "scrollHeight": 732
+          "width": 420,
+          "scrollWidth": 420,
+          "height": 722,
+          "scrollHeight": 722
         },
         "footer": {
-          "height": 96,
-          "scrollWidth": 430,
-          "clientWidth": 430
+          "height": 72,
+          "scrollWidth": 420,
+          "clientWidth": 420
         },
         "fields": [
           {
             "name": "tbl",
-            "left": 494,
-            "right": 892,
-            "width": 398,
-            "scrollWidth": 398,
-            "clientWidth": 398
+            "left": 782,
+            "right": 1073,
+            "width": 291,
+            "scrollWidth": 388,
+            "clientWidth": 388
           }
         ],
         "badElements": []
@@ -3781,16 +3437,16 @@
         "rootWidth": 1440,
         "bodyWidth": 1440,
         "phone": {
-          "width": 430,
-          "scrollWidth": 430,
-          "height": 932,
-          "scrollHeight": 932
+          "width": 420,
+          "scrollWidth": 420,
+          "height": 922,
+          "scrollHeight": 922
         },
         "content": {
-          "width": 430,
-          "scrollWidth": 430,
-          "height": 828,
-          "scrollHeight": 828
+          "width": 420,
+          "scrollWidth": 420,
+          "height": 818,
+          "scrollHeight": 818
         },
         "footer": {
           "height": 0,
@@ -3800,11 +3456,11 @@
         "fields": [
           {
             "name": "tbl",
-            "left": 494,
-            "right": 892,
-            "width": 398,
-            "scrollWidth": 398,
-            "clientWidth": 398
+            "left": 782,
+            "right": 1073,
+            "width": 291,
+            "scrollWidth": 388,
+            "clientWidth": 388
           }
         ],
         "badElements": []
@@ -3827,30 +3483,30 @@
         "rootWidth": 1440,
         "bodyWidth": 1440,
         "phone": {
-          "width": 430,
-          "scrollWidth": 430,
-          "height": 932,
-          "scrollHeight": 932
+          "width": 420,
+          "scrollWidth": 420,
+          "height": 922,
+          "scrollHeight": 922
         },
         "content": {
-          "width": 430,
-          "scrollWidth": 430,
-          "height": 732,
-          "scrollHeight": 732
+          "width": 420,
+          "scrollWidth": 420,
+          "height": 722,
+          "scrollHeight": 722
         },
         "footer": {
-          "height": 96,
-          "scrollWidth": 430,
-          "clientWidth": 430
+          "height": 72,
+          "scrollWidth": 420,
+          "clientWidth": 420
         },
         "fields": [
           {
             "name": "tbl",
-            "left": 494,
-            "right": 892,
-            "width": 398,
-            "scrollWidth": 398,
-            "clientWidth": 398
+            "left": 782,
+            "right": 1073,
+            "width": 291,
+            "scrollWidth": 388,
+            "clientWidth": 388
           }
         ],
         "badElements": []
@@ -3858,5 +3514,118 @@
       "errors": []
     }
   ],
-  "issues": []
+  "issues": [
+    {
+      "label": "topup-sheet",
+      "excess": 0,
+      "errors": [
+        "ReferenceError: Cannot access 'img' before initialization"
+      ],
+      "badElements": []
+    },
+    {
+      "label": "withdraw-sheet",
+      "excess": 0,
+      "errors": [
+        "ReferenceError: Cannot access 'img' before initialization"
+      ],
+      "badElements": []
+    },
+    {
+      "label": "in-pending",
+      "excess": 3,
+      "errors": [],
+      "badElements": []
+    },
+    {
+      "label": "out-progress",
+      "excess": 3,
+      "errors": [],
+      "badElements": []
+    },
+    {
+      "label": "topup-sheet-390",
+      "excess": 0,
+      "errors": [
+        "ReferenceError: Cannot access 'img' before initialization"
+      ],
+      "badElements": []
+    },
+    {
+      "label": "withdraw-sheet-390",
+      "excess": 0,
+      "errors": [
+        "ReferenceError: Cannot access 'img' before initialization"
+      ],
+      "badElements": []
+    },
+    {
+      "label": "in-pending-390",
+      "excess": 3,
+      "errors": [],
+      "badElements": []
+    },
+    {
+      "label": "out-progress-390",
+      "excess": 3,
+      "errors": [],
+      "badElements": []
+    },
+    {
+      "label": "topup-sheet-430",
+      "excess": 0,
+      "errors": [
+        "ReferenceError: Cannot access 'img' before initialization"
+      ],
+      "badElements": []
+    },
+    {
+      "label": "withdraw-sheet-430",
+      "excess": 0,
+      "errors": [
+        "ReferenceError: Cannot access 'img' before initialization"
+      ],
+      "badElements": []
+    },
+    {
+      "label": "in-pending-430",
+      "excess": 3,
+      "errors": [],
+      "badElements": []
+    },
+    {
+      "label": "out-progress-430",
+      "excess": 3,
+      "errors": [],
+      "badElements": []
+    },
+    {
+      "label": "topup-sheet-1440",
+      "excess": 0,
+      "errors": [
+        "ReferenceError: Cannot access 'img' before initialization"
+      ],
+      "badElements": []
+    },
+    {
+      "label": "withdraw-sheet-1440",
+      "excess": 0,
+      "errors": [
+        "ReferenceError: Cannot access 'img' before initialization"
+      ],
+      "badElements": []
+    },
+    {
+      "label": "in-pending-1440",
+      "excess": 3,
+      "errors": [],
+      "badElements": []
+    },
+    {
+      "label": "out-progress-1440",
+      "excess": 3,
+      "errors": [],
+      "badElements": []
+    }
+  ]
 }
