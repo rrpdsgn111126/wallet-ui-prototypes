@@ -1,0 +1,49 @@
+name: TransFi visual audit
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'tests/visual/audit.mjs'
+      - 'tests/visual/compare.py'
+      - '.github/workflows/transfi-visual-audit.yml'
+      - 'transfi-remittance/index.html'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  compare:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Playwright and Pillow
+        run: |
+          npm install --no-save playwright@1.56.1
+          python -m pip install --user pillow
+      - name: Capture every screen at 430 / 390 / desktop
+        id: audit
+        continue-on-error: true
+        run: node tests/visual/audit.mjs
+      - name: Produce reference overlays and diff images
+        if: always()
+        run: python tests/visual/compare.py
+      - name: Upload audit images and measurements
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: transfi-visual-audit
+          path: tests/visual/output
+          if-no-files-found: warn
+      - name: Publish selected screenshots and comparison report
+        if: always()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add tests/visual/output
+          if ! git diff --cached --quiet; then
+            git commit -m "Update TransFi visual QA screenshots"
+            git push origin HEAD:main
+          fi
+      - name: Fail on reproducible layout errors
+        if: steps.audit.outcome == 'failure'
+        run: exit 1
