@@ -27,10 +27,11 @@ jobs:
             const browser = await chromium.launch({channel:'chrome',headless:true});
             for(const width of [390,1440]) {
               const page=await browser.newPage({viewport:{width,height:900}});
+              page.setDefaultTimeout(7000);
               const errors=[];
               page.on('pageerror',e=>errors.push(String(e)));
               page.on('console',msg=>{if(msg.type()==='error')errors.push(msg.text())});
-              await page.goto('file://'+path.resolve('transfi-remittance/index.html'));
+              await page.goto('file://'+path.resolve('transfi-remittance/index.html'),{waitUntil:'domcontentloaded'});
               await page.waitForTimeout(200);
               const snapshot=async(label)=>console.log(JSON.stringify({width,label,title:await page.locator('#phoneTitle').innerText().catch(()=>null),steps:await page.locator('#stageLabel').innerText().catch(()=>null),errors:[...errors]}));
               await snapshot('initial');
@@ -53,7 +54,7 @@ jobs:
               if(width<740) {
                 await page.locator('.phone.tf-phone .back').click();
                 await page.locator('.phone.tf-phone .back').click();
-                await page.locator('#methodLayer .tf-method-dim').click();
+                await page.locator('#methodLayer .tf-method-dim').click({position:{x:10,y:10}});
               } else {
                 await page.locator('#flow-home').click();
               }
