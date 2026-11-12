@@ -194,6 +194,121 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid 
 .phone.tf-phone .tf-static-source strong{font-weight:600}
 .phone.tf-phone .back[hidden]{display:none}
 
+
+/* Visual alignment to original alt.vu reference screens (430×932 CSS px, 3× raster).
+   Scoped to the prototype; does not modify generated css/alt-vu-wallet.css. */
+.phone.tf-phone{
+  --ph:932px;width:430px;height:932px;max-width:100%;
+  background:var(--n50,#f6f7f8);
+}
+.phone.tf-phone .sb{
+  box-sizing:border-box;flex:0 0 42px;height:42px;
+  padding:11px 22px 0;font-size:14px;font-weight:600;
+}
+.phone.tf-phone .tf-status-icons{display:flex;align-items:center;gap:5px}
+.phone.tf-phone .tf-status-icons svg{display:block}
+.phone.tf-phone .head{
+  box-sizing:border-box;min-height:62px;padding:8px 16px 14px;
+}
+.phone.tf-phone .head .h1{font-size:18px;font-weight:600;line-height:24px}
+.phone.tf-phone .back{background:rgba(255,255,255,.92);box-shadow:0 1px 3px #1615141a,inset 0 0 0 1px #16151410}
+.phone.tf-phone .tf-scroll{box-sizing:border-box;padding:8px 16px 18px}
+.phone.tf-phone .tf-foot{box-sizing:border-box;padding:10px 16px 34px}
+.phone.tf-phone .tf-foot .btn{box-shadow:0 6px 15px #cbf14a33}
+.phone.tf-phone .home{width:114px;height:5px;bottom:9px;background:#161514}
+.phone.tf-phone .tf-home-toolbar{display:none;margin-left:auto;gap:9px}
+.phone.tf-phone.is-home{
+  background:
+    radial-gradient(ellipse 220px 235px at 11% 4%,rgba(131,226,202,.56),transparent 78%),
+    radial-gradient(ellipse 185px 245px at 86% 7%,rgba(207,244,85,.40),transparent 80%),
+    #f6f7f8;
+}
+.phone.tf-phone.is-home .head{padding-top:4px;padding-bottom:12px}
+.phone.tf-phone.is-home .head .h1{font-size:18px}
+.phone.tf-phone.is-home .tf-home-toolbar{display:flex}
+.phone.tf-phone.is-home .tf-home-tool{
+  width:40px;height:40px;border-radius:50%;display:grid;place-items:center;
+  background:rgba(255,255,255,.91);box-shadow:0 1px 4px #16151418,inset 0 0 0 1px #16151412;position:relative
+}
+.phone.tf-phone.is-home .tf-home-badge{position:absolute;top:-2px;right:-2px;background:#f15b38;color:white;border:2px solid white;border-radius:50%;font-size:11px;line-height:17px;text-align:center;width:21px;height:21px}
+.phone.tf-phone .tf-home-card{
+  box-sizing:border-box;position:relative;height:198px;overflow:hidden;margin:9px 0 20px;
+  border-radius:22px;background:linear-gradient(125deg,#131313 0%,#030303 58%);
+  color:white;box-shadow:0 13px 22px #16151424
+}
+.phone.tf-phone .tf-home-card::before{
+  content:"A";position:absolute;top:-102px;left:-20px;
+  font-size:340px;font-weight:800;line-height:1;letter-spacing:-30px;
+  color:#3c3c3c;opacity:.72;transform:skew(-8deg);pointer-events:none
+}
+.phone.tf-phone .tf-home-card .tf-card-settings{position:absolute;right:20px;top:20px;color:#fff}
+.phone.tf-phone .tf-home-card .tf-card-balance{position:absolute;left:22px;bottom:47px;font-size:13px;color:#c7c7c7}
+.phone.tf-phone .tf-home-card .tf-card-amount{position:absolute;left:22px;bottom:20px;font-size:28px;line-height:31px;font-weight:650;letter-spacing:-.5px}
+.phone.tf-phone .tf-home-card .tf-card-amount small{font-size:18px}
+.phone.tf-phone .tf-home-card .tf-card-visa{position:absolute;right:16px;bottom:21px;text-align:right;font-style:italic;font-size:30px;line-height:26px;font-weight:800}
+.phone.tf-phone .tf-home-card .tf-card-visa small{display:block;font-style:normal;font-size:12px;font-weight:400;line-height:19px}
+.phone.tf-phone .tf-home-actions{display:flex;justify-content:space-around;gap:10px;margin:0 0 24px}
+.phone.tf-phone .tf-home-action{
+  display:flex;flex:1;min-width:0;min-height:75px;flex-direction:column;align-items:center;justify-content:flex-start;
+  gap:9px;border:0;background:transparent!important;box-shadow:none;color:var(--n900);font:500 13px/18px Inter,system-ui,sans-serif
+}
+.phone.tf-phone .tf-home-action .tf-home-action-icon{
+  width:48px;height:48px;border-radius:50%;background:white;
+  box-shadow:0 1px 3px #00000016;display:grid;place-items:center;color:var(--n900)
+}
+.phone.tf-phone .tf-home-action.primary .tf-home-action-icon{background:var(--brand)}
+.phone.tf-phone .tf-home-action .tf-home-action-icon svg{width:25px;height:25px}
+.phone.tf-phone .tf-home-history-head{display:flex;justify-content:space-between;align-items:baseline;margin:0 0 13px}
+.phone.tf-phone .tf-home-history-head h2{font-size:22px;line-height:29px;font-weight:650;margin:0}
+.phone.tf-phone .tf-home-history-head span{font-size:14px;font-weight:500;color:var(--brand-600,#12833a)}
+.phone.tf-phone .tf-history-group{border-radius:19px;overflow:hidden;background:white;margin:0 0 12px;box-shadow:0 1px 2px #00000009}
+.phone.tf-phone .tf-history-group-title{padding:12px 14px;font-weight:600;font-size:14px;border-bottom:1px solid var(--n100)}
+.phone.tf-phone .tf-history-item{display:flex;gap:11px;align-items:center;min-height:58px;padding:10px 12px;border-bottom:1px solid var(--n100);font-size:13px}
+.phone.tf-phone .tf-history-item:last-child{border-bottom:0}
+.phone.tf-phone .tf-history-glyph{height:35px;width:35px;flex:0 0 35px;display:grid;place-items:center;background:var(--n100);border-radius:50%;font-size:21px}
+.phone.tf-phone .tf-history-desc{flex:1;min-width:0}
+.phone.tf-phone .tf-history-desc b{display:block;font-size:14px;line-height:19px;font-weight:550;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.phone.tf-phone .tf-history-desc small{display:block;font-size:11px;color:var(--n500);margin-top:2px}
+.phone.tf-phone .tf-history-value{text-align:right;font-weight:600;font-size:13px;flex:none}
+.phone.tf-phone .tf-history-value.positive{color:#0f7533}
+.phone.tf-phone .tf-history-value small{display:block;font-size:11px;color:var(--n500);font-weight:400;margin-top:2px}
+.phone.tf-phone .tf-method-dim{background:rgba(0,0,0,.47)}
+.phone.tf-phone .tf-method-sheet{
+  background:var(--n50,#f6f7f8);padding:10px 16px 29px;border-radius:25px 25px 0 0;
+  box-shadow:0 -6px 30px #00000010;max-height:78%
+}
+.phone.tf-phone .tf-method-grab{background:#999;width:36px;height:4px;margin:0 auto 19px}
+.phone.tf-phone .tf-method-title{font-size:21px;line-height:29px;font-weight:650;margin:0 0 15px}
+.phone.tf-phone .tf-method-group{font-size:12px;margin:17px 5px 8px;font-weight:500}
+.phone.tf-phone .tf-method-row{
+  border:0;border-radius:17px;min-height:64px;margin:0 0 10px;padding:10px 13px;
+  gap:12px;background:#fff;box-shadow:0 1px 2px #0000000b
+}
+.phone.tf-phone .tf-method-row:first-of-type{border:0}
+.phone.tf-phone .tf-method-icon{background:var(--n100);height:40px;width:40px}
+.phone.tf-phone .tf-method-icon img{width:25px;height:25px;object-fit:contain;border-radius:50%}
+.phone.tf-phone .tf-method-details b{font-size:16px;font-weight:550}
+.phone.tf-phone .tf-method-details small{font-size:12px;font-weight:400}
+.phone.tf-phone .tf-method-chevron{font-size:25px}
+.phone.tf-phone .fld.w,.phone.tf-phone .box,.phone.tf-phone .tbl{box-shadow:0 1px 2px #1615140a}
+.phone.tf-phone .fld{border-radius:16px}
+.phone.tf-phone .tf-deposit-currency{margin-top:0}
+.phone.tf-phone .tf-requisites{margin-top:0}
+.phone.tf-phone .tf-copyrow{min-height:65px}
+.phone.tf-phone .tf-copyrow .rt{font-size:15px}
+.phone.tf-phone .tf-copyrow .rt i{font-size:12px;color:var(--n500)}
+/* screenshot mode: 430 × 932 logical px; use Playwright deviceScaleFactor 3 for 1290 × 2796 raster */
+html.tf-capture,html.tf-capture body{width:430px;height:932px;min-height:0;overflow:hidden;background:#f6f7f8}
+.tf-capture .top,.tf-capture .sidebar,.tf-capture .apiBox,.tf-capture .stage,.tf-capture .mobilemenu,.tf-capture .devtools{display:none!important}
+.tf-capture .proto-shell{display:block!important;margin:0;min-height:0;max-width:none}
+.tf-capture .workspace{padding:0;margin:0;display:block}
+.tf-capture .phone.tf-phone{box-sizing:border-box;border:0;box-shadow:none;border-radius:0;width:430px;max-width:none;height:932px;min-height:932px}
+@media(max-width:740px){
+  .phone.tf-phone{height:calc(100dvh - 151px);min-height:630px;max-width:100%;width:430px}
+  .phone.tf-phone.is-home{height:calc(100dvh - 151px)}
+  .tf-capture .phone.tf-phone,.tf-capture .phone.tf-phone.is-home{height:932px;min-height:932px;width:430px}
+}
+
 </style></head>
 <body>
 <header class="top"><div class="brand">alt.vu <span>/ Международные переводы · прототип</span></div><span class="chip">v8 · компоненты приложения</span></header>
@@ -207,8 +322,8 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid 
 <main class="workspace"><div class="stage"><span id="stageLabel"></span><span id="stageIndex"></span></div>
 <div class="devtools" id="recipientTools" hidden><button class="devFill" type="button" onclick="fillDemo()">Заполнить тестовые реквизиты</button></div>
 <div class="phone tf-phone">
-<div class="sb"><span>9:41</span><span>●●● ▰</span></div>
-<div class="head"><button class="back" aria-label="Назад" onclick="goBack()"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg></button><div class="h1" id="phoneTitle">Международный перевод</div></div>
+<div class="sb"><span>9:41</span><span class="tf-status-icons" aria-label="Индикаторы сети и батареи"><svg width="20" height="15" viewBox="0 0 20 15" fill="currentColor" aria-hidden="true"><rect x="0" y="9" width="4" height="6" rx="1"/><rect x="5.5" y="6" width="4" height="9" rx="1"/><rect x="11" y="3" width="4" height="12" rx="1"/><rect x="16.5" y="0" width="3.5" height="15" rx="1"/></svg><svg width="19" height="15" viewBox="0 0 20 16" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" aria-hidden="true"><path d="M1 5c5.4-5 12.6-5 18 0M4 9c3.5-3.2 8.5-3.2 12 0M8 13c1.2-.9 2.8-.9 4 0"/></svg><svg width="25" height="14" viewBox="0 0 25 14" fill="none" aria-hidden="true"><rect x=".8" y="1.2" width="21.3" height="11.6" rx="3" stroke="currentColor" stroke-width="1.4"/><rect x="3" y="3.4" width="16.8" height="7.2" rx="1.3" fill="currentColor"/><path d="M23 5v4c2 0 2-4 0-4" fill="currentColor"/></svg></span></div>
+<div class="head"><button class="back" aria-label="Назад" onclick="goBack()"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg></button><div class="h1" id="phoneTitle">Международный перевод</div><div class="tf-home-toolbar" aria-hidden="true"><span class="tf-home-tool"><svg width="22" height="22" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"/></svg><span class="tf-home-badge">2</span></span><span class="tf-home-tool"><svg width="22" height="22" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M20 11.6a8 8 0 0 1-8 8c-1.3 0-2.5-.3-3.6-.8L4 20l1.2-4.4A8 8 0 1 1 20 11.6Z"/></svg></span></div></div>
 <div class="tf-scroll" id="content"></div><div class="tf-foot" id="footer"></div><div class="home"></div>
 </div></main>
 <aside class="apiBox"><div class="sideLabel">Пояснение к экрану</div><h2 id="metaTitle"></h2><p id="metaDescription"></p>
@@ -336,7 +451,7 @@ function uxOtherMethod(name){
 }
 
 function uxMethodRow(name,description,symbol,handler){
-  return `<button type="button" class="tf-method-row" onclick="${handler}"><span class="tf-method-icon" aria-hidden="true">${esc(symbol)}</span><span class="tf-method-details"><b>${esc(name)}</b><small>${esc(description)}</small></span><span class="tf-method-chevron" aria-hidden="true">›</span></button>`;
+  return `<button type="button" class="tf-method-row" onclick="${handler}"><span class="tf-method-icon" aria-hidden="true">${name==='USDT'?'<img src="../assets/img-df9900c4.png" alt=""/>':name==='USDC'?'<img src="../assets/img-a82008b8.png" alt=""/>':name==='ALT.VU'?'<img src="../assets/img-27f3d8cf.png" alt=""/>':esc(symbol)}</span><span class="tf-method-details"><b>${esc(name)}</b><small>${esc(description)}</small></span><span class="tf-method-chevron" aria-hidden="true">›</span></button>`;
 }
 
 function uxRenderMethods(){
@@ -400,12 +515,26 @@ function uxSetOutCountry(country){
 
 function uxRenderScreen(){
   if(S.screen==='home')return {
-    head:'Кошелёк',
-    p:`<div class="tf-home-summary"><p class="tf-home-caption">Общий баланс</p><div class="tf-home-amount">1 250,00 USD</div></div>
+    head:'Николай ›',
+    p:`<div class="tf-home-screen">
+    <section class="tf-home-card" aria-label="Карта и единый USD-баланс">
+      <span class="tf-card-settings" aria-hidden="true"><svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9.7 2.8 9 5.2l-2 1-2.3-.8-1.6 2.8 1.8 1.7v2.4L3.1 14l1.6 2.8 2.3-.8 2 1 .7 2.4h3.2l.7-2.4 2-1 2.3.8 1.6-2.8-1.8-1.7V9.9l1.8-1.7-1.6-2.8-2.3.8-2-1-.7-2.4Z"/><circle cx="11.3" cy="11.1" r="3"/></svg></span>
+      <span class="tf-card-balance">Баланс</span><span class="tf-card-amount">4 812<small>.60 $</small></span>
+      <span class="tf-card-visa">VISA<small>Platinum</small></span>
+    </section>
     <div class="tf-home-actions">
-      <button type="button" class="tf-home-action primary" onclick="setFlow('in')"><span class="tf-home-arrow">↓</span>Пополнить</button>
-      <button type="button" class="tf-home-action" onclick="setFlow('out')"><span class="tf-home-arrow">↑</span>Вывести</button>
-    </div><div class="tf-label">История операций</div><div class="box"><div class="tf-home-empty">Операций пока нет</div></div>`,
+      <button type="button" class="tf-home-action primary" onclick="setFlow('in')"><span class="tf-home-action-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v16m-7-7 7 7 7-7M4 22h16"/></svg></span><span>Пополнить</span></button>
+      <button type="button" class="tf-home-action" onclick="setFlow('out')"><span class="tf-home-action-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21V5m-7 7 7-7 7 7M4 2h16"/></svg></span><span>Вывести</span></button>
+      <button type="button" class="tf-home-action" onclick="uxOtherMethod('Партнёрская программа')"><span class="tf-home-action-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="7" r="4"/><path d="M2 21v-2a8 8 0 0 1 16 0m2-6v8m-4-4h8"/></svg></span><span>Заработать</span></button>
+    </div>
+    <div class="tf-home-history-head"><h2>История</h2><span>Все</span></div>
+    <div class="tf-history-group"><div class="tf-history-group-title">Сегодня</div>
+      <div class="tf-history-item"><div class="tf-history-glyph">↓</div><div class="tf-history-desc"><b>Пополнение USDT</b><small>14:02 · Успешно</small></div><div class="tf-history-value positive">+1 500.00 USD<small>1 500.00 USDT</small></div></div>
+      <div class="tf-history-item"><div class="tf-history-glyph">▤</div><div class="tf-history-desc"><b>Amazon Marketplace</b><small>11:38 · Успешно</small></div><div class="tf-history-value">−84.90 USD<small>311.79 AED</small></div></div>
+      <div class="tf-history-item"><div class="tf-history-glyph">▤</div><div class="tf-history-desc"><b>Booking.com</b><small>09:15 · Отменено</small></div><div class="tf-history-value">−212.00 USD<small>10 303.20 TRY</small></div></div>
+    </div>
+    <div class="tf-history-group"><div class="tf-history-group-title">3 сентября</div><div class="tf-history-item"><div class="tf-history-glyph">↑</div><div class="tf-history-desc"><b>Вывод USDC</b><small>19:47 · Успешно</small></div><div class="tf-history-value">−600.00 USD<small>599.20 USDC</small></div></div></div>
+    </div>`,
     f:''
   };
   if(S.screen==='in-details'){
@@ -441,6 +570,7 @@ function uxRenderScreen(){
 }
 
 function uxRender(){
+  document.querySelector('.phone.tf-phone').classList.toggle('is-home',S.screen==='home');
   _tfBaseRender();
   $('methodLayer').hidden=!S.modal;
   uxRenderMethods();
@@ -480,6 +610,19 @@ renderScreen=uxRenderScreen;
 render=uxRender;
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&S.modal)uxCloseMethods()});
 
+// Deterministic screenshot routes for Playwright: ?capture=1&flow=out&screen=out-config&rail=SEPA
+const tfQuery=new URLSearchParams(location.search);
+if(tfQuery.get('capture')==='1')document.documentElement.classList.add('tf-capture');
+const queryFlow=tfQuery.get('flow');
+if(queryFlow==='in'||queryFlow==='out')S.flow=queryFlow;
+const queryRail=tfQuery.get('rail');
+if(queryRail==='SEPA'||queryRail==='SWIFT'){
+  if(S.flow==='in'){S.inRail=queryRail;if(queryRail==='SEPA')S.inCurrency='EUR'}
+  else {S.outRail=queryRail;if(queryRail==='SEPA'){S.outCurrency='EUR';S.country='DE'}}
+}
+const queryScreen=tfQuery.get('screen');
+if(queryScreen==='home'||SCREENS[S.flow].some(([screen])=>screen===queryScreen))S.screen=queryScreen;
+if(S.screen==='home'&&(tfQuery.get('modal')==='in'||tfQuery.get('modal')==='out'))S.modal=tfQuery.get('modal');
 render();
 </script>
 </body></html>
