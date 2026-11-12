@@ -9,6 +9,11 @@ const html = pathToFileURL(path.resolve('transfi-remittance/index.html'));
 const browser=await chromium.launch({channel:'chrome',headless:true});
 const cases=[
  ['home','in','home',null,null],
+ ['history','in','history',null,null],
+ ['wallet-card','in','wallet-card',null,null],
+ ['wallet-profile','in','wallet-profile',null,null],
+ ['wallet-earn','in','wallet-earn',null,null],
+ ['wallet-notes','in','wallet-notes',null,null],
  ['topup-sheet','in','home',null,'in'],
  ['withdraw-sheet','out','home',null,'out'],
  ['in-sepa','in','in-details','SEPA',null],
