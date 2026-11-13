@@ -55,6 +55,13 @@ async def test_source(browser, origin):
     await expect(page.locator("#v-details.on")).to_be_visible()
     await expect(page.locator("#d-amt")).to_contain_text("+100")
 
+    # Original ALT.VU receive method renders its own QR and incoming
+    # peer-transfer callback opens the standard transaction details.
+    await open_source(page,"my-qr")
+    await expect(page.locator("#v-my-qr .qr-box svg")).to_be_visible()
+    await page.locator("#pv-internal-ok").click()
+    await expect(page.locator("#v-details.on")).to_be_visible()
+
     # Original crypto withdrawal: form -> check -> any demo PIN -> native success.
     await open_source(page,"out-usdt-tron")
     root=page.locator("#v-out-usdt-tron")
@@ -101,6 +108,17 @@ async def test_source(browser, origin):
     await page.locator("#pv-sbp-ok").click()
     await expect(page.locator("#v-dep-sbp-out.on")).to_be_visible(timeout=15000)
     assert "Зачислили" in await page.locator("#sbp-o-h").inner_text()
+
+    # SBP rejected callback reuses the original unsuccessful payment screen.
+    await open_source(page,"dep-sbp")
+    await page.locator("#sbp-rub").fill("8888")
+    await page.evaluate("() => sbpInput('rub')")
+    await page.wait_for_function("() => Boolean(sbp.quote && sbp.bank)",timeout=15000)
+    await page.locator("#sbp-go").click()
+    await expect(page.locator("#v-dep-sbp-qr.on, #v-dep-sbp-wait.on")).to_be_visible()
+    await page.locator("#pv-sbp-fail").click()
+    await expect(page.locator("#v-dep-sbp-out.on")).to_be_visible(timeout=15000)
+    assert "не прошла" in (await page.locator("#sbp-o-h").inner_text()).lower()
 
     # Assert no runtime JS exceptions.
     assert not errors,"Browser JS errors: "+" | ".join(errors)
