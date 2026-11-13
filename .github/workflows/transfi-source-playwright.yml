@@ -5,6 +5,7 @@ on:
     paths:
       - 'transfi-remittance/index.html'
       - 'transfi-remittance/legacy.html'
+      - 'transfi-remittance/preview-interactions.js'
       - 'tests/source-smoke.mjs'
       - '.github/workflows/transfi-source-playwright.yml'
   workflow_dispatch:
