@@ -337,6 +337,35 @@
     sbpCheck();
   }
 
+  // The bank flow runs in the original iframe; synthetic callback messages
+  // are accepted only from that frame and only for this same-origin prototype.
+  window.addEventListener('message',event=>{
+    const frame=document.querySelector('#tf-bank-overlay iframe');
+    if(!frame||event.source!==frame.contentWindow)return;
+    if(location.protocol!=='file:'&&event.origin!==location.origin)return;
+    const d=event.data;
+    if(!d||d.type!=='altvu:bank:callback'||!/^tf-bank-[0-9]+-[0-9]+$/.test(String(d.id)))return;
+    if(d.flow!=='out'||!['SEPA','SWIFT'].includes(d.rail))return;
+    const ops=data['/operations'].operations;
+    let op=ops.find(item=>item.id===d.id);
+    const cents=Math.round(Math.max(0,Number(d.amount)||0)*100);
+    const status=d.status==='success'?'confirmed':
+      d.status==='failed'?'rejected':
+      d.status==='held'?'confirming':'queued';
+    if(!op){
+      op={id:d.id,kind:'withdrawal',status,
+        title:'Вывод '+d.rail,network:d.rail.toLowerCase(),
+        coin:String(d.recipientCurrency||'EUR').toUpperCase(),
+        amount_minor:-cents,amount_crypto:String(d.receive||0),
+        fee_minor:0,address:String(d.account||''),
+        recipient_name:String(d.recipient||''),country:String(d.country||''),
+        created_at:new Date().toISOString()};
+      record(op);
+    }else{
+      op.status=status;
+      loadOps();
+    }
+  });
   function bankCallback(status){
     const overlay=document.querySelector('#tf-bank-overlay');
     const frame=overlay&&overlay.querySelector('iframe');
@@ -357,7 +386,7 @@
     if(op.preview_unsettled&&isSuccess&&op.kind==='transfer'){
       refreshBalance(op.amount_minor);
     }
-    if(!op.preview_unsettled&&!isSuccess&&op.kind==='withdrawal'&&op.status!=='rejected'){
+    if(!op.preview_unsettled&&status==='failed'&&op.kind==='withdrawal'&&op.status!=='rejected'){
       refreshBalance(-op.amount_minor);
     }
     op.status=isSuccess?(op.kind==='deposit'?'credited':'confirmed'):
