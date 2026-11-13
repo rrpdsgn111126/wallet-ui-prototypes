@@ -141,6 +141,31 @@
     return oldPvApi(path,body);
   };
 
+  // In the original screenshot-only preview paintWays was disabled. Restore
+  // available method rows without enabling any real backend or network calls.
+  const originalPaintWays=paintWays;
+  paintWays=function(){
+    if(!altPreview)return originalPaintWays();
+    const incoming=document.querySelector('#v-topup .m[data-go="dep-sbp"]');
+    if(incoming)incoming.hidden=false;
+    const seen={dep:[],out:[]};
+    networks.forEach(n=>{
+      const direction=n.can_deposit?'dep':'out';
+      const label=(typeof NETW!=='undefined'&&NETW[n.network]&&NETW[n.network].name)||n.network;
+      seen[direction].push(label);
+      if(n.can_withdraw)seen.out.push(label);
+    });
+    for(const dir of ['dep','out']){
+      const root=document.getElementById('v-'+(dir==='dep'?'topup':'withdraw'));
+      if(!root)continue;
+      root.querySelectorAll('.m[data-go^="'+dir+'-"]').forEach(row=>{
+        const coin=row.dataset.go.split('-')[1].toUpperCase();
+        const active=networks.filter(n=>n.coin===coin&&n['can_'+(dir==='dep'?'deposit':'withdraw')]);
+        row.hidden=!active.length;
+      });
+    }
+  };
+  paintWays();
   const originalLoadOps=loadOps;
   loadOps=async function(){
     if(!altPreview)return originalLoadOps();
