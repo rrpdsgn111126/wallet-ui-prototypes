@@ -345,10 +345,10 @@
     if(location.protocol!=='file:'&&event.origin!==location.origin)return;
     const d=event.data;
     if(d&&d.type==='altvu:transfi:exit'){
-      // The original source does not always dispose the method-specific
-      // overlay on bank-back. Remove only the matching active iframe wrapper.
+      // Preserve the original overlay node: the source reuses it for the
+      // next SEPA/SWIFT launch. Removing it breaks a second bank flow.
       const overlay=document.querySelector('#tf-bank-overlay');
-      if(overlay)overlay.remove();
+      if(overlay){overlay.style.display='none';overlay.setAttribute('aria-hidden','true');}
       return;
     }
     if(!d||d.type!=='altvu:bank:callback'||!/^tf-bank-[0-9]+-[0-9]+$/.test(String(d.id)))return;
