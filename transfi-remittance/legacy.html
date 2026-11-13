@@ -574,7 +574,7 @@ html.tf-capture.tf-embedded .phone.tf-phone,html.tf-capture.tf-embedded .phone.t
   box-sizing:border-box;width:100%!important;max-width:none!important;
   height:100%!important;min-height:0!important;border:0;border-radius:0;box-shadow:none
 }
-</style></head>
+</style><link rel="stylesheet" href="../css/transfi-bank-altvu.css"></head>
 <body>
 <header class="top"><div class="brand">alt.vu <span>/ Международные переводы · прототип</span></div><span class="chip">v8 · компоненты приложения</span></header>
 <div class="proto-shell">
@@ -631,6 +631,20 @@ function setOutRail(v){if(v==='SEPA'&&!isSepa())return;S.outRail=v;render()}
 function setSourceCurrency(v){S.sourceCurrency=v;render()}
 function store(k,v){S[k]=v}
 function segment(options,selected,fn){return `<div class="seg tf-seg" role="group">${options.map(o=>`<button type="button" class="${o.v===selected?'on':''}" ${o.disabled?'disabled title="Недоступно для выбранных параметров"':''} aria-pressed="${o.v===selected}" onclick="${fn}('${esc(o.v)}')">${esc(o.label??o.v)}</button>`).join('')}</div>`}
+// SVG icon primitives follow the original alt.vu style (24px viewBox, 1.8–2.2px strokes).
+function tfStatusMark(type){
+ const paths={
+  pending:'<circle cx="12" cy="12" r="9"/><path d="M12 6v6l4 2"/>',
+  held:'<path d="M12 2.5 20 6.5v5.2c0 4.7-3 8-8 9.8-5-1.8-8-5.1-8-9.8V6.5Z"/><path d="M12 7v6"/><path d="M12 16.5v.1"/>',
+  failed:'<circle cx="12" cy="12" r="9"/><path d="m8.5 8.5 7 7m0-7-7 7"/>',
+  success:'<path d="m5.5 12.3 4.4 4.2 8.7-9.2"/>'
+ };
+ const circle=type==='success'?'okc':'tf-mark '+type;
+ return '<div class="'+circle+'"><svg width="35" height="35" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+paths[type]+'</svg></div>';
+}
+function tfBankReviewRow(label,value){
+ return '<div class="row tf-review-row"><div class="rt">'+esc(label)+'</div><div class="rv">'+esc(value)+'</div></div>';
+}
 function title(text){return `<div class="h2 tf-status-title">${esc(text)}</div>`}
 const fieldIcon=`<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--n850)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="14" rx="3"/><path d="M3.5 10h17"/></svg>`;
 function field(label,key,placeholder,{optional=false,hint='',type='text'}={}){return `<div class="fld w tf-field" id="wrap-${key}"><div class="fi">${fieldIcon}</div><label class="fl" for="f-${key}"><i>${esc(label)}${optional?' · необязательно':''}</i><input id="f-${key}" type="${type}" placeholder="${esc(placeholder)}" value="${esc(S[key])}" oninput="store('${key}',this.value)" autocomplete="off"/></label></div>`}
@@ -660,9 +674,9 @@ case'in-details':{
  <div class="tf-label">Способ перевода</div>${segment([{v:'SEPA',disabled:!sepaEnabled},{v:'SWIFT'}],S.inRail,'setIncomingRail')}
  <div class="box tf-requisites">${rows.map(([k,v],i)=>copyrow(k,v,i)).join('')}</div>`;
  f=primary('Скопировать все реквизиты','copyAll()');break;}
-case'in-pending':p=`<div class="tf-hero"><div class="tf-mark pending">◷</div>${title('Ожидаем поступление')}<p>Платёж отобразится после подтверждения банка</p></div>${timeline('in')}`;f=action('Вернуться к реквизитам',"go('in-details')");break;
-case'in-success':p=`<div class="hero tf-hero"><div class="okc">✓</div>${title('Деньги зачислены')}</div><div class="tbl">${keyrow('Валюта',S.inCurrency)}${keyrow('Сумма','По факту зачисления')}${keyrow('Статус','Завершено')}</div>`;f=primary('К реквизитам',"go('in-details')");break;
-case'in-held':p=`<div class="tf-hero"><div class="tf-mark pending">⋯</div>${title('Поступление на проверке')}<p>Средства пока недоступны для использования</p></div><div class="tbl">${keyrow('Валюта',S.inCurrency)}${keyrow('Статус','На проверке')}</div>`;f=primary('К реквизитам',"go('in-details')");break;
+case'in-pending':p=`<div class="tf-hero">${tfStatusMark('pending')}${title('Ожидаем поступление')}<p>Платёж отобразится после подтверждения банка</p></div>${timeline('in')}`;f=action('Вернуться к реквизитам',"go('in-details')");break;
+case'in-success':p=`<div class="hero tf-hero">${tfStatusMark('success')}${title('Деньги зачислены')}</div><div class="tbl">${keyrow('Валюта',S.inCurrency)}${keyrow('Сумма','По факту зачисления')}${keyrow('Статус','Завершено')}</div>`;f=primary('К реквизитам',"go('in-details')");break;
+case'in-held':p=`<div class="tf-hero">${tfStatusMark('held')}${title('Поступление на проверке')}<p>Средства пока недоступны для использования</p></div><div class="tbl">${keyrow('Валюта',S.inCurrency)}${keyrow('Статус','На проверке')}</div>`;f=primary('К реквизитам',"go('in-details')");break;
 case'out-config':p=`
 <div class="tf-label">Валюта списания</div>${segment(CURRENCY.map(v=>({v})),S.sourceCurrency,'setSourceCurrency')}
 <div class="tf-label">Валюта получения</div>${segment(CURRENCY.map(v=>({v})),S.outCurrency,'setOutCurrency')}
@@ -678,14 +692,21 @@ ${S.outRail==='SWIFT'?`<details class="tf-more"><summary>Дополнитель�
 ${selectField('Назначение перевода','purpose',[['personal','Перевод собственных средств'],['family','Перевод родственникам'],['education','Обучение'],['other','Другое']])}
 ${S.purpose==='other'?field('Уточнение назначения','purposeOther','Опишите назначение перевода'):''}`;
 f=primary('Проверить перевод','checkRecipient()');break;
-case'out-review':p=`<div class="tbl">${keyrow('Метод',S.outRail)}${keyrow('ФИО',[S.firstName,S.lastName].filter(Boolean).join(' '))}${keyrow('Страна',COUNTRY[S.country])}${keyrow('Счёт',S.outRail==='SEPA'?S.iban:S.account)}${keyrow('Назначение',purposeName())}</div>
-<div class="tf-label">Расчёт</div><div class="tbl tf-quote">${qSummary()}</div>`;
+case'out-review':p=`<div class="amt tf-review-amount">${esc(money(q.amt,S.sourceCurrency))}</div>
+<div class="amsub">${esc(S.outRail)} · Международный банковский перевод</div>
+<div class="box tf-review-box">
+${tfBankReviewRow('Метод',S.outRail)}
+${tfBankReviewRow('ФИО',[S.firstName,S.lastName].filter(Boolean).join(' '))}
+${tfBankReviewRow('Страна',COUNTRY[S.country])}
+${tfBankReviewRow('Счёт',S.outRail==='SEPA'?S.iban:S.account)}
+${tfBankReviewRow('Назначение',purposeName())}
+</div><div class="gt">Расчёт</div><div class="tbl tf-quote">${qSummary()}</div>`;
 f=primary('Подтвердить перевод','checkReview()');break;
-case'out-progress':p=`<div class="tf-hero"><div class="tf-mark pending">◷</div>${title('Перевод обрабатывается')}<p>Ожидаем подтверждение платёжного провайдера</p></div>${timeline('out')}<div class="tbl">${keyrow('Сумма',money(q.amt,S.sourceCurrency))}${keyrow('Получит',money(q.receive,S.outCurrency))}${keyrow('Метод',S.outRail)}</div>`;f='';break;
-case'out-success':p=`<div class="hero tf-hero"><div class="okc">✓</div>${title('Перевод завершён')}</div><div class="tbl">${keyrow('Получатель',`${S.firstName} ${S.lastName}`)}${keyrow('Получит',money(q.receive,S.outCurrency))}${keyrow('Метод',S.outRail)}</div>`;f=primary('Новый перевод',"go('out-config')");break;
-case'out-failed':p=`<div class="tf-hero"><div class="tf-mark failed">×</div>${title('Перевод не выполнен')}<p>Проверьте реквизиты получателя</p></div><div class="tbl">${keyrow('Получатель',`${S.firstName} ${S.lastName}`)}${keyrow('Статус','Ошибка операции')}</div>`;f=primary('Исправить реквизиты',"go('out-recipient')");break;
-case'out-held':p=`<div class="tf-hero"><div class="tf-mark pending">⋯</div>${title('Перевод на проверке')}<p>Ожидаем решение платёжного провайдера</p></div><div class="tbl">${keyrow('Статус','На проверке')}${keyrow('Получатель',`${S.firstName} ${S.lastName}`)}</div>`;f='';break;
-case'out-unavailable':p=`<div class="tf-hero"><div class="tf-mark failed">×</div>${title('Перевод недоступен')}<p>Для выбранного направления нет доступного метода</p></div><div class="tbl">${keyrow('Страна',COUNTRY[S.country])}${keyrow('Валюты',`${S.sourceCurrency} → ${S.outCurrency}`)}${keyrow('Метод',S.outRail)}</div>`;f=primary('Изменить параметры',"go('out-config')");break;
+case'out-progress':p=`<div class="tf-hero">${tfStatusMark('pending')}${title('Перевод обрабатывается')}<p>Ожидаем подтверждение платёжного провайдера</p></div>${timeline('out')}<div class="tbl">${keyrow('Сумма',money(q.amt,S.sourceCurrency))}${keyrow('Получит',money(q.receive,S.outCurrency))}${keyrow('Метод',S.outRail)}</div>`;f='';break;
+case'out-success':p=`<div class="hero tf-hero">${tfStatusMark('success')}${title('Перевод завершён')}</div><div class="tbl">${keyrow('Получатель',`${S.firstName} ${S.lastName}`)}${keyrow('Получит',money(q.receive,S.outCurrency))}${keyrow('Метод',S.outRail)}</div>`;f=primary('Новый перевод',"go('out-config')");break;
+case'out-failed':p=`<div class="tf-hero">${tfStatusMark('failed')}${title('Перевод не выполнен')}<p>Проверьте реквизиты получателя</p></div><div class="tbl">${keyrow('Получатель',`${S.firstName} ${S.lastName}`)}${keyrow('Статус','Ошибка операции')}</div>`;f=primary('Исправить реквизиты',"go('out-recipient')");break;
+case'out-held':p=`<div class="tf-hero">${tfStatusMark('held')}${title('Перевод на проверке')}<p>Ожидаем решение платёжного провайдера</p></div><div class="tbl">${keyrow('Статус','На проверке')}${keyrow('Получатель',`${S.firstName} ${S.lastName}`)}</div>`;f='';break;
+case'out-unavailable':p=`<div class="tf-hero">${tfStatusMark('failed')}${title('Перевод недоступен')}<p>Для выбранного направления нет доступного метода</p></div><div class="tbl">${keyrow('Страна',COUNTRY[S.country])}${keyrow('Валюты',`${S.sourceCurrency} → ${S.outCurrency}`)}${keyrow('Метод',S.outRail)}</div>`;f=primary('Изменить параметры',"go('out-config')");break;
 }
 return {p,f,head};}
 function purposeName(){return {personal:'Перевод собственных средств',family:'Перевод родственникам',education:'Обучение',other:S.purposeOther||'Другое'}[S.purpose]}
@@ -893,7 +914,7 @@ function uxRenderScreen(){
     return{
       head:'Вывод · '+S.outRail,
       p:`<div class="tf-route"><strong>${esc(S.outRail)}</strong>Банковский перевод</div>
-      <div class="tf-label">Списать с баланса</div><div class="tf-static-source"><span>Валюта баланса</span><strong>USD</strong></div>
+      <div class="fld g tf-field tf-source"><div class="fi"><div class="cn" style="width:40px;height:40px"><img width="24" height="24" src="../assets/img-27f3d8cf.png" alt="" style="display:block;border-radius:50%"></div></div><div class="fl"><i>Со счёта alt.vu</i><b>Доступно 4 812.60 $</b></div><div class="addon"><span class="cur">USD</span></div></div>
       <div class="tf-label">Валюта получения</div>${segment(currencies.map(v=>({v})),S.outCurrency,'setOutCurrency')}
       <div class="fld w tf-field"><div class="fi">${fieldIcon}</div><label class="fl"><i>Страна получателя</i><select class="tf-select" aria-label="Страна получателя" onchange="setOutCountry(this.value)">${countries.map(([c,name])=>`<option value="${c}" ${S.country===c?'selected':''}>${esc(name)}</option>`).join('')}</select></label></div>
       <div class="fld w tf-field tf-amount"><div class="fi">${fieldIcon}</div><label class="fl"><i>Сумма перевода</i><input type="number" min="0" step="0.01" inputmode="decimal" aria-label="Сумма перевода" value="${esc(S.amount)}" oninput="store('amount',this.value);renderQuote()"/></label><div class="addon"><span class="cur">USD</span></div></div>
