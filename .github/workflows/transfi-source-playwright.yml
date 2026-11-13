@@ -1,0 +1,27 @@
+name: Alt.vu source HTML parity
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'transfi-remittance/index.html'
+      - 'transfi-remittance/legacy.html'
+      - 'tests/source-smoke.mjs'
+      - '.github/workflows/transfi-source-playwright.yml'
+  workflow_dispatch:
+jobs:
+  source-parity:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Playwright
+        run: npm install --no-save playwright@1.56.1
+      - name: Check native source markup and TransFi links
+        run: node tests/source-smoke.mjs
+      - name: Upload captured original screens
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: alt-vu-source-screens
+          path: tests/source-output
+          if-no-files-found: warn

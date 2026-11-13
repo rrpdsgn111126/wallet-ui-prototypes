@@ -5,7 +5,7 @@ import { pathToFileURL } from 'node:url';
 
 const output = path.resolve('tests/visual/output');
 fs.mkdirSync(output,{recursive:true});
-const html = pathToFileURL(path.resolve('transfi-remittance/index.html'));
+const html = pathToFileURL(path.resolve('transfi-remittance/legacy.html'));
 const browser=await chromium.launch({channel:'chrome',headless:true});
 const cases=[
  ['home','in','home',null,null],

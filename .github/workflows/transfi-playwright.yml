@@ -3,7 +3,7 @@ on:
   push:
     branches: [main]
     paths:
-      - 'transfi-remittance/index.html'
+      - 'transfi-remittance/legacy.html'
       - '.github/workflows/transfi-playwright.yml'
   workflow_dispatch:
 jobs:
@@ -16,7 +16,7 @@ jobs:
         run: npm install --no-save playwright@1.56.1
       - name: Validate inline JavaScript syntax
         run: |
-          node -e "const fs=require('fs');const h=fs.readFileSync('transfi-remittance/index.html','utf8');fs.writeFileSync('/tmp/transfi-check.js',h.split('<script>')[1].split('</script>')[0])"
+          node -e "const fs=require('fs');const h=fs.readFileSync('transfi-remittance/legacy.html','utf8');fs.writeFileSync('/tmp/transfi-check.js',h.split('<script>')[1].split('</script>')[0])"
           node --check /tmp/transfi-check.js
       - name: Check flow in Chromium
         run: |
@@ -31,7 +31,7 @@ jobs:
               const errors=[];
               page.on('pageerror',e=>errors.push(String(e)));
               page.on('console',msg=>{if(msg.type()==='error')errors.push(msg.text())});
-              await page.goto('file://'+path.resolve('transfi-remittance/index.html'),{waitUntil:'domcontentloaded'});
+              await page.goto('file://'+path.resolve('transfi-remittance/legacy.html'),{waitUntil:'domcontentloaded'});
               await page.waitForTimeout(200);
               const snapshot=async(label)=>console.log(JSON.stringify({width,label,title:await page.locator('#phoneTitle').innerText().catch(()=>null),steps:await page.locator('#stageLabel').innerText().catch(()=>null),errors:[...errors]}));
               await snapshot('initial');

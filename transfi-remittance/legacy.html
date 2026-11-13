@@ -1,0 +1,992 @@
+<!doctype html>
+<html lang="ru">
+<head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+<title>Международные переводы · alt.vu · source components</title>
+<link rel="stylesheet" href="../css/alt-vu-wallet.css">
+<style>
+/* Исходные правила компонентов alt.vu из css/alt-vu-wallet.css, изолированные внутри .tf-phone */
+@font-face{font-family:Inter;font-style:normal;font-weight:400;font-display:swap;src:url(../assets/inter-57776453.woff2)format("woff2");unicode-range:U+0E01-0E5B,U+0E5C-0E7F,U+200B,U+25CC}
+@font-face{font-family:Inter;font-style:normal;font-weight:600;font-display:swap;src:url(../assets/inter-8690b63c.woff2)format("woff2");unicode-range:U+0E01-0E5B,U+0E5C-0E7F,U+200B,U+25CC}
+@font-face{font-family:Inter;font-style:normal;font-weight:700;font-display:swap;src:url(../assets/inter-8690b63c.woff2)format("woff2");unicode-range:U+0E01-0E5B,U+0E5C-0E7F,U+200B,U+25CC}
+@font-face{font-family:Inter;src:url(../assets/inter-e06f6b1b.woff2)format("woff2");font-weight:400}
+@font-face{font-family:Inter;src:url(../assets/inter-0ff3e946.woff2)format("woff2");font-weight:500}
+@font-face{font-family:Inter;src:url(../assets/inter-5cb7103e.woff2)format("woff2");font-weight:600}
+@font-face{font-family:Inter;src:url(../assets/inter-fa888127.woff2)format("woff2");font-weight:700}
+.phone.tf-phone{position:relative;width:430px;height:var(--ph);overflow:hidden;background:var(--n50);
+  --brand:#cbf14a;--brand-ink:#161514;--brand-600:#12833a;
+  --acc-bg:#f7fde2;--acc-ink:#607a09;
+  --spot:#cbf14a;--spot2:#00d18a;
+  --card-a:#a9cf46;--card-b:#8fb833;--glow:#ffffff2e;
+  
+  --sbn-a:#171a12;
+  --n50:#f6f7f8;--n100:#e9ecf0;--n300:#b9b7b7;--n400:#8a8686;--n500:#6b6767;
+  --n850:#211e1d;--n900:#161514;--ok:#0f7533;--err:#bd340e;--err-mark:#ec5732;--warn-bg:#f2f8dc;--warn-ink:#211e1d;--warn-mark:#5f7314;--ok-bg:#e6f2ea;--err-bg:#fbe9e4;--info-bg:#e9ecf0;--ghost:#e9f6c0;--ghost-line:#cbe08a;--coin-plate:var(--n100);
+  --cat-food-bg:#fbeee0;--cat-food-ink:#a8641c;--cat-grocery-bg:#e3f1f1;--cat-grocery-ink:#14696a;--cat-transport-bg:#e7eefc;--cat-transport-ink:#2b57bb;--cat-shop-bg:#f1e9fa;--cat-shop-ink:#653aa8;--cat-fun-bg:#fbe9f1;--cat-fun-ink:#a03668;--cat-health-bg:#e6f0fb;--cat-health-ink:#235c88;--cat-home-bg:#f3eee7;--cat-home-ink:#7a6444;--cat-money-bg:#eceef2;--cat-money-ink:#455063;--cat-other-bg:#e9ecf0;--cat-other-ink:#211e1d;}
+.phone.tf-phone .sb{position:absolute;top:0;left:0;width:430px;height:52px;z-index:5;
+  display:flex;align-items:center;justify-content:space-between;padding:16px 26px 0;
+  font-size:15px;font-weight:600;color:var(--n900)}
+.phone.tf-phone .sb .r{display:flex;align-items:center;gap:5px}
+.phone.tf-phone .home{position:absolute;left:50%;transform:translateX(-50%);bottom:8px;
+  width:140px;height:5px;border-radius:3px;background:var(--n900);z-index:6}
+.phone.tf-phone .head{position:relative;z-index:1;padding:52px 16px 14px;display:flex;align-items:center;gap:12px}
+.phone.tf-phone .back{flex:0 0 40px;width:40px;height:40px;border-radius:999px;background:var(--glass,#ffffffe6);
+  box-shadow:0 1px 3px var(--sh-2,#1615141a),inset 0 0 0 1px var(--sh-1,#16151410);
+  display:flex;align-items:center;justify-content:center;color:var(--n850)}
+.phone.tf-phone .h1{font-size:20px;font-weight:600;line-height:24px}
+.phone.tf-phone .fld{display:flex;align-items:center;gap:14px;height:68px;border-radius:16px;
+  padding:0 16px;margin-bottom:12px}
+.phone.tf-phone .fld.w{background:var(--surface,#fff);box-shadow:0 1px 2px var(--sh-1,#1615140a)}
+.phone.tf-phone .fld.g{background:var(--n100)}
+.phone.tf-phone .fld .fi{flex:0 0 40px;width:40px;height:40px;border-radius:999px;background:var(--n50);
+  display:flex;align-items:center;justify-content:center}
+.phone.tf-phone .fld.w .fi{background:var(--n50)}
+.phone.tf-phone .fl{flex:1;min-width:0}
+.phone.tf-phone .fl i{display:block;font-size:12px;font-weight:400;line-height:16px;color:var(--n500);font-style:normal}
+.phone.tf-phone .fl b{display:block;font-size:16px;font-weight:500;line-height:22px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.phone.tf-phone .addon{display:flex;align-items:center;gap:12px;flex:0 0 auto}
+.phone.tf-phone .mx{padding:10px 14px;border-radius:999px;background:var(--n100);
+  font-size:13px;font-weight:600;color:var(--n850);letter-spacing:.3px}
+.phone.tf-phone .cur{font-size:16px;font-weight:500;color:var(--n500)}
+.phone.tf-phone .btn, .phone.tf-phone .btno{height:52px;border-radius:16px;font-size:16px;font-weight:600;
+  display:flex;align-items:center;justify-content:center;gap:8px}
+.phone.tf-phone .btn{background:var(--brand);color:var(--brand-ink);box-shadow:0 6px 14px #cbf14a5c}
+.phone.tf-phone .btno{background:var(--n100);color:var(--n850);border:0;margin-top:12px}
+.phone.tf-phone .fl input{display:block;width:100%;border:0;outline:0;background:none;padding:0;
+  font:inherit;font-size:16px;font-weight:500;line-height:22px;color:var(--n900)}
+.phone.tf-phone .fl input::placeholder{color:var(--n300);font-weight:400}
+.phone.tf-phone .box{background:var(--surface,#fff);border-radius:20px;overflow:hidden;box-shadow:0 1px 2px var(--sh-1,#1615140a);margin-bottom:12px}
+.phone.tf-phone .row{display:flex;align-items:center;gap:12px;min-height:60px;padding:10px 16px;
+  box-shadow:inset 0 1px 0 var(--n50)}
+.phone.tf-phone .row:first-child{box-shadow:none}
+.phone.tf-phone .row .rt{flex:1;min-width:0;font-size:16px;font-weight:500;line-height:22px}
+.phone.tf-phone .row .rt i{display:block;font-size:12px;font-weight:400;line-height:16px;color:var(--n500);font-style:normal}
+.phone.tf-phone .rl{display:flex;justify-content:space-between;gap:16px;padding:8px 0;font-size:14px;line-height:20px}
+.phone.tf-phone .rl span{color:var(--n500);flex:1 1 auto;min-width:0;overflow-wrap:anywhere}
+.phone.tf-phone .rl b{font-weight:500;text-align:right;flex:0 0 auto;max-width:52%;overflow-wrap:anywhere}
+.phone.tf-phone .hero{text-align:center;padding:0 8px}
+.phone.tf-phone .hero .h2{font-size:28px;font-weight:600;line-height:34px;margin:18px 0 8px}
+.phone.tf-phone .hero .p{font-size:15px;font-weight:400;line-height:21px;color:var(--n500);
+  margin-bottom:22px;text-wrap:balance}
+.phone.tf-phone .okc{width:88px;height:88px;border-radius:999px;background:var(--brand);margin:0 auto;
+  display:flex;align-items:center;justify-content:center}
+.phone.tf-phone .head{padding-top:calc(14px + env(safe-area-inset-top))}
+.phone.tf-phone .btn{cursor:pointer;user-select:none;border:0;width:100%;font:inherit}
+.phone.tf-phone .mx{cursor:pointer;user-select:none}
+.phone.tf-phone .btn:disabled{opacity:.45;pointer-events:none}
+.phone.tf-phone .btn:active{transform:scale(.985)}
+.phone.tf-phone .seg{display:flex;gap:2px;padding:3px;border-radius:15px;background:var(--n100)}
+.phone.tf-phone .seg button{flex:1 1 0;min-width:0;height:40px;border:0;border-radius:12px;
+  background:transparent;color:var(--n500);cursor:pointer;
+  font:600 14px/40px Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:0 4px;
+  transition:background .18s ease,color .18s ease,box-shadow .18s ease}
+.phone.tf-phone .seg button.on{background:var(--surface,#fff);color:var(--n900);box-shadow:0 1px 3px var(--sh-1,#1615140f)}
+.phone.tf-phone .seg button[disabled]{color:var(--n300);pointer-events:none}
+.phone.tf-phone .seg button:active{transform:none}
+.phone.tf-phone .fld input{flex:1;min-width:0;border:0;outline:0;background:transparent;
+  font:600 16px/22px Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  color:var(--n900);letter-spacing:0;padding:0}
+.phone.tf-phone .fld input::placeholder{color:var(--n300);font-weight:500}
+.phone.tf-phone .tbl{background:var(--surface,#fff);border-radius:20px;padding:8px 16px;box-shadow:0 1px 2px var(--sh-1,#1615140a);margin-bottom:12px}
+.phone.tf-phone .tbl .rl{padding:11px 0;border-top:1px solid var(--n50);font-size:15px;align-items:center}
+.phone.tf-phone .tbl .rl:first-child{border-top:0}
+.phone.tf-phone .tbl .rl span{color:var(--n850);font-weight:400}
+.phone.tf-phone .tbl .rl b{font-weight:500;display:flex;align-items:center;gap:8px}
+.phone.tf-phone .tbl .rl i{display:block;font-style:normal;font-size:12px;line-height:16px;color:var(--n500)}
+.phone.tf-phone .seg{display:flex;padding:4px;border-radius:999px;background:var(--n100);margin-bottom:14px}
+.phone.tf-phone .tbl .rl{border-top-color:var(--n100);margin-left:16px;padding-left:0}
+.phone.tf-phone .tbl .rl:first-child{border-top:0}
+.phone.tf-phone .tbl .rl span{display:block}
+.phone.tf-phone .tbl .rl{margin-left:0}
+.phone.tf-phone svg{display:block}
+.phone.tf-phone .fl{display:block;flex:1;min-width:0}
+.phone.tf-phone .fld .fl input{width:100%}
+
+:root{--proto-bg:#eef0f0;--proto-line:#dadddf;--proto-ink:#242522;--proto-secondary:#777b77}
+
+/* APP SHELL — undo full-screen body locking inherited from alt-vu-wallet.css.
+   Native source locks html/body to one phone viewport. This prototype has
+   desktop sidebars, a preview frame and a page that must be scrollable.
+   Never apply the real app's body/page lifecycle rules to this HTML wrapper. */
+html{
+  position:static;
+  height:auto;
+  min-height:100%;
+  overflow-x:hidden;
+  overflow-y:auto;
+  overscroll-behavior:auto;
+}
+body{
+  position:static;
+  top:auto;right:auto;bottom:auto;left:auto;
+  width:auto;
+  height:auto;
+  min-height:100vh;
+  overflow:visible;
+  overscroll-behavior:auto;
+}
+
+/* alt-vu-wallet.css has desktop presentation rules that move every .phone to
+   the center of the browser, apply scale(.75) and clip it as a standalone app.
+   Keep only native component styles, not this full-page preview transform. */
+.phone.tf-phone{
+  left:auto;right:auto;top:auto;bottom:auto;
+  transform:none;
+  clip-path:none;
+}
+body::before,.phone.tf-phone::after{content:none;display:none}
+@media screen and (min-width:1024px) and (min-height:680px){
+  .phone.tf-phone{
+    position:relative;left:auto;right:auto;top:auto;bottom:auto;
+    transform:none;transform-origin:center center;clip-path:none;
+    width:430px;max-width:100%;height:932px;margin:0;
+    border-radius:32px;
+  }
+  body::before,.phone.tf-phone::after{content:none;display:none}
+}
+
+/* Accessible preview frame: CSS grid children must be allowed to shrink. */
+.proto-shell,.workspace{min-width:0;}
+
+html,body{margin:0;min-height:100%;background:var(--proto-bg);color:var(--proto-ink);font-family:Inter,system-ui,sans-serif}
+button,select,input{font-family:inherit}button{cursor:pointer}button:disabled{cursor:not-allowed;opacity:.38}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #729421;outline-offset:3px}
+.top{height:62px;background:white;border-bottom:1px solid var(--proto-line);display:flex;align-items:center;justify-content:space-between;padding:0 26px;gap:12px}
+.brand{font-size:15px;font-weight:700}.brand span{font-weight:400;color:var(--proto-secondary)}.chip{display:inline-block;background:#f2f3f2;color:#676b66;border-radius:20px;padding:5px 10px;font-size:11px;font-weight:600}
+.proto-shell{max-width:1510px;min-height:calc(100vh - 62px);margin:auto;display:grid;grid-template-columns:232px minmax(430px,1fr) 286px}
+.sidebar{background:white;border-right:1px solid var(--proto-line);padding:26px 14px}
+.sideLabel{font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#898f88;font-weight:700;margin:8px 10px 14px}
+.entry{width:100%;display:flex;text-align:left;align-items:center;gap:10px;border:0;border-radius:13px;background:white;padding:12px 10px;margin:0 0 7px;color:#585d57}
+.entry.active,.stepBtn.active{background:#eff5e0;color:#273a0a}
+.entry .glyph{display:grid;place-items:center;width:34px;height:34px;border-radius:11px;background:#e7edd6;font-size:20px}
+.entry b{font-size:13px;display:block}.entry small{color:#90958d;display:block;font-size:10px;margin-top:3px}
+.divider{height:1px;background:var(--proto-line);margin:20px 9px}
+.stepBtn{width:100%;display:flex;align-items:center;gap:9px;border:0;border-radius:10px;background:transparent;text-align:left;padding:10px;color:#666b66;font-size:12px}
+.stepBtn .num{width:22px;height:22px;display:grid;place-items:center;background:#f1f2f1;color:#777;border-radius:7px;font-size:10px}
+.stepBtn.active .num{background:#cbf14a;color:#161514;font-weight:700}
+.asidenote{background:#f6f7f4;border-radius:13px;padding:13px;margin:18px 5px;color:#656960;font-size:11px;line-height:1.55}.asidenote b{display:block;color:#32392b;margin-bottom:5px}
+.workspace{display:flex;flex-direction:column;align-items:center;padding:18px 12px 36px;min-width:0}
+.stage{width:100%;max-width:390px;display:flex;justify-content:space-between;gap:8px;color:#71776e;font-size:11px;margin-bottom:12px}
+.devtools{width:100%;max-width:390px;display:flex;justify-content:flex-end;margin-bottom:10px}.devtools[hidden]{display:none}
+.devFill{border:1px solid #cdd2ca;background:white;color:#3c4535;border-radius:10px;padding:9px 12px;font-size:11px;font-weight:600}
+.phone.tf-phone{--ph:780px;width:390px;max-width:100%;height:780px;border-radius:32px;box-shadow:0 18px 48px #151a151c;overflow:hidden;display:flex;flex-direction:column;flex-shrink:0;position:relative;background:var(--n50,#f6f7f8);border:5px solid #202420}
+.phone.tf-phone .sb{position:relative;flex:0 0 39px;height:39px;width:100%;top:auto;left:auto;padding:10px 21px 0;font-size:12px;display:flex;justify-content:space-between}
+.phone.tf-phone .head{flex:0 0 auto;padding:12px 16px 14px;display:flex;align-items:center;gap:12px}
+.phone.tf-phone .back{border:0;flex:0 0 40px;cursor:pointer}
+.phone.tf-phone .h1{font-size:18px;line-height:24px;font-weight:600}
+.tf-scroll{flex:1;min-height:0;overflow:auto;scrollbar-width:thin;padding:10px 16px 20px}
+.tf-foot{flex:0 0 auto;padding:12px 16px 27px;background:var(--n50,#f6f7f8)}.tf-foot:empty{display:none}
+.tf-foot .btn,.tf-foot .btno{width:100%;margin:0}.tf-foot .btn:disabled{opacity:.45}
+.phone.tf-phone .home{position:absolute;bottom:9px}
+.tf-label{font-size:13px;color:var(--n500,#6b6767);font-weight:500;margin:16px 4px 8px}
+.tf-label:first-child{margin-top:0}.tf-seg{margin:0 0 8px}.tf-seg button{font-size:14px}
+.tf-field{width:100%;margin:0 0 12px}.tf-field .fi{color:var(--n850,#211e1d)}.tf-field .fl{min-width:0}
+.tf-field .fl select{width:100%;max-width:100%;border:0;outline:0;background:transparent;color:var(--n900,#161514);font-size:16px;font-weight:500;height:26px;cursor:pointer}
+.tf-field .fl input{min-width:0;max-width:100%;width:100%}.tf-field .fl i{margin-bottom:2px}
+.tf-amount{margin:16px 0 12px}.tf-amount .cur{font-size:14px}
+.tf-requisites{margin:16px 0 0}.tf-copyrow{min-height:63px;gap:6px}
+.tf-copyrow .rt{font-size:15px;line-height:20px;overflow-wrap:anywhere}.tf-copyrow .rt i{font-size:12px;margin-bottom:3px}
+.tf-copy-value{font-size:15px;font-weight:500}.tf-copy{flex:0 0 34px;width:34px;height:34px;border:0;background:var(--n50,#f6f7f8);color:var(--n850,#211e1d);border-radius:10px;display:grid;place-items:center}
+.tf-quote{margin:0}.tf-rl{display:flex;justify-content:space-between;align-items:flex-start;gap:16px}
+.tf-rl span{flex:0 1 45%;font-size:14px}.tf-rl b{flex:1 1 55%;justify-content:flex-end;text-align:right;overflow-wrap:anywhere;font-size:14px}
+.tf-more{background:var(--surface,#fff);border-radius:18px;padding:0 12px;margin-bottom:12px}
+.tf-more summary{padding:15px 5px;font-size:14px;font-weight:500;cursor:pointer;color:var(--n850,#211e1d)}.tf-more .fld{box-shadow:none!important;background:var(--n50,#f6f7f8)}.tf-more .fld:last-child{margin-bottom:12px}
+.tf-notice{background:var(--n100,#e9ecf0);padding:13px 15px;border-radius:16px;margin:12px 0;font-size:13px}.tf-notice.warn{background:var(--warn-bg,#f2f8dc)}
+.tf-hero{text-align:center;margin:25px 2px}.tf-hero .h2{font-size:20px;line-height:24px;font-weight:600;margin:12px 0}
+.tf-hero p{font-size:14px;line-height:20px;color:var(--n500,#6b6767)}.tf-mark{width:78px;height:78px;display:grid;place-items:center;margin:0 auto 20px;border-radius:999px;font-size:40px;background:var(--n100,#e9ecf0)}
+.tf-mark.pending{background:var(--warn-bg,#f2f8dc)}.tf-mark.failed{background:var(--err-bg,#fbe9e4);color:var(--err,#bd340e)}
+.tf-hero .okc{margin:0 auto 16px}.timeline{padding:7px 9px 0;margin-bottom:14px}.track{display:flex;gap:12px;min-height:67px;font-size:13px}.track .dot{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;background:var(--n100,#e9ecf0);color:var(--n850,#211e1d)}.track.done .dot{background:var(--brand,#cbf14a)}.track small{display:block;font-size:12px;color:var(--n500,#6b6767);margin-top:4px}.track .line{height:35px;width:1px;background:var(--n100,#e9ecf0);margin:1px auto}.track b{font-weight:500}
+.apiBox{border-left:1px solid var(--proto-line);padding:26px 20px;background:#f9faf8}.apiBox h2{font-size:15px;margin:0 0 12px}.apiBox p,.apiBox li{font-size:11px;line-height:1.65;color:#6a7167}.apiBox ul{padding-left:17px}.apiChip{display:inline-block;background:#eef1e8;color:#45503e;border-radius:6px;padding:6px 8px;margin:0 0 6px;font:10px/1.5 ui-monospace,monospace;overflow-wrap:anywhere;max-width:100%}
+.simBtns{display:grid;gap:7px}.simBtns button{border:1px solid #dde1d8;background:white;border-radius:9px;padding:10px 11px;text-align:left;font-size:11px}
+.mobilemenu{display:none}
+.alert{position:fixed;bottom:25px;left:50%;transform:translateX(-50%);padding:11px 17px;border-radius:12px;background:#202920;color:white;font-size:13px;max-width:85vw;z-index:100;opacity:0;pointer-events:none;transition:opacity .2s}.alert.visible{opacity:1}
+@media(max-width:1130px){.proto-shell{grid-template-columns:210px minmax(390px,1fr)}.apiBox{display:none}}
+@media(max-width:740px){.top{height:53px;padding:0 14px}.top .brand{font-size:13px}.proto-shell{display:block;min-height:calc(100vh - 53px)}.sidebar{display:none}.mobilemenu{display:flex;gap:8px;padding:12px 14px 0}.mobilemenu button{flex:1;padding:10px 12px;border:1px solid #cbd2c6;border-radius:10px;background:#fff}.mobilemenu button.active{background:#cbf14a}.workspace{padding:12px 0 20px}.stage,.devtools{max-width:390px;width:calc(100% - 24px)}.phone.tf-phone{width:390px;max-width:100%;height:calc(100dvh - 152px);min-height:630px;border-radius:0;border:0;box-shadow:none}.phone.tf-phone .head{padding-top:10px}.tf-foot{padding-bottom:26px}}
+@media(max-width:390px){.phone.tf-phone{width:100%}.tf-scroll{padding-left:16px;padding-right:16px}}
+
+/* UX navigation 2026-11-12: sheet component adapted from components/sheet.html */
+.phone.tf-phone .tf-home-summary{background:var(--surface,#fff);border-radius:20px;padding:21px 18px;margin:3px 0 20px}
+.phone.tf-phone .tf-home-caption{font-size:13px;color:var(--n500,#6b6767);margin:0 0 7px}
+.phone.tf-phone .tf-home-amount{font-size:32px;line-height:39px;font-weight:650;letter-spacing:-.7px;color:var(--n900,#161514)}
+.phone.tf-phone .tf-home-actions{display:flex;gap:12px;margin-bottom:24px}
+.phone.tf-phone .tf-home-action{flex:1;border:0;min-height:108px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:12px;border-radius:20px;background:var(--surface,#fff);color:var(--n850,#211e1d);font:600 15px Inter,system-ui}
+.phone.tf-phone .tf-home-action.primary{background:var(--brand,#cbf14a);color:var(--brand-ink,#161514)}
+.phone.tf-phone .tf-home-arrow{font-size:26px;font-weight:450;line-height:1}
+.phone.tf-phone .tf-home-empty{font-size:14px;color:var(--n500,#6b6767);padding:18px 14px}
+.phone.tf-phone .tf-route{display:flex;align-items:center;gap:9px;font-size:14px;line-height:19px;margin:3px 0 17px;color:var(--n500,#6b6767)}
+.phone.tf-phone .tf-route strong{padding:6px 11px;background:var(--n100,#e9ecf0);color:var(--n850,#211e1d);font-size:13px;border-radius:999px}
+.phone.tf-phone .tf-method-layer{position:absolute;inset:0;z-index:20;display:flex;align-items:flex-end}
+.phone.tf-phone .tf-method-layer[hidden]{display:none!important}
+.phone.tf-phone .tf-method-dim{position:absolute;inset:0;background:#171b16a6;border:0;width:100%;cursor:pointer}
+.phone.tf-phone .tf-method-sheet{position:relative;z-index:1;background:var(--surface,#fff);color:var(--n900,#161514);border-radius:25px 25px 0 0;width:100%;max-height:86%;padding:11px 15px 28px;overflow:auto;box-shadow:0 -14px 36px #0002}
+.phone.tf-phone .tf-method-grab{height:5px;width:42px;border-radius:999px;background:var(--n300,#b9b7b7);margin:0 auto 20px}
+.phone.tf-phone .tf-method-title{font-size:21px;font-weight:650;margin:0 5px 11px}
+.phone.tf-phone .tf-method-group{font-size:12px;color:var(--n500,#6b6767);font-weight:500;margin:16px 6px 7px}
+.phone.tf-phone .tf-method-row{background:transparent;border:0;border-top:1px solid var(--n100,#e9ecf0);width:100%;min-height:63px;display:flex;align-items:center;gap:12px;text-align:left;padding:9px 6px;color:var(--n900,#161514)}
+.phone.tf-phone .tf-method-row:first-of-type{border-top:0}
+.phone.tf-phone .tf-method-row:active{background:var(--n50,#f6f7f8)}
+.phone.tf-phone .tf-method-icon{width:41px;height:41px;border-radius:50%;background:var(--n100,#e9ecf0);display:grid;place-items:center;font-size:14px;font-weight:700;flex:none}
+.phone.tf-phone .tf-method-details{flex:1;min-width:0}
+.phone.tf-phone .tf-method-details b{font-size:15px;font-weight:600;display:block}
+.phone.tf-phone .tf-method-details small{font-size:12px;line-height:17px;color:var(--n500,#6b6767);display:block;margin-top:3px}
+.phone.tf-phone .tf-method-chevron{font-size:25px;color:var(--n400,#8a8686);font-weight:300}
+.phone.tf-phone .tf-currency-pick{width:100%;display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--surface,#fff);color:var(--n900,#161514);border:1.5px solid transparent;border-radius:16px;min-height:72px;margin-bottom:10px;padding:12px 16px;text-align:left}
+.phone.tf-phone .tf-currency-pick.active{border-color:var(--brand-600,#12833a)}
+.phone.tf-phone .tf-currency-pick strong{display:block;font-size:16px}
+.phone.tf-phone .tf-currency-pick small{display:block;color:var(--n500,#6b6767);font-size:12px;margin-top:3px}
+.phone.tf-phone .tf-currency-check{font-size:19px;color:var(--brand-600,#12833a)}
+.phone.tf-phone .tf-static-source{display:flex;justify-content:space-between;align-items:center;background:var(--surface,#fff);padding:16px;border-radius:16px;font-size:15px;margin:4px 0 12px}
+.phone.tf-phone .tf-static-source strong{font-weight:600}
+.phone.tf-phone .back[hidden]{display:none}
+
+
+/* Visual alignment to original alt.vu reference screens (430×932 CSS px, 3× raster).
+   Scoped to the prototype; does not modify generated css/alt-vu-wallet.css. */
+.phone.tf-phone{
+  --ph:932px;width:430px;height:932px;max-width:100%;
+  background:var(--n50,#f6f7f8);
+}
+.phone.tf-phone .sb{
+  box-sizing:border-box;flex:0 0 42px;height:42px;
+  padding:11px 22px 0;font-size:14px;font-weight:600;
+}
+.phone.tf-phone .tf-status-icons{display:flex;align-items:center;gap:5px}
+.phone.tf-phone .tf-status-icons svg{display:block}
+.phone.tf-phone .head{
+  box-sizing:border-box;min-height:62px;padding:8px 16px 14px;
+}
+.phone.tf-phone .head .h1{font-size:18px;font-weight:600;line-height:24px}
+.phone.tf-phone .back{background:rgba(255,255,255,.92);box-shadow:0 1px 3px #1615141a,inset 0 0 0 1px #16151410}
+.phone.tf-phone .tf-scroll{box-sizing:border-box;padding:8px 16px 18px}
+.phone.tf-phone .tf-foot{box-sizing:border-box;padding:10px 16px 34px}
+.phone.tf-phone .tf-foot .btn{box-shadow:0 6px 15px #cbf14a33}
+.phone.tf-phone .home{width:114px;height:5px;bottom:9px;background:#161514}
+.phone.tf-phone .tf-home-toolbar{display:none;margin-left:auto;gap:9px}
+.phone.tf-phone.is-home{
+  background:
+    radial-gradient(ellipse 220px 235px at 11% 4%,rgba(131,226,202,.56),transparent 78%),
+    radial-gradient(ellipse 185px 245px at 86% 7%,rgba(207,244,85,.40),transparent 80%),
+    #f6f7f8;
+}
+.phone.tf-phone.is-home .head{padding-top:4px;padding-bottom:12px}
+.phone.tf-phone.is-home .head .h1{font-size:18px}
+.phone.tf-phone.is-home .tf-home-toolbar{display:flex}
+.phone.tf-phone.is-home .tf-home-tool{
+  width:40px;height:40px;border-radius:50%;display:grid;place-items:center;
+  background:rgba(255,255,255,.91);box-shadow:0 1px 4px #16151418,inset 0 0 0 1px #16151412;position:relative
+}
+.phone.tf-phone.is-home .tf-home-badge{position:absolute;top:-2px;right:-2px;background:#f15b38;color:white;border:2px solid white;border-radius:50%;font-size:11px;line-height:17px;text-align:center;width:21px;height:21px}
+.phone.tf-phone .tf-home-card{
+  box-sizing:border-box;position:relative;height:198px;overflow:hidden;margin:9px 0 20px;
+  border-radius:22px;background:linear-gradient(125deg,#131313 0%,#030303 58%);
+  color:white;box-shadow:0 13px 22px #16151424
+}
+.phone.tf-phone .tf-home-card::before{
+  content:"A";position:absolute;top:-102px;left:-20px;
+  font-size:340px;font-weight:800;line-height:1;letter-spacing:-30px;
+  color:#3c3c3c;opacity:.72;transform:skew(-8deg);pointer-events:none
+}
+.phone.tf-phone .tf-home-card .tf-card-settings{position:absolute;right:20px;top:20px;color:#fff}
+.phone.tf-phone .tf-home-card .tf-card-balance{position:absolute;left:22px;bottom:47px;font-size:13px;color:#c7c7c7}
+.phone.tf-phone .tf-home-card .tf-card-amount{position:absolute;left:22px;bottom:20px;font-size:28px;line-height:31px;font-weight:650;letter-spacing:-.5px}
+.phone.tf-phone .tf-home-card .tf-card-amount small{font-size:18px}
+.phone.tf-phone .tf-home-card .tf-card-visa{position:absolute;right:16px;bottom:21px;text-align:right;font-style:italic;font-size:30px;line-height:26px;font-weight:800}
+.phone.tf-phone .tf-home-card .tf-card-visa small{display:block;font-style:normal;font-size:12px;font-weight:400;line-height:19px}
+.phone.tf-phone .tf-home-actions{display:flex;justify-content:space-around;gap:10px;margin:0 0 24px}
+.phone.tf-phone .tf-home-action{
+  display:flex;flex:1;min-width:0;min-height:75px;flex-direction:column;align-items:center;justify-content:flex-start;
+  gap:9px;border:0;background:transparent!important;box-shadow:none;color:var(--n900);font:500 13px/18px Inter,system-ui,sans-serif
+}
+.phone.tf-phone .tf-home-action .tf-home-action-icon{
+  width:48px;height:48px;border-radius:50%;background:white;
+  box-shadow:0 1px 3px #00000016;display:grid;place-items:center;color:var(--n900)
+}
+.phone.tf-phone .tf-home-action.primary .tf-home-action-icon{background:var(--brand)}
+.phone.tf-phone .tf-home-action .tf-home-action-icon svg{width:25px;height:25px}
+.phone.tf-phone .tf-home-history-head{display:flex;justify-content:space-between;align-items:baseline;margin:0 0 13px}
+.phone.tf-phone .tf-home-history-head h2{font-size:22px;line-height:29px;font-weight:650;margin:0}
+.phone.tf-phone .tf-home-history-head span{font-size:14px;font-weight:500;color:var(--brand-600,#12833a)}
+.phone.tf-phone .tf-history-group{border-radius:19px;overflow:hidden;background:white;margin:0 0 12px;box-shadow:0 1px 2px #00000009}
+.phone.tf-phone .tf-history-group-title{padding:12px 14px;font-weight:600;font-size:14px;border-bottom:1px solid var(--n100)}
+.phone.tf-phone .tf-history-item{display:flex;gap:11px;align-items:center;min-height:58px;padding:10px 12px;border-bottom:1px solid var(--n100);font-size:13px}
+.phone.tf-phone .tf-history-item:last-child{border-bottom:0}
+.phone.tf-phone .tf-history-glyph{height:35px;width:35px;flex:0 0 35px;display:grid;place-items:center;background:var(--n100);border-radius:50%;font-size:21px}
+.phone.tf-phone .tf-history-desc{flex:1;min-width:0}
+.phone.tf-phone .tf-history-desc b{display:block;font-size:14px;line-height:19px;font-weight:550;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.phone.tf-phone .tf-history-desc small{display:block;font-size:11px;color:var(--n500);margin-top:2px}
+.phone.tf-phone .tf-history-value{text-align:right;font-weight:600;font-size:13px;flex:none}
+.phone.tf-phone .tf-history-value.positive{color:#0f7533}
+.phone.tf-phone .tf-history-value small{display:block;font-size:11px;color:var(--n500);font-weight:400;margin-top:2px}
+.phone.tf-phone .tf-method-dim{background:rgba(0,0,0,.47)}
+.phone.tf-phone .tf-method-sheet{
+  background:var(--n50,#f6f7f8);padding:10px 16px 29px;border-radius:25px 25px 0 0;
+  box-shadow:0 -6px 30px #00000010;max-height:78%
+}
+.phone.tf-phone .tf-method-grab{background:#999;width:36px;height:4px;margin:0 auto 19px}
+.phone.tf-phone .tf-method-title{font-size:21px;line-height:29px;font-weight:650;margin:0 0 15px}
+.phone.tf-phone .tf-method-group{font-size:12px;margin:17px 5px 8px;font-weight:500}
+.phone.tf-phone .tf-method-row{
+  border:0;border-radius:17px;min-height:64px;margin:0 0 10px;padding:10px 13px;
+  gap:12px;background:#fff;box-shadow:0 1px 2px #0000000b
+}
+.phone.tf-phone .tf-method-row:first-of-type{border:0}
+.phone.tf-phone .tf-method-icon{background:var(--n100);height:40px;width:40px}
+.phone.tf-phone .tf-method-icon img{width:25px;height:25px;object-fit:contain;border-radius:50%}
+.phone.tf-phone .tf-method-details b{font-size:16px;font-weight:550}
+.phone.tf-phone .tf-method-details small{font-size:12px;font-weight:400}
+.phone.tf-phone .tf-method-chevron{font-size:25px}
+.phone.tf-phone .fld.w,.phone.tf-phone .box,.phone.tf-phone .tbl{box-shadow:0 1px 2px #1615140a}
+.phone.tf-phone .fld{border-radius:16px}
+.phone.tf-phone .tf-deposit-currency{margin-top:0}
+.phone.tf-phone .tf-requisites{margin-top:0}
+.phone.tf-phone .tf-copyrow{min-height:65px}
+.phone.tf-phone .tf-copyrow .rt{font-size:15px}
+.phone.tf-phone .tf-copyrow .rt i{font-size:12px;color:var(--n500)}
+/* Playwright audit 2026-11-12: width:100% + 16px side padding caused +32px of horizontal scrolling. */
+.phone.tf-phone .tf-field{box-sizing:border-box;width:100%;max-width:100%}
+.phone.tf-phone .tf-field .fl{min-width:0}
+.phone.tf-phone .tf-field .fl select,.phone.tf-phone .tf-field .fl input{min-width:0;max-width:100%}
+/* Match the reference home card position, height and aligned compact action row. */
+.phone.tf-phone .tf-home-card{height:238px;margin-top:24px}
+.phone.tf-phone .tf-home-actions{justify-content:flex-start;gap:24px;padding-left:6px}
+.phone.tf-phone .tf-home-action{flex:0 0 80px}
+.phone.tf-phone .tf-home-action .tf-home-action-icon{width:52px;height:52px}
+
+
+/* Component namespace collision: original alt.vu .dot is an absolute notification badge;
+   TransFi timeline .track .dot is a flow step and must remain in normal layout. */
+.phone.tf-phone .timeline .track .dot{
+  position:static;inset:auto;top:auto;right:auto;bottom:auto;left:auto;
+  box-sizing:border-box;flex:0 0 24px;line-height:24px;text-align:center;
+}
+/* SOURCE PARITY: markup/classes from build/snippets.json and native CSS from alt.vu.
+   Existing wallet mock remains isolated; TransFi rails reuse the original components. */
+.phone.tf-phone.is-home>.head{display:none}
+.phone.tf-phone.is-home>.tf-scroll{padding:0 16px 24px}
+.phone.tf-phone .tf-source-home .hdr{padding:6px 0 12px}
+.phone.tf-phone .tf-source-home .hrow{height:44px}
+.phone.tf-phone .tf-source-home .who{cursor:pointer}
+.phone.tf-phone .tf-source-home .who .uav{display:none}
+.phone.tf-phone .tf-source-home .ha{cursor:pointer}
+.phone.tf-phone .tf-source-home .tf-source-cardrow{margin:22px 0 21px;display:flex}
+.phone.tf-phone .tf-source-home .tf-auth-card{
+  box-sizing:border-box;width:100%;height:auto;aspect-ratio:398 / 242;
+  min-height:0;border-radius:26px;padding:22px;
+}
+.phone.tf-phone .tf-source-home .tf-auth-card:not(.ghost){color:white}
+.phone.tf-phone .tf-source-home .tf-auth-card:not(.ghost) .ccap{color:#ffffffc2}
+.phone.tf-phone .tf-source-home .tf-auth-card:not(.ghost) .cbal{color:#fff}
+.phone.tf-phone .tf-source-home .tf-auth-card .ctop{cursor:pointer}
+.phone.tf-phone .tf-source-home .card.ghost:not(.issuing)>.cissue,
+.phone.tf-phone .tf-card-page .card.ghost:not(.issuing)>.cissue{display:flex}
+.phone.tf-phone .tf-card-page .tf-auth-card{
+  width:100%;height:auto;aspect-ratio:398/242;box-sizing:border-box
+}
+.phone.tf-phone .tf-card-page .card{margin:6px 0 18px}
+.phone.tf-phone .tf-card-page .tf-card-caption{font-size:13px;line-height:19px;color:var(--n500);margin:0 4px 18px}
+.phone.tf-phone .tf-profile-page .ptabs{display:flex;margin:4px 0 20px;padding:3px;border-radius:13px;background:var(--n100)}
+.phone.tf-phone .tf-profile-page .ptab{flex:1;padding:12px 4px;text-align:center;border:0;cursor:pointer;background:transparent;border-radius:11px;font-size:13px}
+.phone.tf-phone .tf-profile-page .ptab.on{background:#fff;box-shadow:0 1px 3px #00000012}
+.phone.tf-phone .tf-profile-page .box .row{min-height:62px;cursor:pointer}
+.phone.tf-phone .tf-profile-page .tf-section-label{font-size:13px;font-weight:600;margin:18px 3px 8px}
+.phone.tf-phone .tf-earn-page .bnr{margin-top:10px}
+.phone.tf-phone .tf-source-history .op{cursor:pointer}
+
+.phone.tf-phone .tf-source-home .tf-auth-card .cblock{margin-bottom:13px}
+.phone.tf-phone .tf-source-home .acts{gap:7px;margin-top:18px;justify-content:flex-start}
+.phone.tf-phone .tf-source-home .tf-home-action{
+  box-sizing:border-box;flex:1 1 0;width:auto;min-width:0;min-height:0;margin:0;
+  padding:0;display:flex;align-items:center;justify-content:flex-start;flex-direction:column;
+  background:transparent;box-shadow:none;gap:8px;border-radius:0;color:var(--n850);font:inherit;cursor:pointer
+}
+.phone.tf-phone .tf-source-home .tf-home-action .c{
+  width:55px;height:55px;display:flex;align-items:center;justify-content:center;
+  border-radius:50%;background:var(--surface,#fff);
+  box-shadow:0 1px 3px #1615140f,inset 0 0 0 1px #1615140d
+}
+.phone.tf-phone .tf-source-home .tf-home-action.primary .c{background:var(--brand);box-shadow:0 6px 14px #cbf14a4d}
+.phone.tf-phone .tf-source-home .tf-home-action span{color:var(--n850);font-size:11px;line-height:14px;font-weight:500;white-space:nowrap}
+.phone.tf-phone .tf-source-home .hh{margin:23px 0 12px}
+.phone.tf-phone .tf-source-home .grp{padding:4px 0;margin-bottom:6px}
+.phone.tf-phone .tf-source-home .op{cursor:pointer}
+.phone.tf-phone .tf-source-home .ot{min-width:0}
+.phone.tf-phone .tf-source-home .oa{flex:0 0 auto}
+.phone.tf-phone .tf-source-home .ot b{font-size:14px}
+.phone.tf-phone .tf-source-home .oa b{font-size:14px}
+.phone.tf-phone .tf-source-home .oa i{font-size:11px}
+.phone.tf-phone .tf-source-home .tf-source-spacer{height:8px}
+.phone.tf-phone .tf-source-history{padding:0}
+.phone.tf-phone .tf-source-history .grp{margin-bottom:12px}
+.phone.tf-phone .tf-source-history .op{cursor:pointer}
+.phone.tf-phone .tf-native-sheet.tf-method-sheet{
+  position:relative;z-index:1;left:auto;right:auto;bottom:auto;width:100%;
+  max-height:86%;overflow:auto;border-radius:24px 24px 0 0;
+  background:var(--n50,#f6f7f8);padding:10px 16px 36px;
+  box-shadow:0 -10px 30px #1615141a
+}
+.phone.tf-phone .tf-native-sheet .grab{height:5px;width:44px;background:var(--n400,#8a8686);margin:0 auto 16px}
+.phone.tf-phone .tf-native-sheet .sh2{font-size:20px;font-weight:600;line-height:24px;margin:0 0 14px;padding:0}
+.phone.tf-phone .tf-native-sheet .tf-method-row.m{
+  display:flex;align-items:center;gap:14px;height:64px;min-height:64px;
+  padding:0 16px;margin:0 0 12px;border:0;border-radius:20px;
+  width:100%;box-shadow:0 1px 2px #1615140a;background:#fff;color:var(--n900);
+  cursor:pointer;text-align:left;font-family:Inter,system-ui,sans-serif
+}
+.phone.tf-phone .tf-native-sheet .tf-method-row.m .ic{
+  display:flex;align-items:center;justify-content:center;flex:0 0 40px;
+  width:40px;height:40px;border-radius:50%;background:var(--n50)
+}
+.phone.tf-phone .tf-native-sheet .tf-method-row.m .mt{display:block;flex:1;min-width:0}
+.phone.tf-phone .tf-native-sheet .tf-method-row.m .mt b{display:block;font-size:16px;font-weight:500;line-height:22px}
+.phone.tf-phone .tf-native-sheet .tf-method-row.m .mt i{display:block;font-size:12px;line-height:16px;color:var(--n500);font-style:normal;margin:0}
+.phone.tf-phone .tf-native-sheet .tf-method-row.m svg{flex-shrink:0}
+.phone.tf-phone .tf-native-sheet .tf-method-subtitle{font-size:12px;color:var(--n500);margin:15px 4px 11px}
+.phone.tf-phone .tf-native-sheet .note{font-size:13px;line-height:18px;color:var(--n500);margin:4px 0 12px;padding:0 4px}
+.phone.tf-phone .tf-native-sheet .lnk{display:inline-flex;align-items:center;gap:6px;font-size:14px;color:var(--brand-600);padding:0 4px}
+@media(max-width:390px){
+ .phone.tf-phone .tf-source-home .tf-auth-card{padding:18px}
+ .phone.tf-phone .tf-source-home .tf-home-action span{font-size:10px}
+}
+
+
+/* In native menu-bottom mode the redundant home shortcuts are not shown. */
+.phone.tf-phone .tf-source-home .acts{display:none!important}
+/* Wallet navigation and proportional layout — app styles are scoped to the preview.
+   Source: components/bnv.html + 430 × 932 reference frame. */
+.phone.tf-phone > .sb,.phone.tf-phone > .home{display:none!important}
+.phone.tf-phone .tf-scroll{min-height:0}
+.phone.tf-phone.has-bottom-nav .tf-scroll{padding-bottom:100px}
+.phone.tf-phone .tf-bottom-nav{
+  display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);gap:2px;
+  position:absolute;left:16px;right:16px;bottom:calc(12px + env(safe-area-inset-bottom));
+  z-index:8;padding:6px;border-radius:30px;
+  background:rgba(255,255,255,.92);backdrop-filter:blur(18px) saturate(1.4);
+  box-shadow:0 0 0 1px #e6e4e1,0 10px 28px #16151424,0 2px 6px #1615140f;
+  box-sizing:border-box;
+}
+.phone.tf-phone .tf-bottom-nav[hidden]{display:none!important}
+.phone.tf-phone .tf-bottom-nav .bnv-i{
+  min-width:0;height:52px;border-radius:24px;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:3px;color:var(--n500);
+  font-size:10px;line-height:13px;font-weight:500;text-decoration:none;
+}
+.phone.tf-phone .tf-bottom-nav .bnv-i svg{width:23px;height:23px;display:block}
+.phone.tf-phone .tf-bottom-nav .bnv-i.on{color:var(--n900);background:var(--n100);font-weight:600}
+/* Reference uses the shipped black card asset, not the green unissued-card image. */
+
+/* The upstream green card sprite embeds its own VISA logo. Do not reuse it for
+   the black reference card: that yielded the wrong hue and duplicate branding. */
+.phone.tf-phone .tf-visa-card{
+  color:#fff;
+  background:#030303!important;
+  background-image:none!important;
+  isolation:isolate;
+}
+.phone.tf-phone .tf-visa-card::before{
+  content:"A";position:absolute;z-index:0;pointer-events:none;
+  left:-28px;top:-100px;line-height:1;font-size:420px;letter-spacing:-24px;
+  font-weight:900;font-family:Inter,system-ui,sans-serif;
+  color:#303030;transform:scaleX(1.15);transform-origin:left center;
+}
+.phone.tf-phone .tf-visa-card::after{
+  content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
+  background:linear-gradient(112deg,transparent 10%,#ffffff05 35%,transparent 62%);
+}
+
+.phone.tf-phone .tf-visa-card .cblock{
+  position:absolute;left:22px;bottom:24px;margin:0!important;z-index:1;
+}
+.phone.tf-phone .tf-visa-card .ccap{color:#bbb;font-size:12px;line-height:18px;margin-bottom:1px}
+.phone.tf-phone .tf-visa-card .cbal{color:white;font-size:34px;line-height:40px;letter-spacing:-.6px}
+.phone.tf-phone .tf-visa-card .cbal .cnt{font-size:21px;letter-spacing:0}
+.phone.tf-phone .tf-visa-card .tf-visa-brand{
+  position:absolute;right:18px;bottom:17px;color:white;text-align:right;z-index:1;
+}
+.phone.tf-phone .tf-visa-card .tf-visa-brand strong{
+  display:block;font-size:38px;font-style:italic;font-weight:850;
+  line-height:38px;letter-spacing:-2.2px;
+}
+.phone.tf-phone .tf-visa-card .tf-visa-brand small{
+  display:block;font-size:14px;line-height:17px;font-weight:400;letter-spacing:0
+}
+.phone.tf-phone .tf-visa-card .tf-card-tools{
+  position:absolute;top:16px;right:16px;display:flex;align-items:center;gap:7px;z-index:4
+}
+.phone.tf-phone .tf-visa-card .tf-card-tools button{
+  display:grid;place-items:center;width:36px;height:36px;border:0;color:white;
+  padding:0;cursor:pointer;background:transparent;border-radius:50%;
+}
+.phone.tf-phone .tf-visa-card .tf-card-tools button.tf-card-plus{
+  background:rgba(255,255,255,.13);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.38)
+}
+.phone.tf-phone .tf-visa-card .tf-card-tools button:focus-visible{
+  outline:2px solid white;outline-offset:2px
+}
+@media(max-width:740px){
+  html,body{height:100%;min-height:100%;margin:0}
+  .top,.mobilemenu,.stage{display:none!important}
+  .proto-shell{display:block;min-height:0;margin:0;width:100%;max-width:none}
+  .workspace{display:block;min-height:0;padding:0;margin:0;width:100%}
+  .phone.tf-phone,.phone.tf-phone.is-home{
+    box-sizing:border-box;width:100%;max-width:100%;height:100dvh;min-height:0;
+    margin:0;border:0;border-radius:0;box-shadow:none;transform:none
+  }
+  .devtools{position:fixed;right:12px;bottom:100px;z-index:25;width:auto}
+  .phone.tf-phone .tf-visa-card .cbal{font-size:30px}
+  .phone.tf-phone .tf-visa-card .cbal .cnt{font-size:18px}
+  .phone.tf-phone .tf-visa-card .tf-visa-brand strong{font-size:34px;line-height:34px}
+}
+@media(max-width:360px){
+  .phone.tf-phone .tf-visa-card .cbal{font-size:27px}
+  .phone.tf-phone .tf-visa-card .tf-visa-brand strong{font-size:29px;line-height:31px}
+  .phone.tf-phone .tf-visa-card .tf-visa-brand small{font-size:12px}
+}
+
+/* screenshot mode: 430 × 932 logical px; use Playwright deviceScaleFactor 3 for 1290 × 2796 raster */
+html.tf-capture,html.tf-capture body{width:430px;height:932px;min-height:0;overflow:hidden;background:#f6f7f8}
+.tf-capture .top,.tf-capture .sidebar,.tf-capture .apiBox,.tf-capture .stage,.tf-capture .mobilemenu,.tf-capture .devtools{display:none!important}
+.tf-capture .proto-shell{display:block!important;margin:0;min-height:0;max-width:none}
+.tf-capture .workspace{padding:0;margin:0;display:block}
+.tf-capture .phone.tf-phone{box-sizing:border-box;border:0;box-shadow:none;border-radius:0;width:430px;max-width:none;height:932px;min-height:932px}
+@media(max-width:740px){
+  .phone.tf-phone,.phone.tf-phone.is-home{
+    width:100%;max-width:100%;height:100dvh;min-height:0
+  }
+  html.tf-capture .phone.tf-phone,html.tf-capture .phone.tf-phone.is-home{
+    width:430px;max-width:none;height:932px;min-height:932px
+  }
+}
+
+
+html.tf-capture .top,html.tf-capture .stage,html.tf-capture .mobilemenu{display:none!important}
+html.tf-capture .phone.tf-phone,html.tf-capture .phone.tf-phone.is-home{
+  box-sizing:border-box;width:430px;max-width:none;height:932px;min-height:932px;
+  border:0;border-radius:0;box-shadow:none
+}
+
+
+html.tf-capture.tf-embedded,html.tf-capture.tf-embedded body{
+  box-sizing:border-box;width:100%;height:100%;min-height:0;overflow:hidden;margin:0;padding:0
+}
+html.tf-capture.tf-embedded .phone.tf-phone,html.tf-capture.tf-embedded .phone.tf-phone.is-home{
+  box-sizing:border-box;width:100%!important;max-width:none!important;
+  height:100%!important;min-height:0!important;border:0;border-radius:0;box-shadow:none
+}
+</style></head>
+<body>
+<header class="top"><div class="brand">alt.vu <span>/ Международные переводы · прототип</span></div><span class="chip">v8 · компоненты приложения</span></header>
+<div class="proto-shell">
+<aside class="sidebar"><div class="sideLabel">Точки входа</div>
+<button id="flow-home" class="entry" onclick="go('home')"><span class="glyph">⌂</span><span><b>Главная</b><small>USD-баланс и действия</small></span></button>
+<button id="flow-in" class="entry" onclick="setFlow('in')"><span class="glyph">↓</span><span><b>Пополнение</b><small>Международный перевод</small></span></button>
+<button id="flow-out" class="entry" onclick="setFlow('out')"><span class="glyph">↑</span><span><b>Вывод</b><small>Международный перевод</small></span></button>
+<div class="divider"></div><div class="sideLabel">Экраны</div><div id="stepList"></div></aside>
+<main class="workspace"><div class="stage"><span id="stageLabel"></span><span id="stageIndex"></span></div>
+<div class="devtools" id="recipientTools" hidden><button class="devFill" type="button" onclick="fillDemo()">Заполнить тестовые реквизиты</button></div>
+<div class="phone tf-phone">
+<div class="head"><button class="back" aria-label="Назад" onclick="goBack()"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg></button><div class="h1" id="phoneTitle">Международный перевод</div><div class="tf-home-toolbar" aria-hidden="true"><span class="tf-home-tool"><svg width="22" height="22" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"/></svg><span class="tf-home-badge">2</span></span><span class="tf-home-tool"><svg width="22" height="22" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M20 11.6a8 8 0 0 1-8 8c-1.3 0-2.5-.3-3.6-.8L4 20l1.2-4.4A8 8 0 1 1 20 11.6Z"/></svg></span></div></div>
+<div class="tf-scroll" id="content"></div><div class="tf-foot" id="footer"></div><nav class="bnv tf-bottom-nav" aria-label="Разделы" onclick="uxBottomNav(event)"><a class="bnv-i" href="#" data-mb="home"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10.4 12 4l8 6.4V19a1.4 1.4 0 0 1-1.4 1.4H15v-5.6H9v5.6H5.4A1.4 1.4 0 0 1 4 19z"></path></svg><span>Главная</span></a><a class="bnv-i" href="#" data-mb="topup"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v13"></path><path d="m6.5 11.5 5.5 5.5 5.5-5.5"></path><path d="M4.5 20h15"></path></svg><span>Пополнить</span></a><a class="bnv-i" href="#" data-mb="card"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5.5" width="18" height="13" rx="2.6"></rect><path d="M3 10h18"></path><path d="M7 14.6h3.5"></path></svg><span>Карта</span></a><a class="bnv-i" href="#" data-mb="withdraw"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20V7"></path><path d="m6.5 12.5 5.5-5.5 5.5 5.5"></path><path d="M4.5 4h15"></path></svg><span>Вывести</span></a><a class="bnv-i" href="#" data-mb="profile"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8.4" r="3.9"></circle><path d="M4.6 20c.6-3.6 3.7-6 7.4-6s6.8 2.4 7.4 6"></path></svg><span>Профиль</span></a></nav>
+</div></main>
+<aside class="apiBox"><div class="sideLabel">Пояснение к экрану</div><h2 id="metaTitle"></h2><p id="metaDescription"></p>
+<div class="divider"></div><div class="sideLabel">API / бэкенд</div><div id="metaApi"></div>
+<div class="sideLabel">Правила UX</div><ul id="metaRules"></ul><div class="divider"></div>
+<div class="sideLabel">Демо-состояния</div><div class="simBtns" id="simList"></div></aside>
+</div><div class="alert" id="toast" role="status" aria-live="polite"></div>
+<script>
+const COUNTRY={DE:'Германия',FR:'Франция',NL:'Нидерланды',GB:'Великобритания',US:'США',ES:'Испания'};
+const SEPA_COUNTRIES=['DE','FR','NL','ES'];
+const CURRENCY=['EUR','USD','GBP'];
+const S={flow:'in',screen:'in-details',inCurrency:'EUR',inRail:'SEPA',outCurrency:'EUR',sourceCurrency:'EUR',outRail:'SEPA',country:'DE',amount:'1000',firstName:'',lastName:'',iban:'',account:'',bic:'',bank:'',routing:'',bankAddress:'',recipientAddress:'',intermediary:'',purpose:'personal',purposeOther:'',note:'',showError:false};
+const SCREENS={in:[['in-details','Реквизиты'],['in-pending','Поступление ожидается'],['in-success','Зачислено'],['in-held','На проверке']],out:[['out-config','Параметры перевода'],['out-recipient','Реквизиты получателя'],['out-review','Подтверждение'],['out-progress','Обрабатывается'],['out-success','Доставлен'],['out-failed','Ошибка'],['out-held','На проверке'],['out-unavailable','Недоступное направление']]};
+const META={
+'in-details':{title:'Один экран: валюта → метод → реквизиты',desc:'Без хлебных крошек, подзаголовка и повторяющегося названия внутри блока. Реквизиты меняются сразу под переключателями.',apis:['GET /v3/config/payment-methods/iban','POST /v3/iban','GET /v3/iban (список счетов)'],rules:['Реквизиты выводятся из ответа сервера, а не генерируются клиентом.','SEPA показан только для EUR; входящий SWIFT — демонстрационная гипотеза до подтверждения MID.','Если реквизиты не выданы, показывать состояние недоступности, а не фальшивые реквизиты.']},
+'in-pending':{title:'Ожидание входящего перевода',desc:'Статус имеет смысл только для установленного системой входящего платежа. Вручную подтверждать отправку из чужого банка недостаточно.',apis:['Webhook / входящий депозит','GET /v3/iban/balance'],rules:['Состояние обновляется по данным сервера.','Не обещать срок зачисления без данных провайдера.']},
+'in-success':{title:'Зачисление',desc:'Деньги доступны после сопоставления депозита и проверок.',apis:['Webhook / статус зачисления','GET /v3/iban/balance'],rules:['Показывать фактическую сумму и валюту.']},
+'in-held':{title:'Проверка входящего',desc:'Платёж найден, но ещё не доступен для использования.',apis:['Order matching / compliance','GET /v3/iban/balance'],rules:['Не приравнивать обнаруженный депозит к доступным средствам.']},
+'out-config':{title:'Параметры вывода',desc:'На первом шаге сумма и валюты + компактный переключатель SEPA/SWIFT на одном экране.',apis:['GET /v3/config/supported-currencies','GET /v3/config/payment-methods?direction=withdraw','GET /v3/exchange-rates'],rules:['SEPA доступен в демо только при EUR и стране из SEPA-списка.','В боевой версии определять доступность по MID и возвращённым paymentCode.','Курсы и комиссии здесь условные.']},
+'out-recipient':{title:'Форма реквизитов физического лица',desc:'Нет переключателя «физлицо / компания» и нет корпоративных полей. Назначение перенесено сюда, чтобы не добавлять отдельный шаг.',apis:['POST /v3/recipients/mandatory-fields','POST /v3/recipients/individual','POST /v3/orders (purposeCode)'],rules:['Обязательные поля зависят от страны, валюты и платёжного метода.','Расширенные SWIFT-поля показаны как условные.','Имена и реквизиты сохраняются при возврате на предыдущий шаг.']},
+'out-review':{title:'Проверка перед отправкой',desc:'Метод → ФИО → Страна → Счёт → Назначение → Расчёт. Подтверждение производится кнопкой, без чекбокса.',apis:['GET /v3/exchange-rates','POST /v3/orders'],rules:['Перед реальным созданием заказа обновить quote.','Повторное нажатие не должно создавать второй перевод.']},
+'out-progress':{title:'Статус исходящего перевода',desc:'Запрос на перевод принят, но ещё не завершён.',apis:['POST /v3/orders','Webhook / Order status'],rules:['Ответ «заказ создан» не равен «деньги доставлены».','Повторять платеж до терминального статуса нельзя.']},
+'out-success':{title:'Деньги получены банком',desc:'Финальное состояние, показываемое только после подтверждённого статуса провайдера.',apis:['fund_settled'],rules:['Квитанция и фактическая сумма поступают с бэкенда.']},
+'out-failed':{title:'Неуспешный перевод',desc:'Показывать причину, если она доступна, и возможность изменить реквизиты.',apis:['fund_failed'],rules:['Повтор — новая операция с новым partnerId.']},
+'out-held':{title:'Дополнительная проверка',desc:'Операция остаётся в обработке.',apis:['manual_review'],rules:['Не инициировать дублирующий перевод.','Запрашивать документы только при реальном требовании провайдера.']},
+'out-unavailable':{title:'Маршрут недоступен',desc:'Показать ограничения выбранной комбинации страны, валюты и платёжного метода.',apis:['GET /v3/config/payment-methods'],rules:['Недоступный маршрут блокирует продолжение.']}
+};
+const $=id=>document.getElementById(id);
+const esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function notify(t){const n=$('toast');n.textContent=t;n.classList.add('visible');clearTimeout(window._to);window._to=setTimeout(()=>n.classList.remove('visible'),2300)}
+function money(x,c){const n=Number(x);return Number.isFinite(n)?new Intl.NumberFormat('ru-RU',{minimumFractionDigits:2,maximumFractionDigits:2}).format(n)+' '+c:'—'}
+function isSepa(){return S.outCurrency==='EUR'&&SEPA_COUNTRIES.includes(S.country)}
+function configRail(){if(!isSepa()&&S.outRail==='SEPA')S.outRail='SWIFT'}
+function setFlow(f){S.flow=f;S.screen=f==='in'?'in-details':'out-config';S.showError=false;render()}
+function go(k){S.screen=k;S.showError=false;render()}
+function goBack(){const b={'in-details':null,'in-pending':'in-details','in-success':'in-details','in-held':'in-details','out-config':null,'out-recipient':'out-config','out-review':'out-recipient','out-progress':'out-review','out-success':'out-config','out-failed':'out-recipient','out-held':'out-progress','out-unavailable':'out-config'};if(b[S.screen])go(b[S.screen]);else notify('Возврат в основной раздел приложения находится за пределами этого прототипа')}
+function setIncomingCurrency(v){S.inCurrency=v;if(v!=='EUR')S.inRail='SWIFT';render()}
+function setIncomingRail(v){if(v==='SEPA'&&S.inCurrency!=='EUR')return;S.inRail=v;render()}
+function setOutCurrency(v){S.outCurrency=v;configRail();render()}
+function setOutCountry(v){S.country=v;configRail();render()}
+function setOutRail(v){if(v==='SEPA'&&!isSepa())return;S.outRail=v;render()}
+function setSourceCurrency(v){S.sourceCurrency=v;render()}
+function store(k,v){S[k]=v}
+function segment(options,selected,fn){return `<div class="seg tf-seg" role="group">${options.map(o=>`<button type="button" class="${o.v===selected?'on':''}" ${o.disabled?'disabled title="Недоступно для выбранных параметров"':''} aria-pressed="${o.v===selected}" onclick="${fn}('${esc(o.v)}')">${esc(o.label??o.v)}</button>`).join('')}</div>`}
+function title(text){return `<div class="h2 tf-status-title">${esc(text)}</div>`}
+const fieldIcon=`<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--n850)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="14" rx="3"/><path d="M3.5 10h17"/></svg>`;
+function field(label,key,placeholder,{optional=false,hint='',type='text'}={}){return `<div class="fld w tf-field" id="wrap-${key}"><div class="fi">${fieldIcon}</div><label class="fl" for="f-${key}"><i>${esc(label)}${optional?' · необязательно':''}</i><input id="f-${key}" type="${type}" placeholder="${esc(placeholder)}" value="${esc(S[key])}" oninput="store('${key}',this.value)" autocomplete="off"/></label></div>`}
+function selectField(label,key,opts){return `<div class="fld w tf-field"><div class="fi">${fieldIcon}</div><label class="fl"><i>${esc(label)}</i><select class="tf-select" aria-label="${esc(label)}" onchange="store('${key}',this.value);if('${key}'==='purpose')render()">${opts.map(x=>`<option value="${x[0]}" ${S[key]===x[0]?'selected':''}>${esc(x[1])}</option>`).join('')}</select></label></div>`}
+function keyrow(k,v){return `<div class="rl tf-rl"><span>${esc(k)}</span><b>${esc(v)}</b></div>`}
+function notice(text,t=''){return `<div class="tf-notice ${t}">${esc(text)}</div>`}
+function primary(t,click,disabled=false){return `<button type="button" class="btn tf-button" ${disabled?'disabled':''} onclick="${click}">${esc(t)}</button>`}
+function second(t,click){return `<button type="button" class="btno tf-button" onclick="${click}">${esc(t)}</button>`}
+function action(t,click){return second(t,click)}
+function getRequisites(){const eur=S.inCurrency==='EUR';const sepa=S.inRail==='SEPA';let rows=[['Получатель','Имя владельца счёта']];if(sepa){rows.push(['IBAN','DE00 0000 0000 0000 0000 00'],['BIC / SWIFT','DEMOXXXX'],['Банк','Банк-партнёр'],['Страна банка','Германия']);}else if(eur){rows.push(['IBAN / номер счёта','DE00 0000 0000 0000 0000 00'],['SWIFT / BIC','DEMOXXXX'],['Банк','Банк-партнёр'],['Адрес банка','Адрес предоставит TransFi']);}else{rows.push(['Номер счёта','000000000000'],['SWIFT / BIC',S.inCurrency==='USD'?'DEMOUS00':'DEMOGB00'],['Банк','Банк-партнёр'],['Адрес банка','Адрес предоставит TransFi']);}rows.push(['Назначение / Reference','DEMO-REF-000123']);return rows}
+function copyText(v){if(navigator.clipboard&&window.isSecureContext)navigator.clipboard.writeText(v).then(()=>notify('Скопировано')).catch(()=>fallbackCopy(v));else fallbackCopy(v)}
+function fallbackCopy(v){let e=document.createElement('textarea');e.value=v;document.body.appendChild(e);e.select();let ok=false;try{ok=document.execCommand('copy')}catch{}e.remove();notify(ok?'Скопировано':'Копирование недоступно в этом браузере')}
+function copyAll(){copyText(getRequisites().map(([k,v])=>`${k}: ${v}`).join('\n'))}
+function copyrow(k,v,i){return `<div class="row tf-copyrow"><div class="rt"><i>${esc(k)}</i><span class="tf-copy-value">${esc(v)}</span></div><button type="button" class="tf-copy" title="Скопировать" aria-label="Скопировать: ${esc(k)}" onclick="copyText(getRequisites()[${i}][1])"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg></button></div>`}
+function numAmount(){return Number(String(S.amount).replace(',','.'))}
+function quote(){const amt=numAmount();const valid=Number.isFinite(amt)&&amt>0;const fx=S.sourceCurrency===S.outCurrency?1:({'EURUSD':1.08,'USDEUR':.9259,'EURGBP':.84,'GBPEUR':1.1905,'USDGBP':.7778,'GBPUSD':1.2857})[S.sourceCurrency+S.outCurrency]||1;const fee=S.outRail==='SEPA'?2.5:18;return {valid,amt,fx,fee,receive:Math.max(0,(amt-fee)*fx),min:fee+.01}}
+function qSummary(){const q=quote();return `${keyrow('Курс',`1 ${S.sourceCurrency} ≈ ${q.fx.toFixed(4)} ${S.outCurrency}`)}${keyrow('Сумма',money(q.amt,S.sourceCurrency))}${keyrow('Комиссия',money(q.fee,S.sourceCurrency))}${keyrow('Получит',money(q.receive,S.outCurrency))}`}
+function validConfig(){const q=quote();return q.valid&&q.amt>q.fee}
+function checkConfig(){if(!validConfig()){notify('Укажите сумму больше комиссии');return}go('out-recipient')}
+function checkRecipient(){const required=['firstName','lastName',S.outRail==='SEPA'?'iban':'account'];if(S.outRail==='SWIFT')required.push('bic','bank');if(S.purpose==='other')required.push('purposeOther');const missing=required.find(k=>!String(S[k]||'').trim());if(missing){notify('Заполните обязательные поля');const f=$('f-'+missing);f?.scrollIntoView({block:'center',behavior:'smooth'});f?.focus();return}go('out-review')}
+function fillDemo(){Object.assign(S,{firstName:'Иван',lastName:'Иванов',iban:'DE00 0000 0000 0000 0000 00',account:'000000000000',bic:'DEMOXXXX',bank:'Банк-партнёр',routing:'',bankAddress:'',recipientAddress:'',intermediary:'',purpose:'personal',purposeOther:'',note:''});render();notify('Заполнены вымышленные тестовые данные')}
+function checkReview(){if(!validConfig()){notify('Проверьте сумму перевода');go('out-config');return}go('out-progress')}
+function renderScreen(){const q=quote();let p='',f='',head='Международный перевод';switch(S.screen){
+case'in-details':{
+ const sepaEnabled=S.inCurrency==='EUR';const rows=getRequisites();
+ p=`<div class="tf-label">Валюта поступления</div>${segment(CURRENCY.map(v=>({v})),S.inCurrency,'setIncomingCurrency')}
+ <div class="tf-label">Способ перевода</div>${segment([{v:'SEPA',disabled:!sepaEnabled},{v:'SWIFT'}],S.inRail,'setIncomingRail')}
+ <div class="box tf-requisites">${rows.map(([k,v],i)=>copyrow(k,v,i)).join('')}</div>`;
+ f=primary('Скопировать все реквизиты','copyAll()');break;}
+case'in-pending':p=`<div class="tf-hero"><div class="tf-mark pending">◷</div>${title('Ожидаем поступление')}<p>Платёж отобразится после подтверждения банка</p></div>${timeline('in')}`;f=action('Вернуться к реквизитам',"go('in-details')");break;
+case'in-success':p=`<div class="hero tf-hero"><div class="okc">✓</div>${title('Деньги зачислены')}</div><div class="tbl">${keyrow('Валюта',S.inCurrency)}${keyrow('Сумма','По факту зачисления')}${keyrow('Статус','Завершено')}</div>`;f=primary('К реквизитам',"go('in-details')");break;
+case'in-held':p=`<div class="tf-hero"><div class="tf-mark pending">⋯</div>${title('Поступление на проверке')}<p>Средства пока недоступны для использования</p></div><div class="tbl">${keyrow('Валюта',S.inCurrency)}${keyrow('Статус','На проверке')}</div>`;f=primary('К реквизитам',"go('in-details')");break;
+case'out-config':p=`
+<div class="tf-label">Валюта списания</div>${segment(CURRENCY.map(v=>({v})),S.sourceCurrency,'setSourceCurrency')}
+<div class="tf-label">Валюта получения</div>${segment(CURRENCY.map(v=>({v})),S.outCurrency,'setOutCurrency')}
+<div class="fld w tf-field"><div class="fi">${fieldIcon}</div><label class="fl"><i>Страна получателя</i><select class="tf-select" aria-label="Страна получателя" onchange="setOutCountry(this.value)">${Object.entries(COUNTRY).map(([c,name])=>`<option value="${c}" ${S.country===c?'selected':''}>${esc(name)}</option>`).join('')}</select></label></div>
+<div class="tf-label">Способ перевода</div>${segment([{v:'SEPA',disabled:!isSepa()},{v:'SWIFT'}],S.outRail,'setOutRail')}
+<div class="fld w tf-field tf-amount"><div class="fi">${fieldIcon}</div><label class="fl"><i>Сумма перевода</i><input type="number" min="0" step="0.01" inputmode="decimal" aria-label="Сумма перевода" value="${esc(S.amount)}" oninput="store('amount',this.value);renderQuote()"/></label><div class="addon"><span class="cur">${esc(S.sourceCurrency)}</span></div></div>
+<div class="tbl tf-quote" id="quoteBlock">${qSummary()}</div>`;
+f=primary('Продолжить','checkConfig()');break;
+case'out-recipient':p=`${field('Имя','firstName','Имя')}${field('Фамилия','lastName','Фамилия')}
+${S.outRail==='SEPA'?field('IBAN получателя','iban','DE00 0000 0000 0000 0000 00'):
+`${field('Номер счёта / IBAN','account','Номер счёта')}${field('SWIFT / BIC','bic','XXXXXXXXXXX')}${field('Наименование банка','bank','Банк получателя')}`}
+${S.outRail==='SWIFT'?`<details class="tf-more"><summary>Дополнительные SWIFT-реквизиты</summary>${field('Банковский / routing код','routing','Если требуется',{optional:true})}${field('Адрес банка','bankAddress','Страна, город, улица',{optional:true})}${field('Адрес получателя','recipientAddress','Страна, город, улица',{optional:true})}${field('Банк-корреспондент','intermediary','Если требуется',{optional:true})}</details>`:`<details class="tf-more"><summary>Дополнительные реквизиты</summary>${field('SWIFT / BIC','bic','Если требуется',{optional:true})}${field('Адрес получателя','recipientAddress','Если требуется',{optional:true})}</details>`}
+${selectField('Назначение перевода','purpose',[['personal','Перевод собственных средств'],['family','Перевод родственникам'],['education','Обучение'],['other','Другое']])}
+${S.purpose==='other'?field('Уточнение назначения','purposeOther','Опишите назначение перевода'):''}`;
+f=primary('Проверить перевод','checkRecipient()');break;
+case'out-review':p=`<div class="tbl">${keyrow('Метод',S.outRail)}${keyrow('ФИО',[S.firstName,S.lastName].filter(Boolean).join(' '))}${keyrow('Страна',COUNTRY[S.country])}${keyrow('Счёт',S.outRail==='SEPA'?S.iban:S.account)}${keyrow('Назначение',purposeName())}</div>
+<div class="tf-label">Расчёт</div><div class="tbl tf-quote">${qSummary()}</div>`;
+f=primary('Подтвердить перевод','checkReview()');break;
+case'out-progress':p=`<div class="tf-hero"><div class="tf-mark pending">◷</div>${title('Перевод обрабатывается')}<p>Ожидаем подтверждение платёжного провайдера</p></div>${timeline('out')}<div class="tbl">${keyrow('Сумма',money(q.amt,S.sourceCurrency))}${keyrow('Получит',money(q.receive,S.outCurrency))}${keyrow('Метод',S.outRail)}</div>`;f='';break;
+case'out-success':p=`<div class="hero tf-hero"><div class="okc">✓</div>${title('Перевод завершён')}</div><div class="tbl">${keyrow('Получатель',`${S.firstName} ${S.lastName}`)}${keyrow('Получит',money(q.receive,S.outCurrency))}${keyrow('Метод',S.outRail)}</div>`;f=primary('Новый перевод',"go('out-config')");break;
+case'out-failed':p=`<div class="tf-hero"><div class="tf-mark failed">×</div>${title('Перевод не выполнен')}<p>Проверьте реквизиты получателя</p></div><div class="tbl">${keyrow('Получатель',`${S.firstName} ${S.lastName}`)}${keyrow('Статус','Ошибка операции')}</div>`;f=primary('Исправить реквизиты',"go('out-recipient')");break;
+case'out-held':p=`<div class="tf-hero"><div class="tf-mark pending">⋯</div>${title('Перевод на проверке')}<p>Ожидаем решение платёжного провайдера</p></div><div class="tbl">${keyrow('Статус','На проверке')}${keyrow('Получатель',`${S.firstName} ${S.lastName}`)}</div>`;f='';break;
+case'out-unavailable':p=`<div class="tf-hero"><div class="tf-mark failed">×</div>${title('Перевод недоступен')}<p>Для выбранного направления нет доступного метода</p></div><div class="tbl">${keyrow('Страна',COUNTRY[S.country])}${keyrow('Валюты',`${S.sourceCurrency} → ${S.outCurrency}`)}${keyrow('Метод',S.outRail)}</div>`;f=primary('Изменить параметры',"go('out-config')");break;
+}
+return {p,f,head};}
+function purposeName(){return {personal:'Перевод собственных средств',family:'Перевод родственникам',education:'Обучение',other:S.purposeOther||'Другое'}[S.purpose]}
+function timeline(flow){const items=flow==='in'?[['done','Отправлено внешним банком','Ожидаем подтверждение'],['current','Проверка поступления','Сопоставление платежа'],['','Зачислено','После проверок']]:[['done','Перевод создан','initiated'],['current','Обрабатывается','fund_processing'],['','Доставлен','fund_settled']];return `<div class="timeline">${items.map(([s,a,b],i)=>`<div class="track ${s}"><div><div class="dot">${s==='done'?'✓':i+1}</div>${i<2?'<div class="line"></div>':''}</div><div><b>${a}</b><small>${b}</small></div></div>`).join('')}</div>`}
+function renderQuote(){const t=$('quoteBlock');if(t)t.innerHTML=qSummary()}
+function render(){const steps=SCREENS[S.flow];document.querySelectorAll('[data-flow]').forEach(e=>e.classList.toggle('active',e.dataset.flow===S.flow));$('flow-in').classList.toggle('active',S.flow==='in');$('flow-out').classList.toggle('active',S.flow==='out');$('stepList').innerHTML=steps.map(([k,n],i)=>`<button class="stepBtn ${S.screen===k?'active':''}" onclick="go('${k}')"><span class="num">${i+1}</span>${esc(n)}</button>`).join('');$('stageLabel').textContent=S.flow==='in'?'Пополнение · Международный перевод':'Вывод · Международный перевод';$('stageIndex').textContent=(steps.findIndex(([k])=>k===S.screen)+1)+' / '+steps.length;$('recipientTools').hidden=S.screen!=='out-recipient';const d=renderScreen();$('phoneTitle').textContent=d.head;$('content').innerHTML=d.p;$('footer').innerHTML=d.f;const m=META[S.screen];$('metaTitle').textContent=m.title;$('metaDescription').textContent=m.desc;$('metaApi').innerHTML=m.apis.map(x=>`<div class="apiChip">${esc(x)}</div>`).join('');$('metaRules').innerHTML=m.rules.map(x=>`<li>${esc(x)}</li>`).join('');const sims=S.flow==='in'?[['Реквизиты', 'in-details'],['Ожидание поступления','in-pending'],['Зачислено','in-success'],['На проверке','in-held']]:[['Параметры','out-config'],['Реквизиты','out-recipient'],['Подтверждение','out-review'],['Обрабатывается','out-progress'],['Успех','out-success'],['Ошибка','out-failed'],['На проверке','out-held'],['Недоступно','out-unavailable']];$('simList').innerHTML=sims.map(([n,k])=>`<button onclick="go('${k}')">${esc(n)}</button>`).join('');$('content').scrollTop=0}
+// Genuine alt.vu component snippets, from build/snippets.json (safe, fictional data).
+const uxIssuedCard="<div class=\"card tf-auth-card tf-visa-card\" aria-label=\"Баланс карты Visa Platinum\">\n  <div class=\"tf-card-tools\">\n    <button type=\"button\" class=\"tf-card-plus\" aria-label=\"Добавить карту\" onclick=\"uxOtherMethod('Добавить карту')\"><svg width=\"25\" height=\"25\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.25\" stroke-linecap=\"round\" aria-hidden=\"true\"><path d=\"M12 4v16M4 12h16\"/></svg></button>\n    <button type=\"button\" class=\"tf-card-gear\" aria-label=\"Настройки карты\" onclick=\"uxGo('wallet-card')\"><svg viewBox=\"0 0 24 24\" width=\"28\" height=\"28\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M21.37 10.44v3.12l-2.63.87-.87 2.09 1.88 1.87-2.23 2.23-1.87-1.88-2.09.87-.87 2.63H9.56l-.87-2.63-2.09-.87-1.87 1.88-2.23-2.23 1.88-1.87-.87-2.09-2.63-.87v-3.12l2.63-.87.87-2.09L2.5 5.61l2.23-2.23L6.6 5.26l2.09-.87.87-2.63h3.12l.87 2.63 2.09.87 1.87-1.88 2.23 2.23-1.88 1.87.87 2.09z\"/><circle cx=\"11.12\" cy=\"12\" r=\"3\"/></svg></button>\n  </div>\n  <div class=\"cblock\">\n    <div class=\"ccap\">Баланс</div>\n    <div class=\"cbal\">4 812<span class=\"cnt\">.60 $</span></div>\n  </div>\n  <div class=\"tf-visa-brand\" aria-label=\"Visa Platinum\"><strong>VISA</strong><small>Platinum</small></div>\n</div>";
+const uxGhostCard="<div class=\"card ghost tf-auth-card\">\n      <button class=\"cissue\" type=\"button\" onclick=\"uxOtherMethod('Выпуск карты')\" aria-label=\"Выпустить карту\"><svg viewBox=\"0 0 33 33\" width=\"33\" height=\"33\" fill=\"none\" stroke=\"#fff\" stroke-width=\"2.2\" stroke-linecap=\"round\" aria-hidden=\"true\"><path d=\"M16.5 9.5v14M9.5 16.5h14\"></path></svg></button><div class=\"ctop\" data-go=\"card\"><svg width=\"33\" height=\"33\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#211e1d\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M21.37 10.44 L21.37 13.56 L18.72 13.56 L17.85 15.65 L19.73 17.52 L17.52 19.73 L15.65 17.85 L13.56 18.72 L13.56 21.37 L10.44 21.37 L10.44 18.72 L8.35 17.85 L6.48 19.73 L4.27 17.52 L6.15 15.65 L5.28 13.56 L2.63 13.56 L2.63 10.44 L5.28 10.44 L6.15 8.35 L4.27 6.48 L6.48 4.27 L8.35 6.15 L10.44 5.28 L10.44 2.63 L13.56 2.63 L13.56 5.28 L15.65 6.15 L17.52 4.27 L19.73 6.48 L17.85 8.35 L18.72 10.44 Z\"></path><circle cx=\"12\" cy=\"12\" r=\"3.4\"></circle></svg></div>\n      <div class=\"cblock\"><div class=\"ccap\">Баланс</div><div class=\"cbal\">4 812<span class=\"cnt\">.60 $</span></div></div>\n    </div>";
+function uxBottomNav(event){
+  const target=event.target.closest('[data-mb]');
+  if(!target)return;
+  event.preventDefault();
+  const key=target.dataset.mb;
+  if(key==='home')uxGo('home');
+  else if(key==='topup')setFlow('in');
+  else if(key==='withdraw')setFlow('out');
+  else if(key==='card')uxGo('wallet-card');
+  else if(key==='profile')uxGo('wallet-profile');
+}
+function uxHomeNav(event){
+  const el=event.target.closest('[data-go]');if(!el)return;
+  const route=el.getAttribute('data-go');
+  if(route==='topup')setFlow('in');
+  else if(route==='withdraw')setFlow('out');
+  else if(route==='history')uxGo('history');
+  else if(route==='card')uxGo('wallet-card');
+  else if(route==='profile')uxGo('wallet-profile');
+  else if(route==='earn')uxGo('wallet-earn');
+  else if(route==='notes')uxGo('wallet-notes');
+  else uxOtherMethod(({card:'Карта',earn:'Партнёрская программа',notes:'Уведомления',support:'Поддержка',profile:'Профиль'})[route]||route);
+}
+function uxHomeNavKey(e){
+  if(e.key!=='Enter'&&e.key!==' ')return;
+  if(e.target.closest('[data-go]')){e.preventDefault();uxHomeNav(e)}
+}
+function uxProfileTab(tab){if(['data','settings','earn'].includes(tab)){S.profileTab=tab;render()}}
+function uxSelectMethod(rail) {
+  if(!['SEPA','SWIFT'].includes(rail))return;
+  if(S.flow==='in'){
+    S.inRail=rail;
+    if(rail==='SEPA')S.inCurrency='EUR';
+    go('in-details');
+  } else {
+    S.outRail=rail;
+    S.sourceCurrency='USD';
+    if(rail==='SEPA'){
+      S.outCurrency='EUR';
+      if(!SEPA_COUNTRIES.includes(S.country))S.country='DE';
+    }
+    go('out-config');
+  }
+}
+
+function uxOtherMethod(name){
+  notify('Раздел '+name+' существует в alt.vu, но не входит в этот TransFi-прототип');
+}
+
+function uxMethodRow(name,description,symbol,handler){
+  const logos={USDT:'img-df9900c4.png',USDC:'img-a82008b8.png','ALT.VU':'img-27f3d8cf.png',СБП:'img-61ce324e.png'};
+  const img=logos[name]
+    ? `<div class="cn" style="width:40px;height:40px"><img src="../assets/${logos[name]}" alt="" width="24" height="24" style="border-radius:999px"/></div>`
+    : `<span aria-hidden="true">${esc(symbol)}</span>`;
+  return `<button type="button" class="m tf-method-row" onclick="${handler}"><span class="ic" aria-hidden="true">${img}</span><span class="mt"><b>${esc(name)}</b><i>${esc(description)}</i></span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--n400)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg></button>`;
+}
+function uxRenderMethods(){
+  const layer=$('methodLayer');
+  if(!S.modal){layer.hidden=true;layer.innerHTML='';return}
+  const isIn=S.modal==='in';
+  const other=isIn?[
+    ['СБП','Все банки РФ','₽'],
+    ['USDT','TRON · BNB Chain · Polygon · TON','₮'],
+    ['USDC','BNB Chain · Polygon','$'],
+    ['ALT.VU','От другого пользователя alt.vu','A']
+  ]:[
+    ['USDT','TRON · BNB Chain · Polygon · TON','₮'],
+    ['USDC','BNB Chain · Polygon','$'],
+    ['ALT.VU','Мгновенно и без комиссии','A']
+  ];
+  // Baseline order and geometry come from the live wallet. SEPA/SWIFT are additive TransFi rails.
+  const nativeRows=other.map(([a,b,c])=>uxMethodRow(a,b,c,`uxOtherMethod('${a}')`)).join('');
+  const rails=uxMethodRow('SEPA','Банковский перевод в евро','€',"uxSelectMethod('SEPA')")+
+    uxMethodRow('SWIFT','Международный банковский перевод','↗',"uxSelectMethod('SWIFT')");
+  const note=isIn
+    ? 'Зачисление стейблкоинов занимает 1–3 минуты после подтверждения сети. Перевод внутри alt.vu приходит сразу.'
+    : 'Перевод внутри alt.vu — сразу и без комиссии.';
+  layer.innerHTML=`<button type="button" class="tf-method-dim" aria-label="Закрыть выбор способа" onclick="uxCloseMethods()"></button>
+    <section class="sheet tf-method-sheet tf-native-sheet" role="dialog" aria-modal="true" aria-labelledby="tfMethodTitle">
+    <div class="grab"></div><h2 class="sh2" id="tfMethodTitle">${isIn?'Пополнить':'Вывести'}</h2>
+    ${nativeRows}
+    <p class="tf-method-subtitle">Международный банковский перевод</p>
+    ${rails}
+    <div class="note">${esc(note)}</div>
+    <a class="lnk" href="#" onclick="event.preventDefault();uxOtherMethod('Условия и тарифы')">Условия и тарифы <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.6"/><path d="M12 11v5.2"/><path d="M12 7.6v.1"/></svg></a>
+    </section>`;
+  layer.hidden=false;
+}
+
+function uxCloseMethods(){S.modal=null;render()}
+
+function uxSetFlow(flow){S.flow=flow;S.screen='home';S.modal=flow;S.showError=false;render()}
+
+function uxGo(screen){S.screen=screen;S.modal=null;S.showError=false;render()}
+
+function uxBack(){
+  if(S.modal){uxCloseMethods();return}
+  if(['history','wallet-card','wallet-profile','wallet-earn','wallet-notes'].includes(S.screen)){uxGo('home');return}
+  if(S.screen==='in-details'){S.screen='home';S.modal='in';render();return}
+  if(S.screen==='out-config'){S.screen='home';S.modal='out';render();return}
+  const map={
+    'in-pending':'in-details','in-success':'in-details','in-held':'in-details',
+    'out-recipient':'out-config','out-review':'out-recipient','out-progress':'out-review',
+    'out-success':'out-config','out-failed':'out-recipient','out-held':'out-progress','out-unavailable':'out-config'
+  };
+  if(map[S.screen])uxGo(map[S.screen]);else uxGo('home');
+}
+
+function uxSetIncomingCurrency(currency){
+  const available=S.inRail==='SEPA'?['EUR']:CURRENCY;
+  if(!available.includes(currency))return;
+  S.inCurrency=currency;render();
+}
+
+function uxSetOutCurrency(currency){
+  if(S.outRail==='SEPA'&&currency!=='EUR')return;
+  S.outCurrency=currency;render();
+}
+
+function uxSetOutCountry(country){
+  if(S.outRail==='SEPA'&&!SEPA_COUNTRIES.includes(country))return;
+  S.country=country;render();
+}
+
+function uxRenderScreen(){
+  if(S.screen==='home')return {
+    head:'Николай',
+    p:`<div class="tf-source-home" onclick="uxHomeNav(event)" onkeydown="uxHomeNavKey(event)">
+      <div class="hdr"><div class="hrow">
+  <div class="who" data-go="profile"><div class="uav">НК</div><span class="uname">Николай</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 5 7 7-7 7"></path></svg></div>
+  <div class="hacts">
+    <div class="ha" data-go="notes" role="button" tabindex="0"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8.5a6 6 0 1 0-12 0c0 6-2.2 7.5-2.2 7.5h16.4S18 14.5 18 8.5Z"></path><path d="M13.7 19.5a2 2 0 0 1-3.4 0"></path></svg></div>
+    <div class="ha" data-go="support" role="button" tabindex="0"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 11.6a7.9 7.9 0 0 1-8.5 7.9 9 9 0 0 1-3.2-.6L3.5 20.5l1.6-4.8A7.6 7.6 0 0 1 4 11.6C4 7.2 7.7 3.7 12.3 3.7s8.2 3.5 8.2 7.9Z"></path></svg></div>
+  </div>
+</div></div>
+      <div class="cardrow tf-source-cardrow">${S.cardMode==='ghost'?uxGhostCard:uxIssuedCard}</div>
+      <div class="hh"><h2>История</h2><a href="#" data-go="history">Все</a></div>
+      <div class="d">Сегодня</div><div class="grp"><div class="op" data-id="d1"><div class="oi coin"><div class="cic usdt oicoin"></div><div class="chk ok"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#211e1d" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 5 5 9-10"/></svg></div></div><div class="ot"><b>Пополнение USDT</b><i>14:02</i></div><div class="oa"><b class="in">+1 500.00 $</b><i>USDT TRC20</i></div></div><div class="op" data-id="c1"><div class="oi"><div class="catfill cat-transport"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 16.5v-3.2l2-5A2 2 0 0 1 7.4 7h9.2a2 2 0 0 1 1.9 1.3l2 5v3.2"/><path d="M3.5 16.5h17"/><circle cx="7.2" cy="16.6" r="1.6"/><circle cx="16.8" cy="16.6" r="1.6"/><path d="M9.5 7V4.5h5V7"/></svg></div><div class="chk ok"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#211e1d" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 5 5 9-10"/></svg></div></div><div class="ot"><b>Uber</b><i>12:40 · 4821</i></div><div class="oa"><b>−18.40 $</b><i>67.58 AED</i></div></div><div class="op" data-id="w1"><div class="oi coin"><div class="cic usdc oicoin"></div></div><div class="ot"><b>Вывод USDC</b><i>11:15 · <span>Подтверждается</span></i></div><div class="oa"><b>−500.00 $</b><i>USDC POLYGON</i></div></div></div><div class="d">Вчера</div><div class="grp"><div class="op" data-id="c2"><div class="oi"><div class="catfill cat-shop"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9.5v10h16v-10"/><path d="M3 9.5 5 4.5h14l2 5z"/><path d="M9.5 19.5v-6h5v6"/></svg></div><div class="chk no"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6 6 18"/></svg></div></div><div class="ot"><b>Amazon Marketplace</b><i>19:08 · 4821 · <span class="bad">Отклонено</span></i></div><div class="oa"><b>−84.90 $</b><i></i></div></div><div class="op" data-id="p1"><div class="oi"><div class="cn" style="width:40px;height:40px"><img class="logo" width="24" height="24" style="border-radius:999px" src="../assets/img-27f3d8cf.png" alt="alt.vu"></div><div class="chk ok"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#211e1d" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 5 5 9-10"/></svg></div></div><div class="ot"><b>Перевод от Anna K.</b><i>09:30</i></div><div class="oa"><b class="in">+25.00 $</b><i>ALT.VU</i></div></div></div>
+
+      <div class="tf-source-spacer"></div>
+    </div>`,
+    f:''
+  };
+  if(S.screen==='history')return{
+    head:'История',
+    p:`<div class="tf-source-history"><div class="d">Сегодня</div><div class="grp"><div class="op" data-id="d1"><div class="oi coin"><div class="cic usdt oicoin"></div><div class="chk ok"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#211e1d" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 5 5 9-10"/></svg></div></div><div class="ot"><b>Пополнение USDT</b><i>14:02</i></div><div class="oa"><b class="in">+1 500.00 $</b><i>USDT TRC20</i></div></div><div class="op" data-id="c1"><div class="oi"><div class="catfill cat-transport"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 16.5v-3.2l2-5A2 2 0 0 1 7.4 7h9.2a2 2 0 0 1 1.9 1.3l2 5v3.2"/><path d="M3.5 16.5h17"/><circle cx="7.2" cy="16.6" r="1.6"/><circle cx="16.8" cy="16.6" r="1.6"/><path d="M9.5 7V4.5h5V7"/></svg></div><div class="chk ok"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#211e1d" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 5 5 9-10"/></svg></div></div><div class="ot"><b>Uber</b><i>12:40 · 4821</i></div><div class="oa"><b>−18.40 $</b><i>67.58 AED</i></div></div><div class="op" data-id="w1"><div class="oi coin"><div class="cic usdc oicoin"></div></div><div class="ot"><b>Вывод USDC</b><i>11:15 · <span>Подтверждается</span></i></div><div class="oa"><b>−500.00 $</b><i>USDC POLYGON</i></div></div></div><div class="d">Вчера</div><div class="grp"><div class="op" data-id="c2"><div class="oi"><div class="catfill cat-shop"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9.5v10h16v-10"/><path d="M3 9.5 5 4.5h14l2 5z"/><path d="M9.5 19.5v-6h5v6"/></svg></div><div class="chk no"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6 6 18"/></svg></div></div><div class="ot"><b>Amazon Marketplace</b><i>19:08 · 4821 · <span class="bad">Отклонено</span></i></div><div class="oa"><b>−84.90 $</b><i></i></div></div><div class="op" data-id="p1"><div class="oi"><div class="cn" style="width:40px;height:40px"><img class="logo" width="24" height="24" style="border-radius:999px" src="../assets/img-27f3d8cf.png" alt="alt.vu"></div><div class="chk ok"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#211e1d" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 5 5 9-10"/></svg></div></div><div class="ot"><b>Перевод от Anna K.</b><i>09:30</i></div><div class="oa"><b class="in">+25.00 $</b><i>ALT.VU</i></div></div></div>
+</div>`,
+    f:''
+  };
+
+  if(S.screen==='wallet-card')return {
+    head:'Карта',
+    p:`<div class="tf-card-page">
+      ${S.cardMode==='ghost'?uxGhostCard:uxIssuedCard}
+      <div class="tf-card-caption">${S.cardMode==='ghost'?'Карта не выпущена':'Баланс карты общий с кошельком и номинирован в USD'}</div>
+      <div class="box"><div class="row"><div class="rt">Настройки карты<i>Номер, срок и реквизиты после активации</i></div></div>
+        <div class="row"><div class="rt">Тарифы и лимиты<i>Комиссии и ограничения</i></div></div>
+      </div>
+    </div>`,
+    f:S.cardMode==='ghost'?primary('Выпустить карту',"uxOtherMethod('Выпуск карты — требуется KYC')"):''
+  };
+  if(S.screen==='wallet-profile'){
+    const tab=S.profileTab||'data';
+    const tabs=`<div class="ptabs"><button class="ptab ${tab==='data'?'on':''}" onclick="uxProfileTab('data')">Данные</button><button class="ptab ${tab==='settings'?'on':''}" onclick="uxProfileTab('settings')">Настройки</button><button class="ptab ${tab==='earn'?'on':''}" onclick="uxProfileTab('earn')">Партнёрка</button></div>`;
+    const data=tab==='data'?'<div class="tf-section-label">Обо мне</div><div class="box"><div class="row"><div class="rt">Верификация<i>Пройдена</i></div></div><div class="row"><div class="rt">ФИО<i>Демонстрационный профиль</i></div></div><div class="row"><div class="rt">Адресная книга<i>Способы перевода и получатели</i></div></div></div>':
+      tab==='settings'?'<div class="tf-section-label">Общие</div><div class="box"><div class="row"><div class="rt">Уведомления</div></div><div class="row"><div class="rt">Язык интерфейса<i>Русский</i></div></div><div class="row"><div class="rt">Смена ПИН-кода</div></div></div>':
+      '<div class="tf-section-label">Партнёрская программа</div><div class="box"><div class="row"><div class="rt">Приглашайте друзей<i>Получайте вознаграждение за активации карт</i></div></div></div>';
+    return {head:'Профиль',p:`<div class="tf-profile-page">${tabs}${data}</div>`,f:''};
+  }
+  if(S.screen==='wallet-earn')return{
+    head:'Заработать',
+    p:`<div class="tf-earn-page"><div class="bnr"><div class="bg"></div><b>Партнёрская программа</b><i>Приглашайте друзей и получайте вознаграждения за активацию и операции</i></div>
+      <div class="box" style="margin-top:16px"><div class="row"><div class="rt">Приглашённые<i>Условные данные прототипа</i></div></div><div class="row"><div class="rt">История начислений<i>Пока нет операций</i></div></div></div></div>`,
+    f:''
+  };
+  if(S.screen==='wallet-notes')return{
+    head:'Уведомления',
+    p:'<div class="box"><div class="row"><div class="rt">Новых уведомлений нет<i>Операции и статусы будут отображаться здесь</i></div></div></div>',
+    f:''
+  };
+  if(S.screen==='in-details'){
+    const rows=getRequisites();
+    const currencyControl=S.inRail==='SEPA'
+      ? `<div class="fld w tf-field tf-deposit-currency"><div class="fi">${fieldIcon}</div><div class="fl"><i>Валюта пополнения</i><b>EUR</b></div></div>`
+      : `<div class="fld w tf-field tf-deposit-currency"><div class="fi">${fieldIcon}</div><label class="fl"><i>Валюта пополнения</i><select class="tf-select" aria-label="Валюта пополнения" onchange="setIncomingCurrency(this.value)">${CURRENCY.map(c=>`<option value="${c}" ${S.inCurrency===c?'selected':''}>${c}</option>`).join('')}</select></label></div>`;
+    return {
+      head:'Пополнение · '+S.inRail,
+      p:`${currencyControl}<div class="box tf-requisites">${rows.map(([k,v],i)=>copyrow(k,v,i)).join('')}</div>`,
+      f:primary('Скопировать все реквизиты','copyAll()')
+    };
+  }
+  if(S.screen==='out-config'){
+    const q=quote();
+    const currencies=S.outRail==='SEPA'?['EUR']:CURRENCY;
+    const countries=S.outRail==='SEPA'?Object.entries(COUNTRY).filter(([code])=>SEPA_COUNTRIES.includes(code)):Object.entries(COUNTRY);
+    return{
+      head:'Вывод · '+S.outRail,
+      p:`<div class="tf-route"><strong>${esc(S.outRail)}</strong>Банковский перевод</div>
+      <div class="tf-label">Списать с баланса</div><div class="tf-static-source"><span>Валюта баланса</span><strong>USD</strong></div>
+      <div class="tf-label">Валюта получения</div>${segment(currencies.map(v=>({v})),S.outCurrency,'setOutCurrency')}
+      <div class="fld w tf-field"><div class="fi">${fieldIcon}</div><label class="fl"><i>Страна получателя</i><select class="tf-select" aria-label="Страна получателя" onchange="setOutCountry(this.value)">${countries.map(([c,name])=>`<option value="${c}" ${S.country===c?'selected':''}>${esc(name)}</option>`).join('')}</select></label></div>
+      <div class="fld w tf-field tf-amount"><div class="fi">${fieldIcon}</div><label class="fl"><i>Сумма перевода</i><input type="number" min="0" step="0.01" inputmode="decimal" aria-label="Сумма перевода" value="${esc(S.amount)}" oninput="store('amount',this.value);renderQuote()"/></label><div class="addon"><span class="cur">USD</span></div></div>
+      <div class="tbl tf-quote" id="quoteBlock">${qSummary()}</div>`,
+      f:primary('Продолжить','checkConfig()')
+    };
+  }
+  const old=_tfBaseRenderScreen();
+  if(S.flow==='out')old.head='Вывод · '+S.outRail;
+  if(S.flow==='in')old.head='Пополнение · '+S.inRail;
+  return old;
+}
+
+function uxRender(){
+  const phone=document.querySelector('.phone.tf-phone');
+  phone.classList.toggle('is-home',S.screen==='home');
+  const tabs=document.querySelector('.tf-bottom-nav');
+  const showTabs=['home','wallet-card','wallet-profile','wallet-earn','wallet-notes'].includes(S.screen);
+  phone.classList.toggle('has-bottom-nav',showTabs);
+  tabs.hidden=!showTabs;
+  for(const tab of tabs.querySelectorAll('[data-mb]')){
+    const key=tab.dataset.mb;
+    const selected=(key==='home'&&S.screen==='home')
+      ||(key==='card'&&S.screen==='wallet-card')
+      ||(key==='profile'&&['wallet-profile','wallet-earn','wallet-notes'].includes(S.screen));
+    tab.classList.toggle('on',selected);
+    if(selected)tab.setAttribute('aria-current','page');
+    else tab.removeAttribute('aria-current');
+  }
+
+  _tfBaseRender();
+  $('methodLayer').hidden=!S.modal;
+  uxRenderMethods();
+  document.querySelector('.phone.tf-phone .back').hidden=S.screen==='home';
+  const home=$('flow-home');
+  if(home)home.classList.toggle('active',S.screen==='home');
+  if(S.screen==='home'){
+    $('stageLabel').textContent='Главная · Кошелёк alt.vu';
+    $('stageIndex').textContent='Главная';
+  }else{
+    $('stageLabel').textContent=(S.flow==='in'?'Пополнение':'Вывод')+' · '+(S.flow==='in'?S.inRail:S.outRail);
+  }
+}
+const _tfBaseRender=render;
+const _tfBaseRenderScreen=renderScreen;
+S.screen='home';
+S.modal=null;
+S.sourceCurrency='USD';
+S.inRail='SEPA';
+S.inCurrency='EUR';
+S.outRail='SEPA';
+S.outCurrency='EUR';
+for(const name of ['wallet-card','wallet-profile','wallet-earn','wallet-notes']){
+ SCREENS.in.push([name,{ 'wallet-card':'Карта','wallet-profile':'Профиль','wallet-earn':'Партнёрка','wallet-notes':'Уведомления'}[name]]);
+ SCREENS.out.push([name,{ 'wallet-card':'Карта','wallet-profile':'Профиль','wallet-earn':'Партнёрка','wallet-notes':'Уведомления'}[name]]);
+ META[name]={title:name,desc:'Демонстрационная навигация по реальным компонентам alt.vu; API-операции других разделов не выполняются.',apis:[],rules:['Пользовательские данные из Chrome не публикуются.']};
+}
+SCREENS.in.push(['history','История']);
+SCREENS.out.push(['history','История']);
+META.history={title:'История',desc:'Список операций из оригинальных классов alt.vu с синтетическими данными.',apis:[],rules:['Реальные операции и персональные данные Chrome не переносились в публичный репозиторий.']};
+META.home={title:'Главная кошелька',desc:'Один общий USD-баланс, вход в пополнение и вывод через шторку. Баланс в прототипе условный.',apis:[],rules:['Все пополнения и выводы требуют KYC в основном приложении.','СБП, USDT/USDC и внутренние переводы не заменяются.']};
+META['in-details']={title:'Валюта пополнения и банковские реквизиты',desc:'На одном экране: для SEPA валютой фиксирован EUR, для SWIFT валюта выбирается в поле над реквизитами. При смене SWIFT-валюты реквизиты перестраиваются без перехода.',apis:['GET /v3/config/supported-currencies','GET /v3/config/payment-methods/iban','GET /v3/iban'],rules:['Доступные валюты и реквизиты в прототипе демонстрационные и зависят от merchant/MID.','Копирование банковских реквизитов не означает отправку или обнаружение платежа.','При смене валюты показывается набор реквизитов выбранной валюты.']};
+const methodLayer=document.createElement('div');
+methodLayer.id='methodLayer';
+methodLayer.className='tf-method-layer';
+methodLayer.hidden=true;
+document.querySelector('.phone.tf-phone').appendChild(methodLayer);
+setFlow=uxSetFlow;
+go=uxGo;
+goBack=uxBack;
+setIncomingCurrency=uxSetIncomingCurrency;
+setOutCurrency=uxSetOutCurrency;
+setOutCountry=uxSetOutCountry;
+renderScreen=uxRenderScreen;
+render=uxRender;
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&S.modal)uxCloseMethods()});
+
+// Deterministic screenshot routes for Playwright: ?capture=1&flow=out&screen=out-config&rail=SEPA
+const tfQuery=new URLSearchParams(location.search);
+if(tfQuery.get('capture')==='1')document.documentElement.classList.add('tf-capture');
+if(tfQuery.get('embedded')==='1')document.documentElement.classList.add('tf-embedded');
+const queryFlow=tfQuery.get('flow');
+if(queryFlow==='in'||queryFlow==='out')S.flow=queryFlow;
+const queryRail=tfQuery.get('rail');
+if(queryRail==='SEPA'||queryRail==='SWIFT'){
+  if(S.flow==='in'){S.inRail=queryRail;if(queryRail==='SEPA')S.inCurrency='EUR'}
+  else {S.outRail=queryRail;if(queryRail==='SEPA'){S.outCurrency='EUR';S.country='DE'}}
+}
+S.cardMode=tfQuery.get('card')==='ghost'?'ghost':'issued';
+S.profileTab='data';
+const queryScreen=tfQuery.get('screen');
+if(queryScreen==='home'||SCREENS[S.flow].some(([screen])=>screen===queryScreen))S.screen=queryScreen;
+if(S.screen==='home'&&(tfQuery.get('modal')==='in'||tfQuery.get('modal')==='out'))S.modal=tfQuery.get('modal');
+render();
+</script>
+</body></html>
