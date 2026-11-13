@@ -8,6 +8,8 @@ on:
       - 'tests/source-smoke.mjs'
       - '.github/workflows/transfi-source-playwright.yml'
   workflow_dispatch:
+permissions:
+  contents: write
 jobs:
   source-parity:
     runs-on: ubuntu-latest
@@ -18,6 +20,17 @@ jobs:
         run: npm install --no-save playwright@1.56.1
       - name: Check native source markup and TransFi links
         run: node tests/source-smoke.mjs
+      - name: Publish inspected screenshots for review
+        if: always()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add tests/source-output
+          if ! git diff --cached --quiet; then
+            git commit -m "Capture original alt.vu source UI for visual parity review"
+            git pull --rebase -X theirs origin main
+            git push origin HEAD:main
+          fi
       - name: Upload captured original screens
         if: always()
         uses: actions/upload-artifact@v4
