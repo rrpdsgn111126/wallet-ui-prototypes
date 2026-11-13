@@ -1,11 +1,31 @@
 import {chromium} from 'playwright';
 import path from 'node:path';
-import {pathToFileURL} from 'node:url';
+import http from 'node:http';
 import fs from 'node:fs';
 const browser=await chromium.launch({channel:'chrome',headless:true});
 const out=path.resolve('tests/source-output');fs.mkdirSync(out,{recursive:true});
 const report={screens:[],errors:[]};
-const base=pathToFileURL(path.resolve('transfi-remittance/index.html'));
+// Embedded bank callbacks require a real shared origin; file:// uses opaque
+// origins and does not behave like the published GitHub Pages prototype.
+const root=path.resolve('.');
+const types={'.html':'text/html;charset=utf-8','.js':'text/javascript;charset=utf-8',
+  '.css':'text/css;charset=utf-8','.svg':'image/svg+xml',
+  '.png':'image/png','.jpg':'image/jpeg','.webp':'image/webp',
+  '.woff':'font/woff','.woff2':'font/woff2','.json':'application/json'};
+const server=http.createServer((req,res)=>{
+  const pathname=new URL(req.url,'http://localhost').pathname;
+  let decoded;
+  try{decoded=decodeURIComponent(pathname)}catch{res.writeHead(400);res.end();return}
+  const file=path.resolve(root,'.'+decoded);
+  if(!file.startsWith(root+path.sep)){res.writeHead(403);res.end();return}
+  fs.stat(file,(error,stat)=>{
+    if(error||!stat.isFile()){res.writeHead(404);res.end();return}
+    res.setHeader('Content-Type',types[path.extname(file)]||'application/octet-stream');
+    fs.createReadStream(file).pipe(res);
+  });
+});
+await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));
+const base={href:'http://127.0.0.1:'+server.address().port+'/transfi-remittance/index.html'};
 try{
 for(const viewport of [{width:390,height:844},{width:430,height:932},{width:1440,height:900}]){
  const page=await browser.newPage({viewport,deviceScaleFactor:1});
@@ -92,4 +112,8 @@ for(const viewport of [{width:390,height:844},{width:430,height:932},{width:1440
  await page.screenshot({path:path.join(out,'source-swift-'+viewport.width+'.png'),animations:'disabled'});
  await page.close();
 }
-}finally{await browser.close();fs.writeFileSync(path.join(out,'report.json'),JSON.stringify(report,null,2));}
+}finally{
+ await browser.close();
+ await new Promise(resolve=>server.close(resolve));
+ fs.writeFileSync(path.join(out,'report.json'),JSON.stringify(report,null,2));
+}
