@@ -586,7 +586,7 @@ html.tf-capture.tf-embedded .phone.tf-phone,html.tf-capture.tf-embedded .phone.t
 <main class="workspace"><div class="stage"><span id="stageLabel"></span><span id="stageIndex"></span></div>
 <div class="devtools" id="recipientTools" hidden><button class="devFill" type="button" onclick="fillDemo()">Заполнить тестовые реквизиты</button></div>
 <div class="phone tf-phone">
-<div class="head"><button class="back" aria-label="Назад" onclick="goBack()"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg></button><div class="h1" id="phoneTitle">Международный перевод</div><div class="tf-home-toolbar" aria-hidden="true"><span class="tf-home-tool"><svg width="22" height="22" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"/></svg><span class="tf-home-badge">2</span></span><span class="tf-home-tool"><svg width="22" height="22" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M20 11.6a8 8 0 0 1-8 8c-1.3 0-2.5-.3-3.6-.8L4 20l1.2-4.4A8 8 0 1 1 20 11.6Z"/></svg></span></div></div>
+<div class="head"><button class="back" aria-label="Назад" onclick="goBack()"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg></button><div class="h1" id="phoneTitle">Международный перевод</div><div class="hacts tf-head-actions"><button type="button" class="ha tf-head-action" aria-label="Уведомления" onclick="uxGo('wallet-notes')"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 8.5a6 6 0 1 0-12 0c0 6-2.2 7.5-2.2 7.5h16.4S18 14.5 18 8.5Z"/><path d="M13.7 19.5a2 2 0 0 1-3.4 0"/></svg></button><button type="button" class="ha tf-head-action" aria-label="Поддержка" onclick="uxOtherMethod('Поддержка')"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 11.6a7.9 7.9 0 0 1-8.5 7.9 9 9 0 0 1-3.2-.6L3.5 20.5l1.6-4.8A7.6 7.6 0 0 1 4 11.6C4 7.2 7.7 3.7 12.3 3.7s8.2 3.5 8.2 7.9Z"/></svg></button></div></div>
 <div class="tf-scroll" id="content"></div><div class="tf-foot" id="footer"></div><nav class="bnv tf-bottom-nav" aria-label="Разделы" onclick="uxBottomNav(event)"><a class="bnv-i" href="#" data-mb="home"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10.4 12 4l8 6.4V19a1.4 1.4 0 0 1-1.4 1.4H15v-5.6H9v5.6H5.4A1.4 1.4 0 0 1 4 19z"></path></svg><span>Главная</span></a><a class="bnv-i" href="#" data-mb="topup"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v13"></path><path d="m6.5 11.5 5.5 5.5 5.5-5.5"></path><path d="M4.5 20h15"></path></svg><span>Пополнить</span></a><a class="bnv-i" href="#" data-mb="card"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5.5" width="18" height="13" rx="2.6"></rect><path d="M3 10h18"></path><path d="M7 14.6h3.5"></path></svg><span>Карта</span></a><a class="bnv-i" href="#" data-mb="withdraw"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20V7"></path><path d="m6.5 12.5 5.5-5.5 5.5 5.5"></path><path d="M4.5 4h15"></path></svg><span>Вывести</span></a><a class="bnv-i" href="#" data-mb="profile"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8.4" r="3.9"></circle><path d="M4.6 20c.6-3.6 3.7-6 7.4-6s6.8 2.4 7.4 6"></path></svg><span>Профиль</span></a></nav>
 </div></main>
 <aside class="apiBox"><div class="sideLabel">Пояснение к экрану</div><h2 id="metaTitle"></h2><p id="metaDescription"></p>
@@ -654,7 +654,7 @@ function tfIconFor(key){
  return '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--n850)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+p+'</svg>';
 }
 function field(label,key,placeholder,{optional=false,hint='',type='text'}={}){return `<div class="fld w tf-field" id="wrap-${key}"><div class="fi">${tfIconFor(key)}</div><label class="fl" for="f-${key}"><i>${esc(label)}${optional?' · необязательно':''}</i><input id="f-${key}" type="${type}" placeholder="${esc(placeholder)}" value="${esc(S[key])}" oninput="store('${key}',this.value)" autocomplete="off"/></label></div>`}
-function selectField(label,key,opts){return `<div class="fld w tf-field"><div class="fi">${tfIconFor(key)}</div><label class="fl"><i>${esc(label)}</i><select class="tf-select" aria-label="${esc(label)}" onchange="store('${key}',this.value);if('${key}'==='purpose')render()">${opts.map(x=>`<option value="${x[0]}" ${S[key]===x[0]?'selected':''}>${esc(x[1])}</option>`).join('')}</select></label></div>`}
+function selectField(label,key,opts){return uxPickerField(label,key,key)}
 function keyrow(k,v){return `<div class="rl tf-rl"><span>${esc(k)}</span><b>${esc(v)}</b></div>`}
 function notice(text,t=''){return `<div class="tf-notice ${t}">${esc(text)}</div>`}
 function primary(t,click,disabled=false){return `<button type="button" class="btn tf-button" ${disabled?'disabled':''} onclick="${click}">${esc(t)}</button>`}
@@ -818,10 +818,16 @@ function uxSetFlow(flow){S.flow=flow;S.screen='home';S.modal=flow;S.showError=fa
 function uxGo(screen){S.screen=screen;S.modal=null;S.showError=false;render()}
 
 function uxBack(){
+  if(S.picker){uxClosePicker();return}
   if(S.modal){uxCloseMethods();return}
   if(['history','wallet-card','wallet-profile','wallet-earn','wallet-notes'].includes(S.screen)){uxGo('home');return}
-  if(S.screen==='in-details'){S.screen='home';S.modal='in';render();return}
-  if(S.screen==='out-config'){S.screen='home';S.modal='out';render();return}
+  if(S.screen==='in-details'||S.screen==='out-config'){
+    if(window.parent!==window){
+      window.parent.postMessage({type:'altvu:transfi:exit',flow:S.flow},location.origin);
+      return;
+    }
+    uxGo('home');return;
+  }
   const map={
     'in-pending':'in-details','in-success':'in-details','in-held':'in-details',
     'out-recipient':'out-config','out-review':'out-recipient','out-progress':'out-review',
@@ -906,31 +912,29 @@ function uxRenderScreen(){
     const rows=getRequisites();
     const currencyControl=S.inRail==='SEPA'
       ? `<div class="fld w tf-field tf-deposit-currency"><div class="fi">${tfIconFor('currency')}</div><div class="fl"><i>Валюта пополнения</i><b>EUR</b></div></div>`
-      : `<div class="fld w tf-field tf-deposit-currency"><div class="fi">${tfIconFor('currency')}</div><label class="fl"><i>Валюта пополнения</i><select class="tf-select" aria-label="Валюта пополнения" onchange="setIncomingCurrency(this.value)">${CURRENCY.map(c=>`<option value="${c}" ${S.inCurrency===c?'selected':''}>${c}</option>`).join('')}</select></label></div>`;
+      : uxPickerField('Валюта пополнения','inCurrency','currency');
     return {
-      head:'Пополнение · '+S.inRail,
+      head:'Пополнение '+S.inRail,
       p:`${currencyControl}<div class="box tf-requisites">${rows.map(([k,v],i)=>copyrow(k,v,i)).join('')}</div>`,
       f:primary('Скопировать все реквизиты','copyAll()')
     };
   }
   if(S.screen==='out-config'){
     const q=quote();
-    const currencies=S.outRail==='SEPA'?['EUR']:CURRENCY;
-    const countries=S.outRail==='SEPA'?Object.entries(COUNTRY).filter(([code])=>SEPA_COUNTRIES.includes(code)):Object.entries(COUNTRY);
     return{
-      head:'Вывод · '+S.outRail,
+      head:'Вывод '+S.outRail,
       p:`<div class="tf-route"><strong>${esc(S.outRail)}</strong>Банковский перевод</div>
       <div class="fld g tf-field tf-source"><div class="fi"><div class="cn" style="width:40px;height:40px"><img width="24" height="24" src="../assets/img-27f3d8cf.png" alt="" style="display:block;border-radius:50%"></div></div><div class="fl"><i>Со счёта alt.vu</i><b>Доступно 4 812.60 $</b></div><div class="addon"><span class="cur">USD</span></div></div>
-      <div class="tf-label">Валюта получения</div>${segment(currencies.map(v=>({v})),S.outCurrency,'setOutCurrency')}
-      <div class="fld w tf-field"><div class="fi">${tfIconFor('country')}</div><label class="fl"><i>Страна получателя</i><select class="tf-select" aria-label="Страна получателя" onchange="setOutCountry(this.value)">${countries.map(([c,name])=>`<option value="${c}" ${S.country===c?'selected':''}>${esc(name)}</option>`).join('')}</select></label></div>
+      ${S.outRail==='SEPA'?uxFixedCurrencyField('Валюта получения','EUR'):uxPickerField('Валюта получения','outCurrency','currency')}
+      ${uxPickerField('Страна получателя','country','country')}
       <div class="fld w tf-field tf-amount"><div class="fi">${tfIconFor('amount')}</div><label class="fl"><i>Сумма перевода</i><input type="number" min="0" step="0.01" inputmode="decimal" aria-label="Сумма перевода" value="${esc(S.amount)}" oninput="store('amount',this.value);renderQuote()"/></label><div class="addon"><span class="cur">USD</span></div></div>
       <div class="tbl tf-quote" id="quoteBlock">${qSummary()}</div>`,
       f:primary('Продолжить','checkConfig()')
     };
   }
   const old=_tfBaseRenderScreen();
-  if(S.flow==='out')old.head='Вывод · '+S.outRail;
-  if(S.flow==='in')old.head='Пополнение · '+S.inRail;
+  if(S.flow==='out')old.head='Вывод '+S.outRail;
+  if(S.flow==='in')old.head='Пополнение '+S.inRail;
   return old;
 }
 
@@ -954,6 +958,7 @@ function uxRender(){
   _tfBaseRender();
   $('methodLayer').hidden=!S.modal;
   uxRenderMethods();
+  uxRenderPicker();
   document.querySelector('.phone.tf-phone .back').hidden=S.screen==='home';
   const home=$('flow-home');
   if(home)home.classList.toggle('active',S.screen==='home');
@@ -968,6 +973,7 @@ const _tfBaseRender=render;
 const _tfBaseRenderScreen=renderScreen;
 S.screen='home';
 S.modal=null;
+S.picker=null;
 S.sourceCurrency='USD';
 S.inRail='SEPA';
 S.inCurrency='EUR';
@@ -983,11 +989,103 @@ SCREENS.out.push(['history','История']);
 META.history={title:'История',desc:'Список операций из оригинальных классов alt.vu с синтетическими данными.',apis:[],rules:['Реальные операции и персональные данные Chrome не переносились в публичный репозиторий.']};
 META.home={title:'Главная кошелька',desc:'Один общий USD-баланс, вход в пополнение и вывод через шторку. Баланс в прототипе условный.',apis:[],rules:['Все пополнения и выводы требуют KYC в основном приложении.','СБП, USDT/USDC и внутренние переводы не заменяются.']};
 META['in-details']={title:'Валюта пополнения и банковские реквизиты',desc:'На одном экране: для SEPA валютой фиксирован EUR, для SWIFT валюта выбирается в поле над реквизитами. При смене SWIFT-валюты реквизиты перестраиваются без перехода.',apis:['GET /v3/config/supported-currencies','GET /v3/config/payment-methods/iban','GET /v3/iban'],rules:['Доступные валюты и реквизиты в прототипе демонстрационные и зависят от merchant/MID.','Копирование банковских реквизитов не означает отправку или обнаружение платежа.','При смене валюты показывается набор реквизитов выбранной валюты.']};
+
+/* Bank selector pattern: mirrors the app's network picker (.dim + .sheet + .grab + .box/.row).
+   Selectors live inside the existing .tf-phone; never open a separate prototype. */
+function uxPickerOptions(key){
+  if(key==='inCurrency')return CURRENCY.map(value=>({value,label:value}));
+  if(key==='outCurrency')return (S.outRail==='SEPA'?['EUR']:CURRENCY).map(value=>({value,label:value}));
+  if(key==='country'){
+    const countries=S.outRail==='SEPA'
+      ? Object.entries(COUNTRY).filter(([code])=>SEPA_COUNTRIES.includes(code))
+      : Object.entries(COUNTRY);
+    return countries.map(([value,label])=>({value,label}));
+  }
+  if(key==='purpose')return [
+    {value:'personal',label:'Перевод собственных средств'},
+    {value:'family',label:'Перевод родственникам'},
+    {value:'education',label:'Обучение'},
+    {value:'other',label:'Другое'}
+  ];
+  return [];
+}
+function uxPickerTitle(key){
+  return {inCurrency:'Валюта пополнения',outCurrency:'Валюта получения',country:'Страна получателя',purpose:'Назначение перевода'}[key]||'Выберите значение';
+}
+function uxFixedCurrencyField(label,value){
+  return '<div class="fld w tf-field tf-fixed-currency"><div class="fi">'+tfIconFor('currency')+
+    '</div><div class="fl"><i>'+esc(label)+'</i><b>'+esc(value)+'</b></div></div>';
+}
+function uxPickerField(label,key,icon){
+  const selected=uxPickerOptions(key).find(option=>option.value===S[key]);
+  return '<button type="button" class="fld w tf-field tf-picker-trigger" data-picker="'+esc(key)+
+    '" aria-haspopup="dialog" aria-label="'+esc(label)+': '+esc(selected?selected.label:'Не выбрано')+
+    '"><span class="fi">'+tfIconFor(icon||key)+'</span><span class="fl"><i>'+esc(label)+
+    '</i><b>'+esc(selected?selected.label:'Выбрать')+'</b></span>'+
+    '<span class="tf-picker-chevron" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 5 7 7-7 7"/></svg></span></button>';
+}
+function uxOpenPicker(key){
+  if(!uxPickerOptions(key).length||S.modal)return;
+  S.picker=key;
+  uxRenderPicker();
+  const first=$('pickerLayer').querySelector('.tf-picker-row[aria-selected="true"]') ||
+    $('pickerLayer').querySelector('.tf-picker-row');
+  if(first)first.focus();
+}
+function uxClosePicker(){
+  S.picker=null;
+  uxRenderPicker();
+}
+function uxChoosePicker(value){
+  const key=S.picker;
+  if(!key)return;
+  if(!uxPickerOptions(key).some(option=>option.value===value))return;
+  const scrollTop=$('content').scrollTop;
+  if(key==='inCurrency')S.inCurrency=value;
+  if(key==='outCurrency'){S.outCurrency=value;configRail();}
+  if(key==='country'){S.country=value;configRail();}
+  if(key==='purpose')S.purpose=value;
+  S.picker=null;
+  render();
+  $('content').scrollTop=scrollTop;
+  const trigger=document.querySelector('.phone.tf-phone [data-picker="'+key+'"]');
+  if(trigger)trigger.focus();
+}
+function uxRenderPicker(){
+  const layer=$('pickerLayer');
+  if(!layer)return;
+  if(!S.picker){layer.hidden=true;layer.innerHTML='';return;}
+  const key=S.picker,choices=uxPickerOptions(key),heading=uxPickerTitle(key);
+  const rows=choices.map(option=>{
+    const checked=S[key]===option.value;
+    return '<button type="button" class="row tf-picker-row" data-picker-value="'+esc(option.value)+
+      '" role="option" aria-selected="'+checked+'"><span class="ri">'+tfIconFor(key==='country'?'country':key==='purpose'?'note':'currency')+
+      '</span><span class="rt">'+esc(option.label)+'</span><span class="rd'+(checked?' on':'')+
+      '" aria-hidden="true">'+(checked?'✓':'')+'</span></button>';
+  }).join('');
+  layer.innerHTML='<button type="button" class="dim tf-picker-dim" data-picker-dismiss aria-label="Закрыть список"></button>'+
+    '<section class="sheet tf-picker-sheet" role="dialog" aria-modal="true" aria-label="'+esc(heading)+'">'+
+    '<div class="grab"></div><h2 class="sh2">'+esc(heading)+'</h2><div class="box tf-picker-box" role="listbox" aria-label="'+esc(heading)+'">'+rows+'</div></section>';
+  layer.hidden=false;
+}
+
 const methodLayer=document.createElement('div');
 methodLayer.id='methodLayer';
 methodLayer.className='tf-method-layer';
 methodLayer.hidden=true;
 document.querySelector('.phone.tf-phone').appendChild(methodLayer);
+const pickerLayer=document.createElement('div');
+pickerLayer.id='pickerLayer';
+pickerLayer.className='tf-picker-layer';
+pickerLayer.hidden=true;
+document.querySelector('.phone.tf-phone').appendChild(pickerLayer);
+document.querySelector('.phone.tf-phone').addEventListener('click',function(e){
+  const trigger=e.target.closest('[data-picker]');
+  if(trigger){uxOpenPicker(trigger.dataset.picker);return;}
+  const choice=e.target.closest('[data-picker-value]');
+  if(choice){uxChoosePicker(choice.dataset.pickerValue);return;}
+  if(e.target.closest('[data-picker-dismiss]'))uxClosePicker();
+});
 setFlow=uxSetFlow;
 go=uxGo;
 goBack=uxBack;
@@ -996,7 +1094,7 @@ setOutCurrency=uxSetOutCurrency;
 setOutCountry=uxSetOutCountry;
 renderScreen=uxRenderScreen;
 render=uxRender;
-document.addEventListener('keydown',e=>{if(e.key==='Escape'&&S.modal)uxCloseMethods()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){if(S.picker)uxClosePicker();else if(S.modal)uxCloseMethods()}});
 
 // Deterministic screenshot routes for Playwright: ?capture=1&flow=out&screen=out-config&rail=SEPA
 const tfQuery=new URLSearchParams(location.search);
