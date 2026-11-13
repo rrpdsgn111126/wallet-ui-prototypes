@@ -1,5 +1,5 @@
 {
-  "run": "2026-11-13T11:57:05.784Z",
+  "run": "2026-11-13T11:58:18.709Z",
   "cases": [
     {
       "label": "home",
@@ -4742,6 +4742,1070 @@
       "errors": []
     }
   ],
-  "issues": [],
-  "pageCases": []
+  "issues": [
+    {
+      "label": "full-home-375",
+      "violations": [
+        "mobile phone should fill browser height"
+      ]
+    },
+    {
+      "label": "full-topup-sheet-375",
+      "violations": [
+        "mobile phone should fill browser height"
+      ]
+    },
+    {
+      "label": "full-in-sepa-375",
+      "violations": [
+        "mobile phone should fill browser height"
+      ]
+    },
+    {
+      "label": "full-home-390",
+      "violations": [
+        "mobile phone should fill browser height"
+      ]
+    },
+    {
+      "label": "full-topup-sheet-390",
+      "violations": [
+        "mobile phone should fill browser height"
+      ]
+    },
+    {
+      "label": "full-in-sepa-390",
+      "violations": [
+        "mobile phone should fill browser height"
+      ]
+    },
+    {
+      "label": "full-home-430",
+      "violations": [
+        "mobile phone should fill browser height"
+      ]
+    },
+    {
+      "label": "full-topup-sheet-430",
+      "violations": [
+        "mobile phone should fill browser height"
+      ]
+    },
+    {
+      "label": "full-in-sepa-430",
+      "violations": [
+        "mobile phone should fill browser height"
+      ]
+    }
+  ],
+  "pageCases": [
+    {
+      "label": "full-home-375",
+      "metrics": {
+        "viewport": {
+          "width": 375,
+          "height": 667
+        },
+        "htmlPosition": "static",
+        "bodyPosition": "static",
+        "htmlOverflowY": "auto",
+        "bodyOverflowY": "visible",
+        "documentWidth": 375,
+        "documentHeight": 667,
+        "top": {
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "bottom": 0,
+          "width": 0,
+          "height": 0
+        },
+        "phone": {
+          "left": 0,
+          "right": 375,
+          "top": 0,
+          "bottom": 516,
+          "width": 375,
+          "height": 516
+        },
+        "phoneOffsetWidth": 375,
+        "phoneTransform": "none",
+        "bodyBeforeContent": "none",
+        "content": {
+          "height": 516,
+          "scrollHeight": 956
+        },
+        "sidebarDisplay": "none",
+        "mobileNavDisplay": "grid",
+        "nativeStatusCount": 0,
+        "navBounding": {
+          "left": 16,
+          "right": 359,
+          "top": 440,
+          "bottom": 504,
+          "width": 343,
+          "height": 64
+        },
+        "isIssuedCardVisible": true,
+        "visaBrandVisible": true,
+        "addCardButtonVisible": true,
+        "scrollYAfter": 0,
+        "innerScrollTop": 100
+      },
+      "violations": [
+        "mobile phone should fill browser height"
+      ]
+    },
+    {
+      "label": "full-topup-sheet-375",
+      "metrics": {
+        "viewport": {
+          "width": 375,
+          "height": 667
+        },
+        "htmlPosition": "static",
+        "bodyPosition": "static",
+        "htmlOverflowY": "auto",
+        "bodyOverflowY": "visible",
+        "documentWidth": 375,
+        "documentHeight": 667,
+        "top": {
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "bottom": 0,
+          "width": 0,
+          "height": 0
+        },
+        "phone": {
+          "left": 0,
+          "right": 375,
+          "top": 0,
+          "bottom": 516,
+          "width": 375,
+          "height": 516
+        },
+        "phoneOffsetWidth": 375,
+        "phoneTransform": "none",
+        "bodyBeforeContent": "none",
+        "content": {
+          "height": 516,
+          "scrollHeight": 956
+        },
+        "sidebarDisplay": "none",
+        "mobileNavDisplay": "grid",
+        "nativeStatusCount": 0,
+        "navBounding": {
+          "left": 16,
+          "right": 359,
+          "top": 440,
+          "bottom": 504,
+          "width": 343,
+          "height": 64
+        },
+        "isIssuedCardVisible": true,
+        "visaBrandVisible": true,
+        "addCardButtonVisible": true,
+        "scrollYAfter": 0,
+        "innerScrollTop": 100
+      },
+      "violations": [
+        "mobile phone should fill browser height"
+      ]
+    },
+    {
+      "label": "full-in-sepa-375",
+      "metrics": {
+        "viewport": {
+          "width": 375,
+          "height": 667
+        },
+        "htmlPosition": "static",
+        "bodyPosition": "static",
+        "htmlOverflowY": "auto",
+        "bodyOverflowY": "visible",
+        "documentWidth": 375,
+        "documentHeight": 667,
+        "top": {
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "bottom": 0,
+          "width": 0,
+          "height": 0
+        },
+        "phone": {
+          "left": 0,
+          "right": 375,
+          "top": 0,
+          "bottom": 630,
+          "width": 375,
+          "height": 630
+        },
+        "phoneOffsetWidth": 375,
+        "phoneTransform": "none",
+        "bodyBeforeContent": "none",
+        "content": {
+          "height": 472,
+          "scrollHeight": 508
+        },
+        "sidebarDisplay": "none",
+        "mobileNavDisplay": "none",
+        "nativeStatusCount": 0,
+        "navBounding": {
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "bottom": 0,
+          "width": 0,
+          "height": 0
+        },
+        "isIssuedCardVisible": false,
+        "visaBrandVisible": false,
+        "addCardButtonVisible": false,
+        "scrollYAfter": 0,
+        "innerScrollTop": 36
+      },
+      "violations": [
+        "mobile phone should fill browser height"
+      ]
+    },
+    {
+      "label": "full-home-390",
+      "metrics": {
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "htmlPosition": "static",
+        "bodyPosition": "static",
+        "htmlOverflowY": "auto",
+        "bodyOverflowY": "visible",
+        "documentWidth": 390,
+        "documentHeight": 844,
+        "top": {
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "bottom": 0,
+          "width": 0,
+          "height": 0
+        },
+        "phone": {
+          "left": 0,
+          "right": 390,
+          "top": 0,
+          "bottom": 693,
+          "width": 390,
+          "height": 693
+        },
+        "phoneOffsetWidth": 390,
+        "phoneTransform": "none",
+        "bodyBeforeContent": "none",
+        "content": {
+          "height": 693,
+          "scrollHeight": 965
+        },
+        "sidebarDisplay": "none",
+        "mobileNavDisplay": "grid",
+        "nativeStatusCount": 0,
+        "navBounding": {
+          "left": 16,
+          "right": 374,
+          "top": 617,
+          "bottom": 681,
+          "width": 358,
+          "height": 64
+        },
+        "isIssuedCardVisible": true,
+        "visaBrandVisible": true,
+        "addCardButtonVisible": true,
+        "scrollYAfter": 0,
+        "innerScrollTop": 100
+      },
+      "violations": [
+        "mobile phone should fill browser height"
+      ]
+    },
+    {
+      "label": "full-topup-sheet-390",
+      "metrics": {
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "htmlPosition": "static",
+        "bodyPosition": "static",
+        "htmlOverflowY": "auto",
+        "bodyOverflowY": "visible",
+        "documentWidth": 390,
+        "documentHeight": 844,
+        "top": {
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "bottom": 0,
+          "width": 0,
+          "height": 0
+        },
+        "phone": {
+          "left": 0,
+          "right": 390,
+          "top": 0,
+          "bottom": 693,
+          "width": 390,
+          "height": 693
+        },
+        "phoneOffsetWidth": 390,
+        "phoneTransform": "none",
+        "bodyBeforeContent": "none",
+        "content": {
+          "height": 693,
+          "scrollHeight": 965
+        },
+        "sidebarDisplay": "none",
+        "mobileNavDisplay": "grid",
+        "nativeStatusCount": 0,
+        "navBounding": {
+          "left": 16,
+          "right": 374,
+          "top": 617,
+          "bottom": 681,
+          "width": 358,
+          "height": 64
+        },
+        "isIssuedCardVisible": true,
+        "visaBrandVisible": true,
+        "addCardButtonVisible": true,
+        "scrollYAfter": 0,
+        "innerScrollTop": 100
+      },
+      "violations": [
+        "mobile phone should fill browser height"
+      ]
+    },
+    {
+      "label": "full-in-sepa-390",
+      "metrics": {
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "htmlPosition": "static",
+        "bodyPosition": "static",
+        "htmlOverflowY": "auto",
+        "bodyOverflowY": "visible",
+        "documentWidth": 390,
+        "documentHeight": 844,
+        "top": {
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "bottom": 0,
+          "width": 0,
+          "height": 0
+        },
+        "phone": {
+          "left": 0,
+          "right": 390,
+          "top": 0,
+          "bottom": 693,
+          "width": 390,
+          "height": 693
+        },
+        "phoneOffsetWidth": 390,
+        "phoneTransform": "none",
+        "bodyBeforeContent": "none",
+        "content": {
+          "height": 535,
+          "scrollHeight": 535
+        },
+        "sidebarDisplay": "none",
+        "mobileNavDisplay": "none",
+        "nativeStatusCount": 0,
+        "navBounding": {
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "bottom": 0,
+          "width": 0,
+          "height": 0
+        },
+        "isIssuedCardVisible": false,
+        "visaBrandVisible": false,
+        "addCardButtonVisible": false,
+        "scrollYAfter": 0,
+        "innerScrollTop": null
+      },
+      "violations": [
+        "mobile phone should fill browser height"
+      ]
+    },
+    {
+      "label": "full-home-430",
+      "metrics": {
+        "viewport": {
+          "width": 430,
+          "height": 932
+        },
+        "htmlPosition": "static",
+        "bodyPosition": "static",
+        "htmlOverflowY": "auto",
+        "bodyOverflowY": "visible",
+        "documentWidth": 430,
+        "documentHeight": 932,
+        "top": {
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "bottom": 0,
+          "width": 0,
+          "height": 0
+        },
+        "phone": {
+          "left": 0,
+          "right": 430,
+          "top": 0,
+          "bottom": 781,
+          "width": 430,
+          "height": 781
+        },
+        "phoneOffsetWidth": 430,
+        "phoneTransform": "none",
+        "bodyBeforeContent": "none",
+        "content": {
+          "height": 781,
+          "scrollHeight": 989
+        },
+        "sidebarDisplay": "none",
+        "mobileNavDisplay": "grid",
+        "nativeStatusCount": 0,
+        "navBounding": {
+          "left": 16,
+          "right": 414,
+          "top": 705,
+          "bottom": 769,
+          "width": 398,
+          "height": 64
+        },
+        "isIssuedCardVisible": true,
+        "visaBrandVisible": true,
+        "addCardButtonVisible": true,
+        "scrollYAfter": 0,
+        "innerScrollTop": 100
+      },
+      "violations": [
+        "mobile phone should fill browser height"
+      ]
+    },
+    {
+      "label": "full-topup-sheet-430",
+      "metrics": {
+        "viewport": {
+          "width": 430,
+          "height": 932
+        },
+        "htmlPosition": "static",
+        "bodyPosition": "static",
+        "htmlOverflowY": "auto",
+        "bodyOverflowY": "visible",
+        "documentWidth": 430,
+        "documentHeight": 932,
+        "top": {
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "bottom": 0,
+          "width": 0,
+          "height": 0
+        },
+        "phone": {
+          "left": 0,
+          "right": 430,
+          "top": 0,
+          "bottom": 781,
+          "width": 430,
+          "height": 781
+        },
+        "phoneOffsetWidth": 430,
+        "phoneTransform": "none",
+        "bodyBeforeContent": "none",
+        "content": {
+          "height": 781,
+          "scrollHeight": 989
+        },
+        "sidebarDisplay": "none",
+        "mobileNavDisplay": "grid",
+        "nativeStatusCount": 0,
+        "navBounding": {
+          "left": 16,
+          "right": 414,
+          "top": 705,
+          "bottom": 769,
+          "width": 398,
+          "height": 64
+        },
+        "isIssuedCardVisible": true,
+        "visaBrandVisible": true,
+        "addCardButtonVisible": true,
+        "scrollYAfter": 0,
+        "innerScrollTop": 100
+      },
+      "violations": [
+        "mobile phone should fill browser height"
+      ]
+    },
+    {
+      "label": "full-in-sepa-430",
+      "metrics": {
+        "viewport": {
+          "width": 430,
+          "height": 932
+        },
+        "htmlPosition": "static",
+        "bodyPosition": "static",
+        "htmlOverflowY": "auto",
+        "bodyOverflowY": "visible",
+        "documentWidth": 430,
+        "documentHeight": 932,
+        "top": {
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "bottom": 0,
+          "width": 0,
+          "height": 0
+        },
+        "phone": {
+          "left": 0,
+          "right": 430,
+          "top": 0,
+          "bottom": 781,
+          "width": 430,
+          "height": 781
+        },
+        "phoneOffsetWidth": 430,
+        "phoneTransform": "none",
+        "bodyBeforeContent": "none",
+        "content": {
+          "height": 623,
+          "scrollHeight": 623
+        },
+        "sidebarDisplay": "none",
+        "mobileNavDisplay": "none",
+        "nativeStatusCount": 0,
+        "navBounding": {
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "bottom": 0,
+          "width": 0,
+          "height": 0
+        },
+        "isIssuedCardVisible": false,
+        "visaBrandVisible": false,
+        "addCardButtonVisible": false,
+        "scrollYAfter": 0,
+        "innerScrollTop": null
+      },
+      "violations": [
+        "mobile phone should fill browser height"
+      ]
+    },
+    {
+      "label": "full-home-768",
+      "metrics": {
+        "viewport": {
+          "width": 768,
+          "height": 800
+        },
+        "htmlPosition": "static",
+        "bodyPosition": "static",
+        "htmlOverflowY": "auto",
+        "bodyOverflowY": "visible",
+        "documentWidth": 768,
+        "documentHeight": 1074,
+        "top": {
+          "left": 0,
+          "right": 768,
+          "top": 0,
+          "bottom": 62,
+          "width": 768,
+          "height": 62
+        },
+        "phone": {
+          "left": 274,
+          "right": 704,
+          "top": 106,
+          "bottom": 1038,
+          "width": 430,
+          "height": 932
+        },
+        "phoneOffsetWidth": 430,
+        "phoneTransform": "none",
+        "bodyBeforeContent": "none",
+        "content": {
+          "height": 922,
+          "scrollHeight": 983
+        },
+        "sidebarDisplay": "block",
+        "mobileNavDisplay": "grid",
+        "nativeStatusCount": 0,
+        "navBounding": {
+          "left": 295,
+          "right": 683,
+          "top": 957,
+          "bottom": 1021,
+          "width": 388,
+          "height": 64
+        },
+        "isIssuedCardVisible": true,
+        "visaBrandVisible": true,
+        "addCardButtonVisible": true,
+        "scrollYAfter": 274,
+        "innerScrollTop": 61
+      },
+      "violations": []
+    },
+    {
+      "label": "full-topup-sheet-768",
+      "metrics": {
+        "viewport": {
+          "width": 768,
+          "height": 800
+        },
+        "htmlPosition": "static",
+        "bodyPosition": "static",
+        "htmlOverflowY": "auto",
+        "bodyOverflowY": "visible",
+        "documentWidth": 768,
+        "documentHeight": 1074,
+        "top": {
+          "left": 0,
+          "right": 768,
+          "top": 0,
+          "bottom": 62,
+          "width": 768,
+          "height": 62
+        },
+        "phone": {
+          "left": 274,
+          "right": 704,
+          "top": 106,
+          "bottom": 1038,
+          "width": 430,
+          "height": 932
+        },
+        "phoneOffsetWidth": 430,
+        "phoneTransform": "none",
+        "bodyBeforeContent": "none",
+        "content": {
+          "height": 922,
+          "scrollHeight": 983
+        },
+        "sidebarDisplay": "block",
+        "mobileNavDisplay": "grid",
+        "nativeStatusCount": 0,
+        "navBounding": {
+          "left": 295,
+          "right": 683,
+          "top": 957,
+          "bottom": 1021,
+          "width": 388,
+          "height": 64
+        },
+        "isIssuedCardVisible": true,
+        "visaBrandVisible": true,
+        "addCardButtonVisible": true,
+        "scrollYAfter": 274,
+        "innerScrollTop": 61
+      },
+      "violations": []
+    },
+    {
+      "label": "full-in-sepa-768",
+      "metrics": {
+        "viewport": {
+          "width": 768,
+          "height": 800
+        },
+        "htmlPosition": "static",
+        "bodyPosition": "static",
+        "htmlOverflowY": "auto",
+        "bodyOverflowY": "visible",
+        "documentWidth": 768,
+        "documentHeight": 1074,
+        "top": {
+          "left": 0,
+          "right": 768,
+          "top": 0,
+          "bottom": 62,
+          "width": 768,
+          "height": 62
+        },
+        "phone": {
+          "left": 274,
+          "right": 704,
+          "top": 106,
+          "bottom": 1038,
+          "width": 430,
+          "height": 932
+        },
+        "phoneOffsetWidth": 430,
+        "phoneTransform": "none",
+        "bodyBeforeContent": "none",
+        "content": {
+          "height": 764,
+          "scrollHeight": 764
+        },
+        "sidebarDisplay": "block",
+        "mobileNavDisplay": "none",
+        "nativeStatusCount": 0,
+        "navBounding": {
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "bottom": 0,
+          "width": 0,
+          "height": 0
+        },
+        "isIssuedCardVisible": false,
+        "visaBrandVisible": false,
+        "addCardButtonVisible": false,
+        "scrollYAfter": 274,
+        "innerScrollTop": null
+      },
+      "violations": []
+    },
+    {
+      "label": "full-home-1280",
+      "metrics": {
+        "viewport": {
+          "width": 1280,
+          "height": 800
+        },
+        "htmlPosition": "static",
+        "bodyPosition": "static",
+        "htmlOverflowY": "auto",
+        "bodyOverflowY": "visible",
+        "documentWidth": 1280,
+        "documentHeight": 1074,
+        "top": {
+          "left": 0,
+          "right": 1280,
+          "top": 0,
+          "bottom": 62,
+          "width": 1280,
+          "height": 62
+        },
+        "phone": {
+          "left": 398,
+          "right": 828,
+          "top": 106,
+          "bottom": 1038,
+          "width": 430,
+          "height": 932
+        },
+        "phoneOffsetWidth": 430,
+        "phoneTransform": "none",
+        "bodyBeforeContent": "none",
+        "content": {
+          "height": 922,
+          "scrollHeight": 983
+        },
+        "sidebarDisplay": "block",
+        "mobileNavDisplay": "grid",
+        "nativeStatusCount": 0,
+        "navBounding": {
+          "left": 419,
+          "right": 807,
+          "top": 957,
+          "bottom": 1021,
+          "width": 388,
+          "height": 64
+        },
+        "isIssuedCardVisible": true,
+        "visaBrandVisible": true,
+        "addCardButtonVisible": true,
+        "scrollYAfter": 274,
+        "innerScrollTop": 61
+      },
+      "violations": []
+    },
+    {
+      "label": "full-topup-sheet-1280",
+      "metrics": {
+        "viewport": {
+          "width": 1280,
+          "height": 800
+        },
+        "htmlPosition": "static",
+        "bodyPosition": "static",
+        "htmlOverflowY": "auto",
+        "bodyOverflowY": "visible",
+        "documentWidth": 1280,
+        "documentHeight": 1074,
+        "top": {
+          "left": 0,
+          "right": 1280,
+          "top": 0,
+          "bottom": 62,
+          "width": 1280,
+          "height": 62
+        },
+        "phone": {
+          "left": 398,
+          "right": 828,
+          "top": 106,
+          "bottom": 1038,
+          "width": 430,
+          "height": 932
+        },
+        "phoneOffsetWidth": 430,
+        "phoneTransform": "none",
+        "bodyBeforeContent": "none",
+        "content": {
+          "height": 922,
+          "scrollHeight": 983
+        },
+        "sidebarDisplay": "block",
+        "mobileNavDisplay": "grid",
+        "nativeStatusCount": 0,
+        "navBounding": {
+          "left": 419,
+          "right": 807,
+          "top": 957,
+          "bottom": 1021,
+          "width": 388,
+          "height": 64
+        },
+        "isIssuedCardVisible": true,
+        "visaBrandVisible": true,
+        "addCardButtonVisible": true,
+        "scrollYAfter": 274,
+        "innerScrollTop": 61
+      },
+      "violations": []
+    },
+    {
+      "label": "full-in-sepa-1280",
+      "metrics": {
+        "viewport": {
+          "width": 1280,
+          "height": 800
+        },
+        "htmlPosition": "static",
+        "bodyPosition": "static",
+        "htmlOverflowY": "auto",
+        "bodyOverflowY": "visible",
+        "documentWidth": 1280,
+        "documentHeight": 1074,
+        "top": {
+          "left": 0,
+          "right": 1280,
+          "top": 0,
+          "bottom": 62,
+          "width": 1280,
+          "height": 62
+        },
+        "phone": {
+          "left": 398,
+          "right": 828,
+          "top": 106,
+          "bottom": 1038,
+          "width": 430,
+          "height": 932
+        },
+        "phoneOffsetWidth": 430,
+        "phoneTransform": "none",
+        "bodyBeforeContent": "none",
+        "content": {
+          "height": 764,
+          "scrollHeight": 764
+        },
+        "sidebarDisplay": "block",
+        "mobileNavDisplay": "none",
+        "nativeStatusCount": 0,
+        "navBounding": {
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "bottom": 0,
+          "width": 0,
+          "height": 0
+        },
+        "isIssuedCardVisible": false,
+        "visaBrandVisible": false,
+        "addCardButtonVisible": false,
+        "scrollYAfter": 274,
+        "innerScrollTop": null
+      },
+      "violations": []
+    },
+    {
+      "label": "full-home-1440",
+      "metrics": {
+        "viewport": {
+          "width": 1440,
+          "height": 900
+        },
+        "htmlPosition": "static",
+        "bodyPosition": "static",
+        "htmlOverflowY": "auto",
+        "bodyOverflowY": "visible",
+        "documentWidth": 1440,
+        "documentHeight": 1074,
+        "top": {
+          "left": 0,
+          "right": 1440,
+          "top": 0,
+          "bottom": 62,
+          "width": 1440,
+          "height": 62
+        },
+        "phone": {
+          "left": 478,
+          "right": 908,
+          "top": 106,
+          "bottom": 1038,
+          "width": 430,
+          "height": 932
+        },
+        "phoneOffsetWidth": 430,
+        "phoneTransform": "none",
+        "bodyBeforeContent": "none",
+        "content": {
+          "height": 922,
+          "scrollHeight": 983
+        },
+        "sidebarDisplay": "block",
+        "mobileNavDisplay": "grid",
+        "nativeStatusCount": 0,
+        "navBounding": {
+          "left": 499,
+          "right": 887,
+          "top": 957,
+          "bottom": 1021,
+          "width": 388,
+          "height": 64
+        },
+        "isIssuedCardVisible": true,
+        "visaBrandVisible": true,
+        "addCardButtonVisible": true,
+        "scrollYAfter": 174,
+        "innerScrollTop": 61
+      },
+      "violations": []
+    },
+    {
+      "label": "full-topup-sheet-1440",
+      "metrics": {
+        "viewport": {
+          "width": 1440,
+          "height": 900
+        },
+        "htmlPosition": "static",
+        "bodyPosition": "static",
+        "htmlOverflowY": "auto",
+        "bodyOverflowY": "visible",
+        "documentWidth": 1440,
+        "documentHeight": 1074,
+        "top": {
+          "left": 0,
+          "right": 1440,
+          "top": 0,
+          "bottom": 62,
+          "width": 1440,
+          "height": 62
+        },
+        "phone": {
+          "left": 478,
+          "right": 908,
+          "top": 106,
+          "bottom": 1038,
+          "width": 430,
+          "height": 932
+        },
+        "phoneOffsetWidth": 430,
+        "phoneTransform": "none",
+        "bodyBeforeContent": "none",
+        "content": {
+          "height": 922,
+          "scrollHeight": 983
+        },
+        "sidebarDisplay": "block",
+        "mobileNavDisplay": "grid",
+        "nativeStatusCount": 0,
+        "navBounding": {
+          "left": 499,
+          "right": 887,
+          "top": 957,
+          "bottom": 1021,
+          "width": 388,
+          "height": 64
+        },
+        "isIssuedCardVisible": true,
+        "visaBrandVisible": true,
+        "addCardButtonVisible": true,
+        "scrollYAfter": 174,
+        "innerScrollTop": 61
+      },
+      "violations": []
+    },
+    {
+      "label": "full-in-sepa-1440",
+      "metrics": {
+        "viewport": {
+          "width": 1440,
+          "height": 900
+        },
+        "htmlPosition": "static",
+        "bodyPosition": "static",
+        "htmlOverflowY": "auto",
+        "bodyOverflowY": "visible",
+        "documentWidth": 1440,
+        "documentHeight": 1074,
+        "top": {
+          "left": 0,
+          "right": 1440,
+          "top": 0,
+          "bottom": 62,
+          "width": 1440,
+          "height": 62
+        },
+        "phone": {
+          "left": 478,
+          "right": 908,
+          "top": 106,
+          "bottom": 1038,
+          "width": 430,
+          "height": 932
+        },
+        "phoneOffsetWidth": 430,
+        "phoneTransform": "none",
+        "bodyBeforeContent": "none",
+        "content": {
+          "height": 764,
+          "scrollHeight": 764
+        },
+        "sidebarDisplay": "block",
+        "mobileNavDisplay": "none",
+        "nativeStatusCount": 0,
+        "navBounding": {
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "bottom": 0,
+          "width": 0,
+          "height": 0
+        },
+        "isIssuedCardVisible": false,
+        "visaBrandVisible": false,
+        "addCardButtonVisible": false,
+        "scrollYAfter": 174,
+        "innerScrollTop": null
+      },
+      "violations": []
+    }
+  ]
 }
