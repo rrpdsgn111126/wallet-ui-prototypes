@@ -72,6 +72,27 @@
     b.available_minor=Math.max(0,(b.available_minor|0)+change);
     b.balance_minor=b.available_minor;
   }
+  // Static visual QR matrix with finder corners. Deliberately non-payment,
+  // not intended to encode a real wallet or checkout address.
+  function previewQr(label){
+    const n=29, cells=Array.from({length:n},()=>Array(n).fill('0'));
+    let seed=0;for(const char of label)seed=((seed*33)^char.charCodeAt(0))>>>0;
+    for(let y=0;y<n;y++)for(let x=0;x<n;x++){
+      seed=(seed*1664525+1013904223)>>>0;
+      cells[y][x]=(seed&0x2000)?'1':'0';
+    }
+    function finder(x0,y0){
+      for(let dy=-1;dy<8;dy++)for(let dx=-1;dx<8;dx++){
+        const x=x0+dx,y=y0+dy;
+        if(x<0||y<0||x>=n||y>=n)continue;
+        const a=Math.min(dx,dy,6-dx,6-dy);
+        cells[y][x]=(dx>=0&&dy>=0&&dx<7&&dy<7&&(a===0||a>=2))?'1':'0';
+      }
+    }
+    finder(0,0);finder(n-7,0);finder(0,n-7);
+    return {size:n,rows:cells.map(row=>row.join(''))};
+  }
+
   const oldPvApi=pvApi;
   pvApi=function(path,body){
     const full=String(path||''),p=full.split('?')[0];
@@ -80,7 +101,7 @@
       const coin=String(params.get('coin')||'USDT').replace(/[^A-Z]/g,'');
       const network=String(params.get('network')||'tron').replace(/[^a-z]/g,'');
       const address='DEMO_ONLY_'+coin+'_'+network+'_DO_NOT_SEND_REAL_FUNDS';
-      return Promise.resolve({address,qr:'altvu-preview-only://deposit/'+coin+'/'+network});
+      return Promise.resolve({address,qr:previewQr(address)});
     }
     if(p==='/transfer/lookup'){
       if(!body||(!body.value&&!body.contact_id))
@@ -131,7 +152,7 @@
         usd_minor:q.usd_minor||0,rub_minor:q.rub_minor||0,
         rate:q.rate||'88.88',fee_minor:0,
         qr_url:'https://example.invalid/altvu-demo-only',
-        qr:'https://example.invalid/altvu-demo-only',
+        qr:previewQr(id),
         expires_at:new Date(Date.now()+10*60000).toISOString()};
       sbpOrders.set(id,order);
       return Promise.resolve(Object.assign({},order));
@@ -166,6 +187,11 @@
     }
   };
   paintWays();
+  const originalSbpOpenBank=sbpOpenBank;
+  sbpOpenBank=function(order){
+    if(!altPreview)return originalSbpOpenBank(order);
+    msg('','Тестовая сборка: откройте «Тестовые события» и выберите результат пополнения.');
+  };
   const originalLoadOps=loadOps;
   loadOps=async function(){
     if(!altPreview)return originalLoadOps();
