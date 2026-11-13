@@ -9,7 +9,7 @@
   const seed=[
     {id:'pv-card-001',kind:'card',status:'credited',amount_minor:-1961,
       orig_minor:7200,orig_currency:'AED',rate:3.6712,fee_minor:0,
-      merchant:'CAREFM RIDE DUBAI',title:'CAREFM RIDE DUBAI',mcc:'4121',last4:'9716',
+      merchant:'CAREEM RIDE DUBAI',title:'CAREEM RIDE DUBAI',mcc:'4121',last4:'9716',
       settled_at:at(9),created_at:at(180)},
     {id:'pv-deposit-002',kind:'deposit',status:'credited',amount_minor:150000,
       amount_crypto:'1500.00',coin:'USDT',network:'tron',title:'Пополнение USDT',
@@ -102,6 +102,11 @@
       const network=String(params.get('network')||'tron').replace(/[^a-z]/g,'');
       const address='DEMO_ONLY_'+coin+'_'+network+'_DO_NOT_SEND_REAL_FUNDS';
       return Promise.resolve({address,qr:previewQr(address)});
+    }
+    if(p==='/profile/qr'||p==='/profile/qr/rotate'){
+      const value='ALT.VU OFFLINE PREVIEW - NO REAL TRANSFERS';
+      return Promise.resolve({url:'https://example.invalid/altvu-preview',
+        qr:previewQr(value+(p.endsWith('rotate')?String(++seq):''))});
     }
     if(p==='/transfer/lookup'){
       if(!body||(!body.value&&!body.contact_id))
@@ -277,6 +282,14 @@
     if(success)refreshBalance(10000);
     openOp(op);
   }
+  function internalDepositCallback(){
+    const op=record({id:eventId('internal'),kind:'transfer',status:'confirmed',
+      amount_minor:10000,fee_minor:0,recipient_name:'Тестовый отправитель',
+      title:'Перевод от тестового пользователя ALT.VU',
+      created_at:new Date().toISOString()});
+    refreshBalance(10000);
+    openOp(op);
+  }
   function sbpCallback(status){
     if(typeof sbp==='undefined'||!sbp.dep){
       if(typeof msg==='function')msg('','Откройте СБП и создайте оплату');return;
@@ -312,6 +325,7 @@
       '<option value="pending">В обработке</option></select></label>'+
       '<button id="pv-deposit-ok">Пополнение: успех</button>'+
       '<button id="pv-deposit-review">Пополнение: проверка</button>'+
+      '<button id="pv-internal-ok">ALT.VU: входящий перевод</button>'+
       '<button id="pv-sbp-ok">СБП callback: успех</button>'+
       '<button id="pv-sbp-fail">СБП callback: ошибка</button>'+
       '<button id="pv-open-last">Детали последней операции</button>'+
@@ -320,6 +334,7 @@
     bar.querySelector('#pv-outcome').onchange=e=>{nextOutcome=e.target.value;};
     bar.querySelector('#pv-deposit-ok').onclick=()=>depositCallback('credited');
     bar.querySelector('#pv-deposit-review').onclick=()=>depositCallback('review');
+    bar.querySelector('#pv-internal-ok').onclick=()=>internalDepositCallback();
     bar.querySelector('#pv-sbp-ok').onclick=()=>sbpCallback('ok');
     bar.querySelector('#pv-sbp-fail').onclick=()=>sbpCallback('fail');
     bar.querySelector('#pv-open-last').onclick=()=>openOp(data['/operations'].operations[0]);
