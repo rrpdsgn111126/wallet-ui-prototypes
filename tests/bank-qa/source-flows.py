@@ -124,6 +124,55 @@ async def test_source(browser, origin):
     assert not errors,"Browser JS errors: "+" | ".join(errors)
     await page.close()
 
+async def test_bank_lifecycle(browser, origin):
+    """Full bank withdrawal with the original home/history and offline callback."""
+    page=await browser.new_page(viewport={"width":430,"height":932})
+    errors=[]
+    page.on("pageerror",lambda err:errors.append(str(err)))
+    await page.goto(origin+"/transfi-remittance/?qa=1")
+    await expect(page.locator("#v-home.on")).to_be_visible()
+    await page.locator(".bnv [data-mb='withdraw']").click()
+    await page.locator("#v-withdraw [data-tf-bank='SWIFT']").click()
+    child=page.frame_locator("#tf-bank-overlay iframe")
+    await expect(child.locator("#tf-out-amount")).to_be_visible()
+    await expect(child.locator(".tf-quote.tbl .rl")).to_have_count(5)
+    assert await child.locator(".wd-amt").count()==1
+    assert await child.locator('[data-picker="country"] .tf-flag-circle').count()==1
+    await page.locator("#pv-qa").evaluate("(el) => el.style.display='none'")
+    await child.locator("#tf-out-amount").fill("100")
+    await child.locator(".tf-foot .btn").click()
+    await expect(child.locator("#f-firstName")).to_be_visible()
+    await child.locator("#f-firstName").fill("Иван")
+    await child.locator("#f-lastName").fill("Иванов")
+    await child.locator("#f-account").fill("000000000000")
+    await child.locator("#f-bic").fill("DEMOXXXX")
+    await child.locator("#f-bank").fill("Тестовый банк")
+    await child.locator(".tf-foot .btn").click()
+    await expect(child.locator(".tf-review-amount")).to_be_visible()
+    await expect(child.locator(".tf-quote.tbl .rl")).to_have_count(5)
+    await child.locator(".tf-foot .btn").click()
+    await expect(child.get_by_text("Перевод обрабатывается")).to_be_visible()
+    await page.locator("#pv-qa").evaluate("(el) => el.style.display='block'")
+    await page.locator("#pv-qa details").first.locator("summary").click()
+    await page.locator("#pv-bank-ok").click()
+    await expect(child.get_by_text("Перевод завершён")).to_be_visible()
+    pending=await page.evaluate("""() => PV.data['/operations'].operations
+        .filter(o=>String(o.id).startsWith('tf-bank-'))
+        .map(o=>({id:o.id,status:o.status}))""")
+    assert len(pending)==1 and pending[0]["status"]=="confirmed", pending
+    # Back from terminal state goes to config, next back closes the iframe.
+    await child.locator(".phone.tf-phone > .head .back").click()
+    await child.locator(".phone.tf-phone > .head .back").click()
+    await expect(page.locator("#tf-bank-overlay")).to_be_hidden()
+    await page.evaluate("() => {show('home',false);loadOps()}")
+    row=page.locator("#v-home .feed .op[data-id^='tf-bank-']")
+    await expect(row).to_have_count(1)
+    await row.click()
+    await expect(page.locator("#v-details.on")).to_be_visible()
+    assert not errors,"Bank lifecycle JS errors: "+" | ".join(errors)
+    await page.close()
+
+
 async def main():
     server=ThreadingHTTPServer(("127.0.0.1",0),partial(Quiet,directory=str(ROOT)))
     Thread(target=server.serve_forever,daemon=True).start()
@@ -132,9 +181,10 @@ async def main():
             browser=await p.chromium.launch(headless=True,args=["--no-sandbox"])
             try:
                 await test_source(browser,"http://127.0.0.1:"+str(server.server_port))
+                await test_bank_lifecycle(browser,"http://127.0.0.1:"+str(server.server_port))
             finally:
                 await browser.close()
-        print("PASS: original home details, deposit callback, withdrawal review/success/failure, peer review, SBP callback")
+        print("PASS: original home details, crypto/peer/SBP callbacks, bank quote/review/confirm/callback, native operation details")
     finally:
         server.shutdown()
         server.server_close()
