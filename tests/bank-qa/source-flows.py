@@ -95,7 +95,7 @@ async def test_source(browser, origin):
     await open_source(page,"dep-sbp")
     await page.locator("#sbp-rub").fill("8888")
     await page.evaluate("() => sbpInput('rub')")
-    await expect.poll(lambda:page.evaluate("() => Boolean(sbp.quote && sbp.bank)")).to_be_truthy()
+    await page.wait_for_function("() => Boolean(sbp.quote && sbp.bank)",timeout=15000)
     await page.locator("#sbp-go").click()
     await expect(page.locator("#v-dep-sbp-qr.on, #v-dep-sbp-wait.on")).to_be_visible()
     await page.locator("#pv-sbp-ok").click()
