@@ -1,5 +1,5 @@
 {
-  "run": "2026-11-13T11:58:18.709Z",
+  "run": "2026-11-13T11:59:35.248Z",
   "cases": [
     {
       "label": "home",
@@ -26,7 +26,7 @@
           "width": 430,
           "scrollWidth": 430,
           "height": 932,
-          "scrollHeight": 989
+          "scrollHeight": 932
         },
         "footer": {
           "height": 0,
@@ -284,7 +284,7 @@
           "width": 430,
           "scrollWidth": 430,
           "height": 932,
-          "scrollHeight": 989
+          "scrollHeight": 932
         },
         "footer": {
           "height": 0,
@@ -370,7 +370,7 @@
           "width": 430,
           "scrollWidth": 430,
           "height": 932,
-          "scrollHeight": 989
+          "scrollHeight": 932
         },
         "footer": {
           "height": 0,
@@ -1211,7 +1211,7 @@
           "width": 390,
           "scrollWidth": 390,
           "height": 693,
-          "scrollHeight": 965
+          "scrollHeight": 867
         },
         "footer": {
           "height": 0,
@@ -1469,7 +1469,7 @@
           "width": 390,
           "scrollWidth": 390,
           "height": 693,
-          "scrollHeight": 965
+          "scrollHeight": 867
         },
         "footer": {
           "height": 0,
@@ -1555,7 +1555,7 @@
           "width": 390,
           "scrollWidth": 390,
           "height": 693,
-          "scrollHeight": 965
+          "scrollHeight": 867
         },
         "footer": {
           "height": 0,
@@ -2396,7 +2396,7 @@
           "width": 430,
           "scrollWidth": 430,
           "height": 781,
-          "scrollHeight": 989
+          "scrollHeight": 891
         },
         "footer": {
           "height": 0,
@@ -2654,7 +2654,7 @@
           "width": 430,
           "scrollWidth": 430,
           "height": 781,
-          "scrollHeight": 989
+          "scrollHeight": 891
         },
         "footer": {
           "height": 0,
@@ -2740,7 +2740,7 @@
           "width": 430,
           "scrollWidth": 430,
           "height": 781,
-          "scrollHeight": 989
+          "scrollHeight": 891
         },
         "footer": {
           "height": 0,
@@ -3581,7 +3581,7 @@
           "width": 420,
           "scrollWidth": 420,
           "height": 922,
-          "scrollHeight": 983
+          "scrollHeight": 922
         },
         "footer": {
           "height": 0,
@@ -3839,7 +3839,7 @@
           "width": 420,
           "scrollWidth": 420,
           "height": 922,
-          "scrollHeight": 983
+          "scrollHeight": 922
         },
         "footer": {
           "height": 0,
@@ -3925,7 +3925,7 @@
           "width": 420,
           "scrollWidth": 420,
           "height": 922,
-          "scrollHeight": 983
+          "scrollHeight": 922
         },
         "footer": {
           "height": 0,
@@ -4833,7 +4833,7 @@
         "bodyBeforeContent": "none",
         "content": {
           "height": 516,
-          "scrollHeight": 956
+          "scrollHeight": 858
         },
         "sidebarDisplay": "none",
         "mobileNavDisplay": "grid",
@@ -4890,7 +4890,7 @@
         "bodyBeforeContent": "none",
         "content": {
           "height": 516,
-          "scrollHeight": 956
+          "scrollHeight": 858
         },
         "sidebarDisplay": "none",
         "mobileNavDisplay": "grid",
@@ -5004,7 +5004,7 @@
         "bodyBeforeContent": "none",
         "content": {
           "height": 693,
-          "scrollHeight": 965
+          "scrollHeight": 867
         },
         "sidebarDisplay": "none",
         "mobileNavDisplay": "grid",
@@ -5061,7 +5061,7 @@
         "bodyBeforeContent": "none",
         "content": {
           "height": 693,
-          "scrollHeight": 965
+          "scrollHeight": 867
         },
         "sidebarDisplay": "none",
         "mobileNavDisplay": "grid",
@@ -5175,7 +5175,7 @@
         "bodyBeforeContent": "none",
         "content": {
           "height": 781,
-          "scrollHeight": 989
+          "scrollHeight": 891
         },
         "sidebarDisplay": "none",
         "mobileNavDisplay": "grid",
@@ -5232,7 +5232,7 @@
         "bodyBeforeContent": "none",
         "content": {
           "height": 781,
-          "scrollHeight": 989
+          "scrollHeight": 891
         },
         "sidebarDisplay": "none",
         "mobileNavDisplay": "grid",
@@ -5346,7 +5346,7 @@
         "bodyBeforeContent": "none",
         "content": {
           "height": 922,
-          "scrollHeight": 983
+          "scrollHeight": 922
         },
         "sidebarDisplay": "block",
         "mobileNavDisplay": "grid",
@@ -5363,7 +5363,7 @@
         "visaBrandVisible": true,
         "addCardButtonVisible": true,
         "scrollYAfter": 274,
-        "innerScrollTop": 61
+        "innerScrollTop": null
       },
       "violations": []
     },
@@ -5401,7 +5401,7 @@
         "bodyBeforeContent": "none",
         "content": {
           "height": 922,
-          "scrollHeight": 983
+          "scrollHeight": 922
         },
         "sidebarDisplay": "block",
         "mobileNavDisplay": "grid",
@@ -5418,7 +5418,7 @@
         "visaBrandVisible": true,
         "addCardButtonVisible": true,
         "scrollYAfter": 274,
-        "innerScrollTop": 61
+        "innerScrollTop": null
       },
       "violations": []
     },
@@ -5511,7 +5511,7 @@
         "bodyBeforeContent": "none",
         "content": {
           "height": 922,
-          "scrollHeight": 983
+          "scrollHeight": 922
         },
         "sidebarDisplay": "block",
         "mobileNavDisplay": "grid",
@@ -5528,7 +5528,7 @@
         "visaBrandVisible": true,
         "addCardButtonVisible": true,
         "scrollYAfter": 274,
-        "innerScrollTop": 61
+        "innerScrollTop": null
       },
       "violations": []
     },
@@ -5566,7 +5566,7 @@
         "bodyBeforeContent": "none",
         "content": {
           "height": 922,
-          "scrollHeight": 983
+          "scrollHeight": 922
         },
         "sidebarDisplay": "block",
         "mobileNavDisplay": "grid",
@@ -5583,7 +5583,7 @@
         "visaBrandVisible": true,
         "addCardButtonVisible": true,
         "scrollYAfter": 274,
-        "innerScrollTop": 61
+        "innerScrollTop": null
       },
       "violations": []
     },
@@ -5676,7 +5676,7 @@
         "bodyBeforeContent": "none",
         "content": {
           "height": 922,
-          "scrollHeight": 983
+          "scrollHeight": 922
         },
         "sidebarDisplay": "block",
         "mobileNavDisplay": "grid",
@@ -5693,7 +5693,7 @@
         "visaBrandVisible": true,
         "addCardButtonVisible": true,
         "scrollYAfter": 174,
-        "innerScrollTop": 61
+        "innerScrollTop": null
       },
       "violations": []
     },
@@ -5731,7 +5731,7 @@
         "bodyBeforeContent": "none",
         "content": {
           "height": 922,
-          "scrollHeight": 983
+          "scrollHeight": 922
         },
         "sidebarDisplay": "block",
         "mobileNavDisplay": "grid",
@@ -5748,7 +5748,7 @@
         "visaBrandVisible": true,
         "addCardButtonVisible": true,
         "scrollYAfter": 174,
-        "innerScrollTop": 61
+        "innerScrollTop": null
       },
       "violations": []
     },

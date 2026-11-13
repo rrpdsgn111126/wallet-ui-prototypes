@@ -8,7 +8,7 @@
       1290,
       2796
     ],
-    "mean_absolute_error_0_255": 52.37
+    "mean_absolute_error_0_255": 52.98
   },
   "topup-sheet": {
     "original": [
@@ -19,7 +19,7 @@
       1290,
       2796
     ],
-    "mean_absolute_error_0_255": 53.25
+    "mean_absolute_error_0_255": 53.26
   },
   "withdraw-sheet": {
     "original": [
@@ -30,6 +30,6 @@
       1290,
       2796
     ],
-    "mean_absolute_error_0_255": 42.06
+    "mean_absolute_error_0_255": 42.14
   }
 }
