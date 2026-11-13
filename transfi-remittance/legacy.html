@@ -858,10 +858,11 @@ function uxBack(){
   if(['history','wallet-card','wallet-profile','wallet-earn','wallet-notes'].includes(S.screen)){uxGo('home');return}
   if(S.screen==='in-details'||S.screen==='out-config'){
     if(window.parent!==window){
-      window.parent.postMessage({type:'altvu:transfi:exit',flow:S.flow},location.origin);
+      window.parent.postMessage({type:'altvu:transfi:exit',flow:S.flow},
+        location.protocol==='file:'?'*':location.origin);
       return;
     }
-    uxGo('home');return;
+    S.screen='home';S.modal=S.flow;render();return;
   }
   const map={
     'in-pending':'in-details','in-success':'in-details','in-held':'in-details',
