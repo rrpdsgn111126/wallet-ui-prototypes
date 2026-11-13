@@ -18500,7 +18500,6 @@ pilotInit();
 #tf-bank-overlay{position:absolute;inset:0;z-index:95;background:var(--n50);overflow:hidden}
 #tf-bank-overlay[hidden]{display:none}
 #tf-bank-overlay iframe{display:block;border:0;width:100%;height:100%;background:var(--n50)}
-#tf-bank-close{position:absolute;right:16px;top:12px;z-index:2;display:grid;place-items:center;width:35px;height:35px;border:1px solid var(--n100);border-radius:50%;background:white;box-shadow:0 2px 5px #16151426;color:var(--n900);font-size:23px;cursor:pointer}
 </style>
 <script id="transfi-source-adapter-js">
 (function(){
@@ -18508,17 +18507,34 @@ pilotInit();
   if(!phone)return;
   const overlay=document.createElement('div');
   overlay.id='tf-bank-overlay';overlay.hidden=true;
-  overlay.innerHTML='<button id="tf-bank-close" type="button" aria-label="Закрыть банковский перевод">×</button><iframe title="Сценарий банковского перевода" loading="eager"></iframe>';
+  overlay.innerHTML='<iframe title="Сценарий банковского перевода" loading="eager"></iframe>';
   phone.appendChild(overlay);
   let previous='home';
+  function dismissWalletSheets(){
+    document.querySelectorAll('.view.on .sheet, .view.on .dim').forEach(function(node){
+      node.hidden=true;
+      node.classList.remove('pop','settled','slide');
+      node.style.transform='';
+    });
+  }
   window.tfOpenBank=function(rail,flow){
     previous=typeof view==='string'?view:'home';
+    dismissWalletSheets();
     const iframe=overlay.querySelector('iframe');
     iframe.src='legacy.html?capture=1&embedded=1&flow='+encodeURIComponent(flow)+'&screen='+encodeURIComponent(flow==='in'?'in-details':'out-config')+'&rail='+encodeURIComponent(rail);
     overlay.hidden=false;
   };
-  function close(){overlay.hidden=true;overlay.querySelector('iframe').removeAttribute('src');}
-  overlay.querySelector('#tf-bank-close').addEventListener('click',close);
+  function close(){
+    dismissWalletSheets();
+    overlay.hidden=true;
+    overlay.querySelector('iframe').removeAttribute('src');
+    if(previous==='home'&&typeof view==='string'&&view!=='home')show('home',false);
+  }
+  window.addEventListener('message',function(e){
+    if(e.origin!==location.origin||e.source!==overlay.querySelector('iframe').contentWindow)return;
+    if(!e.data||e.data.type!=='altvu:transfi:exit')return;
+    close();
+  });
   document.addEventListener('click',function(e){
     const node=e.target.closest('[data-tf-bank]');
     if(!node)return;
