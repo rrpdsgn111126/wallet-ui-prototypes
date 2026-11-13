@@ -338,15 +338,15 @@
           "lineHeight": "22px",
           "paddingLeft": "0px"
         },
-        "box": null,
-        "table": {
-          "height": "187px",
+        "box": {
+          "height": "240px",
           "borderRadius": "20px",
           "fontSize": "16px",
           "fontWeight": "400",
           "lineHeight": "normal",
-          "paddingLeft": "16px"
+          "paddingLeft": "0px"
         },
+        "table": null,
         "segment": null,
         "statusIcon": false,
         "timelineDot": null,
@@ -395,15 +395,15 @@
           "lineHeight": "22px",
           "paddingLeft": "0px"
         },
-        "box": null,
-        "table": {
-          "height": "187px",
+        "box": {
+          "height": "240px",
           "borderRadius": "20px",
           "fontSize": "16px",
           "fontWeight": "400",
           "lineHeight": "normal",
-          "paddingLeft": "16px"
+          "paddingLeft": "0px"
         },
+        "table": null,
         "segment": null,
         "statusIcon": false,
         "timelineDot": null,
@@ -526,7 +526,7 @@
         "phoneScrollWidth": 390,
         "contentWidth": 390,
         "contentScrollWidth": 390,
-        "contentScrollHeight": 663,
+        "contentScrollHeight": 716,
         "contentHeight": 630,
         "header": {
           "height": "24px",
@@ -553,14 +553,7 @@
           "lineHeight": "normal",
           "paddingLeft": "0px"
         },
-        "table": {
-          "height": "187px",
-          "borderRadius": "20px",
-          "fontSize": "16px",
-          "fontWeight": "400",
-          "lineHeight": "normal",
-          "paddingLeft": "16px"
-        },
+        "table": null,
         "segment": null,
         "statusIcon": false,
         "timelineDot": null,
@@ -583,7 +576,7 @@
         "phoneScrollWidth": 390,
         "contentWidth": 390,
         "contentScrollWidth": 390,
-        "contentScrollHeight": 663,
+        "contentScrollHeight": 716,
         "contentHeight": 630,
         "header": {
           "height": "24px",
@@ -610,14 +603,7 @@
           "lineHeight": "normal",
           "paddingLeft": "0px"
         },
-        "table": {
-          "height": "187px",
-          "borderRadius": "20px",
-          "fontSize": "16px",
-          "fontWeight": "400",
-          "lineHeight": "normal",
-          "paddingLeft": "16px"
-        },
+        "table": null,
         "segment": null,
         "statusIcon": false,
         "timelineDot": null,
@@ -1142,15 +1128,15 @@
           "lineHeight": "22px",
           "paddingLeft": "0px"
         },
-        "box": null,
-        "table": {
-          "height": "187px",
+        "box": {
+          "height": "240px",
           "borderRadius": "20px",
           "fontSize": "16px",
           "fontWeight": "400",
           "lineHeight": "normal",
-          "paddingLeft": "16px"
+          "paddingLeft": "0px"
         },
+        "table": null,
         "segment": null,
         "statusIcon": false,
         "timelineDot": null,
@@ -1197,15 +1183,15 @@
           "lineHeight": "22px",
           "paddingLeft": "0px"
         },
-        "box": null,
-        "table": {
-          "height": "187px",
+        "box": {
+          "height": "240px",
           "borderRadius": "20px",
           "fontSize": "16px",
           "fontWeight": "400",
           "lineHeight": "normal",
-          "paddingLeft": "16px"
+          "paddingLeft": "0px"
         },
+        "table": null,
         "segment": null,
         "statusIcon": false,
         "timelineDot": null,
@@ -1349,14 +1335,7 @@
           "lineHeight": "normal",
           "paddingLeft": "0px"
         },
-        "table": {
-          "height": "187px",
-          "borderRadius": "20px",
-          "fontSize": "16px",
-          "fontWeight": "400",
-          "lineHeight": "normal",
-          "paddingLeft": "16px"
-        },
+        "table": null,
         "segment": null,
         "statusIcon": false,
         "timelineDot": null,
@@ -1404,14 +1383,7 @@
           "lineHeight": "normal",
           "paddingLeft": "0px"
         },
-        "table": {
-          "height": "187px",
-          "borderRadius": "20px",
-          "fontSize": "16px",
-          "fontWeight": "400",
-          "lineHeight": "normal",
-          "paddingLeft": "16px"
-        },
+        "table": null,
         "segment": null,
         "statusIcon": false,
         "timelineDot": null,
