@@ -110,7 +110,12 @@ try{
          bodyBeforeContent:getComputedStyle(body,'::before').content,
          content:{height:content.clientHeight,scrollHeight:content.scrollHeight},
          sidebarDisplay:getComputedStyle(document.querySelector('.sidebar')).display,
-         mobileNavDisplay:getComputedStyle(document.querySelector('.mobilemenu')).display,
+         mobileNavDisplay:getComputedStyle(document.querySelector('.tf-bottom-nav')).display,
+         nativeStatusCount:document.querySelectorAll('.phone.tf-phone .sb').length,
+         navBounding:rect(document.querySelector('.tf-bottom-nav')),
+         isIssuedCardVisible:!!document.querySelector('.tf-visa-card'),
+         visaBrandVisible:!!document.querySelector('.tf-visa-card .tf-visa-brand'),
+         addCardButtonVisible:!!document.querySelector('.tf-visa-card .tf-card-plus'),
        };
        const oldScroll=scrollY;
        window.scrollTo(0,Math.max(0,html.scrollHeight-innerHeight));
@@ -146,8 +151,18 @@ try{
        violations.push('phone content cannot scroll');
      if(viewport.width>=1131&&metrics.sidebarDisplay==='none')
        violations.push('desktop sidebar unexpectedly hidden');
-     if(viewport.width<=740&&metrics.mobileNavDisplay==='none')
-       violations.push('mobile controls unexpectedly hidden');
+     if(metrics.nativeStatusCount>0)
+       violations.push('unwanted mobile OS status bar inside prototype');
+     if(mode!=='in-sepa'&&metrics.mobileNavDisplay==='none')
+       violations.push('native bottom menu missing');
+     if(mode==='in-sepa'&&metrics.mobileNavDisplay!=='none')
+       violations.push('native bottom menu should hide on bank details screen');
+     if(mode==='home'&&(!metrics.isIssuedCardVisible||!metrics.visaBrandVisible||!metrics.addCardButtonVisible))
+       violations.push('Visa card, brand or add-card action missing');
+     if(viewport.width<=740&&Math.abs(metrics.phone.height-viewport.height)>1)
+       violations.push('mobile phone should fill browser height');
+     if(viewport.width>=741&&Math.abs(metrics.phone.height-932)>1)
+       violations.push('desktop phone must preserve original 430×932 proportions');
      if(errors.length)violations.push(...errors);
      report.pageCases.push({label,metrics,violations});
      if(violations.length)report.issues.push({label,violations});
