@@ -923,8 +923,7 @@ function uxRenderScreen(){
     const q=quote();
     return{
       head:'Вывод '+S.outRail,
-      p:`<div class="tf-route"><strong>${esc(S.outRail)}</strong>Банковский перевод</div>
-      <div class="fld g tf-field tf-source"><div class="fi"><div class="cn" style="width:40px;height:40px"><img width="24" height="24" src="../assets/img-27f3d8cf.png" alt="" style="display:block;border-radius:50%"></div></div><div class="fl"><i>Со счёта alt.vu</i><b>Доступно 4 812.60 $</b></div><div class="addon"><span class="cur">USD</span></div></div>
+      p:`<div class="fld g tf-field tf-source"><div class="fi"><div class="cn" style="width:40px;height:40px"><img width="24" height="24" src="../assets/img-27f3d8cf.png" alt="" style="display:block;border-radius:50%"></div></div><div class="fl"><i>Со счёта alt.vu</i><b>Доступно 4 812.60 $</b></div><div class="addon"><span class="cur">USD</span></div></div>
       ${S.outRail==='SEPA'?uxFixedCurrencyField('Валюта получения','EUR'):uxPickerField('Валюта получения','outCurrency','currency')}
       ${uxPickerField('Страна получателя','country','country')}
       <div class="fld w tf-field tf-amount"><div class="fi">${tfIconFor('amount')}</div><label class="fl"><i>Сумма перевода</i><input type="number" min="0" step="0.01" inputmode="decimal" aria-label="Сумма перевода" value="${esc(S.amount)}" oninput="store('amount',this.value);renderQuote()"/></label><div class="addon"><span class="cur">USD</span></div></div>
