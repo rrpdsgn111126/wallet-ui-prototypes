@@ -48,7 +48,8 @@
   try{netRules=null;netCache=null;}catch(e){}
 
   data['/verification']=Object.assign({},data['/verification'],{
-    status:'verified',move_fees:{transfer_bps:0,transfer_platform_bps:0,
+    status:'verified',kyc:{status:'approved'},phone:{status:'verified'},card_ready:true,
+    move_fees:{transfer_bps:0,transfer_platform_bps:0,
       transfer_brand_bps:0,withdraw_bps:0,withdraw_platform_bps:0,
       withdraw_brand_bps:0}
   });
