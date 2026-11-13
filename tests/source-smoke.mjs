@@ -42,6 +42,8 @@ for(const viewport of [{width:390,height:844},{width:430,height:932},{width:1440
  await page.waitForTimeout(450);
  await page.screenshot({path:path.join(out,'original-topup-'+viewport.width+'.png'),animations:'disabled'});
  if(!await page.locator('#v-topup [data-tf-bank="SEPA"]').isVisible())throw new Error('SEPA missing in topup sheet');
+ if(!await page.locator('#v-topup [data-go="dep-usdt-tron"]').isVisible())throw new Error('Original USDT method missing');
+ if(!await page.locator('#v-topup [data-go="dep-usdc-polygon"]').isVisible())throw new Error('Original USDC method missing');
  await page.locator('#v-topup [data-tf-bank="SEPA"]').click();
  await page.waitForTimeout(300);
  if(!await page.locator('#tf-bank-overlay').isVisible())throw new Error('SEPA overlay missing');
@@ -52,7 +54,8 @@ for(const viewport of [{width:390,height:844},{width:430,height:932},{width:1440
  if(await page.locator('#tf-bank-overlay').isVisible())throw new Error('Close failed');
  // The original bottom-nav method sheet is modal and intentionally blocks tabs.
  // Close it through the original dim/back area before selecting another tab.
- await page.locator('#v-topup .dim').click({position:{x:12,y:12}});
+ if(viewport.width<1024)await page.locator('#v-topup .dim').click({position:{x:12,y:12}});
+ else await page.evaluate(()=>bnvSheetClose());
  await page.waitForTimeout(250);
  await page.locator('.bnv [data-mb="withdraw"]').click();
  await page.waitForTimeout(450);

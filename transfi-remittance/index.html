@@ -7512,7 +7512,7 @@ function pickBanner(){
   return null;
 }
 
-function sysBanner(){
+function sysBanner(){if(altPreview)return;
   const acts = $('#v-home .acts');
   if(!acts) return;
   tgHomeAsk();
@@ -13179,7 +13179,7 @@ function wayMarks(){
   document.querySelectorAll('[data-way]').forEach(e => { e.hidden = !wayOn(e.dataset.way); });
 }
 
-function paintWays(){
+function paintWays(){if(altPreview)return;
   const r = waysKnown();
   if(!r || !Array.isArray(r.networks)) return;
   wayMarks();
@@ -15503,7 +15503,7 @@ function supWatch(on){
   }, 6000);
 }
 
-stripMockOps();
+if(!altPreview)stripMockOps();
 i18nApply();
 if(window.__tgBoot) window.__tgBoot(boot); else boot();
 
