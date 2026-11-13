@@ -9,6 +9,7 @@ const base=pathToFileURL(path.resolve('transfi-remittance/index.html'));
 try{
 for(const viewport of [{width:390,height:844},{width:430,height:932},{width:1440,height:900}]){
  const page=await browser.newPage({viewport,deviceScaleFactor:1});
+ page.setDefaultTimeout(9000);
  const errors=[];page.on('pageerror',e=>errors.push(e.message));
  await page.goto(base.href,{waitUntil:'domcontentloaded'});
  await page.waitForTimeout(500);
@@ -49,6 +50,10 @@ for(const viewport of [{width:390,height:844},{width:430,height:932},{width:1440
  await page.screenshot({path:path.join(out,'source-sepa-'+viewport.width+'.png'),animations:'disabled'});
  await page.locator('#tf-bank-close').click();
  if(await page.locator('#tf-bank-overlay').isVisible())throw new Error('Close failed');
+ // The original bottom-nav method sheet is modal and intentionally blocks tabs.
+ // Close it through the original dim/back area before selecting another tab.
+ await page.locator('#v-topup .dim').click({position:{x:12,y:12}});
+ await page.waitForTimeout(250);
  await page.locator('.bnv [data-mb="withdraw"]').click();
  await page.waitForTimeout(450);
  if(!await page.locator('#v-withdraw [data-tf-bank="SWIFT"]').isVisible())throw new Error('SWIFT missing in withdraw sheet');
