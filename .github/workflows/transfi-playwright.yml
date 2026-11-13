@@ -70,20 +70,18 @@ jobs:
               if(!await page.locator('#methodLayer .tf-method-sheet').isVisible())throw Error('Back from SEPA must open method sheet');
               await page.locator('#methodLayer .tf-method-row').filter({hasText:'SWIFT'}).click();
               await snapshot('SWIFT details directly');
-              const currencySelect=page.getByRole('combobox',{name:'Валюта пополнения'});
-              if(!await currencySelect.isVisible())throw Error('SWIFT currency selector missing');
+              const currencySelect=page.locator('#content [data-picker="inCurrency"]');
+              if(!await currencySelect.isVisible())throw Error('SWIFT currency picker missing');
               if(!await page.locator('#content .tf-requisites').isVisible())throw Error('SWIFT bank details missing');
-              await currencySelect.selectOption('USD');
+              await currencySelect.click();
+              await page.locator('[data-picker-value="USD"]').click();
               await snapshot('SWIFT USD bank details');
-              if((await currencySelect.inputValue())!=='USD')throw Error('SWIFT currency selection not persisted');
+              if(!(await currencySelect.innerText()).includes('USD'))throw Error('SWIFT currency selection not persisted');
               if(!await page.getByText('DEMOUS00',{exact:true}).isVisible())throw Error('SWIFT bank details did not refresh for USD');
               if(await page.getByRole('button',{name:'Получить реквизиты'}).count())throw Error('SWIFT has obsolete currency step');
-              if(width<740) {
-                await page.locator('.phone.tf-phone .back').click();
-                await page.locator('#methodLayer .tf-method-dim').click({position:{x:10,y:10}});
-              } else {
-                await page.locator('#flow-home').click();
-              }
+              await page.locator('.phone.tf-phone .back').click();
+              if(!await page.locator('#methodLayer .tf-method-sheet').isVisible())throw Error('Bank back did not return to method selection');
+              await page.locator('#methodLayer .tf-method-dim').click({position:{x:10,y:10}});
               await page.locator('.tf-bottom-nav [data-mb="withdraw"]').click();
               await page.locator('#methodLayer .tf-method-row').filter({hasText:'SWIFT'}).click();
               await snapshot('out SWIFT');
