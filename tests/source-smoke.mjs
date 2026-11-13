@@ -75,7 +75,8 @@ for(const viewport of [{width:390,height:844},{width:430,height:932},{width:1440
  const frame=page.frameLocator('#tf-bank-overlay iframe');
  if(!await frame.getByText('Валюта пополнения',{exact:true}).isVisible())throw new Error('SEPA legacy screen missing');
  await page.screenshot({path:path.join(out,'source-sepa-'+viewport.width+'.png'),animations:'disabled'});
- await page.locator('#tf-bank-close').click();
+ // Close through the bank screen's actual back button (the parent owns iframe removal).
+ await frame.locator('.phone.tf-phone > .head .back').click();
  if(await page.locator('#tf-bank-overlay').isVisible())throw new Error('Close failed');
  // The original bottom-nav method sheet is modal and intentionally blocks tabs.
  // Close it through the original dim/back area before selecting another tab.
