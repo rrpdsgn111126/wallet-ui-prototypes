@@ -101,7 +101,7 @@
         "statusIcon": false,
         "timelineDot": null,
         "fontReady": true,
-        "screenTitle": "Пополнение · SEPA"
+        "screenTitle": "Пополнение SEPA"
       },
       "problems": []
     },
@@ -130,7 +130,7 @@
         "field": {
           "height": "68px",
           "borderRadius": "16px",
-          "fontSize": "16px",
+          "fontSize": "13.3333px",
           "fontWeight": "400",
           "lineHeight": "normal",
           "paddingLeft": "16px"
@@ -156,7 +156,7 @@
         "statusIcon": false,
         "timelineDot": null,
         "fontReady": true,
-        "screenTitle": "Пополнение · SWIFT"
+        "screenTitle": "Пополнение SWIFT"
       },
       "problems": []
     },
@@ -190,7 +190,7 @@
         "statusIcon": true,
         "timelineDot": "static",
         "fontReady": true,
-        "screenTitle": "Пополнение · SEPA"
+        "screenTitle": "Пополнение SEPA"
       },
       "problems": []
     },
@@ -238,7 +238,7 @@
         "statusIcon": true,
         "timelineDot": null,
         "fontReady": true,
-        "screenTitle": "Пополнение · SEPA"
+        "screenTitle": "Пополнение SEPA"
       },
       "problems": []
     },
@@ -286,7 +286,7 @@
         "statusIcon": true,
         "timelineDot": null,
         "fontReady": true,
-        "screenTitle": "Пополнение · SEPA"
+        "screenTitle": "Пополнение SEPA"
       },
       "problems": []
     },
@@ -337,18 +337,11 @@
           "lineHeight": "normal",
           "paddingLeft": "16px"
         },
-        "segment": {
-          "height": "48px",
-          "borderRadius": "15px",
-          "fontSize": "16px",
-          "fontWeight": "400",
-          "lineHeight": "normal",
-          "paddingLeft": "4px"
-        },
+        "segment": null,
         "statusIcon": false,
         "timelineDot": null,
         "fontReady": true,
-        "screenTitle": "Вывод · SEPA"
+        "screenTitle": "Вывод SEPA"
       },
       "problems": []
     },
@@ -399,18 +392,11 @@
           "lineHeight": "normal",
           "paddingLeft": "16px"
         },
-        "segment": {
-          "height": "48px",
-          "borderRadius": "15px",
-          "fontSize": "16px",
-          "fontWeight": "400",
-          "lineHeight": "normal",
-          "paddingLeft": "4px"
-        },
+        "segment": null,
         "statusIcon": false,
         "timelineDot": null,
         "fontReady": true,
-        "screenTitle": "Вывод · SWIFT"
+        "screenTitle": "Вывод SWIFT"
       },
       "problems": []
     },
@@ -458,7 +444,7 @@
         "statusIcon": false,
         "timelineDot": null,
         "fontReady": true,
-        "screenTitle": "Вывод · SEPA"
+        "screenTitle": "Вывод SEPA"
       },
       "problems": []
     },
@@ -506,7 +492,7 @@
         "statusIcon": false,
         "timelineDot": null,
         "fontReady": true,
-        "screenTitle": "Вывод · SWIFT"
+        "screenTitle": "Вывод SWIFT"
       },
       "problems": []
     },
@@ -561,7 +547,7 @@
         "statusIcon": false,
         "timelineDot": null,
         "fontReady": true,
-        "screenTitle": "Вывод · SEPA"
+        "screenTitle": "Вывод SEPA"
       },
       "problems": []
     },
@@ -616,7 +602,7 @@
         "statusIcon": false,
         "timelineDot": null,
         "fontReady": true,
-        "screenTitle": "Вывод · SWIFT"
+        "screenTitle": "Вывод SWIFT"
       },
       "problems": []
     },
@@ -657,7 +643,7 @@
         "statusIcon": true,
         "timelineDot": "static",
         "fontReady": true,
-        "screenTitle": "Вывод · SWIFT"
+        "screenTitle": "Вывод SWIFT"
       },
       "problems": []
     },
@@ -705,7 +691,7 @@
         "statusIcon": true,
         "timelineDot": null,
         "fontReady": true,
-        "screenTitle": "Вывод · SWIFT"
+        "screenTitle": "Вывод SWIFT"
       },
       "problems": []
     },
@@ -753,7 +739,7 @@
         "statusIcon": true,
         "timelineDot": null,
         "fontReady": true,
-        "screenTitle": "Вывод · SWIFT"
+        "screenTitle": "Вывод SWIFT"
       },
       "problems": []
     },
@@ -794,7 +780,7 @@
         "statusIcon": true,
         "timelineDot": null,
         "fontReady": true,
-        "screenTitle": "Вывод · SWIFT"
+        "screenTitle": "Вывод SWIFT"
       },
       "problems": []
     },
@@ -842,7 +828,7 @@
         "statusIcon": true,
         "timelineDot": null,
         "fontReady": true,
-        "screenTitle": "Вывод · SWIFT"
+        "screenTitle": "Вывод SWIFT"
       },
       "problems": []
     },
@@ -897,7 +883,7 @@
         "statusIcon": false,
         "timelineDot": null,
         "fontReady": true,
-        "screenTitle": "Пополнение · SEPA"
+        "screenTitle": "Пополнение SEPA"
       },
       "problems": []
     },
@@ -926,7 +912,7 @@
         "field": {
           "height": "68px",
           "borderRadius": "16px",
-          "fontSize": "16px",
+          "fontSize": "13.3333px",
           "fontWeight": "400",
           "lineHeight": "normal",
           "paddingLeft": "16px"
@@ -952,7 +938,7 @@
         "statusIcon": false,
         "timelineDot": null,
         "fontReady": true,
-        "screenTitle": "Пополнение · SWIFT"
+        "screenTitle": "Пополнение SWIFT"
       },
       "problems": []
     },
@@ -986,7 +972,7 @@
         "statusIcon": true,
         "timelineDot": "static",
         "fontReady": true,
-        "screenTitle": "Пополнение · SEPA"
+        "screenTitle": "Пополнение SEPA"
       },
       "problems": []
     },
@@ -1034,7 +1020,7 @@
         "statusIcon": true,
         "timelineDot": null,
         "fontReady": true,
-        "screenTitle": "Пополнение · SEPA"
+        "screenTitle": "Пополнение SEPA"
       },
       "problems": []
     },
@@ -1082,7 +1068,7 @@
         "statusIcon": true,
         "timelineDot": null,
         "fontReady": true,
-        "screenTitle": "Пополнение · SEPA"
+        "screenTitle": "Пополнение SEPA"
       },
       "problems": []
     },
@@ -1133,18 +1119,11 @@
           "lineHeight": "normal",
           "paddingLeft": "16px"
         },
-        "segment": {
-          "height": "48px",
-          "borderRadius": "15px",
-          "fontSize": "16px",
-          "fontWeight": "400",
-          "lineHeight": "normal",
-          "paddingLeft": "4px"
-        },
+        "segment": null,
         "statusIcon": false,
         "timelineDot": null,
         "fontReady": true,
-        "screenTitle": "Вывод · SEPA"
+        "screenTitle": "Вывод SEPA"
       },
       "problems": []
     },
@@ -1195,18 +1174,11 @@
           "lineHeight": "normal",
           "paddingLeft": "16px"
         },
-        "segment": {
-          "height": "48px",
-          "borderRadius": "15px",
-          "fontSize": "16px",
-          "fontWeight": "400",
-          "lineHeight": "normal",
-          "paddingLeft": "4px"
-        },
+        "segment": null,
         "statusIcon": false,
         "timelineDot": null,
         "fontReady": true,
-        "screenTitle": "Вывод · SWIFT"
+        "screenTitle": "Вывод SWIFT"
       },
       "problems": []
     },
@@ -1254,7 +1226,7 @@
         "statusIcon": false,
         "timelineDot": null,
         "fontReady": true,
-        "screenTitle": "Вывод · SEPA"
+        "screenTitle": "Вывод SEPA"
       },
       "problems": []
     },
@@ -1302,7 +1274,7 @@
         "statusIcon": false,
         "timelineDot": null,
         "fontReady": true,
-        "screenTitle": "Вывод · SWIFT"
+        "screenTitle": "Вывод SWIFT"
       },
       "problems": []
     },
@@ -1357,7 +1329,7 @@
         "statusIcon": false,
         "timelineDot": null,
         "fontReady": true,
-        "screenTitle": "Вывод · SEPA"
+        "screenTitle": "Вывод SEPA"
       },
       "problems": []
     },
@@ -1412,7 +1384,7 @@
         "statusIcon": false,
         "timelineDot": null,
         "fontReady": true,
-        "screenTitle": "Вывод · SWIFT"
+        "screenTitle": "Вывод SWIFT"
       },
       "problems": []
     },
@@ -1453,7 +1425,7 @@
         "statusIcon": true,
         "timelineDot": "static",
         "fontReady": true,
-        "screenTitle": "Вывод · SWIFT"
+        "screenTitle": "Вывод SWIFT"
       },
       "problems": []
     },
@@ -1501,7 +1473,7 @@
         "statusIcon": true,
         "timelineDot": null,
         "fontReady": true,
-        "screenTitle": "Вывод · SWIFT"
+        "screenTitle": "Вывод SWIFT"
       },
       "problems": []
     },
@@ -1549,7 +1521,7 @@
         "statusIcon": true,
         "timelineDot": null,
         "fontReady": true,
-        "screenTitle": "Вывод · SWIFT"
+        "screenTitle": "Вывод SWIFT"
       },
       "problems": []
     },
@@ -1590,7 +1562,7 @@
         "statusIcon": true,
         "timelineDot": null,
         "fontReady": true,
-        "screenTitle": "Вывод · SWIFT"
+        "screenTitle": "Вывод SWIFT"
       },
       "problems": []
     },
@@ -1638,7 +1610,7 @@
         "statusIcon": true,
         "timelineDot": null,
         "fontReady": true,
-        "screenTitle": "Вывод · SWIFT"
+        "screenTitle": "Вывод SWIFT"
       },
       "problems": []
     }
