@@ -21,7 +21,7 @@
 }
 .phone.tf-phone:not(.is-home)>.head {
   display:flex;box-sizing:border-box;position:relative;z-index:2;
-  flex:0 0 auto;min-height:66px;padding:14px 16px 10px;
+  flex:0 0 auto;min-height:0;padding:52px 16px 14px;
   align-items:center;gap:12px;background:transparent;
 }
 .phone.tf-phone:not(.is-home)>.head .h1 {
