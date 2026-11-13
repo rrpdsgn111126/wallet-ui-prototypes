@@ -338,15 +338,15 @@
           "lineHeight": "22px",
           "paddingLeft": "0px"
         },
-        "box": {
-          "height": "268px",
+        "box": null,
+        "table": {
+          "height": "241px",
           "borderRadius": "20px",
           "fontSize": "16px",
           "fontWeight": "400",
           "lineHeight": "normal",
-          "paddingLeft": "0px"
+          "paddingLeft": "16px"
         },
-        "table": null,
         "segment": null,
         "statusIcon": false,
         "timelineDot": null,
@@ -395,15 +395,15 @@
           "lineHeight": "22px",
           "paddingLeft": "0px"
         },
-        "box": {
-          "height": "268px",
+        "box": null,
+        "table": {
+          "height": "241px",
           "borderRadius": "20px",
           "fontSize": "16px",
           "fontWeight": "400",
           "lineHeight": "normal",
-          "paddingLeft": "0px"
+          "paddingLeft": "16px"
         },
-        "table": null,
         "segment": null,
         "statusIcon": false,
         "timelineDot": null,
@@ -526,7 +526,7 @@
         "phoneScrollWidth": 390,
         "contentWidth": 390,
         "contentScrollWidth": 390,
-        "contentScrollHeight": 744,
+        "contentScrollHeight": 719,
         "contentHeight": 630,
         "header": {
           "height": "24px",
@@ -553,7 +553,14 @@
           "lineHeight": "normal",
           "paddingLeft": "0px"
         },
-        "table": null,
+        "table": {
+          "height": "241px",
+          "borderRadius": "20px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "normal",
+          "paddingLeft": "16px"
+        },
         "segment": null,
         "statusIcon": false,
         "timelineDot": null,
@@ -576,7 +583,7 @@
         "phoneScrollWidth": 390,
         "contentWidth": 390,
         "contentScrollWidth": 390,
-        "contentScrollHeight": 744,
+        "contentScrollHeight": 719,
         "contentHeight": 630,
         "header": {
           "height": "24px",
@@ -603,7 +610,14 @@
           "lineHeight": "normal",
           "paddingLeft": "0px"
         },
-        "table": null,
+        "table": {
+          "height": "241px",
+          "borderRadius": "20px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "normal",
+          "paddingLeft": "16px"
+        },
         "segment": null,
         "statusIcon": false,
         "timelineDot": null,
@@ -1128,15 +1142,15 @@
           "lineHeight": "22px",
           "paddingLeft": "0px"
         },
-        "box": {
-          "height": "268px",
+        "box": null,
+        "table": {
+          "height": "241px",
           "borderRadius": "20px",
           "fontSize": "16px",
           "fontWeight": "400",
           "lineHeight": "normal",
-          "paddingLeft": "0px"
+          "paddingLeft": "16px"
         },
-        "table": null,
         "segment": null,
         "statusIcon": false,
         "timelineDot": null,
@@ -1183,15 +1197,15 @@
           "lineHeight": "22px",
           "paddingLeft": "0px"
         },
-        "box": {
-          "height": "268px",
+        "box": null,
+        "table": {
+          "height": "241px",
           "borderRadius": "20px",
           "fontSize": "16px",
           "fontWeight": "400",
           "lineHeight": "normal",
-          "paddingLeft": "0px"
+          "paddingLeft": "16px"
         },
-        "table": null,
         "segment": null,
         "statusIcon": false,
         "timelineDot": null,
@@ -1308,7 +1322,7 @@
         "phoneScrollWidth": 430,
         "contentWidth": 430,
         "contentScrollWidth": 430,
-        "contentScrollHeight": 744,
+        "contentScrollHeight": 719,
         "contentHeight": 718,
         "header": {
           "height": "24px",
@@ -1335,7 +1349,14 @@
           "lineHeight": "normal",
           "paddingLeft": "0px"
         },
-        "table": null,
+        "table": {
+          "height": "241px",
+          "borderRadius": "20px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "normal",
+          "paddingLeft": "16px"
+        },
         "segment": null,
         "statusIcon": false,
         "timelineDot": null,
@@ -1356,7 +1377,7 @@
         "phoneScrollWidth": 430,
         "contentWidth": 430,
         "contentScrollWidth": 430,
-        "contentScrollHeight": 744,
+        "contentScrollHeight": 719,
         "contentHeight": 718,
         "header": {
           "height": "24px",
@@ -1383,7 +1404,14 @@
           "lineHeight": "normal",
           "paddingLeft": "0px"
         },
-        "table": null,
+        "table": {
+          "height": "241px",
+          "borderRadius": "20px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "normal",
+          "paddingLeft": "16px"
+        },
         "segment": null,
         "statusIcon": false,
         "timelineDot": null,
