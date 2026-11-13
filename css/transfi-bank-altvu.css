@@ -212,3 +212,24 @@ html.tf-embedded,html.tf-embedded body{width:100%;height:100%;overflow:hidden;ma
 html.tf-capture.tf-embedded .phone.tf-phone{position:relative;width:100%!important;height:100%!important;min-height:0!important;max-width:none!important;transform:none;border:0;border-radius:0;box-shadow:none}
 html.tf-embedded .proto-shell,html.tf-embedded .workspace{height:100%;width:100%;min-height:0;margin:0;padding:0}
 @media(max-width:360px){.phone.tf-phone:not(.is-home)>.head .h1{font-size:18px}}
+
+/* Alt.vu select and disclosure final pass: no browser-native mismatched triangles */
+.phone.tf-phone .fld.tf-field .fl:has(select){position:relative;padding-right:24px}
+.phone.tf-phone .fld.tf-field .fl select.tf-select{appearance:none;-webkit-appearance:none;padding:0}
+.phone.tf-phone .fld.tf-field .fl:has(select)::after{
+  content:"";position:absolute;right:4px;top:calc(50% - 5px);
+  width:9px;height:9px;border-right:2px solid var(--n400);
+  border-bottom:2px solid var(--n400);transform:rotate(45deg);pointer-events:none
+}
+.phone.tf-phone .tf-more summary{
+ box-sizing:border-box;display:flex;align-items:center;justify-content:space-between;
+ gap:12px;min-height:56px;padding:14px 16px;list-style:none;cursor:pointer;
+}
+.phone.tf-phone .tf-more summary::-webkit-details-marker{display:none}
+.phone.tf-phone .tf-more summary::after{
+ content:"";width:9px;height:9px;flex:0 0 9px;
+ border-right:2px solid var(--n400);border-bottom:2px solid var(--n400);
+ transform:rotate(45deg);margin-right:4px;margin-top:-5px
+}
+.phone.tf-phone .tf-more[open] summary::after{transform:rotate(225deg);margin-top:5px}
+.phone.tf-phone .tf-more[open] summary{border-bottom:1px solid var(--n100);margin-bottom:12px}
