@@ -212,11 +212,30 @@
       }
       feed.innerHTML=groupOps(ops.slice(0,5))+
         '<button type="button" class="btno allops" data-act="all-ops">Все операции</button>';
+      feed.querySelectorAll('.op[data-id]').forEach(row=>{row.tabIndex=0;row.setAttribute('role','button');});
     }
     const topup=document.querySelector('#v-topup .bgfeed');
     const withdraw=document.querySelector('#v-withdraw .bgfeed');
     [topup,withdraw].filter(Boolean).forEach(el=>el.innerHTML=groupOps(ops.slice(0,3)));
   };
+  // The generated rows in the home feed have to open the native transaction
+  // details view. Use one delegated listener because loadOps rebuilds the feed.
+  function openPreviewOperation(event){
+    const row=event.target.closest&&event.target.closest('.op[data-id]');
+    if(!row||!row.closest('.view'))return;
+    const op=(data['/operations'].operations||[])
+      .find(item=>String(item.id)===String(row.dataset.id));
+    if(!op)return;
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    openOp(op);
+  }
+  document.addEventListener('click',openPreviewOperation,true);
+  document.addEventListener('keydown',event=>{
+    if(event.key!=='Enter'&&event.key!==' ')return;
+    if(!event.target.matches('.op[data-id]'))return;
+    openPreviewOperation(event);
+  },true);
   // Load the history after the standard preview boot has finished.
   Promise.resolve().then(()=>loadOps());
 
@@ -246,6 +265,15 @@
   }
   const realTrSubmit=trSubmit;
   trSubmit=async function(pin,confirm){
+    if(nextOutcome==='pending'){
+      const cents=Math.round(amount((document.getElementById('trc-go')||{}).dataset&&
+        document.getElementById('trc-go').dataset.minor||0));
+      const op=record({id:eventId('tr-pending'),kind:'transfer',status:'queued',
+        title:'Перевод в ALT.VU',amount_minor:-cents,fee_minor:0,
+        created_at:new Date().toISOString(),preview_unsettled:true,
+        recipient_name:'Николай К.',recipient:'demo.receiver@example.invalid'});
+      openOp(op);return;
+    }
     if(nextOutcome!=='failed')return realTrSubmit(pin,confirm);
     const cents=Math.round(amount((document.getElementById('trc-go')||{}).dataset&&
       document.getElementById('trc-go').dataset.minor||0));
@@ -309,12 +337,41 @@
     sbpCheck();
   }
 
+  function bankCallback(status){
+    const overlay=document.querySelector('#tf-bank-overlay');
+    const frame=overlay&&overlay.querySelector('iframe');
+    if(!frame||overlay.hidden||getComputedStyle(overlay).display==='none'){
+      msg('','Откройте SEPA или SWIFT для проверки результата');return;
+    }
+    try{
+      const bridge=frame.contentWindow&&frame.contentWindow.uxBankCallback;
+      if(typeof bridge!=='function'||!bridge(status))
+        msg('','Сначала откройте подтверждение / ожидание банковской операции');
+    }catch(_){msg('','Не удалось связаться с экраном SEPA/SWIFT');}
+  }
+  function settlePending(status){
+    const ops=data['/operations'].operations||[];
+    const op=ops.find(item=>item.preview_unsettled||['queued','broadcast','confirming'].includes(item.status));
+    if(!op){msg('','Нет операции, ожидающей callback');return;}
+    const isSuccess=status==='success';
+    if(op.preview_unsettled&&isSuccess&&op.kind==='transfer'){
+      refreshBalance(op.amount_minor);
+    }
+    if(!op.preview_unsettled&&!isSuccess&&op.kind==='withdrawal'&&op.status!=='rejected'){
+      refreshBalance(-op.amount_minor);
+    }
+    op.status=isSuccess?(op.kind==='deposit'?'credited':'confirmed'):
+      status==='held'?'confirming':'rejected';
+    op.preview_unsettled=status==='held';
+    loadOps();
+    openOp(op);
+  }
   function qa(){
     if(new URLSearchParams(location.search).get('qa')!=='1')return;
     const css=document.createElement('style');
     css.textContent='#pv-qa{position:fixed;right:12px;bottom:12px;width:210px;max-width:48vw;'+
       'background:white;border:1px solid #dfe3df;box-shadow:0 4px 25px #0002;border-radius:14px;'+
-      'z-index:200;box-sizing:border-box;padding:12px;color:#1e241e;font:12px/1.4 Inter,sans-serif}'+
+      'z-index:200;box-sizing:border-box;padding:12px;color:#1e241e;font:12px/1.4 Inter,sans-serif;max-height:76vh;overflow-y:auto}'+
       '#pv-qa h3{font-size:13px;margin:0 0 8px}#pv-qa select,#pv-qa button{box-sizing:border-box;'+
       'width:100%;min-height:34px;margin:0 0 7px;border:1px solid #d6dcd6;border-radius:8px;'+
       'background:#f5f7f5;color:#1e241e;font:inherit;padding:6px}#pv-qa button{cursor:pointer}'+
@@ -329,12 +386,30 @@
       '<button id="pv-internal-ok">ALT.VU: входящий перевод</button>'+
       '<button id="pv-sbp-ok">СБП callback: успех</button>'+
       '<button id="pv-sbp-fail">СБП callback: ошибка</button>'+
+      '<button id="pv-deposit-fail">Пополнение: ошибка</button>'+
+      '<details><summary>Callback SEPA / SWIFT</summary>'+
+      '<button id="pv-bank-ok">Банк: успех</button>'+
+      '<button id="pv-bank-fail">Банк: ошибка</button>'+
+      '<button id="pv-bank-held">Банк: проверка</button>'+
+      '<button id="pv-bank-pending">Банк: ожидание</button></details>'+
+      '<details><summary>Callback исходящей операции</summary>'+
+      '<button id="pv-settle-ok">Операция: успех</button>'+
+      '<button id="pv-settle-fail">Операция: ошибка</button>'+
+      '<button id="pv-settle-held">Операция: проверка</button></details>'+
       '<button id="pv-open-last">Детали последней операции</button>'+
       '<small>Только локальный UX-макет. Платежи не отправляются.</small>';
     document.body.appendChild(bar);
     bar.querySelector('#pv-outcome').onchange=e=>{nextOutcome=e.target.value;};
     bar.querySelector('#pv-deposit-ok').onclick=()=>depositCallback('credited');
     bar.querySelector('#pv-deposit-review').onclick=()=>depositCallback('review');
+    bar.querySelector('#pv-deposit-fail').onclick=()=>depositCallback('rejected');
+    bar.querySelector('#pv-bank-ok').onclick=()=>bankCallback('success');
+    bar.querySelector('#pv-bank-fail').onclick=()=>bankCallback('failed');
+    bar.querySelector('#pv-bank-held').onclick=()=>bankCallback('held');
+    bar.querySelector('#pv-bank-pending').onclick=()=>bankCallback('pending');
+    bar.querySelector('#pv-settle-ok').onclick=()=>settlePending('success');
+    bar.querySelector('#pv-settle-fail').onclick=()=>settlePending('failed');
+    bar.querySelector('#pv-settle-held').onclick=()=>settlePending('held');
     bar.querySelector('#pv-internal-ok').onclick=()=>internalDepositCallback();
     bar.querySelector('#pv-sbp-ok').onclick=()=>sbpCallback('ok');
     bar.querySelector('#pv-sbp-fail').onclick=()=>sbpCallback('fail');
