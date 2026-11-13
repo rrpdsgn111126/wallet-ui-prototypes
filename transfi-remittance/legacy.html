@@ -582,6 +582,8 @@ html.tf-capture.tf-embedded .phone.tf-phone,html.tf-capture.tf-embedded .phone.t
 .phone.tf-phone .tf-quote.tbl .rl b{text-align:right;overflow-wrap:anywhere}
 .phone.tf-phone .tf-quote.tbl .rl:last-child b{font-weight:700}
 .phone.tf-phone .tf-amount .wd-amt{width:100%;min-width:0;border:0;background:transparent;outline:none;font:inherit;color:inherit}
+.phone.tf-phone #tf-amount-error[hidden]{display:none!important}
+.phone.tf-phone #tf-amount-error{margin:-4px 0 12px 8px;color:var(--err,#bd340e);font-size:12px;line-height:16px}
 .phone.tf-phone .tf-amount button.tf-max{border:0;padding:0;background:transparent;font:inherit;font-weight:700;color:var(--n850);cursor:pointer}
 .phone.tf-phone .tf-amount .addon{display:flex;align-items:center;gap:10px}
 </style>
@@ -687,7 +689,7 @@ function qSummary(){
    keyrow('Получит',money(q.receive,S.outCurrency));
 }
 function validConfig(){const q=quote();return q.valid&&q.amt>q.fee&&q.amt+q.fee<=4812.60}
-function checkConfig(){if(!validConfig()){notify('Укажите сумму больше комиссии');return}go('out-recipient')}
+function checkConfig(){const error=amountError();if(error){S.showError=true;renderQuote();notify(error);return}go('out-recipient')}
 function checkRecipient(){const required=['firstName','lastName',S.outRail==='SEPA'?'iban':'account'];if(S.outRail==='SWIFT')required.push('bic','bank');if(S.purpose==='other')required.push('purposeOther');const missing=required.find(k=>!String(S[k]||'').trim());if(missing){notify('Заполните обязательные поля');const f=$('f-'+missing);f?.scrollIntoView({block:'center',behavior:'smooth'});f?.focus();return}go('out-review')}
 function fillDemo(){Object.assign(S,{firstName:'Иван',lastName:'Иванов',iban:'DE00 0000 0000 0000 0000 00',account:'000000000000',bic:'DEMOXXXX',bank:'Банк-партнёр',routing:'',bankAddress:'',recipientAddress:'',intermediary:'',purpose:'personal',purposeOther:'',note:''});render();notify('Заполнены вымышленные тестовые данные')}
 function checkReview(){
@@ -740,17 +742,37 @@ case'out-unavailable':p=`<div class="tf-hero">${tfStatusMark('failed')}${title('
 return {p,f,head};}
 function purposeName(){return {personal:'Перевод собственных средств',family:'Перевод родственникам',education:'Обучение',other:S.purposeOther||'Другое'}[S.purpose]}
 function timeline(flow){const items=flow==='in'?[['done','Отправлено внешним банком','Ожидаем подтверждение'],['current','Проверка поступления','Сопоставление платежа'],['','Зачислено','После проверок']]:[['done','Перевод создан','initiated'],['current','Обрабатывается','fund_processing'],['','Доставлен','fund_settled']];return `<div class="timeline">${items.map(([s,a,b],i)=>`<div class="track ${s}"><div><div class="dot">${s==='done'?'✓':i+1}</div>${i<2?'<div class="line"></div>':''}</div><div><b>${a}</b><small>${b}</small></div></div>`).join('')}</div>`}
-function renderQuote(){const t=$('quoteBlock');if(t)t.innerHTML=qSummary()}
-function uxSetAmount(value){S.amount=String(value).replace(/[^0-9.,]/g,'').replace(',','.');renderQuote()}
+function amountError(){
+ const q=quote();
+ if(!q.valid)return 'Укажите сумму перевода';
+ if(q.amt<=q.fee)return 'Сумма должна быть больше комиссии';
+ if(q.amt+q.fee>4812.60)return 'Больше, чем доступно на счёте';
+ return '';
+}
+function renderQuote(){
+ const quoteBlock=$('quoteBlock');
+ if(quoteBlock)quoteBlock.innerHTML=qSummary();
+ const error=amountError(),visible=Boolean(error&&S.showError);
+ const inputWrapper=$('wrap-amount'),note=$('tf-amount-error');
+ if(inputWrapper)inputWrapper.classList.toggle('err',visible);
+ if(note){note.hidden=!visible;note.textContent=visible?error:'';}
+}
+function uxSetAmount(value){
+ S.amount=String(value).replace(/[^0-9.,]/g,'').replace(',','.');
+ S.showError=false;
+ renderQuote();
+}
 function uxMaxAmount(){
  const q=quote(),max=Math.max(0,Math.floor((4812.60-q.fee)*100)/100);
- S.amount=max.toFixed(2);const input=$('tf-out-amount');if(input)input.value=S.amount;
+ S.amount=max.toFixed(2);S.showError=false;
+ const input=$('tf-out-amount');if(input)input.value=S.amount;
  renderQuote();
 }
 function uxAmountField(){
  return '<div class="fld w tf-field tf-amount" id="wrap-amount"><div class="fi">'+tfIconFor('amount')+
  '</div><div class="fl"><i>Сумма перевода</i><b><input id="tf-out-amount" class="wd-amt" inputmode="decimal" type="text" autocomplete="off" placeholder="0.00" aria-label="Сумма перевода" value="'+esc(S.amount)+'" oninput="uxSetAmount(this.value)"></b></div>'+
- '<div class="addon"><span class="cur">$</span><button type="button" class="mx tf-max" onclick="uxMaxAmount()">MAX</button></div></div>';
+ '<div class="addon"><span class="cur">$</span><button type="button" class="mx tf-max" onclick="uxMaxAmount()">MAX</button></div></div>'+
+ '<div class="err-note" id="tf-amount-error" hidden></div>';
 }
 function render(){const steps=SCREENS[S.flow];document.querySelectorAll('[data-flow]').forEach(e=>e.classList.toggle('active',e.dataset.flow===S.flow));$('flow-in').classList.toggle('active',S.flow==='in');$('flow-out').classList.toggle('active',S.flow==='out');$('stepList').innerHTML=steps.map(([k,n],i)=>`<button class="stepBtn ${S.screen===k?'active':''}" onclick="go('${k}')"><span class="num">${i+1}</span>${esc(n)}</button>`).join('');$('stageLabel').textContent=S.flow==='in'?'Пополнение · Международный перевод':'Вывод · Международный перевод';$('stageIndex').textContent=(steps.findIndex(([k])=>k===S.screen)+1)+' / '+steps.length;$('recipientTools').hidden=S.screen!=='out-recipient';const d=renderScreen();$('phoneTitle').textContent=d.head;$('content').innerHTML=d.p;$('footer').innerHTML=d.f;const m=META[S.screen];$('metaTitle').textContent=m.title;$('metaDescription').textContent=m.desc;$('metaApi').innerHTML=m.apis.map(x=>`<div class="apiChip">${esc(x)}</div>`).join('');$('metaRules').innerHTML=m.rules.map(x=>`<li>${esc(x)}</li>`).join('');const sims=S.flow==='in'?[['Реквизиты', 'in-details'],['Ожидание поступления','in-pending'],['Зачислено','in-success'],['На проверке','in-held']]:[['Параметры','out-config'],['Реквизиты','out-recipient'],['Подтверждение','out-review'],['Обрабатывается','out-progress'],['Успех','out-success'],['Ошибка','out-failed'],['На проверке','out-held'],['Недоступно','out-unavailable']];$('simList').innerHTML=sims.map(([n,k])=>`<button onclick="go('${k}')">${esc(n)}</button>`).join('');$('content').scrollTop=0}
 // Genuine alt.vu component snippets, from build/snippets.json (safe, fictional data).
