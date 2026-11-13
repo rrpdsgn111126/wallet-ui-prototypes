@@ -474,7 +474,26 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid 
 .phone.tf-phone .tf-bottom-nav .bnv-i svg{width:23px;height:23px;display:block}
 .phone.tf-phone .tf-bottom-nav .bnv-i.on{color:var(--n900);background:var(--n100);font-weight:600}
 /* Reference uses the shipped black card asset, not the green unissued-card image. */
-.phone.tf-phone .tf-visa-card{color:#fff}
+
+/* The upstream green card sprite embeds its own VISA logo. Do not reuse it for
+   the black reference card: that yielded the wrong hue and duplicate branding. */
+.phone.tf-phone .tf-visa-card{
+  color:#fff;
+  background:#030303!important;
+  background-image:none!important;
+  isolation:isolate;
+}
+.phone.tf-phone .tf-visa-card::before{
+  content:"A";position:absolute;z-index:0;pointer-events:none;
+  left:-28px;top:-100px;line-height:1;font-size:420px;letter-spacing:-24px;
+  font-weight:900;font-family:Inter,system-ui,sans-serif;
+  color:#303030;transform:scaleX(1.15);transform-origin:left center;
+}
+.phone.tf-phone .tf-visa-card::after{
+  content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
+  background:linear-gradient(112deg,transparent 10%,#ffffff05 35%,transparent 62%);
+}
+
 .phone.tf-phone .tf-visa-card .cblock{
   position:absolute;left:22px;bottom:24px;margin:0!important;z-index:1;
 }
