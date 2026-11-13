@@ -21,7 +21,7 @@
 }
 .phone.tf-phone:not(.is-home)>.head {
   display:flex;box-sizing:border-box;position:relative;z-index:2;
-  flex:0 0 auto;min-height:66px;padding:14px 58px 10px 16px;
+  flex:0 0 auto;min-height:66px;padding:14px 16px 10px;
   align-items:center;gap:12px;background:transparent;
 }
 .phone.tf-phone:not(.is-home)>.head .h1 {
@@ -233,3 +233,78 @@ html.tf-embedded .proto-shell,html.tf-embedded .workspace{height:100%;width:100%
 }
 .phone.tf-phone .tf-more[open] summary::after{transform:rotate(225deg);margin-top:5px}
 .phone.tf-phone .tf-more[open] summary{border-bottom:1px solid var(--n100);margin-bottom:12px}
+
+/* Canonical header actions: same 22px stroke icons and circular plates as crypto routes. */
+.phone.tf-phone:not(.is-home)>.head .tf-head-actions {
+  display:flex;flex:0 0 auto;gap:8px;align-items:center;margin-left:auto;
+}
+.phone.tf-phone:not(.is-home)>.head .tf-head-action {
+  box-sizing:border-box;display:grid;place-items:center;flex:0 0 40px;
+  width:40px;height:40px;margin:0;padding:0;cursor:pointer;
+  background:var(--glass);color:var(--n850);border:0;border-radius:50%;
+  box-shadow:0 1px 3px #1615141a,inset 0 0 0 1px #16151410;
+}
+.phone.tf-phone:not(.is-home)>.head .tf-head-action svg{display:block;width:22px;height:22px}
+.phone.tf-phone:not(.is-home)>.head .h1{flex:1 1 auto;min-width:0}
+@media(max-width:390px){
+  .phone.tf-phone:not(.is-home)>.head{gap:8px;padding-left:12px;padding-right:12px}
+  .phone.tf-phone:not(.is-home)>.head .tf-head-actions{gap:6px}
+  .phone.tf-phone:not(.is-home)>.head .tf-head-action{flex-basis:36px;width:36px;height:36px}
+  .phone.tf-phone:not(.is-home)>.head .h1{font-size:18px}
+}
+
+/* Picker uses native alt.vu sheet/row primitives, not HTML select or segmented toggles. */
+.phone.tf-phone .fld.tf-picker-trigger {
+  box-sizing:border-box;appearance:none;-webkit-appearance:none;text-align:left;
+  cursor:pointer;color:var(--n900);border:0;font:inherit;
+}
+.phone.tf-phone .fld.tf-picker-trigger .fl i{font-weight:400}
+.phone.tf-phone .fld.tf-picker-trigger .fl b{font-weight:500}
+.phone.tf-phone .tf-picker-chevron{margin-left:auto;flex:0 0 20px;color:var(--n400);display:grid;place-items:center}
+.phone.tf-phone .tf-picker-chevron svg{display:block}
+.phone.tf-phone .tf-picker-trigger:focus-visible,
+.phone.tf-phone .tf-picker-row:focus-visible,
+.phone.tf-phone .tf-head-action:focus-visible{outline:2px solid var(--brand-600);outline-offset:2px}
+.phone.tf-phone .tf-picker-layer{
+  position:absolute;inset:0;z-index:40;display:flex;align-items:flex-end;
+}
+.phone.tf-phone .tf-picker-layer[hidden]{display:none!important}
+.phone.tf-phone .tf-picker-dim{
+  position:absolute;inset:0;width:100%;height:100%;margin:0;
+  border:0;background:#171b16a6;cursor:pointer;
+}
+.phone.tf-phone .tf-picker-sheet{
+  box-sizing:border-box;position:relative;z-index:1;left:auto;right:auto;bottom:auto;
+  display:block;width:100%;max-height:82%;overflow-y:auto;overscroll-behavior:contain;
+  margin:0;padding:10px 16px calc(36px + env(safe-area-inset-bottom));
+  background:var(--n50);border-radius:24px 24px 0 0;box-shadow:0 -10px 30px #1615141a;
+}
+.phone.tf-phone .tf-picker-sheet .grab{
+  height:5px;width:44px;display:block;background:var(--n400);border-radius:100px;
+  margin:0 auto 16px;
+}
+.phone.tf-phone .tf-picker-sheet .sh2{
+  padding:0;margin:0 0 14px;font:600 20px/24px Inter,system-ui,sans-serif;
+  color:var(--n900);
+}
+.phone.tf-phone .tf-picker-box{background:transparent;box-shadow:none;border:0;margin:0}
+.phone.tf-phone .tf-picker-row{
+  box-sizing:border-box;width:100%;height:64px;min-height:64px;
+  display:flex;align-items:center;gap:14px;text-align:left;cursor:pointer;
+  margin:0 0 10px;padding:0 16px;background:var(--surface);
+  border:0;border-radius:18px;color:var(--n900);font:500 16px/22px Inter,system-ui,sans-serif;
+}
+.phone.tf-phone .tf-picker-row .ri{
+  flex:0 0 40px;width:40px;height:40px;border-radius:50%;background:var(--n50);
+  display:grid;place-items:center;
+}
+.phone.tf-phone .tf-picker-row .ri svg{display:block;width:20px;height:20px}
+.phone.tf-phone .tf-picker-row .rt{flex:1 1 auto;min-width:0}
+.phone.tf-phone .tf-picker-row .rd{
+  flex:0 0 22px;width:22px;height:22px;border:2px solid var(--n300);
+  border-radius:50%;font-size:15px;line-height:18px;text-align:center;color:transparent;
+}
+.phone.tf-phone .tf-picker-row .rd.on{
+  border-color:var(--brand-600);background:var(--brand-600);color:var(--surface);
+}
+.phone.tf-phone .tf-picker-row[aria-selected="true"]{box-shadow:inset 0 0 0 1px var(--brand-600)}
