@@ -690,7 +690,12 @@ function validConfig(){const q=quote();return q.valid&&q.amt>q.fee&&q.amt+q.fee<
 function checkConfig(){if(!validConfig()){notify('Укажите сумму больше комиссии');return}go('out-recipient')}
 function checkRecipient(){const required=['firstName','lastName',S.outRail==='SEPA'?'iban':'account'];if(S.outRail==='SWIFT')required.push('bic','bank');if(S.purpose==='other')required.push('purposeOther');const missing=required.find(k=>!String(S[k]||'').trim());if(missing){notify('Заполните обязательные поля');const f=$('f-'+missing);f?.scrollIntoView({block:'center',behavior:'smooth'});f?.focus();return}go('out-review')}
 function fillDemo(){Object.assign(S,{firstName:'Иван',lastName:'Иванов',iban:'DE00 0000 0000 0000 0000 00',account:'000000000000',bic:'DEMOXXXX',bank:'Банк-партнёр',routing:'',bankAddress:'',recipientAddress:'',intermediary:'',purpose:'personal',purposeOther:'',note:''});render();notify('Заполнены вымышленные тестовые данные')}
-function checkReview(){if(!validConfig()){notify('Проверьте сумму перевода');go('out-config');return}go('out-progress')}
+function checkReview(){
+ if(!validConfig()){notify('Проверьте сумму перевода');go('out-config');return}
+ S.demoOrderId='tf-bank-'+Date.now()+'-'+Math.floor(Math.random()*100000);
+ go('out-progress');
+ uxBankEmit('pending');
+}
 function renderScreen(){const q=quote();let p='',f='',head='Международный перевод';switch(S.screen){
 case'in-details':{
  const sepaEnabled=S.inCurrency==='EUR';const rows=getRequisites();
@@ -781,6 +786,7 @@ function uxHomeNavKey(e){
 function uxProfileTab(tab){if(['data','settings','earn'].includes(tab)){S.profileTab=tab;render()}}
 function uxSelectMethod(rail) {
   if(!['SEPA','SWIFT'].includes(rail))return;
+  S.demoOrderId=null;
   if(S.flow==='in'){
     S.inRail=rail;
     if(rail==='SEPA')S.inCurrency='EUR';
@@ -1133,6 +1139,23 @@ render=uxRender;
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){if(S.picker)uxClosePicker();else if(S.modal)uxCloseMethods()}});
 
 // Offline prototype-only status callbacks. These do not create or settle real transfers.
+function uxBankEmit(status){
+ if(window.parent===window)return;
+ if(!S.demoOrderId)S.demoOrderId='tf-bank-'+Date.now()+'-'+Math.floor(Math.random()*100000);
+ const q=quote();
+ const payload={
+   type:'altvu:bank:callback',id:S.demoOrderId,flow:S.flow,
+   rail:S.flow==='in'?S.inRail:S.outRail,status:status,
+   currency:S.flow==='in'?S.inCurrency:S.sourceCurrency,
+   recipientCurrency:S.outCurrency,
+   amount:S.flow==='in'?0:q.amt,
+   receive:S.flow==='in'?0:q.receive,
+   recipient:[S.firstName,S.lastName].filter(Boolean).join(' '),
+   country:S.country,
+   account:S.outRail==='SEPA'?S.iban:S.account
+ };
+ window.parent.postMessage(payload,location.protocol==='file:'?'*':location.origin);
+}
 function uxBankCallback(outcome){
  const map={success:'success',failed:'failed',held:'held',pending:'pending'};
  const status=map[outcome]||outcome;
@@ -1142,13 +1165,13 @@ function uxBankCallback(outcome){
    }
    const dest={success:'out-success',failed:'out-failed',held:'out-held',pending:'out-progress'}[status];
    if(!dest)return false;
-   go(dest);return true;
+   go(dest);uxBankEmit(status);return true;
  }
  if(S.flow==='in'){
    if(!['in-details','in-pending','in-held','in-success'].includes(S.screen))return false;
    const dest={success:'in-success',failed:'in-held',held:'in-held',pending:'in-pending'}[status];
    if(!dest)return false;
-   go(dest);return true;
+   go(dest);uxBankEmit(status);return true;
  }
  return false;
 }
