@@ -6,15 +6,37 @@
 <title>Компоненты alt.vu</title>
 <link rel="stylesheet" href="../showcase/fonts.css">
 <link rel="stylesheet" href="../showcase/showcase.css">
+
+<style id="current-prototype-gallery-css">
+.prototype-gallery-note{margin:14px 0;padding:14px 18px;background:#f2f5f3;border:1px solid #d5ded8;border-radius:12px;font-size:14px;line-height:1.6;color:#26342c}
+.prototype-gallery-links{display:flex;flex-wrap:wrap;gap:12px;margin:12px 0 20px}
+.prototype-gallery-links a{font-size:14px;color:#245a40;text-decoration:underline}
+.prototype-gallery-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:18px}
+.prototype-gallery-grid figure{margin:0;min-width:0;display:flex;flex-direction:column;align-items:center;background:#eff1f2;border-radius:16px;padding:15px}
+.prototype-gallery-grid figcaption{font-size:14px;font-weight:600;margin-bottom:12px;color:#26342c}
+.prototype-gallery-grid iframe{width:min(100%,390px);height:690px;border:1px solid #ccd3cc;border-radius:20px;background:#fff}
+</style>
 </head>
 <body>
 <header class="top">
   <div class="brand"><span class="plate"><img src="../assets/img-27f3d8cf.png" width="29" height="29" alt="alt.vu"></span>
-  <div><h1>Компоненты alt.vu</h1><p>Веб и Telegram Mini App · снято с живой сборки 10.11.2026 18:18 · коммит <code>ae501917</code></p></div></div>
+  <div><h1>Компоненты alt.vu</h1><p>Базовая библиотека 10.11.2026; актуальные сценарии TransFi — ниже · исходный коммит <code>ae501917</code></p></div></div>
   <ul class="stats"><li><b>39</b>компонентов</li><li><b>81</b>состояний</li><li><b>57</b>цветовых токенов</li><li><b>2</b>темы</li></ul>
 </header>
-<nav class="toc"><ol><li><a href="#tokens">Токены</a><span>57</span></li><li><a href="#g-base">Основа</a><span>1</span></li><li><a href="#g-frame">Каркас экрана</a><span>4</span></li><li><a href="#g-buttons">Кнопки</a><span>4</span></li><li><a href="#g-fields">Поля ввода</a><span>6</span></li><li><a href="#g-choice">Выбор</a><span>6</span></li><li><a href="#g-sheets">Шторки и списки</a><span>6</span></li><li><a href="#g-marks">Монеты, сети, категории</a><span>2</span></li><li><a href="#g-card">Карта и баннеры</a><span>3</span></li><li><a href="#g-status">Статусы и сообщения</a><span>7</span></li></ol></nav>
+<nav class="toc"><ol><li><a href="#prototype-reference">Актуальный прототип</a><span>4</span></li><li><a href="#tokens">Токены</a><span>57</span></li><li><a href="#g-base">Основа</a><span>1</span></li><li><a href="#g-frame">Каркас экрана</a><span>4</span></li><li><a href="#g-buttons">Кнопки</a><span>4</span></li><li><a href="#g-fields">Поля ввода</a><span>6</span></li><li><a href="#g-choice">Выбор</a><span>6</span></li><li><a href="#g-sheets">Шторки и списки</a><span>6</span></li><li><a href="#g-marks">Монеты, сети, категории</a><span>2</span></li><li><a href="#g-card">Карта и баннеры</a><span>3</span></li><li><a href="#g-status">Статусы и сообщения</a><span>7</span></li></ol></nav>
 <main>
+<section class="grp" id="prototype-reference">
+<h2 class="grp-h">Эталон — актуальный TransFi Remittance</h2>
+<p class="prototype-gallery-note"><strong>Источник истины для интерфейса — текущий интерактивный прототип.</strong> Ниже показаны реальные экраны непосредственно из <code>transfi-remittance/</code>, а не вручную перерисованные копии. Каталог из 39 компонентов ниже сохранён как базовая библиотека (снимок 10.11.2026): отдельные образцы могут отличаться от текущих банковских сценариев и требуют сверки перед использованием. При последующих изменениях сначала обновлять прототип, затем соответствующие компоненты библиотеки.</p>
+<div class="prototype-gallery-links"><a href="../transfi-remittance/" target="_blank" rel="noopener">Открыть основной прототип</a><a href="../transfi-remittance/legacy.html?flow=in&amp;screen=in-details&amp;rail=SEPA" target="_blank" rel="noopener">Пополнение SEPA</a><a href="../transfi-remittance/legacy.html?flow=in&amp;screen=in-details&amp;rail=SWIFT" target="_blank" rel="noopener">Пополнение SWIFT</a><a href="../transfi-remittance/legacy.html?flow=out&amp;screen=out-config&amp;rail=SEPA" target="_blank" rel="noopener">Вывод SEPA</a><a href="../transfi-remittance/legacy.html?flow=out&amp;screen=out-config&amp;rail=SWIFT" target="_blank" rel="noopener">Вывод SWIFT</a></div>
+<div class="prototype-gallery-grid">
+<figure><figcaption>Текущий сценарий: пополнение SEPA</figcaption><iframe loading="lazy" title="Пополнение SEPA из актуального прототипа" src="../transfi-remittance/legacy.html?capture=1&amp;embedded=1&amp;flow=in&amp;screen=in-details&amp;rail=SEPA"></iframe></figure>
+<figure><figcaption>Текущий сценарий: пополнение SWIFT</figcaption><iframe loading="lazy" title="Пополнение SWIFT из актуального прототипа" src="../transfi-remittance/legacy.html?capture=1&amp;embedded=1&amp;flow=in&amp;screen=in-details&amp;rail=SWIFT"></iframe></figure>
+<figure><figcaption>Текущий сценарий: вывод SEPA</figcaption><iframe loading="lazy" title="Вывод SEPA из актуального прототипа" src="../transfi-remittance/legacy.html?capture=1&amp;embedded=1&amp;flow=out&amp;screen=out-config&amp;rail=SEPA"></iframe></figure>
+<figure><figcaption>Текущий сценарий: вывод SWIFT</figcaption><iframe loading="lazy" title="Вывод SWIFT из актуального прототипа" src="../transfi-remittance/legacy.html?capture=1&amp;embedded=1&amp;flow=out&amp;screen=out-config&amp;rail=SWIFT"></iframe></figure>
+</div>
+</section>
+
 <section class="grp" id="tokens"><h2 class="grp-h">Токены</h2>
 <p class="lead">Цвета — переменные со <code>.phone</code> (светлая) и <code>html.dark</code> (тёмная) из живого CSS.
 Слева в паре — светлая, справа — тёмная. <code>*</code> — в светлой значение не объявлено и стоит запасным в <code>var(--x, …)</code>.
