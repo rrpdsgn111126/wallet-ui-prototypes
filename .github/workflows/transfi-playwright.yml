@@ -37,9 +37,8 @@ jobs:
               await snapshot('initial');
               if(errors.length)throw Error('JS initialization error: '+errors.join(' / '));
               for (const [selector,screen] of [
-                ['.tf-source-home .who','Профиль'],
-                ['.tf-source-home .act[data-go="card"]','Карта'],
-                ['.tf-source-home .act[data-go="earn"]','Заработать'],
+                ['.tf-bottom-nav [data-mb="profile"]','Профиль'],
+                ['.tf-bottom-nav [data-mb="card"]','Карта'],
                 ['.tf-source-home .ha[data-go="notes"]','Уведомления'],
                 ['.tf-source-home .hh [data-go="history"]','История']
               ]) {
@@ -50,7 +49,13 @@ jobs:
                 if(!await page.locator('.tf-source-home').isVisible())throw Error('Back to home failed from '+screen);
               }
 
-              await page.locator('.tf-home-action.primary').click();
+              if(await page.locator('.phone.tf-phone .sb').count())throw Error('Native OS status bar should be removed');
+              if(await page.locator('.mobilemenu').count())throw Error('Obsolete top mobile menu should be removed');
+              if(await page.locator('.tf-source-home .acts').count())throw Error('Duplicate quick actions should be removed in bottom menu mode');
+              if(!await page.locator('.tf-visa-brand').isVisible())throw Error('VISA Platinum card mark missing');
+              if(!await page.locator('.tf-visa-card .tf-card-plus').isVisible())throw Error('Add-card + missing');
+              if(!await page.locator('.tf-visa-card .tf-card-gear').isVisible())throw Error('Card settings icon missing');
+              await page.locator('.tf-bottom-nav [data-mb="topup"]').click();
               if(!await page.locator('#methodLayer .tf-method-sheet').isVisible())throw Error('Deposit method sheet not visible');
               await page.locator('#methodLayer .tf-method-row').filter({hasText:'SEPA'}).click();
               await snapshot('SEPA details directly');
@@ -79,7 +84,7 @@ jobs:
               } else {
                 await page.locator('#flow-home').click();
               }
-              await page.locator('.tf-home-action').filter({hasText:'Вывести'}).click();
+              await page.locator('.tf-bottom-nav [data-mb="withdraw"]').click();
               await page.locator('#methodLayer .tf-method-row').filter({hasText:'SWIFT'}).click();
               await snapshot('out SWIFT');
               await page.getByRole('button',{name:'Продолжить'}).click();
