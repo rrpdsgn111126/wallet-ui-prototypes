@@ -344,6 +344,13 @@
     if(!frame||event.source!==frame.contentWindow)return;
     if(location.protocol!=='file:'&&event.origin!==location.origin)return;
     const d=event.data;
+    if(d&&d.type==='altvu:transfi:exit'){
+      // The original source does not always dispose the method-specific
+      // overlay on bank-back. Remove only the matching active iframe wrapper.
+      const overlay=document.querySelector('#tf-bank-overlay');
+      if(overlay)overlay.remove();
+      return;
+    }
     if(!d||d.type!=='altvu:bank:callback'||!/^tf-bank-[0-9]+-[0-9]+$/.test(String(d.id)))return;
     if(d.flow!=='out'||!['SEPA','SWIFT'].includes(d.rail))return;
     const ops=data['/operations'].operations;
