@@ -1,5 +1,5 @@
 {
-  "run": "2026-11-13T12:01:34.964Z",
+  "run": "2026-11-13T12:02:49.631Z",
   "cases": [
     {
       "label": "home",
@@ -1204,13 +1204,13 @@
         "phone": {
           "width": 390,
           "scrollWidth": 390,
-          "height": 693,
-          "scrollHeight": 693
+          "height": 844,
+          "scrollHeight": 844
         },
         "content": {
           "width": 390,
           "scrollWidth": 390,
-          "height": 693,
+          "height": 844,
           "scrollHeight": 867
         },
         "footer": {
@@ -1241,14 +1241,14 @@
         "phone": {
           "width": 390,
           "scrollWidth": 390,
-          "height": 693,
-          "scrollHeight": 693
+          "height": 844,
+          "scrollHeight": 844
         },
         "content": {
           "width": 390,
           "scrollWidth": 390,
-          "height": 631,
-          "scrollHeight": 631
+          "height": 782,
+          "scrollHeight": 782
         },
         "footer": {
           "height": 0,
@@ -1278,14 +1278,14 @@
         "phone": {
           "width": 390,
           "scrollWidth": 390,
-          "height": 693,
-          "scrollHeight": 693
+          "height": 844,
+          "scrollHeight": 844
         },
         "content": {
           "width": 390,
           "scrollWidth": 390,
-          "height": 631,
-          "scrollHeight": 631
+          "height": 782,
+          "scrollHeight": 782
         },
         "footer": {
           "height": 0,
@@ -1324,14 +1324,14 @@
         "phone": {
           "width": 390,
           "scrollWidth": 390,
-          "height": 693,
-          "scrollHeight": 693
+          "height": 844,
+          "scrollHeight": 844
         },
         "content": {
           "width": 390,
           "scrollWidth": 390,
-          "height": 631,
-          "scrollHeight": 631
+          "height": 782,
+          "scrollHeight": 782
         },
         "footer": {
           "height": 0,
@@ -1370,14 +1370,14 @@
         "phone": {
           "width": 390,
           "scrollWidth": 390,
-          "height": 693,
-          "scrollHeight": 693
+          "height": 844,
+          "scrollHeight": 844
         },
         "content": {
           "width": 390,
           "scrollWidth": 390,
-          "height": 631,
-          "scrollHeight": 631
+          "height": 782,
+          "scrollHeight": 782
         },
         "footer": {
           "height": 0,
@@ -1416,14 +1416,14 @@
         "phone": {
           "width": 390,
           "scrollWidth": 390,
-          "height": 693,
-          "scrollHeight": 693
+          "height": 844,
+          "scrollHeight": 844
         },
         "content": {
           "width": 390,
           "scrollWidth": 390,
-          "height": 631,
-          "scrollHeight": 631
+          "height": 782,
+          "scrollHeight": 782
         },
         "footer": {
           "height": 0,
@@ -1462,13 +1462,13 @@
         "phone": {
           "width": 390,
           "scrollWidth": 390,
-          "height": 693,
-          "scrollHeight": 693
+          "height": 844,
+          "scrollHeight": 844
         },
         "content": {
           "width": 390,
           "scrollWidth": 390,
-          "height": 693,
+          "height": 844,
           "scrollHeight": 867
         },
         "footer": {
@@ -1548,13 +1548,13 @@
         "phone": {
           "width": 390,
           "scrollWidth": 390,
-          "height": 693,
-          "scrollHeight": 693
+          "height": 844,
+          "scrollHeight": 844
         },
         "content": {
           "width": 390,
           "scrollWidth": 390,
-          "height": 693,
+          "height": 844,
           "scrollHeight": 867
         },
         "footer": {
@@ -1626,14 +1626,14 @@
         "phone": {
           "width": 390,
           "scrollWidth": 390,
-          "height": 693,
-          "scrollHeight": 693
+          "height": 844,
+          "scrollHeight": 844
         },
         "content": {
           "width": 390,
           "scrollWidth": 390,
-          "height": 535,
-          "scrollHeight": 535
+          "height": 686,
+          "scrollHeight": 686
         },
         "footer": {
           "height": 96,
@@ -1680,14 +1680,14 @@
         "phone": {
           "width": 390,
           "scrollWidth": 390,
-          "height": 693,
-          "scrollHeight": 693
+          "height": 844,
+          "scrollHeight": 844
         },
         "content": {
           "width": 390,
           "scrollWidth": 390,
-          "height": 535,
-          "scrollHeight": 535
+          "height": 686,
+          "scrollHeight": 686
         },
         "footer": {
           "height": 96,
@@ -1734,14 +1734,14 @@
         "phone": {
           "width": 390,
           "scrollWidth": 390,
-          "height": 693,
-          "scrollHeight": 693
+          "height": 844,
+          "scrollHeight": 844
         },
         "content": {
           "width": 390,
           "scrollWidth": 390,
-          "height": 523,
-          "scrollHeight": 523
+          "height": 674,
+          "scrollHeight": 674
         },
         "footer": {
           "height": 108,
@@ -1771,14 +1771,14 @@
         "phone": {
           "width": 390,
           "scrollWidth": 390,
-          "height": 693,
-          "scrollHeight": 693
+          "height": 844,
+          "scrollHeight": 844
         },
         "content": {
           "width": 390,
           "scrollWidth": 390,
-          "height": 535,
-          "scrollHeight": 535
+          "height": 686,
+          "scrollHeight": 686
         },
         "footer": {
           "height": 96,
@@ -1817,14 +1817,14 @@
         "phone": {
           "width": 390,
           "scrollWidth": 390,
-          "height": 693,
-          "scrollHeight": 693
+          "height": 844,
+          "scrollHeight": 844
         },
         "content": {
           "width": 390,
           "scrollWidth": 390,
-          "height": 535,
-          "scrollHeight": 535
+          "height": 686,
+          "scrollHeight": 686
         },
         "footer": {
           "height": 96,
@@ -1863,14 +1863,14 @@
         "phone": {
           "width": 390,
           "scrollWidth": 390,
-          "height": 693,
-          "scrollHeight": 693
+          "height": 844,
+          "scrollHeight": 844
         },
         "content": {
           "width": 390,
           "scrollWidth": 390,
-          "height": 535,
-          "scrollHeight": 617
+          "height": 686,
+          "scrollHeight": 686
         },
         "footer": {
           "height": 96,
@@ -1925,14 +1925,14 @@
         "phone": {
           "width": 390,
           "scrollWidth": 390,
-          "height": 693,
-          "scrollHeight": 693
+          "height": 844,
+          "scrollHeight": 844
         },
         "content": {
           "width": 390,
           "scrollWidth": 390,
-          "height": 535,
-          "scrollHeight": 617
+          "height": 686,
+          "scrollHeight": 686
         },
         "footer": {
           "height": 96,
@@ -1987,14 +1987,14 @@
         "phone": {
           "width": 390,
           "scrollWidth": 390,
-          "height": 693,
-          "scrollHeight": 693
+          "height": 844,
+          "scrollHeight": 844
         },
         "content": {
           "width": 390,
           "scrollWidth": 390,
-          "height": 535,
-          "scrollHeight": 565
+          "height": 686,
+          "scrollHeight": 686
         },
         "footer": {
           "height": 96,
@@ -2105,14 +2105,14 @@
         "phone": {
           "width": 390,
           "scrollWidth": 390,
-          "height": 693,
-          "scrollHeight": 693
+          "height": 844,
+          "scrollHeight": 844
         },
         "content": {
           "width": 390,
           "scrollWidth": 390,
-          "height": 535,
-          "scrollHeight": 535
+          "height": 686,
+          "scrollHeight": 686
         },
         "footer": {
           "height": 96,
@@ -2159,14 +2159,14 @@
         "phone": {
           "width": 390,
           "scrollWidth": 390,
-          "height": 693,
-          "scrollHeight": 693
+          "height": 844,
+          "scrollHeight": 844
         },
         "content": {
           "width": 390,
           "scrollWidth": 390,
-          "height": 631,
-          "scrollHeight": 631
+          "height": 782,
+          "scrollHeight": 782
         },
         "footer": {
           "height": 0,
@@ -2205,14 +2205,14 @@
         "phone": {
           "width": 390,
           "scrollWidth": 390,
-          "height": 693,
-          "scrollHeight": 693
+          "height": 844,
+          "scrollHeight": 844
         },
         "content": {
           "width": 390,
           "scrollWidth": 390,
-          "height": 535,
-          "scrollHeight": 535
+          "height": 686,
+          "scrollHeight": 686
         },
         "footer": {
           "height": 96,
@@ -2251,14 +2251,14 @@
         "phone": {
           "width": 390,
           "scrollWidth": 390,
-          "height": 693,
-          "scrollHeight": 693
+          "height": 844,
+          "scrollHeight": 844
         },
         "content": {
           "width": 390,
           "scrollWidth": 390,
-          "height": 535,
-          "scrollHeight": 535
+          "height": 686,
+          "scrollHeight": 686
         },
         "footer": {
           "height": 96,
@@ -2297,14 +2297,14 @@
         "phone": {
           "width": 390,
           "scrollWidth": 390,
-          "height": 693,
-          "scrollHeight": 693
+          "height": 844,
+          "scrollHeight": 844
         },
         "content": {
           "width": 390,
           "scrollWidth": 390,
-          "height": 631,
-          "scrollHeight": 631
+          "height": 782,
+          "scrollHeight": 782
         },
         "footer": {
           "height": 0,
@@ -2343,14 +2343,14 @@
         "phone": {
           "width": 390,
           "scrollWidth": 390,
-          "height": 693,
-          "scrollHeight": 693
+          "height": 844,
+          "scrollHeight": 844
         },
         "content": {
           "width": 390,
           "scrollWidth": 390,
-          "height": 535,
-          "scrollHeight": 535
+          "height": 686,
+          "scrollHeight": 686
         },
         "footer": {
           "height": 96,
@@ -2389,14 +2389,14 @@
         "phone": {
           "width": 430,
           "scrollWidth": 430,
-          "height": 781,
-          "scrollHeight": 781
+          "height": 932,
+          "scrollHeight": 932
         },
         "content": {
           "width": 430,
           "scrollWidth": 430,
-          "height": 781,
-          "scrollHeight": 891
+          "height": 932,
+          "scrollHeight": 932
         },
         "footer": {
           "height": 0,
@@ -2426,14 +2426,14 @@
         "phone": {
           "width": 430,
           "scrollWidth": 430,
-          "height": 781,
-          "scrollHeight": 781
+          "height": 932,
+          "scrollHeight": 932
         },
         "content": {
           "width": 430,
           "scrollWidth": 430,
-          "height": 719,
-          "scrollHeight": 719
+          "height": 870,
+          "scrollHeight": 870
         },
         "footer": {
           "height": 0,
@@ -2463,14 +2463,14 @@
         "phone": {
           "width": 430,
           "scrollWidth": 430,
-          "height": 781,
-          "scrollHeight": 781
+          "height": 932,
+          "scrollHeight": 932
         },
         "content": {
           "width": 430,
           "scrollWidth": 430,
-          "height": 719,
-          "scrollHeight": 719
+          "height": 870,
+          "scrollHeight": 870
         },
         "footer": {
           "height": 0,
@@ -2509,14 +2509,14 @@
         "phone": {
           "width": 430,
           "scrollWidth": 430,
-          "height": 781,
-          "scrollHeight": 781
+          "height": 932,
+          "scrollHeight": 932
         },
         "content": {
           "width": 430,
           "scrollWidth": 430,
-          "height": 719,
-          "scrollHeight": 719
+          "height": 870,
+          "scrollHeight": 870
         },
         "footer": {
           "height": 0,
@@ -2555,14 +2555,14 @@
         "phone": {
           "width": 430,
           "scrollWidth": 430,
-          "height": 781,
-          "scrollHeight": 781
+          "height": 932,
+          "scrollHeight": 932
         },
         "content": {
           "width": 430,
           "scrollWidth": 430,
-          "height": 719,
-          "scrollHeight": 719
+          "height": 870,
+          "scrollHeight": 870
         },
         "footer": {
           "height": 0,
@@ -2601,14 +2601,14 @@
         "phone": {
           "width": 430,
           "scrollWidth": 430,
-          "height": 781,
-          "scrollHeight": 781
+          "height": 932,
+          "scrollHeight": 932
         },
         "content": {
           "width": 430,
           "scrollWidth": 430,
-          "height": 719,
-          "scrollHeight": 719
+          "height": 870,
+          "scrollHeight": 870
         },
         "footer": {
           "height": 0,
@@ -2647,14 +2647,14 @@
         "phone": {
           "width": 430,
           "scrollWidth": 430,
-          "height": 781,
-          "scrollHeight": 781
+          "height": 932,
+          "scrollHeight": 932
         },
         "content": {
           "width": 430,
           "scrollWidth": 430,
-          "height": 781,
-          "scrollHeight": 891
+          "height": 932,
+          "scrollHeight": 932
         },
         "footer": {
           "height": 0,
@@ -2733,14 +2733,14 @@
         "phone": {
           "width": 430,
           "scrollWidth": 430,
-          "height": 781,
-          "scrollHeight": 781
+          "height": 932,
+          "scrollHeight": 932
         },
         "content": {
           "width": 430,
           "scrollWidth": 430,
-          "height": 781,
-          "scrollHeight": 891
+          "height": 932,
+          "scrollHeight": 932
         },
         "footer": {
           "height": 0,
@@ -2811,14 +2811,14 @@
         "phone": {
           "width": 430,
           "scrollWidth": 430,
-          "height": 781,
-          "scrollHeight": 781
+          "height": 932,
+          "scrollHeight": 932
         },
         "content": {
           "width": 430,
           "scrollWidth": 430,
-          "height": 623,
-          "scrollHeight": 623
+          "height": 774,
+          "scrollHeight": 774
         },
         "footer": {
           "height": 96,
@@ -2865,14 +2865,14 @@
         "phone": {
           "width": 430,
           "scrollWidth": 430,
-          "height": 781,
-          "scrollHeight": 781
+          "height": 932,
+          "scrollHeight": 932
         },
         "content": {
           "width": 430,
           "scrollWidth": 430,
-          "height": 623,
-          "scrollHeight": 623
+          "height": 774,
+          "scrollHeight": 774
         },
         "footer": {
           "height": 96,
@@ -2919,14 +2919,14 @@
         "phone": {
           "width": 430,
           "scrollWidth": 430,
-          "height": 781,
-          "scrollHeight": 781
+          "height": 932,
+          "scrollHeight": 932
         },
         "content": {
           "width": 430,
           "scrollWidth": 430,
-          "height": 611,
-          "scrollHeight": 611
+          "height": 762,
+          "scrollHeight": 762
         },
         "footer": {
           "height": 108,
@@ -2956,14 +2956,14 @@
         "phone": {
           "width": 430,
           "scrollWidth": 430,
-          "height": 781,
-          "scrollHeight": 781
+          "height": 932,
+          "scrollHeight": 932
         },
         "content": {
           "width": 430,
           "scrollWidth": 430,
-          "height": 623,
-          "scrollHeight": 623
+          "height": 774,
+          "scrollHeight": 774
         },
         "footer": {
           "height": 96,
@@ -3002,14 +3002,14 @@
         "phone": {
           "width": 430,
           "scrollWidth": 430,
-          "height": 781,
-          "scrollHeight": 781
+          "height": 932,
+          "scrollHeight": 932
         },
         "content": {
           "width": 430,
           "scrollWidth": 430,
-          "height": 623,
-          "scrollHeight": 623
+          "height": 774,
+          "scrollHeight": 774
         },
         "footer": {
           "height": 96,
@@ -3048,14 +3048,14 @@
         "phone": {
           "width": 430,
           "scrollWidth": 430,
-          "height": 781,
-          "scrollHeight": 781
+          "height": 932,
+          "scrollHeight": 932
         },
         "content": {
           "width": 430,
           "scrollWidth": 430,
-          "height": 623,
-          "scrollHeight": 623
+          "height": 774,
+          "scrollHeight": 774
         },
         "footer": {
           "height": 96,
@@ -3110,14 +3110,14 @@
         "phone": {
           "width": 430,
           "scrollWidth": 430,
-          "height": 781,
-          "scrollHeight": 781
+          "height": 932,
+          "scrollHeight": 932
         },
         "content": {
           "width": 430,
           "scrollWidth": 430,
-          "height": 623,
-          "scrollHeight": 623
+          "height": 774,
+          "scrollHeight": 774
         },
         "footer": {
           "height": 96,
@@ -3172,14 +3172,14 @@
         "phone": {
           "width": 430,
           "scrollWidth": 430,
-          "height": 781,
-          "scrollHeight": 781
+          "height": 932,
+          "scrollHeight": 932
         },
         "content": {
           "width": 430,
           "scrollWidth": 430,
-          "height": 623,
-          "scrollHeight": 623
+          "height": 774,
+          "scrollHeight": 774
         },
         "footer": {
           "height": 96,
@@ -3290,14 +3290,14 @@
         "phone": {
           "width": 430,
           "scrollWidth": 430,
-          "height": 781,
-          "scrollHeight": 781
+          "height": 932,
+          "scrollHeight": 932
         },
         "content": {
           "width": 430,
           "scrollWidth": 430,
-          "height": 623,
-          "scrollHeight": 623
+          "height": 774,
+          "scrollHeight": 774
         },
         "footer": {
           "height": 96,
@@ -3344,14 +3344,14 @@
         "phone": {
           "width": 430,
           "scrollWidth": 430,
-          "height": 781,
-          "scrollHeight": 781
+          "height": 932,
+          "scrollHeight": 932
         },
         "content": {
           "width": 430,
           "scrollWidth": 430,
-          "height": 719,
-          "scrollHeight": 719
+          "height": 870,
+          "scrollHeight": 870
         },
         "footer": {
           "height": 0,
@@ -3390,14 +3390,14 @@
         "phone": {
           "width": 430,
           "scrollWidth": 430,
-          "height": 781,
-          "scrollHeight": 781
+          "height": 932,
+          "scrollHeight": 932
         },
         "content": {
           "width": 430,
           "scrollWidth": 430,
-          "height": 623,
-          "scrollHeight": 623
+          "height": 774,
+          "scrollHeight": 774
         },
         "footer": {
           "height": 96,
@@ -3436,14 +3436,14 @@
         "phone": {
           "width": 430,
           "scrollWidth": 430,
-          "height": 781,
-          "scrollHeight": 781
+          "height": 932,
+          "scrollHeight": 932
         },
         "content": {
           "width": 430,
           "scrollWidth": 430,
-          "height": 623,
-          "scrollHeight": 623
+          "height": 774,
+          "scrollHeight": 774
         },
         "footer": {
           "height": 96,
@@ -3482,14 +3482,14 @@
         "phone": {
           "width": 430,
           "scrollWidth": 430,
-          "height": 781,
-          "scrollHeight": 781
+          "height": 932,
+          "scrollHeight": 932
         },
         "content": {
           "width": 430,
           "scrollWidth": 430,
-          "height": 719,
-          "scrollHeight": 719
+          "height": 870,
+          "scrollHeight": 870
         },
         "footer": {
           "height": 0,
@@ -3528,14 +3528,14 @@
         "phone": {
           "width": 430,
           "scrollWidth": 430,
-          "height": 781,
-          "scrollHeight": 781
+          "height": 932,
+          "scrollHeight": 932
         },
         "content": {
           "width": 430,
           "scrollWidth": 430,
-          "height": 623,
-          "scrollHeight": 623
+          "height": 774,
+          "scrollHeight": 774
         },
         "footer": {
           "height": 96,
@@ -4742,62 +4742,7 @@
       "errors": []
     }
   ],
-  "issues": [
-    {
-      "label": "full-home-375",
-      "violations": [
-        "mobile phone should fill browser height"
-      ]
-    },
-    {
-      "label": "full-topup-sheet-375",
-      "violations": [
-        "mobile phone should fill browser height"
-      ]
-    },
-    {
-      "label": "full-in-sepa-375",
-      "violations": [
-        "mobile phone should fill browser height"
-      ]
-    },
-    {
-      "label": "full-home-390",
-      "violations": [
-        "mobile phone should fill browser height"
-      ]
-    },
-    {
-      "label": "full-topup-sheet-390",
-      "violations": [
-        "mobile phone should fill browser height"
-      ]
-    },
-    {
-      "label": "full-in-sepa-390",
-      "violations": [
-        "mobile phone should fill browser height"
-      ]
-    },
-    {
-      "label": "full-home-430",
-      "violations": [
-        "mobile phone should fill browser height"
-      ]
-    },
-    {
-      "label": "full-topup-sheet-430",
-      "violations": [
-        "mobile phone should fill browser height"
-      ]
-    },
-    {
-      "label": "full-in-sepa-430",
-      "violations": [
-        "mobile phone should fill browser height"
-      ]
-    }
-  ],
+  "issues": [],
   "pageCases": [
     {
       "label": "full-home-375",
@@ -4824,15 +4769,15 @@
           "left": 0,
           "right": 375,
           "top": 0,
-          "bottom": 516,
+          "bottom": 667,
           "width": 375,
-          "height": 516
+          "height": 667
         },
         "phoneOffsetWidth": 375,
         "phoneTransform": "none",
         "bodyBeforeContent": "none",
         "content": {
-          "height": 516,
+          "height": 667,
           "scrollHeight": 858
         },
         "sidebarDisplay": "none",
@@ -4841,8 +4786,8 @@
         "navBounding": {
           "left": 16,
           "right": 359,
-          "top": 440,
-          "bottom": 504,
+          "top": 591,
+          "bottom": 655,
           "width": 343,
           "height": 64
         },
@@ -4852,9 +4797,7 @@
         "scrollYAfter": 0,
         "innerScrollTop": 100
       },
-      "violations": [
-        "mobile phone should fill browser height"
-      ]
+      "violations": []
     },
     {
       "label": "full-topup-sheet-375",
@@ -4881,15 +4824,15 @@
           "left": 0,
           "right": 375,
           "top": 0,
-          "bottom": 516,
+          "bottom": 667,
           "width": 375,
-          "height": 516
+          "height": 667
         },
         "phoneOffsetWidth": 375,
         "phoneTransform": "none",
         "bodyBeforeContent": "none",
         "content": {
-          "height": 516,
+          "height": 667,
           "scrollHeight": 858
         },
         "sidebarDisplay": "none",
@@ -4898,8 +4841,8 @@
         "navBounding": {
           "left": 16,
           "right": 359,
-          "top": 440,
-          "bottom": 504,
+          "top": 591,
+          "bottom": 655,
           "width": 343,
           "height": 64
         },
@@ -4909,9 +4852,7 @@
         "scrollYAfter": 0,
         "innerScrollTop": 100
       },
-      "violations": [
-        "mobile phone should fill browser height"
-      ]
+      "violations": []
     },
     {
       "label": "full-in-sepa-375",
@@ -4938,16 +4879,16 @@
           "left": 0,
           "right": 375,
           "top": 0,
-          "bottom": 630,
+          "bottom": 667,
           "width": 375,
-          "height": 630
+          "height": 667
         },
         "phoneOffsetWidth": 375,
         "phoneTransform": "none",
         "bodyBeforeContent": "none",
         "content": {
-          "height": 472,
-          "scrollHeight": 508
+          "height": 509,
+          "scrollHeight": 509
         },
         "sidebarDisplay": "none",
         "mobileNavDisplay": "none",
@@ -4964,11 +4905,9 @@
         "visaBrandVisible": false,
         "addCardButtonVisible": false,
         "scrollYAfter": 0,
-        "innerScrollTop": 36
+        "innerScrollTop": null
       },
-      "violations": [
-        "mobile phone should fill browser height"
-      ]
+      "violations": []
     },
     {
       "label": "full-home-390",
@@ -4995,15 +4934,15 @@
           "left": 0,
           "right": 390,
           "top": 0,
-          "bottom": 693,
+          "bottom": 844,
           "width": 390,
-          "height": 693
+          "height": 844
         },
         "phoneOffsetWidth": 390,
         "phoneTransform": "none",
         "bodyBeforeContent": "none",
         "content": {
-          "height": 693,
+          "height": 844,
           "scrollHeight": 867
         },
         "sidebarDisplay": "none",
@@ -5012,8 +4951,8 @@
         "navBounding": {
           "left": 16,
           "right": 374,
-          "top": 617,
-          "bottom": 681,
+          "top": 768,
+          "bottom": 832,
           "width": 358,
           "height": 64
         },
@@ -5021,11 +4960,9 @@
         "visaBrandVisible": true,
         "addCardButtonVisible": true,
         "scrollYAfter": 0,
-        "innerScrollTop": 100
+        "innerScrollTop": 23
       },
-      "violations": [
-        "mobile phone should fill browser height"
-      ]
+      "violations": []
     },
     {
       "label": "full-topup-sheet-390",
@@ -5052,15 +4989,15 @@
           "left": 0,
           "right": 390,
           "top": 0,
-          "bottom": 693,
+          "bottom": 844,
           "width": 390,
-          "height": 693
+          "height": 844
         },
         "phoneOffsetWidth": 390,
         "phoneTransform": "none",
         "bodyBeforeContent": "none",
         "content": {
-          "height": 693,
+          "height": 844,
           "scrollHeight": 867
         },
         "sidebarDisplay": "none",
@@ -5069,8 +5006,8 @@
         "navBounding": {
           "left": 16,
           "right": 374,
-          "top": 617,
-          "bottom": 681,
+          "top": 768,
+          "bottom": 832,
           "width": 358,
           "height": 64
         },
@@ -5078,11 +5015,9 @@
         "visaBrandVisible": true,
         "addCardButtonVisible": true,
         "scrollYAfter": 0,
-        "innerScrollTop": 100
+        "innerScrollTop": 23
       },
-      "violations": [
-        "mobile phone should fill browser height"
-      ]
+      "violations": []
     },
     {
       "label": "full-in-sepa-390",
@@ -5109,16 +5044,16 @@
           "left": 0,
           "right": 390,
           "top": 0,
-          "bottom": 693,
+          "bottom": 844,
           "width": 390,
-          "height": 693
+          "height": 844
         },
         "phoneOffsetWidth": 390,
         "phoneTransform": "none",
         "bodyBeforeContent": "none",
         "content": {
-          "height": 535,
-          "scrollHeight": 535
+          "height": 686,
+          "scrollHeight": 686
         },
         "sidebarDisplay": "none",
         "mobileNavDisplay": "none",
@@ -5137,9 +5072,7 @@
         "scrollYAfter": 0,
         "innerScrollTop": null
       },
-      "violations": [
-        "mobile phone should fill browser height"
-      ]
+      "violations": []
     },
     {
       "label": "full-home-430",
@@ -5166,16 +5099,16 @@
           "left": 0,
           "right": 430,
           "top": 0,
-          "bottom": 781,
+          "bottom": 932,
           "width": 430,
-          "height": 781
+          "height": 932
         },
         "phoneOffsetWidth": 430,
         "phoneTransform": "none",
         "bodyBeforeContent": "none",
         "content": {
-          "height": 781,
-          "scrollHeight": 891
+          "height": 932,
+          "scrollHeight": 932
         },
         "sidebarDisplay": "none",
         "mobileNavDisplay": "grid",
@@ -5183,8 +5116,8 @@
         "navBounding": {
           "left": 16,
           "right": 414,
-          "top": 705,
-          "bottom": 769,
+          "top": 856,
+          "bottom": 920,
           "width": 398,
           "height": 64
         },
@@ -5192,11 +5125,9 @@
         "visaBrandVisible": true,
         "addCardButtonVisible": true,
         "scrollYAfter": 0,
-        "innerScrollTop": 100
+        "innerScrollTop": null
       },
-      "violations": [
-        "mobile phone should fill browser height"
-      ]
+      "violations": []
     },
     {
       "label": "full-topup-sheet-430",
@@ -5223,16 +5154,16 @@
           "left": 0,
           "right": 430,
           "top": 0,
-          "bottom": 781,
+          "bottom": 932,
           "width": 430,
-          "height": 781
+          "height": 932
         },
         "phoneOffsetWidth": 430,
         "phoneTransform": "none",
         "bodyBeforeContent": "none",
         "content": {
-          "height": 781,
-          "scrollHeight": 891
+          "height": 932,
+          "scrollHeight": 932
         },
         "sidebarDisplay": "none",
         "mobileNavDisplay": "grid",
@@ -5240,8 +5171,8 @@
         "navBounding": {
           "left": 16,
           "right": 414,
-          "top": 705,
-          "bottom": 769,
+          "top": 856,
+          "bottom": 920,
           "width": 398,
           "height": 64
         },
@@ -5249,11 +5180,9 @@
         "visaBrandVisible": true,
         "addCardButtonVisible": true,
         "scrollYAfter": 0,
-        "innerScrollTop": 100
+        "innerScrollTop": null
       },
-      "violations": [
-        "mobile phone should fill browser height"
-      ]
+      "violations": []
     },
     {
       "label": "full-in-sepa-430",
@@ -5280,16 +5209,16 @@
           "left": 0,
           "right": 430,
           "top": 0,
-          "bottom": 781,
+          "bottom": 932,
           "width": 430,
-          "height": 781
+          "height": 932
         },
         "phoneOffsetWidth": 430,
         "phoneTransform": "none",
         "bodyBeforeContent": "none",
         "content": {
-          "height": 623,
-          "scrollHeight": 623
+          "height": 774,
+          "scrollHeight": 774
         },
         "sidebarDisplay": "none",
         "mobileNavDisplay": "none",
@@ -5308,9 +5237,7 @@
         "scrollYAfter": 0,
         "innerScrollTop": null
       },
-      "violations": [
-        "mobile phone should fill browser height"
-      ]
+      "violations": []
     },
     {
       "label": "full-home-768",
