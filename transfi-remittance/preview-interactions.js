@@ -32,17 +32,21 @@
     {id:'bank100000000005',name:'ВТБ'}
   ];
   const baseNet=data['/networks']&&data['/networks'].networks||[];
-  const networks=(baseNet.length?baseNet:[
-    {coin:'USDT',network:'tron'},{coin:'USDT',network:'bnb'},
-    {coin:'USDT',network:'polygon'},{coin:'USDT',network:'ton'},
-    {coin:'USDC',network:'bnb'},{coin:'USDC',network:'polygon'}
-  ]).map(n=>Object.assign({},n,{
-    key:n.key||n.network,enabled:true,can_deposit:true,can_withdraw:true,
-    withdrawal_fee:1,min_withdrawal:5
-  }));
+  const combos=[
+    ['USDT','tron',20],['USDT','bnb',15],['USDT','polygon',15],['USDT','ton',1],
+    ['USDC','bnb',15],['USDC','polygon',15]
+  ];
+  const networks=combos.map(([coin,network,confirmations])=>Object.assign(
+    {},baseNet.find(n=>n.coin===coin&&n.network===network)||{},
+    {coin,network,key:network,enabled:true,can_deposit:true,can_withdraw:true,
+     withdrawal_fee:1,min_withdrawal:5,min_deposit:1,confirmations}
+  ));
   data['/networks']={networks,transfer:{deposit:true,withdraw:true},
     sbp:{enabled:true,min_rub:1000,max_rub:250000,quote_minutes:15,link_minutes:10}};
   data['/operations']={operations:seed,next:''};
+  // Invalidate network caches created by boot before this late preview adapter runs.
+  try{netRules=null;netCache=null;}catch(e){}
+
   data['/verification']=Object.assign({},data['/verification'],{
     status:'verified',move_fees:{transfer_bps:0,transfer_platform_bps:0,
       transfer_brand_bps:0,withdraw_bps:0,withdraw_platform_bps:0,
@@ -71,6 +75,13 @@
   const oldPvApi=pvApi;
   pvApi=function(path,body){
     const full=String(path||''),p=full.split('?')[0];
+    if(p==='/deposit/address'){
+      const params=new URLSearchParams(full.split('?')[1]||'');
+      const coin=String(params.get('coin')||'USDT').replace(/[^A-Z]/g,'');
+      const network=String(params.get('network')||'tron').replace(/[^a-z]/g,'');
+      const address='DEMO_ONLY_'+coin+'_'+network+'_DO_NOT_SEND_REAL_FUNDS';
+      return Promise.resolve({address,qr:'altvu-preview-only://deposit/'+coin+'/'+network});
+    }
     if(p==='/transfer/lookup'){
       if(!body||(!body.value&&!body.contact_id))
         return Promise.reject({slug:'transfer_not_found'});
