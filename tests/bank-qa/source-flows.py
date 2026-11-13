@@ -158,6 +158,9 @@ async def test_bank_lifecycle(browser, origin):
     await page.locator("#pv-qa details").first.locator("summary").click()
     await page.locator("#pv-bank-ok").click()
     await expect(child.get_by_text("Перевод завершён")).to_be_visible()
+    # iframe -> parent callbacks are asynchronous postMessage events.
+    await page.wait_for_function("""() => PV.data['/operations'].operations
+        .some(o=>String(o.id).startsWith('tf-bank-') && o.status==='confirmed')""",timeout=5000)
     pending=await page.evaluate("""() => PV.data['/operations'].operations
         .filter(o=>String(o.id).startsWith('tf-bank-'))
         .map(o=>({id:o.id,status:o.status}))""")
