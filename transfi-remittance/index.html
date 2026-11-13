@@ -449,6 +449,80 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid 
  .phone.tf-phone .tf-source-home .tf-home-action span{font-size:10px}
 }
 
+
+/* Wallet navigation and proportional layout — app styles are scoped to the preview.
+   Source: components/bnv.html + 430 × 932 reference frame. */
+.phone.tf-phone > .sb,.phone.tf-phone > .home{display:none!important}
+.phone.tf-phone .tf-scroll{min-height:0}
+.phone.tf-phone.has-bottom-nav .tf-scroll{padding-bottom:100px}
+.phone.tf-phone .tf-bottom-nav{
+  display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);gap:2px;
+  position:absolute;left:16px;right:16px;bottom:calc(12px + env(safe-area-inset-bottom));
+  z-index:8;padding:6px;border-radius:30px;
+  background:rgba(255,255,255,.92);backdrop-filter:blur(18px) saturate(1.4);
+  box-shadow:0 0 0 1px #e6e4e1,0 10px 28px #16151424,0 2px 6px #1615140f;
+  box-sizing:border-box;
+}
+.phone.tf-phone .tf-bottom-nav[hidden]{display:none!important}
+.phone.tf-phone .tf-bottom-nav .bnv-i{
+  min-width:0;height:52px;border-radius:24px;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:3px;color:var(--n500);
+  font-size:10px;line-height:13px;font-weight:500;text-decoration:none;
+}
+.phone.tf-phone .tf-bottom-nav .bnv-i svg{width:23px;height:23px;display:block}
+.phone.tf-phone .tf-bottom-nav .bnv-i.on{color:var(--n900);background:var(--n100);font-weight:600}
+/* Reference uses the shipped black card asset, not the green unissued-card image. */
+.phone.tf-phone .tf-visa-card{color:#fff}
+.phone.tf-phone .tf-visa-card .cblock{
+  position:absolute;left:22px;bottom:24px;margin:0!important;z-index:1;
+}
+.phone.tf-phone .tf-visa-card .ccap{color:#bbb;font-size:12px;line-height:18px;margin-bottom:1px}
+.phone.tf-phone .tf-visa-card .cbal{color:white;font-size:34px;line-height:40px;letter-spacing:-.6px}
+.phone.tf-phone .tf-visa-card .cbal .cnt{font-size:21px;letter-spacing:0}
+.phone.tf-phone .tf-visa-card .tf-visa-brand{
+  position:absolute;right:18px;bottom:17px;color:white;text-align:right;z-index:1;
+}
+.phone.tf-phone .tf-visa-card .tf-visa-brand strong{
+  display:block;font-size:38px;font-style:italic;font-weight:850;
+  line-height:38px;letter-spacing:-2.2px;
+}
+.phone.tf-phone .tf-visa-card .tf-visa-brand small{
+  display:block;font-size:14px;line-height:17px;font-weight:400;letter-spacing:0
+}
+.phone.tf-phone .tf-visa-card .tf-card-tools{
+  position:absolute;top:16px;right:16px;display:flex;align-items:center;gap:7px;z-index:4
+}
+.phone.tf-phone .tf-visa-card .tf-card-tools button{
+  display:grid;place-items:center;width:36px;height:36px;border:0;color:white;
+  padding:0;cursor:pointer;background:transparent;border-radius:50%;
+}
+.phone.tf-phone .tf-visa-card .tf-card-tools button.tf-card-plus{
+  background:rgba(255,255,255,.13);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.38)
+}
+.phone.tf-phone .tf-visa-card .tf-card-tools button:focus-visible{
+  outline:2px solid white;outline-offset:2px
+}
+@media(max-width:740px){
+  html,body{height:100%;min-height:100%;margin:0}
+  .top,.mobilemenu,.stage{display:none!important}
+  .proto-shell{display:block;min-height:0;margin:0;width:100%;max-width:none}
+  .workspace{display:block;min-height:0;padding:0;margin:0;width:100%}
+  .phone.tf-phone,.phone.tf-phone.is-home{
+    box-sizing:border-box;width:100%;max-width:100%;height:100dvh;min-height:0;
+    margin:0;border:0;border-radius:0;box-shadow:none;transform:none
+  }
+  .devtools{position:fixed;right:12px;bottom:100px;z-index:25;width:auto}
+  .phone.tf-phone .tf-visa-card .cbal{font-size:30px}
+  .phone.tf-phone .tf-visa-card .cbal .cnt{font-size:18px}
+  .phone.tf-phone .tf-visa-card .tf-visa-brand strong{font-size:34px;line-height:34px}
+}
+@media(max-width:360px){
+  .phone.tf-phone .tf-visa-card .cbal{font-size:27px}
+  .phone.tf-phone .tf-visa-card .tf-visa-brand strong{font-size:29px;line-height:31px}
+  .phone.tf-phone .tf-visa-card .tf-visa-brand small{font-size:12px}
+}
+
 /* screenshot mode: 430 × 932 logical px; use Playwright deviceScaleFactor 3 for 1290 × 2796 raster */
 html.tf-capture,html.tf-capture body{width:430px;height:932px;min-height:0;overflow:hidden;background:#f6f7f8}
 .tf-capture .top,.tf-capture .sidebar,.tf-capture .apiBox,.tf-capture .stage,.tf-capture .mobilemenu,.tf-capture .devtools{display:none!important}
@@ -461,10 +535,16 @@ html.tf-capture,html.tf-capture body{width:430px;height:932px;min-height:0;overf
   .tf-capture .phone.tf-phone,.tf-capture .phone.tf-phone.is-home{height:932px;min-height:932px;width:430px}
 }
 
+
+html.tf-capture .top,html.tf-capture .stage,html.tf-capture .mobilemenu{display:none!important}
+html.tf-capture .phone.tf-phone,html.tf-capture .phone.tf-phone.is-home{
+  box-sizing:border-box;width:430px;max-width:none;height:932px;min-height:932px;
+  border:0;border-radius:0;box-shadow:none
+}
+
 </style></head>
 <body>
 <header class="top"><div class="brand">alt.vu <span>/ Международные переводы · прототип</span></div><span class="chip">v8 · компоненты приложения</span></header>
-<div class="mobilemenu"><button data-flow="in" onclick="setFlow('in')">Пополнение</button><button data-flow="out" onclick="setFlow('out')">Вывод</button></div>
 <div class="proto-shell">
 <aside class="sidebar"><div class="sideLabel">Точки входа</div>
 <button id="flow-home" class="entry" onclick="go('home')"><span class="glyph">⌂</span><span><b>Главная</b><small>USD-баланс и действия</small></span></button>
@@ -474,9 +554,8 @@ html.tf-capture,html.tf-capture body{width:430px;height:932px;min-height:0;overf
 <main class="workspace"><div class="stage"><span id="stageLabel"></span><span id="stageIndex"></span></div>
 <div class="devtools" id="recipientTools" hidden><button class="devFill" type="button" onclick="fillDemo()">Заполнить тестовые реквизиты</button></div>
 <div class="phone tf-phone">
-<div class="sb"><span>9:41</span><span class="tf-status-icons" aria-label="Индикаторы сети и батареи"><svg width="20" height="15" viewBox="0 0 20 15" fill="currentColor" aria-hidden="true"><rect x="0" y="9" width="4" height="6" rx="1"/><rect x="5.5" y="6" width="4" height="9" rx="1"/><rect x="11" y="3" width="4" height="12" rx="1"/><rect x="16.5" y="0" width="3.5" height="15" rx="1"/></svg><svg width="19" height="15" viewBox="0 0 20 16" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" aria-hidden="true"><path d="M1 5c5.4-5 12.6-5 18 0M4 9c3.5-3.2 8.5-3.2 12 0M8 13c1.2-.9 2.8-.9 4 0"/></svg><svg width="25" height="14" viewBox="0 0 25 14" fill="none" aria-hidden="true"><rect x=".8" y="1.2" width="21.3" height="11.6" rx="3" stroke="currentColor" stroke-width="1.4"/><rect x="3" y="3.4" width="16.8" height="7.2" rx="1.3" fill="currentColor"/><path d="M23 5v4c2 0 2-4 0-4" fill="currentColor"/></svg></span></div>
 <div class="head"><button class="back" aria-label="Назад" onclick="goBack()"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg></button><div class="h1" id="phoneTitle">Международный перевод</div><div class="tf-home-toolbar" aria-hidden="true"><span class="tf-home-tool"><svg width="22" height="22" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"/></svg><span class="tf-home-badge">2</span></span><span class="tf-home-tool"><svg width="22" height="22" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M20 11.6a8 8 0 0 1-8 8c-1.3 0-2.5-.3-3.6-.8L4 20l1.2-4.4A8 8 0 1 1 20 11.6Z"/></svg></span></div></div>
-<div class="tf-scroll" id="content"></div><div class="tf-foot" id="footer"></div><div class="home"></div>
+<div class="tf-scroll" id="content"></div><div class="tf-foot" id="footer"></div><nav class="bnv tf-bottom-nav" aria-label="Разделы" onclick="uxBottomNav(event)"><a class="bnv-i" href="#" data-mb="home"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10.4 12 4l8 6.4V19a1.4 1.4 0 0 1-1.4 1.4H15v-5.6H9v5.6H5.4A1.4 1.4 0 0 1 4 19z"></path></svg><span>Главная</span></a><a class="bnv-i" href="#" data-mb="topup"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v13"></path><path d="m6.5 11.5 5.5 5.5 5.5-5.5"></path><path d="M4.5 20h15"></path></svg><span>Пополнить</span></a><a class="bnv-i" href="#" data-mb="card"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5.5" width="18" height="13" rx="2.6"></rect><path d="M3 10h18"></path><path d="M7 14.6h3.5"></path></svg><span>Карта</span></a><a class="bnv-i" href="#" data-mb="withdraw"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20V7"></path><path d="m6.5 12.5 5.5-5.5 5.5 5.5"></path><path d="M4.5 4h15"></path></svg><span>Вывести</span></a><a class="bnv-i" href="#" data-mb="profile"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8.4" r="3.9"></circle><path d="M4.6 20c.6-3.6 3.7-6 7.4-6s6.8 2.4 7.4 6"></path></svg><span>Профиль</span></a></nav>
 </div></main>
 <aside class="apiBox"><div class="sideLabel">Пояснение к экрану</div><h2 id="metaTitle"></h2><p id="metaDescription"></p>
 <div class="divider"></div><div class="sideLabel">API / бэкенд</div><div id="metaApi"></div>
@@ -582,8 +661,19 @@ function timeline(flow){const items=flow==='in'?[['done','Отправлено �
 function renderQuote(){const t=$('quoteBlock');if(t)t.innerHTML=qSummary()}
 function render(){const steps=SCREENS[S.flow];document.querySelectorAll('[data-flow]').forEach(e=>e.classList.toggle('active',e.dataset.flow===S.flow));$('flow-in').classList.toggle('active',S.flow==='in');$('flow-out').classList.toggle('active',S.flow==='out');$('stepList').innerHTML=steps.map(([k,n],i)=>`<button class="stepBtn ${S.screen===k?'active':''}" onclick="go('${k}')"><span class="num">${i+1}</span>${esc(n)}</button>`).join('');$('stageLabel').textContent=S.flow==='in'?'Пополнение · Международный перевод':'Вывод · Международный перевод';$('stageIndex').textContent=(steps.findIndex(([k])=>k===S.screen)+1)+' / '+steps.length;$('recipientTools').hidden=S.screen!=='out-recipient';const d=renderScreen();$('phoneTitle').textContent=d.head;$('content').innerHTML=d.p;$('footer').innerHTML=d.f;const m=META[S.screen];$('metaTitle').textContent=m.title;$('metaDescription').textContent=m.desc;$('metaApi').innerHTML=m.apis.map(x=>`<div class="apiChip">${esc(x)}</div>`).join('');$('metaRules').innerHTML=m.rules.map(x=>`<li>${esc(x)}</li>`).join('');const sims=S.flow==='in'?[['Реквизиты', 'in-details'],['Ожидание поступления','in-pending'],['Зачислено','in-success'],['На проверке','in-held']]:[['Параметры','out-config'],['Реквизиты','out-recipient'],['Подтверждение','out-review'],['Обрабатывается','out-progress'],['Успех','out-success'],['Ошибка','out-failed'],['На проверке','out-held'],['Недоступно','out-unavailable']];$('simList').innerHTML=sims.map(([n,k])=>`<button onclick="go('${k}')">${esc(n)}</button>`).join('');$('content').scrollTop=0}
 // Genuine alt.vu component snippets, from build/snippets.json (safe, fictional data).
-const uxIssuedCard="<div class=\"card tf-auth-card\"><div class=\"ctop\" role=\"button\" tabindex=\"0\" data-go=\"card\" aria-label=\"Открыть карту\"><svg width=\"27\" height=\"27\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M21.37 10.44v3.12l-2.63.87-.87 2.09 1.88 1.87-2.23 2.23-1.87-1.88-2.09.87-.87 2.63H9.56l-.87-2.63-2.09-.87-1.87 1.88-2.23-2.23 1.88-1.87-.87-2.09-2.63-.87v-3.12l2.63-.87.87-2.09L2.5 5.61l2.23-2.23L6.6 5.26l2.09-.87.87-2.63h3.12l.87 2.63 2.09.87 1.87-1.88 2.23 2.23-1.88 1.87.87 2.09z\"/><circle cx=\"11.12\" cy=\"12\" r=\"3\"/></svg></div><div class=\"cblock\"><div class=\"ccap\">Баланс</div><div class=\"cbal\">4 812<span class=\"cnt\">.60 $</span></div></div></div>";
+const uxIssuedCard="<div class=\"card tf-auth-card tf-visa-card\" aria-label=\"Баланс карты Visa Platinum\">\n  <div class=\"tf-card-tools\">\n    <button type=\"button\" class=\"tf-card-plus\" aria-label=\"Добавить карту\" onclick=\"uxOtherMethod('Добавить карту')\"><svg width=\"25\" height=\"25\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.25\" stroke-linecap=\"round\" aria-hidden=\"true\"><path d=\"M12 4v16M4 12h16\"/></svg></button>\n    <button type=\"button\" class=\"tf-card-gear\" aria-label=\"Настройки карты\" onclick=\"uxGo('wallet-card')\"><svg viewBox=\"0 0 24 24\" width=\"28\" height=\"28\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M21.37 10.44v3.12l-2.63.87-.87 2.09 1.88 1.87-2.23 2.23-1.87-1.88-2.09.87-.87 2.63H9.56l-.87-2.63-2.09-.87-1.87 1.88-2.23-2.23 1.88-1.87-.87-2.09-2.63-.87v-3.12l2.63-.87.87-2.09L2.5 5.61l2.23-2.23L6.6 5.26l2.09-.87.87-2.63h3.12l.87 2.63 2.09.87 1.87-1.88 2.23 2.23-1.88 1.87.87 2.09z\"/><circle cx=\"11.12\" cy=\"12\" r=\"3\"/></svg></button>\n  </div>\n  <div class=\"cblock\">\n    <div class=\"ccap\">Баланс</div>\n    <div class=\"cbal\">4 812<span class=\"cnt\">.60 $</span></div>\n  </div>\n  <div class=\"tf-visa-brand\" aria-label=\"Visa Platinum\"><strong>VISA</strong><small>Platinum</small></div>\n</div>";
 const uxGhostCard="<div class=\"card ghost tf-auth-card\">\n      <button class=\"cissue\" type=\"button\" onclick=\"uxOtherMethod('Выпуск карты')\" aria-label=\"Выпустить карту\"><svg viewBox=\"0 0 33 33\" width=\"33\" height=\"33\" fill=\"none\" stroke=\"#fff\" stroke-width=\"2.2\" stroke-linecap=\"round\" aria-hidden=\"true\"><path d=\"M16.5 9.5v14M9.5 16.5h14\"></path></svg></button><div class=\"ctop\" data-go=\"card\"><svg width=\"33\" height=\"33\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#211e1d\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M21.37 10.44 L21.37 13.56 L18.72 13.56 L17.85 15.65 L19.73 17.52 L17.52 19.73 L15.65 17.85 L13.56 18.72 L13.56 21.37 L10.44 21.37 L10.44 18.72 L8.35 17.85 L6.48 19.73 L4.27 17.52 L6.15 15.65 L5.28 13.56 L2.63 13.56 L2.63 10.44 L5.28 10.44 L6.15 8.35 L4.27 6.48 L6.48 4.27 L8.35 6.15 L10.44 5.28 L10.44 2.63 L13.56 2.63 L13.56 5.28 L15.65 6.15 L17.52 4.27 L19.73 6.48 L17.85 8.35 L18.72 10.44 Z\"></path><circle cx=\"12\" cy=\"12\" r=\"3.4\"></circle></svg></div>\n      <div class=\"cblock\"><div class=\"ccap\">Баланс</div><div class=\"cbal\">4 812<span class=\"cnt\">.60 $</span></div></div>\n    </div>";
+function uxBottomNav(event){
+  const target=event.target.closest('[data-mb]');
+  if(!target)return;
+  event.preventDefault();
+  const key=target.dataset.mb;
+  if(key==='home')uxGo('home');
+  else if(key==='topup')setFlow('in');
+  else if(key==='withdraw')setFlow('out');
+  else if(key==='card')uxGo('wallet-card');
+  else if(key==='profile')uxGo('wallet-profile');
+}
 function uxHomeNav(event){
   const el=event.target.closest('[data-go]');if(!el)return;
   const route=el.getAttribute('data-go');
@@ -792,7 +882,22 @@ function uxRenderScreen(){
 }
 
 function uxRender(){
-  document.querySelector('.phone.tf-phone').classList.toggle('is-home',S.screen==='home');
+  const phone=document.querySelector('.phone.tf-phone');
+  phone.classList.toggle('is-home',S.screen==='home');
+  const tabs=document.querySelector('.tf-bottom-nav');
+  const showTabs=['home','wallet-card','wallet-profile','wallet-earn','wallet-notes'].includes(S.screen);
+  phone.classList.toggle('has-bottom-nav',showTabs);
+  tabs.hidden=!showTabs;
+  for(const tab of tabs.querySelectorAll('[data-mb]')){
+    const key=tab.dataset.mb;
+    const selected=(key==='home'&&S.screen==='home')
+      ||(key==='card'&&S.screen==='wallet-card')
+      ||(key==='profile'&&['wallet-profile','wallet-earn','wallet-notes'].includes(S.screen));
+    tab.classList.toggle('on',selected);
+    if(selected)tab.setAttribute('aria-current','page');
+    else tab.removeAttribute('aria-current');
+  }
+
   _tfBaseRender();
   $('methodLayer').hidden=!S.modal;
   uxRenderMethods();
@@ -850,7 +955,7 @@ if(queryRail==='SEPA'||queryRail==='SWIFT'){
   if(S.flow==='in'){S.inRail=queryRail;if(queryRail==='SEPA')S.inCurrency='EUR'}
   else {S.outRail=queryRail;if(queryRail==='SEPA'){S.outCurrency='EUR';S.country='DE'}}
 }
-S.cardMode=tfQuery.get('card')==='issued'?'issued':'ghost';
+S.cardMode=tfQuery.get('card')==='ghost'?'ghost':'issued';
 S.profileTab='data';
 const queryScreen=tfQuery.get('screen');
 if(queryScreen==='home'||SCREENS[S.flow].some(([screen])=>screen===queryScreen))S.screen=queryScreen;
