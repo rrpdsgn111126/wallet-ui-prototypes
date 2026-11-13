@@ -1,12 +1,12 @@
 # План интеграции TransFi v3 в alt.vu
 
 > Статус: рабочий план для согласования, **не** утверждённые требования к production. Дата: 2026-11-12.
-> Основа: [APP_ARCHITECTURE.md](./APP_ARCHITECTURE.md), [прототип v6](../transfi-remittance/index.html), [TransFi Developer Hub](https://docs.transfi.com/docs/welcome-to-transfi-developer-hub).
+> Основа: [APP_ARCHITECTURE.md](./APP_ARCHITECTURE.md), [канонический прототип TransFi Remittance](../transfi-remittance/index.html), [TransFi Developer Hub](https://docs.transfi.com/docs/welcome-to-transfi-developer-hub).
 > Не изменяет существующую бизнес-логику и не предполагает, что TransFi уже подключён к реальному backend.
 
 ## 1. Решение и границы
 
-**Рекомендуемый первый релиз:** отдельный модуль «Международный перевод» в существующих «Пополнить» и «Вывести», основанный на готовом прототипе v6, с серверной интеграцией TransFi. Сначала один юридически разрешённый, подтверждённый провайдером банковский коридор; пример для исследования — EUR/SEPA. SWIFT, USD/GBP и дополнительные страны — только после фактической проверки MID, лимитов и реквизитов. Криптопереводы, onramp/offramp и карточные операции не подменять автоматически TransFi.
+**Рекомендуемый первый релиз:** отдельный модуль «Международный перевод» в существующих «Пополнить» и «Вывести», основанный на готовом каноническом прототипе TransFi Remittance, с серверной интеграцией TransFi. Сначала один юридически разрешённый, подтверждённый провайдером банковский коридор; пример для исследования — EUR/SEPA. SWIFT, USD/GBP и дополнительные страны — только после фактической проверки MID, лимитов и реквизитов. Криптопереводы, onramp/offramp и карточные операции не подменять автоматически TransFi.
 
 **Стоп-фактор до production:** [реестр стран TransFi](https://docs.transfi.com/docs/supported-countries) относит Россию (RU) к Prohibited. Казахстан (KZ) не указан: по правилам TransFi неоценённые страны считать недоступными до ответа account manager. Наличие валюты в API не означает доступность её для любых резидентов, паспортов и платёжных направлений. В частности, **не считать TransFi заменой СБП/RUB**. Проверить юридическое лицо клиента, гражданство/резидентство пользователей, источник денег, страну назначения и разрешённый use case.
 
@@ -21,7 +21,7 @@
 ## 2. Что есть в репозитории
 
 - [APP_ARCHITECTURE.md](./APP_ARCHITECTURE.md): карта экранов по PNG и HTML-библиотеке. В ней описаны СБП, USDT/USDC, внутренние ALT.VU-переводы, история, KYC, карты, профиль. Это **не** схема реального backend и не контракт ledger.
-- [transfi-remittance/index.html](../transfi-remittance/index.html): существующий интерактивный прототип v6. **Пополнение:** in-details / in-pending / in-success / in-held. **Вывод:** out-config / out-recipient / out-review / out-progress / out-success / out-failed / out-held / out-unavailable.
+- [transfi-remittance/index.html](../transfi-remittance/index.html): существующий интерактивный канонический прототип TransFi Remittance. **Пополнение:** in-details / in-pending / in-success / in-held. **Вывод:** out-config / out-recipient / out-review / out-progress / out-success / out-failed / out-held / out-unavailable.
 - В v6 пока жёстко заданы: валюты EUR/USD/GBP; страны DE/FR/NL/GB/US/ES; SEPA/SWIFT; комиссия 2.5/18, таблица FX; демонстрационные IBAN, BIC и банк; ручные симуляции статусов. **Ни одно из этих значений не переносить в реальные требования или production.**
 - HTML/CSS образцы — reference для визуальной сборки; не работающие банковские интеграции. Сохранять общие светлую/тёмную темы, 390/1440 px и источники компонентов.
 
