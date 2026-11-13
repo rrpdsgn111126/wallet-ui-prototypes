@@ -647,8 +647,14 @@ function tfBankReviewRow(label,value){
 }
 function title(text){return `<div class="h2 tf-status-title">${esc(text)}</div>`}
 const fieldIcon=`<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--n850)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="14" rx="3"/><path d="M3.5 10h17"/></svg>`;
-function field(label,key,placeholder,{optional=false,hint='',type='text'}={}){return `<div class="fld w tf-field" id="wrap-${key}"><div class="fi">${fieldIcon}</div><label class="fl" for="f-${key}"><i>${esc(label)}${optional?' · необязательно':''}</i><input id="f-${key}" type="${type}" placeholder="${esc(placeholder)}" value="${esc(S[key])}" oninput="store('${key}',this.value)" autocomplete="off"/></label></div>`}
-function selectField(label,key,opts){return `<div class="fld w tf-field"><div class="fi">${fieldIcon}</div><label class="fl"><i>${esc(label)}</i><select class="tf-select" aria-label="${esc(label)}" onchange="store('${key}',this.value);if('${key}'==='purpose')render()">${opts.map(x=>`<option value="${x[0]}" ${S[key]===x[0]?'selected':''}>${esc(x[1])}</option>`).join('')}</select></label></div>`}
+const tfFieldIcons={"person":"<circle cx=\"12\" cy=\"8\" r=\"3.4\"/><path d=\"M5 20v-2a7 7 0 0 1 14 0v2\"/>","card":"<rect x=\"3.4\" y=\"5.3\" width=\"17.2\" height=\"13.4\" rx=\"2.6\"/><path d=\"M3.4 10.2h17.2\"/>","bank":"<path d=\"M2.8 9.5 12 4l9.2 5.5\"/><path d=\"M4.4 10.2h15.2M5.5 10.2V19m4.3-8.8V19m4.4-8.8V19m4.3-8.8V19M3 20h18\"/>","globe":"<circle cx=\"12\" cy=\"12\" r=\"8.6\"/><path d=\"M3.4 12h17.2M12 3.4c-4.5 5.7-4.5 11.5 0 17.2M12 3.4c4.5 5.7 4.5 11.5 0 17.2\"/>","map":"<path d=\"M12 21s7.2-7 7.2-12a7.2 7.2 0 0 0-14.4 0C4.8 14 12 21 12 21Z\"/><circle cx=\"12\" cy=\"9.2\" r=\"2.3\"/>","coin":"<ellipse cx=\"12\" cy=\"6.4\" rx=\"7.4\" ry=\"3.1\"/><path d=\"M4.6 6.4v5.2c0 1.7 3.3 3.1 7.4 3.1s7.4-1.4 7.4-3.1V6.4M4.6 11.6v5.2c0 1.7 3.3 3.1 7.4 3.1s7.4-1.4 7.4-3.1v-5.2\"/>","note":"<path d=\"M7 3.5h9l3 3V20H5V3.5h2Z\"/><path d=\"M16 3.5V7h3M8 11h8M8 15h6\"/>"};
+const tfFieldMap={"firstName":"person","lastName":"person","iban":"card","account":"card","bic":"globe","bank":"bank","intermediary":"bank","country":"globe","amount":"coin","routing":"note","bankAddress":"map","recipientAddress":"map","purpose":"note","purposeOther":"note","currency":"card"};
+function tfIconFor(key){
+ const p=tfFieldIcons[tfFieldMap[key]||'card'];
+ return '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--n850)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+p+'</svg>';
+}
+function field(label,key,placeholder,{optional=false,hint='',type='text'}={}){return `<div class="fld w tf-field" id="wrap-${key}"><div class="fi">${tfIconFor(key)}</div><label class="fl" for="f-${key}"><i>${esc(label)}${optional?' · необязательно':''}</i><input id="f-${key}" type="${type}" placeholder="${esc(placeholder)}" value="${esc(S[key])}" oninput="store('${key}',this.value)" autocomplete="off"/></label></div>`}
+function selectField(label,key,opts){return `<div class="fld w tf-field"><div class="fi">${tfIconFor(key)}</div><label class="fl"><i>${esc(label)}</i><select class="tf-select" aria-label="${esc(label)}" onchange="store('${key}',this.value);if('${key}'==='purpose')render()">${opts.map(x=>`<option value="${x[0]}" ${S[key]===x[0]?'selected':''}>${esc(x[1])}</option>`).join('')}</select></label></div>`}
 function keyrow(k,v){return `<div class="rl tf-rl"><span>${esc(k)}</span><b>${esc(v)}</b></div>`}
 function notice(text,t=''){return `<div class="tf-notice ${t}">${esc(text)}</div>`}
 function primary(t,click,disabled=false){return `<button type="button" class="btn tf-button" ${disabled?'disabled':''} onclick="${click}">${esc(t)}</button>`}
@@ -899,8 +905,8 @@ function uxRenderScreen(){
   if(S.screen==='in-details'){
     const rows=getRequisites();
     const currencyControl=S.inRail==='SEPA'
-      ? `<div class="fld w tf-field tf-deposit-currency"><div class="fi">${fieldIcon}</div><div class="fl"><i>Валюта пополнения</i><b>EUR</b></div></div>`
-      : `<div class="fld w tf-field tf-deposit-currency"><div class="fi">${fieldIcon}</div><label class="fl"><i>Валюта пополнения</i><select class="tf-select" aria-label="Валюта пополнения" onchange="setIncomingCurrency(this.value)">${CURRENCY.map(c=>`<option value="${c}" ${S.inCurrency===c?'selected':''}>${c}</option>`).join('')}</select></label></div>`;
+      ? `<div class="fld w tf-field tf-deposit-currency"><div class="fi">${tfIconFor('currency')}</div><div class="fl"><i>Валюта пополнения</i><b>EUR</b></div></div>`
+      : `<div class="fld w tf-field tf-deposit-currency"><div class="fi">${tfIconFor('currency')}</div><label class="fl"><i>Валюта пополнения</i><select class="tf-select" aria-label="Валюта пополнения" onchange="setIncomingCurrency(this.value)">${CURRENCY.map(c=>`<option value="${c}" ${S.inCurrency===c?'selected':''}>${c}</option>`).join('')}</select></label></div>`;
     return {
       head:'Пополнение · '+S.inRail,
       p:`${currencyControl}<div class="box tf-requisites">${rows.map(([k,v],i)=>copyrow(k,v,i)).join('')}</div>`,
@@ -916,8 +922,8 @@ function uxRenderScreen(){
       p:`<div class="tf-route"><strong>${esc(S.outRail)}</strong>Банковский перевод</div>
       <div class="fld g tf-field tf-source"><div class="fi"><div class="cn" style="width:40px;height:40px"><img width="24" height="24" src="../assets/img-27f3d8cf.png" alt="" style="display:block;border-radius:50%"></div></div><div class="fl"><i>Со счёта alt.vu</i><b>Доступно 4 812.60 $</b></div><div class="addon"><span class="cur">USD</span></div></div>
       <div class="tf-label">Валюта получения</div>${segment(currencies.map(v=>({v})),S.outCurrency,'setOutCurrency')}
-      <div class="fld w tf-field"><div class="fi">${fieldIcon}</div><label class="fl"><i>Страна получателя</i><select class="tf-select" aria-label="Страна получателя" onchange="setOutCountry(this.value)">${countries.map(([c,name])=>`<option value="${c}" ${S.country===c?'selected':''}>${esc(name)}</option>`).join('')}</select></label></div>
-      <div class="fld w tf-field tf-amount"><div class="fi">${fieldIcon}</div><label class="fl"><i>Сумма перевода</i><input type="number" min="0" step="0.01" inputmode="decimal" aria-label="Сумма перевода" value="${esc(S.amount)}" oninput="store('amount',this.value);renderQuote()"/></label><div class="addon"><span class="cur">USD</span></div></div>
+      <div class="fld w tf-field"><div class="fi">${tfIconFor('country')}</div><label class="fl"><i>Страна получателя</i><select class="tf-select" aria-label="Страна получателя" onchange="setOutCountry(this.value)">${countries.map(([c,name])=>`<option value="${c}" ${S.country===c?'selected':''}>${esc(name)}</option>`).join('')}</select></label></div>
+      <div class="fld w tf-field tf-amount"><div class="fi">${tfIconFor('amount')}</div><label class="fl"><i>Сумма перевода</i><input type="number" min="0" step="0.01" inputmode="decimal" aria-label="Сумма перевода" value="${esc(S.amount)}" oninput="store('amount',this.value);renderQuote()"/></label><div class="addon"><span class="cur">USD</span></div></div>
       <div class="tbl tf-quote" id="quoteBlock">${qSummary()}</div>`,
       f:primary('Продолжить','checkConfig()')
     };
