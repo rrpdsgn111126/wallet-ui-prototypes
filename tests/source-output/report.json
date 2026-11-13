@@ -14,36 +14,6 @@
       "card": "card",
       "balance": "4 812.60 $",
       "errors": []
-    },
-    {
-      "viewport": 430,
-      "label": "home",
-      "view": "home",
-      "htmlWidth": 430,
-      "viewportWidth": 430,
-      "phoneWidth": 430,
-      "phoneHeight": 932,
-      "homeActive": true,
-      "navVisible": true,
-      "bankRows": 4,
-      "card": "card",
-      "balance": "4 812.60 $",
-      "errors": []
-    },
-    {
-      "viewport": 1440,
-      "label": "home",
-      "view": "home",
-      "htmlWidth": 1440,
-      "viewportWidth": 1440,
-      "phoneWidth": 331.364013671875,
-      "phoneHeight": 719.963623046875,
-      "homeActive": true,
-      "navVisible": true,
-      "bankRows": 4,
-      "card": "card",
-      "balance": "4 812.60 $",
-      "errors": []
     }
   ],
   "errors": []
