@@ -337,6 +337,17 @@
     sbpCheck();
   }
 
+  // On method selection, clear the inline display:none used by the previous
+  // exit. The source bank opener reuses the same overlay and iframe node.
+  document.addEventListener('click',event=>{
+    const bank=event.target.closest&&event.target.closest('[data-tf-bank]');
+    if(!bank)return;
+    const overlay=document.querySelector('#tf-bank-overlay');
+    if(overlay&&overlay.style.display==='none'){
+      overlay.style.removeProperty('display');
+      overlay.removeAttribute('aria-hidden');
+    }
+  },true);
   // The bank flow runs in the original iframe; synthetic callback messages
   // are accepted only from that frame and only for this same-origin prototype.
   window.addEventListener('message',event=>{
