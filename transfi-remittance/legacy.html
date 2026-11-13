@@ -667,8 +667,15 @@ function copyAll(){copyText(getRequisites().map(([k,v])=>`${k}: ${v}`).join('\n'
 function copyrow(k,v,i){return `<div class="row tf-copyrow"><div class="rt"><i>${esc(k)}</i><span class="tf-copy-value">${esc(v)}</span></div><button type="button" class="tf-copy" title="Скопировать" aria-label="Скопировать: ${esc(k)}" onclick="copyText(getRequisites()[${i}][1])"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg></button></div>`}
 function numAmount(){return Number(String(S.amount).replace(',','.'))}
 function quote(){const amt=numAmount();const valid=Number.isFinite(amt)&&amt>0;const fx=S.sourceCurrency===S.outCurrency?1:({'EURUSD':1.08,'USDEUR':.9259,'EURGBP':.84,'GBPEUR':1.1905,'USDGBP':.7778,'GBPUSD':1.2857})[S.sourceCurrency+S.outCurrency]||1;const fee=S.outRail==='SEPA'?2.5:18;return {valid,amt,fx,fee,receive:Math.max(0,(amt-fee)*fx),min:fee+.01}}
-function qSummary(){const q=quote();return `${keyrow('Курс',`1 ${S.sourceCurrency} ≈ ${q.fx.toFixed(4)} ${S.outCurrency}`)}${keyrow('Сумма',money(q.amt,S.sourceCurrency))}${keyrow('Комиссия',money(q.fee,S.sourceCurrency))}${keyrow('Получит',money(q.receive,S.outCurrency))}`}
-function validConfig(){const q=quote();return q.valid&&q.amt>q.fee}
+function qSummary(){
+ const q=quote();
+ const row=(label,value,tot,sub)=>'<div class="row'+(tot?' tot':'')+'"><div class="rt">'+esc(label)+(sub?'<i>'+esc(sub)+'</i>':'')+'</div><div class="rv">'+esc(value)+'</div></div>';
+ return row('Сумма перевода',money(q.amt,S.sourceCurrency))+
+   row('Курс','1 '+S.sourceCurrency+' ≈ '+q.fx.toFixed(4)+' '+S.outCurrency,false,'Расчётный курс прототипа')+
+   row('Комиссия',money(q.fee,S.sourceCurrency))+
+   row('Получит',money(q.receive,S.outCurrency),true);
+}
+function validConfig(){const q=quote();return q.valid&&q.amt>q.fee&&q.amt+q.fee<=4812.60}
 function checkConfig(){if(!validConfig()){notify('Укажите сумму больше комиссии');return}go('out-recipient')}
 function checkRecipient(){const required=['firstName','lastName',S.outRail==='SEPA'?'iban':'account'];if(S.outRail==='SWIFT')required.push('bic','bank');if(S.purpose==='other')required.push('purposeOther');const missing=required.find(k=>!String(S[k]||'').trim());if(missing){notify('Заполните обязательные поля');const f=$('f-'+missing);f?.scrollIntoView({block:'center',behavior:'smooth'});f?.focus();return}go('out-review')}
 function fillDemo(){Object.assign(S,{firstName:'Иван',lastName:'Иванов',iban:'DE00 0000 0000 0000 0000 00',account:'000000000000',bic:'DEMOXXXX',bank:'Банк-партнёр',routing:'',bankAddress:'',recipientAddress:'',intermediary:'',purpose:'personal',purposeOther:'',note:''});render();notify('Заполнены вымышленные тестовые данные')}
@@ -688,8 +695,8 @@ case'out-config':p=`
 <div class="tf-label">Валюта получения</div>${segment(CURRENCY.map(v=>({v})),S.outCurrency,'setOutCurrency')}
 <div class="fld w tf-field"><div class="fi">${fieldIcon}</div><label class="fl"><i>Страна получателя</i><select class="tf-select" aria-label="Страна получателя" onchange="setOutCountry(this.value)">${Object.entries(COUNTRY).map(([c,name])=>`<option value="${c}" ${S.country===c?'selected':''}>${esc(name)}</option>`).join('')}</select></label></div>
 <div class="tf-label">Способ перевода</div>${segment([{v:'SEPA',disabled:!isSepa()},{v:'SWIFT'}],S.outRail,'setOutRail')}
-<div class="fld w tf-field tf-amount"><div class="fi">${fieldIcon}</div><label class="fl"><i>Сумма перевода</i><input type="number" min="0" step="0.01" inputmode="decimal" aria-label="Сумма перевода" value="${esc(S.amount)}" oninput="store('amount',this.value);renderQuote()"/></label><div class="addon"><span class="cur">${esc(S.sourceCurrency)}</span></div></div>
-<div class="tbl tf-quote" id="quoteBlock">${qSummary()}</div>`;
+${uxAmountField()}
+<div class="box tf-quote" id="quoteBlock">${qSummary()}</div>`;
 f=primary('Продолжить','checkConfig()');break;
 case'out-recipient':p=`${field('Имя','firstName','Имя')}${field('Фамилия','lastName','Фамилия')}
 ${S.outRail==='SEPA'?field('IBAN получателя','iban','DE00 0000 0000 0000 0000 00'):
@@ -706,7 +713,7 @@ ${tfBankReviewRow('ФИО',[S.firstName,S.lastName].filter(Boolean).join(' '))}
 ${tfBankReviewRow('Страна',COUNTRY[S.country])}
 ${tfBankReviewRow('Счёт',S.outRail==='SEPA'?S.iban:S.account)}
 ${tfBankReviewRow('Назначение',purposeName())}
-</div><div class="gt">Расчёт</div><div class="tbl tf-quote">${qSummary()}</div>`;
+</div><div class="gt">Расчёт</div><div class="box tf-quote">${qSummary()}</div>`;
 f=primary('Подтвердить перевод','checkReview()');break;
 case'out-progress':p=`<div class="tf-hero">${tfStatusMark('pending')}${title('Перевод обрабатывается')}<p>Ожидаем подтверждение платёжного провайдера</p></div>${timeline('out')}<div class="tbl">${keyrow('Сумма',money(q.amt,S.sourceCurrency))}${keyrow('Получит',money(q.receive,S.outCurrency))}${keyrow('Метод',S.outRail)}</div>`;f='';break;
 case'out-success':p=`<div class="hero tf-hero">${tfStatusMark('success')}${title('Перевод завершён')}</div><div class="tbl">${keyrow('Получатель',`${S.firstName} ${S.lastName}`)}${keyrow('Получит',money(q.receive,S.outCurrency))}${keyrow('Метод',S.outRail)}</div>`;f=primary('Новый перевод',"go('out-config')");break;
@@ -718,6 +725,17 @@ return {p,f,head};}
 function purposeName(){return {personal:'Перевод собственных средств',family:'Перевод родственникам',education:'Обучение',other:S.purposeOther||'Другое'}[S.purpose]}
 function timeline(flow){const items=flow==='in'?[['done','Отправлено внешним банком','Ожидаем подтверждение'],['current','Проверка поступления','Сопоставление платежа'],['','Зачислено','После проверок']]:[['done','Перевод создан','initiated'],['current','Обрабатывается','fund_processing'],['','Доставлен','fund_settled']];return `<div class="timeline">${items.map(([s,a,b],i)=>`<div class="track ${s}"><div><div class="dot">${s==='done'?'✓':i+1}</div>${i<2?'<div class="line"></div>':''}</div><div><b>${a}</b><small>${b}</small></div></div>`).join('')}</div>`}
 function renderQuote(){const t=$('quoteBlock');if(t)t.innerHTML=qSummary()}
+function uxSetAmount(value){S.amount=String(value).replace(/[^0-9.,]/g,'').replace(',','.');renderQuote()}
+function uxMaxAmount(){
+ const q=quote(),max=Math.max(0,Math.floor((4812.60-q.fee)*100)/100);
+ S.amount=max.toFixed(2);const input=$('tf-out-amount');if(input)input.value=S.amount;
+ renderQuote();
+}
+function uxAmountField(){
+ return '<div class="fld w tf-field tf-amount"><div class="fi">'+tfIconFor('amount')+
+ '</div><label class="fl" for="tf-out-amount"><i>Сумма перевода</i><b><input id="tf-out-amount" type="text" inputmode="decimal" autocomplete="off" placeholder="0.00" aria-label="Сумма перевода" value="'+esc(S.amount)+'" oninput="uxSetAmount(this.value)"></b></label>'+
+ '<div class="addon"><span class="cur">$</span><button type="button" class="mx tf-max" onclick="uxMaxAmount()">MAX</button></div></div>';
+}
 function render(){const steps=SCREENS[S.flow];document.querySelectorAll('[data-flow]').forEach(e=>e.classList.toggle('active',e.dataset.flow===S.flow));$('flow-in').classList.toggle('active',S.flow==='in');$('flow-out').classList.toggle('active',S.flow==='out');$('stepList').innerHTML=steps.map(([k,n],i)=>`<button class="stepBtn ${S.screen===k?'active':''}" onclick="go('${k}')"><span class="num">${i+1}</span>${esc(n)}</button>`).join('');$('stageLabel').textContent=S.flow==='in'?'Пополнение · Международный перевод':'Вывод · Международный перевод';$('stageIndex').textContent=(steps.findIndex(([k])=>k===S.screen)+1)+' / '+steps.length;$('recipientTools').hidden=S.screen!=='out-recipient';const d=renderScreen();$('phoneTitle').textContent=d.head;$('content').innerHTML=d.p;$('footer').innerHTML=d.f;const m=META[S.screen];$('metaTitle').textContent=m.title;$('metaDescription').textContent=m.desc;$('metaApi').innerHTML=m.apis.map(x=>`<div class="apiChip">${esc(x)}</div>`).join('');$('metaRules').innerHTML=m.rules.map(x=>`<li>${esc(x)}</li>`).join('');const sims=S.flow==='in'?[['Реквизиты', 'in-details'],['Ожидание поступления','in-pending'],['Зачислено','in-success'],['На проверке','in-held']]:[['Параметры','out-config'],['Реквизиты','out-recipient'],['Подтверждение','out-review'],['Обрабатывается','out-progress'],['Успех','out-success'],['Ошибка','out-failed'],['На проверке','out-held'],['Недоступно','out-unavailable']];$('simList').innerHTML=sims.map(([n,k])=>`<button onclick="go('${k}')">${esc(n)}</button>`).join('');$('content').scrollTop=0}
 // Genuine alt.vu component snippets, from build/snippets.json (safe, fictional data).
 const uxIssuedCard="<div class=\"card tf-auth-card tf-visa-card\" aria-label=\"Баланс карты Visa Platinum\">\n  <div class=\"tf-card-tools\">\n    <button type=\"button\" class=\"tf-card-plus\" aria-label=\"Добавить карту\" onclick=\"uxOtherMethod('Добавить карту')\"><svg width=\"25\" height=\"25\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.25\" stroke-linecap=\"round\" aria-hidden=\"true\"><path d=\"M12 4v16M4 12h16\"/></svg></button>\n    <button type=\"button\" class=\"tf-card-gear\" aria-label=\"Настройки карты\" onclick=\"uxGo('wallet-card')\"><svg viewBox=\"0 0 24 24\" width=\"28\" height=\"28\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M21.37 10.44v3.12l-2.63.87-.87 2.09 1.88 1.87-2.23 2.23-1.87-1.88-2.09.87-.87 2.63H9.56l-.87-2.63-2.09-.87-1.87 1.88-2.23-2.23 1.88-1.87-.87-2.09-2.63-.87v-3.12l2.63-.87.87-2.09L2.5 5.61l2.23-2.23L6.6 5.26l2.09-.87.87-2.63h3.12l.87 2.63 2.09.87 1.87-1.88 2.23 2.23-1.88 1.87.87 2.09z\"/><circle cx=\"11.12\" cy=\"12\" r=\"3\"/></svg></button>\n  </div>\n  <div class=\"cblock\">\n    <div class=\"ccap\">Баланс</div>\n    <div class=\"cbal\">4 812<span class=\"cnt\">.60 $</span></div>\n  </div>\n  <div class=\"tf-visa-brand\" aria-label=\"Visa Platinum\"><strong>VISA</strong><small>Platinum</small></div>\n</div>";
@@ -926,8 +944,8 @@ function uxRenderScreen(){
       p:`<div class="fld g tf-field tf-source"><div class="fi"><div class="cn" style="width:40px;height:40px"><img width="24" height="24" src="../assets/img-27f3d8cf.png" alt="" style="display:block;border-radius:50%"></div></div><div class="fl"><i>Со счёта alt.vu</i><b>Доступно 4 812.60 $</b></div><div class="addon"><span class="cur">USD</span></div></div>
       ${S.outRail==='SEPA'?uxFixedCurrencyField('Валюта получения','EUR'):uxPickerField('Валюта получения','outCurrency','currency')}
       ${uxPickerField('Страна получателя','country','country')}
-      <div class="fld w tf-field tf-amount"><div class="fi">${tfIconFor('amount')}</div><label class="fl"><i>Сумма перевода</i><input type="number" min="0" step="0.01" inputmode="decimal" aria-label="Сумма перевода" value="${esc(S.amount)}" oninput="store('amount',this.value);renderQuote()"/></label><div class="addon"><span class="cur">USD</span></div></div>
-      <div class="tbl tf-quote" id="quoteBlock">${qSummary()}</div>`,
+      ${uxAmountField()}
+      <div class="box tf-quote" id="quoteBlock">${qSummary()}</div>`,
       f:primary('Продолжить','checkConfig()')
     };
   }
@@ -1008,6 +1026,14 @@ function uxPickerOptions(key){
   ];
   return [];
 }
+function uxFlag(country){
+ const c=String(country||'').toUpperCase();
+ if(!/^[A-Z]{2}$/.test(c))return '';
+ return String.fromCodePoint(...[...c].map(ch=>127397+ch.charCodeAt(0)));
+}
+function uxFlagPlate(country){
+ return '<span class="tf-flag-circle" aria-hidden="true"><span class="tf-flag-emoji">'+uxFlag(country)+'</span></span>';
+}
 function uxPickerTitle(key){
   return {inCurrency:'Валюта пополнения',outCurrency:'Валюта получения',country:'Страна получателя',purpose:'Назначение перевода'}[key]||'Выберите значение';
 }
@@ -1019,7 +1045,7 @@ function uxPickerField(label,key,icon){
   const selected=uxPickerOptions(key).find(option=>option.value===S[key]);
   return '<button type="button" class="fld w tf-field tf-picker-trigger" data-picker="'+esc(key)+
     '" aria-haspopup="dialog" aria-label="'+esc(label)+': '+esc(selected?selected.label:'Не выбрано')+
-    '"><span class="fi">'+tfIconFor(icon||key)+'</span><span class="fl"><i>'+esc(label)+
+    '"><span class="fi">'+(key==='country'?uxFlagPlate(S.country):tfIconFor(icon||key))+'</span><span class="fl"><i>'+esc(label)+
     '</i><b>'+esc(selected?selected.label:'Выбрать')+'</b></span>'+
     '<span class="tf-picker-chevron" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 5 7 7-7 7"/></svg></span></button>';
 }
@@ -1058,7 +1084,7 @@ function uxRenderPicker(){
   const rows=choices.map(option=>{
     const checked=S[key]===option.value;
     return '<button type="button" class="row tf-picker-row" data-picker-value="'+esc(option.value)+
-      '" role="option" aria-selected="'+checked+'"><span class="ri">'+tfIconFor(key==='country'?'country':key==='purpose'?'note':'currency')+
+      '" role="option" aria-selected="'+checked+'"><span class="ri">'+(key==='country'?uxFlagPlate(option.value):tfIconFor(key==='purpose'?'note':'currency'))+
       '</span><span class="rt">'+esc(option.label)+'</span><span class="rd'+(checked?' on':'')+
       '" aria-hidden="true">'+(checked?'✓':'')+'</span></button>';
   }).join('');
