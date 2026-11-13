@@ -131,6 +131,9 @@ async def test_bank_lifecycle(browser, origin):
     page.on("pageerror",lambda err:errors.append(str(err)))
     await page.goto(origin+"/transfi-remittance/?qa=1")
     await expect(page.locator("#v-home.on")).to_be_visible()
+    # QA controls are deliberately external to the phone; keep them hidden
+    # while performing the actual navigation and form interactions.
+    await page.locator("#pv-qa").evaluate("(el) => el.style.display='none'")
     await page.locator(".bnv [data-mb='withdraw']").click()
     await page.locator("#v-withdraw [data-tf-bank='SWIFT']").click()
     child=page.frame_locator("#tf-bank-overlay iframe")
@@ -138,7 +141,6 @@ async def test_bank_lifecycle(browser, origin):
     await expect(child.locator(".tf-quote.tbl .rl")).to_have_count(5)
     assert await child.locator(".wd-amt").count()==1
     assert await child.locator('[data-picker="country"] .tf-flag-circle').count()==1
-    await page.locator("#pv-qa").evaluate("(el) => el.style.display='none'")
     await child.locator("#tf-out-amount").fill("100")
     await child.locator(".tf-foot .btn").click()
     await expect(child.locator("#f-firstName")).to_be_visible()
