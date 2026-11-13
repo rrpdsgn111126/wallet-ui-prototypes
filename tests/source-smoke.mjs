@@ -36,6 +36,31 @@ for(const viewport of [{width:390,height:844},{width:430,height:932},{width:1440
    if(state.bankRows!==4)throw new Error('Missing SEPA/SWIFT rows');
    if(!state.homeActive&&!label.includes('method')&&!label.includes('bank'))throw new Error('Home not active');
  };
+
+ // All four-digit PINs are valid in the offline preview, without a second entry.
+ for(const scenario of [
+   {screen:'pin',code:'0000'},
+   {screen:'pin2',code:'9876'},
+   {screen:'lock',code:'1234'}
+ ]){
+   await page.evaluate(screen=>{
+     pin='';pin1='';pinNew=false;
+     if(screen==='lock') lockOn=true;
+     else lockOn=false;
+     show(screen,false);
+   },scenario.screen);
+   if(!await page.locator('#v-'+scenario.screen).isVisible())
+     throw new Error('PIN screen not visible: '+scenario.screen);
+   for(const digit of scenario.code){
+     await page.locator('#v-'+scenario.screen+' .key[data-k="'+digit+'"]').click();
+   }
+   await page.waitForFunction(()=>view==='home',{timeout:5000});
+   if(!await page.locator('#v-home').isVisible())
+     throw new Error('Demo PIN should return to home: '+scenario.screen);
+   if(await page.locator('#v-pin2').isVisible())
+     throw new Error('Preview should skip PIN confirmation');
+   console.log('PIN_PREVIEW_OK',viewport.width,scenario.screen,scenario.code);
+ }
  await check('home');
  await page.screenshot({path:path.join(out,'original-home-'+viewport.width+'.png'),animations:'disabled'});
  await page.locator('.bnv [data-mb="topup"]').click();

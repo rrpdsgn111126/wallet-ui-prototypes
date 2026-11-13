@@ -7094,6 +7094,19 @@ async function digit(d){
   if(pin.length>=4)return;
   pin+=d; drawPins(view);
   if(pin.length<4)return;
+  // This *offline prototype only*: accept any four digits and continue.
+  // The real application's /auth/pin validation remains unchanged.
+  // No PIN is stored or sent anywhere.
+  if(altPreview && window.PV && tok === 'preview'){
+    const from=view;
+    pin=''; pin1=''; pinOld=null; pinNew=false; pinThen=null;
+    msg(from,'');
+    unlockOpen();
+    stack.length=0;
+    await loadHome();
+    show('home',false);
+    return;
+  }
   if(view==='pin'){pin1=pin;msg('pin','');setTimeout(()=>show('pin2',false),120);return;}
   if(view==='pin2'){
     if(pin!==pin1){pin='';drawPins('pin2');msg('pin2','Коды не совпали');
