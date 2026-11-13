@@ -1,0 +1,32 @@
+name: Prototype Playwright Regression
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'transfi-remittance/**'
+      - 'css/transfi-bank-altvu.css'
+      - 'ui-kit/index.html'
+      - 'tests/bank-qa/**'
+      - '.github/workflows/prototype-playwright.yml'
+  workflow_dispatch:
+
+jobs:
+  ui-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout canonical prototype
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install Playwright Chromium
+        run: |
+          python -m pip install playwright
+          python -m playwright install --with-deps chromium
+      - name: SEPA/SWIFT regression
+        run: python tests/bank-qa/smoke.py
+      - name: Original wallet end-to-end simulation
+        run: python tests/bank-qa/source-flows.py
