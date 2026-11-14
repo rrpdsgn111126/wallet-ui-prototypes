@@ -1026,13 +1026,32 @@ function uxPickerOptions(key){
   ];
   return [];
 }
+// Self-contained SVG flags: emoji flags render as two-letter country codes
+// on some Linux/Windows browser font stacks. Flags must always be graphical.
 function uxFlag(country){
  const c=String(country||'').toUpperCase();
- if(!/^[A-Z]{2}$/.test(c))return '';
- return String.fromCodePoint(...[...c].map(ch=>127397+ch.charCodeAt(0)));
+ const stripe=(color,x,y,w,h)=>'<rect x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" fill="'+color+'"/>';
+ const patterns={
+  DE:stripe('#161616',0,0,24,8)+stripe('#DD0000',0,8,24,8)+stripe('#FFCE00',0,16,24,8),
+  FR:stripe('#0055A4',0,0,8,24)+stripe('#FFFFFF',8,0,8,24)+stripe('#EF4135',16,0,8,24),
+  NL:stripe('#AE1C28',0,0,24,8)+stripe('#FFFFFF',0,8,24,8)+stripe('#21468B',0,16,24,8),
+  ES:stripe('#AA151B',0,0,24,6)+stripe('#F1BF00',0,6,24,12)+stripe('#AA151B',0,18,24,6)+
+    '<rect x="7" y="10" width="2.7" height="5" rx=".5" fill="#C62828"/><rect x="7.5" y="10.2" width="1.7" height="1.2" fill="#FFFFFF"/>',
+  GB:stripe('#012169',0,0,24,24)+
+    '<path d="M-2 -1 26 25M26 -1 -2 25" stroke="#FFFFFF" stroke-width="6"/>'+
+    '<path d="M-2 -1 26 25M26 -1 -2 25" stroke="#C8102E" stroke-width="2.6"/>'+
+    '<path d="M12 0V24M0 12H24" stroke="#FFFFFF" stroke-width="8"/>'+
+    '<path d="M12 0V24M0 12H24" stroke="#C8102E" stroke-width="4"/>',
+  US:stripe('#FFFFFF',0,0,24,24)+
+    Array.from({length:7},(_,i)=>stripe('#B22234',0,(i*48/13).toFixed(3),24,(24/13).toFixed(3))).join('')+
+    stripe('#3C3B6E',0,0,10.7,12.9)+
+    Array.from({length:12},(_,i)=>'<circle cx="'+(1.7+(i%3)*3.4)+'" cy="'+(1.5+Math.floor(i/3)*3.2)+'" r=".7" fill="#FFFFFF"/>').join('')
+ };
+ return '<svg class="tf-country-flag" width="24" height="24" viewBox="0 0 24 24" focusable="false" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">'+
+   (patterns[c]||stripe('#E9ECF0',0,0,24,24))+'</svg>';
 }
 function uxFlagPlate(country){
- return '<span class="tf-flag-circle" aria-hidden="true"><span class="tf-flag-emoji">'+uxFlag(country)+'</span></span>';
+ return '<span class="tf-flag-circle" aria-hidden="true">'+uxFlag(country)+'</span>';
 }
 function uxPickerTitle(key){
   return {inCurrency:'Валюта пополнения',outCurrency:'Валюта получения',country:'Страна получателя',purpose:'Назначение перевода'}[key]||'Выберите значение';
@@ -1053,7 +1072,7 @@ function uxOpenPicker(key){
   if(!uxPickerOptions(key).length||S.modal)return;
   S.picker=key;
   uxRenderPicker();
-  const first=$('pickerLayer').querySelector('.tf-picker-row[aria-selected="true"]') ||
+  const first=$('pickerLayer').querySelector('.tf-picker-row[aria-checked="true"]') ||
     $('pickerLayer').querySelector('.tf-picker-row');
   if(first)first.focus();
 }
@@ -1076,22 +1095,27 @@ function uxChoosePicker(value){
   const trigger=document.querySelector('.phone.tf-phone [data-picker="'+key+'"]');
   if(trigger)trigger.focus();
 }
+// Exact native network picker structure: .dim + .sheet + .grab + .sh2
+// + ONE .box containing .row / .ri / .rt / .rd, not separate cards.
 function uxRenderPicker(){
-  const layer=$('pickerLayer');
-  if(!layer)return;
-  if(!S.picker){layer.hidden=true;layer.innerHTML='';return;}
-  const key=S.picker,choices=uxPickerOptions(key),heading=uxPickerTitle(key);
-  const rows=choices.map(option=>{
-    const checked=S[key]===option.value;
-    return '<button type="button" class="row tf-picker-row" data-picker-value="'+esc(option.value)+
-      '" role="option" aria-selected="'+checked+'"><span class="ri">'+(key==='country'?uxFlagPlate(option.value):tfIconFor(key==='purpose'?'note':'currency'))+
-      '</span><span class="rt">'+esc(option.label)+'</span><span class="rd'+(checked?' on':'')+
-      '" aria-hidden="true">'+(checked?'✓':'')+'</span></button>';
-  }).join('');
-  layer.innerHTML='<button type="button" class="dim tf-picker-dim" data-picker-dismiss aria-label="Закрыть список"></button>'+
-    '<section class="sheet tf-picker-sheet" role="dialog" aria-modal="true" aria-label="'+esc(heading)+'">'+
-    '<div class="grab"></div><h2 class="sh2">'+esc(heading)+'</h2><div class="box tf-picker-box" role="listbox" aria-label="'+esc(heading)+'">'+rows+'</div></section>';
-  layer.hidden=false;
+ const layer=$('pickerLayer');
+ if(!layer)return;
+ if(!S.picker){layer.hidden=true;layer.innerHTML='';return;}
+ const key=S.picker,choices=uxPickerOptions(key),heading=uxPickerTitle(key);
+ const rows=choices.map(option=>{
+   const checked=S[key]===option.value;
+   const icon=key==='country'?uxFlagPlate(option.value):tfIconFor(key==='purpose'?'note':'currency');
+   return '<button type="button" class="row tf-picker-row" data-picker-value="'+esc(option.value)+
+     '" role="radio" aria-checked="'+checked+'"><span class="ri">'+icon+
+     '</span><span class="rt">'+esc(option.label)+'</span>'+
+     '<span class="rd'+(checked?' on':'')+'" aria-hidden="true"></span></button>';
+ }).join('');
+ layer.innerHTML='<div class="dim tf-picker-dim" data-picker-dismiss aria-hidden="true"></div>'+
+   '<section class="sheet tf-picker-sheet" role="dialog" aria-modal="true" aria-label="'+esc(heading)+'">'+
+   '<div class="grab"></div><h2 class="sh2">'+esc(heading)+'</h2>'+
+   '<div class="box tf-picker-box" role="radiogroup" aria-label="'+esc(heading)+'">'+rows+'</div>'+
+   '</section>';
+ layer.hidden=false;
 }
 
 const methodLayer=document.createElement('div');
@@ -1101,9 +1125,18 @@ methodLayer.hidden=true;
 document.querySelector('.phone.tf-phone').appendChild(methodLayer);
 const pickerLayer=document.createElement('div');
 pickerLayer.id='pickerLayer';
-pickerLayer.className='tf-picker-layer';
+pickerLayer.className='view ovl on tf-picker-layer';
 pickerLayer.hidden=true;
 document.querySelector('.phone.tf-phone').appendChild(pickerLayer);
+document.querySelector('.phone.tf-phone').addEventListener('keydown',function(e){
+ if(!S.picker||!['ArrowUp','ArrowDown','Home','End'].includes(e.key))return;
+ const rows=[...$('pickerLayer').querySelectorAll('.tf-picker-row')];
+ const current=rows.indexOf(document.activeElement);
+ if(current<0||!rows.length)return;
+ const next=e.key==='Home'?0:e.key==='End'?rows.length-1:
+   (current+(e.key==='ArrowDown'?1:-1)+rows.length)%rows.length;
+ e.preventDefault();rows[next].focus();
+});
 document.querySelector('.phone.tf-phone').addEventListener('click',function(e){
   const trigger=e.target.closest('[data-picker]');
   if(trigger){uxOpenPicker(trigger.dataset.picker);return;}
