@@ -343,7 +343,9 @@
         "fontReady": true,
         "screenTitle": "Вывод SEPA"
       },
-      "problems": []
+      "problems": [
+        "native alt.vu amount reference unavailable"
+      ]
     },
     {
       "label": "out-swift-390",
@@ -398,7 +400,9 @@
         "fontReady": true,
         "screenTitle": "Вывод SWIFT"
       },
-      "problems": []
+      "problems": [
+        "native alt.vu amount reference unavailable"
+      ]
     },
     {
       "label": "out-recipient-sepa-390",
@@ -1111,7 +1115,9 @@
         "fontReady": true,
         "screenTitle": "Вывод SEPA"
       },
-      "problems": []
+      "problems": [
+        "native alt.vu amount reference unavailable"
+      ]
     },
     {
       "label": "out-swift-430",
@@ -1166,7 +1172,9 @@
         "fontReady": true,
         "screenTitle": "Вывод SWIFT"
       },
-      "problems": []
+      "problems": [
+        "native alt.vu amount reference unavailable"
+      ]
     },
     {
       "label": "out-recipient-sepa-430",
@@ -1587,11 +1595,37 @@
       "problems": []
     }
   ],
-  "issues": [],
+  "issues": [
+    {
+      "label": "out-sepa-390",
+      "problems": [
+        "native alt.vu amount reference unavailable"
+      ]
+    },
+    {
+      "label": "out-swift-390",
+      "problems": [
+        "native alt.vu amount reference unavailable"
+      ]
+    },
+    {
+      "label": "out-sepa-430",
+      "problems": [
+        "native alt.vu amount reference unavailable"
+      ]
+    },
+    {
+      "label": "out-swift-430",
+      "problems": [
+        "native alt.vu amount reference unavailable"
+      ]
+    }
+  ],
   "functional": {
     "recipient": true,
     "recipientScreen": "out-recipient",
     "reviewScreen": "out-review",
     "progressScreen": "out-progress"
-  }
+  },
+  "sourceAmount": null
 }
