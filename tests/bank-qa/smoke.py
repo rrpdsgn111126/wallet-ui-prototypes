@@ -121,7 +121,7 @@ async def smoke(browser, origin):
         else:
             await page.locator('[data-picker="outCurrency"]').click()
             await expect(page.locator(".tf-picker-sheet")).to_be_visible()
-        await assert_native_picker(page)
+            await assert_native_picker(page)
             await page.locator('[data-picker-value="GBP"]').click()
             assert "GBP" in await page.locator('[data-picker="outCurrency"]').inner_text()
         await page.locator('[data-picker="country"]').click()
