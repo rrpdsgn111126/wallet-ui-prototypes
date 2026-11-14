@@ -28,7 +28,7 @@ class QuietHandler(SimpleHTTPRequestHandler):
 
 
 async def bank_page(browser, origin, flow, rail, screen):
-    page = await browser.new_page(viewport={"width": 430, "height": 932}, device_scale_factor=1)
+    page = await browser.new_page(viewport={"width": 430, "height": 932}, device_scale_factor=1, reduced_motion="reduce")
     query = urlencode({"capture": "1", "embedded": "1", "flow": flow,
                        "screen": screen, "rail": rail})
     await page.goto(origin + "/transfi-remittance/legacy.html?" + query)
@@ -38,6 +38,61 @@ async def bank_page(browser, origin, flow, rail, screen):
     assert await page.locator(".phone.tf-phone .tf-head-action").count() == 2, "Missing right header icons"
     assert await page.locator(".tf-scroll select:visible").count() == 0, "Native select leaked into bank UI"
     return page
+
+
+async def assert_native_picker(page, country=False):
+    """Verify the bank sheet matches the native USDT network picker markup/stack."""
+    sheet=page.locator(".tf-picker-sheet")
+    await expect(sheet).to_be_visible()
+    geometry=await page.evaluate("""() => {
+      const root=document.querySelector('#pickerLayer');
+      const dim=root.querySelector('.tf-picker-dim');
+      const sheet=root.querySelector('.tf-picker-sheet');
+      const box=sheet.querySelector('.tf-picker-box');
+      const row=box.querySelector('.tf-picker-row');
+      const radio=row.querySelector('.rd');
+      const sr=sheet.getBoundingClientRect(), br=box.getBoundingClientRect();
+      const hit=document.elementFromPoint(sr.left+sr.width/2,sr.top+Math.min(64,sr.height/2));
+      return {
+        overlay:root.classList.contains('view')&&root.classList.contains('ovl'),
+        dimZ:Number(getComputedStyle(dim).zIndex),
+        sheetZ:Number(getComputedStyle(sheet).zIndex),
+        dimOpacity:parseFloat(getComputedStyle(dim).opacity),
+        sheetOnTop:sheet===hit||sheet.contains(hit),
+        boxCount:sheet.querySelectorAll('.box').length,
+        rowCount:box.querySelectorAll('.row').length,
+        boxBackground:getComputedStyle(box).backgroundColor,
+        rowBackground:getComputedStyle(row).backgroundColor,
+        radioWidth:parseFloat(getComputedStyle(radio).width),
+        radioHeight:parseFloat(getComputedStyle(radio).height),
+        selected:box.querySelectorAll('.rd.on').length,
+        oldCards:box.querySelectorAll('.tf-picker-row[style*="border-radius"]').length,
+        flags:box.querySelectorAll('.tf-country-flag').length,
+        matchingFlags:box.querySelectorAll('.tf-picker-row .ri .tf-country-flag').length,
+        textFlags:box.querySelectorAll('.tf-flag-emoji').length,
+        rowWidth:row.getBoundingClientRect().width,
+        boxWidth:br.width,
+        sheetWidth:sr.width,
+        checked:box.querySelectorAll('[aria-checked="true"]').length,
+        checkGlyphs:[...box.querySelectorAll('.rd')].some(el=>el.textContent.trim().length>0)
+      };
+    }""")
+    assert geometry["overlay"], geometry
+    assert geometry["dimZ"] == 4 and geometry["sheetZ"] == 5, geometry
+    assert 0.38 <= geometry["dimOpacity"] <= 0.42 and geometry["sheetOnTop"], geometry
+    assert geometry["boxCount"] == 1 and geometry["rowCount"] >= 3, geometry
+    assert geometry["boxBackground"] != geometry["rowBackground"], geometry
+    assert geometry["radioWidth"] == 24 and geometry["radioHeight"] == 24, geometry
+    assert geometry["selected"] == 1 and geometry["checked"] == 1, geometry
+    assert geometry["oldCards"] == 0 and not geometry["checkGlyphs"], geometry
+    assert abs(geometry["rowWidth"] - geometry["boxWidth"]) < 1, geometry
+    assert not geometry["textFlags"], geometry
+    if country:
+        assert geometry["flags"] == geometry["rowCount"], geometry
+        assert geometry["matchingFlags"] == geometry["rowCount"], geometry
+        assert await page.locator('[data-picker="country"] .tf-country-flag').count() == 1
+    else:
+        assert geometry["flags"] == 0, geometry
 
 
 async def smoke(browser, origin):
@@ -50,6 +105,7 @@ async def smoke(browser, origin):
             await page.locator('[data-picker="inCurrency"]').click()
             sheet = page.locator(".tf-picker-sheet")
             await expect(sheet).to_be_visible()
+            await assert_native_picker(page)
             await page.locator('[data-picker-value="USD"]').click()
             await expect(sheet).to_have_count(0)
             assert "USD" in await page.locator('[data-picker="inCurrency"]').inner_text()
@@ -65,10 +121,16 @@ async def smoke(browser, origin):
         else:
             await page.locator('[data-picker="outCurrency"]').click()
             await expect(page.locator(".tf-picker-sheet")).to_be_visible()
+        await assert_native_picker(page)
             await page.locator('[data-picker-value="GBP"]').click()
             assert "GBP" in await page.locator('[data-picker="outCurrency"]').inner_text()
         await page.locator('[data-picker="country"]').click()
-        await expect(page.locator(".tf-picker-sheet")).to_be_visible()
+        await assert_native_picker(page, country=True)
+        # Row must be clickable without force, with the dim BEHIND the sheet.
+        await page.locator('[data-picker-value="FR"]').click()
+        assert "Франция" in await page.locator('[data-picker="country"]').inner_text()
+        await page.locator('[data-picker="country"]').click()
+        await assert_native_picker(page, country=True)
         await page.locator('[data-picker-value="DE"]').click()
         assert "Германия" in await page.locator('[data-picker="country"]').inner_text()
         await page.close()
@@ -76,6 +138,7 @@ async def smoke(browser, origin):
         page = await bank_page(browser, origin, "out", rail, "out-recipient")
         await page.locator('[data-picker="purpose"]').click()
         await expect(page.locator(".tf-picker-sheet")).to_be_visible()
+        await assert_native_picker(page)
         await page.locator('[data-picker-value="other"]').click()
         await expect(page.locator("#wrap-purposeOther")).to_be_visible()
         await page.close()
