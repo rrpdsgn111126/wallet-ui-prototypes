@@ -89,7 +89,7 @@
           "paddingLeft": "0px"
         },
         "box": {
-          "height": "366px",
+          "height": "360px",
           "borderRadius": "20px",
           "fontSize": "16px",
           "fontWeight": "400",
@@ -144,7 +144,7 @@
           "paddingLeft": "0px"
         },
         "box": {
-          "height": "366px",
+          "height": "360px",
           "borderRadius": "20px",
           "fontSize": "16px",
           "fontWeight": "400",
