@@ -184,7 +184,7 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid 
 .tf-field{width:100%;margin:0 0 12px}.tf-field .fi{color:var(--n850,#211e1d)}.tf-field .fl{min-width:0}
 .tf-field .fl select{width:100%;max-width:100%;border:0;outline:0;background:transparent;color:var(--n900,#161514);font-size:16px;font-weight:500;height:26px;cursor:pointer}
 .tf-field .fl input{min-width:0;max-width:100%;width:100%}.tf-field .fl i{margin-bottom:2px}
-.tf-amount{margin:16px 0 12px}.tf-amount .cur{font-size:14px}
+.tf-amount{margin:16px 0 12px}
 .tf-requisites{margin:16px 0 0}.tf-copyrow{min-height:63px;gap:6px}
 .tf-copyrow .rt{font-size:15px;line-height:20px;overflow-wrap:anywhere}.tf-copyrow .rt i{font-size:12px;margin-bottom:3px}
 .tf-copy-value{font-size:15px;font-weight:500}.tf-copy{flex:0 0 34px;width:34px;height:34px;border:0;background:var(--n50,#f6f7f8);color:var(--n850,#211e1d);border-radius:10px;display:grid;place-items:center}
@@ -577,7 +577,7 @@ html.tf-capture.tf-embedded .phone.tf-phone,html.tf-capture.tf-embedded .phone.t
 .phone.tf-phone .tf-currency-symbol{display:inline-flex;align-items:center;justify-content:center;min-width:22px;font-size:23px;font-weight:600;line-height:1;color:var(--n850,#211e1d)}
 .phone.tf-phone .tf-quote .row{border:0;box-shadow:inset 0 1px 0 var(--n100,#e9ecf0)}
 .phone.tf-phone .tf-quote .row:first-child{box-shadow:none}
-</style><link rel="stylesheet" href="../css/transfi-bank-altvu.css"></head>
+</style><link rel="stylesheet" href="../css/transfi-bank-altvu.css?v=usdt-amount-canonical-20261114"></head>
 <body>
 <header class="top"><div class="brand">alt.vu <span>/ Международные переводы · прототип</span></div><span class="chip">v8 · компоненты приложения</span></header>
 <div class="proto-shell">
@@ -734,10 +734,13 @@ function uxMaxAmount(){
  S.amount=max.toFixed(2);const input=$('tf-out-amount');if(input)input.value=S.amount;
  renderQuote();
 }
+// Original alt.vu USDT amount field: #v-out-usdt-tron .wd-amt, .cur and .mx.wd-max.
+// Preserve the native span (not a styled button) and use the source CSS for MAX.
 function uxAmountField(){
- return '<div class="fld w tf-field tf-amount"><div class="fi">'+tfIconFor('amount')+
- '</div><label class="fl" for="tf-out-amount"><i>Сумма перевода</i><b><input id="tf-out-amount" type="text" inputmode="decimal" autocomplete="off" placeholder="0.00" aria-label="Сумма перевода" value="'+esc(S.amount)+'" oninput="uxSetAmount(this.value)"></b></label>'+
- '<div class="addon"><span class="cur">$</span><button type="button" class="mx tf-max" onclick="uxMaxAmount()">MAX</button></div></div>';
+ return '<div class="fld w tf-field tf-amount"><div class="fi">'+
+ '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--n850)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="6.4" rx="7.4" ry="3.1"></ellipse><path d="M4.6 6.4v5.2c0 1.7 3.3 3.1 7.4 3.1s7.4-1.4 7.4-3.1V6.4"></path><path d="M4.6 11.6v5.2c0 1.7 3.3 3.1 7.4 3.1s7.4-1.4 7.4-3.1v-5.2"></path></svg></div>'+
+ '<div class="fl"><i>Сумма перевода</i><b><input class="wd-amt" id="tf-out-amount" type="text" inputmode="decimal" autocomplete="off" placeholder="0.00" aria-label="Сумма перевода" value="'+esc(S.amount)+'" oninput="uxSetAmount(this.value)"></b></div>'+
+ '<div class="addon"><span class="cur">$</span><span class="mx wd-max" role="button" tabindex="0" aria-label="Максимальная сумма перевода" onclick="uxMaxAmount()">MAX</span></div></div>';
 }
 function render(){const steps=SCREENS[S.flow];document.querySelectorAll('[data-flow]').forEach(e=>e.classList.toggle('active',e.dataset.flow===S.flow));$('flow-in').classList.toggle('active',S.flow==='in');$('flow-out').classList.toggle('active',S.flow==='out');$('stepList').innerHTML=steps.map(([k,n],i)=>`<button class="stepBtn ${S.screen===k?'active':''}" onclick="go('${k}')"><span class="num">${i+1}</span>${esc(n)}</button>`).join('');$('stageLabel').textContent=S.flow==='in'?'Пополнение · Международный перевод':'Вывод · Международный перевод';$('stageIndex').textContent=(steps.findIndex(([k])=>k===S.screen)+1)+' / '+steps.length;$('recipientTools').hidden=S.screen!=='out-recipient';const d=renderScreen();$('phoneTitle').textContent=d.head;$('content').innerHTML=d.p;$('footer').innerHTML=d.f;const m=META[S.screen];$('metaTitle').textContent=m.title;$('metaDescription').textContent=m.desc;$('metaApi').innerHTML=m.apis.map(x=>`<div class="apiChip">${esc(x)}</div>`).join('');$('metaRules').innerHTML=m.rules.map(x=>`<li>${esc(x)}</li>`).join('');const sims=S.flow==='in'?[['Реквизиты', 'in-details'],['Ожидание поступления','in-pending'],['Зачислено','in-success'],['На проверке','in-held']]:[['Параметры','out-config'],['Реквизиты','out-recipient'],['Подтверждение','out-review'],['Обрабатывается','out-progress'],['Успех','out-success'],['Ошибка','out-failed'],['На проверке','out-held'],['Недоступно','out-unavailable']];$('simList').innerHTML=sims.map(([n,k])=>`<button onclick="go('${k}')">${esc(n)}</button>`).join('');$('content').scrollTop=0}
 // Genuine alt.vu component snippets, from build/snippets.json (safe, fictional data).
@@ -1146,6 +1149,12 @@ document.querySelector('.phone.tf-phone').addEventListener('keydown',function(e)
  const next=e.key==='Home'?0:e.key==='End'?rows.length-1:
    (current+(e.key==='ArrowDown'?1:-1)+rows.length)%rows.length;
  e.preventDefault();rows[next].focus();
+});
+document.querySelector('.phone.tf-phone').addEventListener('keydown',function(e){
+ if((e.key==='Enter'||e.key===' ')&&e.target.matches('.tf-amount .wd-max')){
+  e.preventDefault();
+  uxMaxAmount();
+ }
 });
 document.querySelector('.phone.tf-phone').addEventListener('click',function(e){
   const trigger=e.target.closest('[data-picker]');

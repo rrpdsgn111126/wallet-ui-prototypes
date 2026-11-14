@@ -341,25 +341,24 @@ html.tf-embedded .proto-shell,html.tf-embedded .workspace{height:100%;width:100%
 /* Never draw a selected-row outline; the native ring shows selection. */
 .phone.tf-phone .tf-picker-row[aria-checked="true"]{outline-offset:-2px}
 
-/* Amount field parity: original components/amount.html and alt-vu-wallet.css.
-   The 0.00 placeholder is gray; MAX is a neutral filled pill, never green text. */
+/* Canonical USDT withdrawal amount: original .fld.w + .wd-amt + .addon
+   with .cur and .mx.wd-max. Native .mx from alt-vu-wallet.css owns the
+   MAX pill: padding 10px 14px, radius 999px, gray n100, dark n850,
+   13px/600, letter-spacing .3px. Never substitute a custom .tf-max. */
 .phone.tf-phone .fld.tf-amount .fl b{display:block;width:100%;min-width:0}
 .phone.tf-phone .fld.tf-amount .fl b input{
-  box-sizing:border-box;width:100%;min-width:0;max-width:100%;
-  font:600 16px/22px Inter,system-ui,sans-serif;color:var(--n900);
+ box-sizing:border-box;width:100%;min-width:0;max-width:100%;
+ font:600 16px/22px Inter,system-ui,sans-serif;color:var(--n900);
 }
 .phone.tf-phone .fld.tf-amount .fl b input::placeholder{
-  color:var(--n300);font-weight:500;opacity:1;
+ color:var(--n300);font-weight:500;opacity:1;
 }
+/* Override only generic bank field addon gap 8px to the native 12px. */
 .phone.tf-phone .fld.tf-amount .addon{gap:12px}
-.phone.tf-phone .fld.tf-amount .tf-max{
-  appearance:none;-webkit-appearance:none;box-sizing:content-box;
-  border:0;margin:0;padding:10px 14px;border-radius:999px;
-  background:var(--n100);color:var(--n850);
-  font:600 13px/normal Inter,system-ui,sans-serif;letter-spacing:.3px;
-  display:inline-flex;align-items:center;justify-content:center;
-  white-space:nowrap;cursor:pointer;user-select:none;
+.phone.tf-phone .fld.tf-amount .wd-max:focus-visible{
+ outline:2px solid var(--brand-600);outline-offset:2px;
 }
+
 /* Transaction details table: .box > .row > .rt/.rv with .tot for the final row. */
 .phone.tf-phone .box.tf-quote{
   box-sizing:border-box;width:100%;margin:0 0 12px;padding:0;overflow:hidden;

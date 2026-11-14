@@ -9,7 +9,7 @@
 
 В `?qa=1` можно открыть операцию в истории, пройти исходные переводы ALT.VU и вывод USDT/USDC через штатные экраны «Проверьте перевод/вывод» и тестовый ПИН, смоделировать успешный и отклонённый результат, запустить СБП и выбрать результат его callback, имитировать зачисление криптовалюты. Для тестовой сборки ПИН принимается любой четырёхзначный; операции и остаток синтетические. Адреса вида `DEMO_ONLY` и QR-коды не предназначены для платежей.
 
-Эталонные компоненты суммы, FX-таблицы и списка операций описаны в [APP_ARCHITECTURE.md](./docs/APP_ARCHITECTURE.md). Проверки: `python3 tests/bank-qa/smoke.py` и `python3 tests/bank-qa/source-flows.py` (Playwright + Chromium).
+Эталонные компоненты суммы, FX-таблицы и списка операций описаны в [APP_ARCHITECTURE.md](./docs/APP_ARCHITECTURE.md). **Канонический MAX:** исходное поле USDT (`#v-out-usdt-tron .wd-amt`), [точная разметка компонента](./components/amount.html), раздел «Канонический паттерн amount / MAX» в [архитектуре](./docs/APP_ARCHITECTURE.md). Проверки: `python3 tests/bank-qa/smoke.py` и `python3 tests/bank-qa/source-flows.py` (Playwright + Chromium).
 
 ## Единственный рабочий прототип (решение 2026-11-13)
 
