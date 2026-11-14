@@ -140,7 +140,13 @@
   display:block;font:400 12px/16px Inter,system-ui,sans-serif;
   font-style:normal;color:var(--n500);margin:0 0 2px;
 }
-.phone.tf-phone .tf-copyrow .tf-copy-value {font:500 15px/22px Inter,system-ui,sans-serif;overflow-wrap:anywhere}
+/* Read-only requisites use the same typography as an editable .fld.tf-field:
+   label 12/16 regular n500, value 16/22 medium n900, regardless of rail. */
+.phone.tf-phone .tf-copyrow .tf-copy-value {
+  display:block;min-width:0;
+  font:500 16px/22px Inter,system-ui,sans-serif;
+  color:var(--n900);overflow-wrap:anywhere;
+}
 .phone.tf-phone .tf-copyrow .tf-copy{
   flex:0 0 36px;width:36px;height:36px;border:0;border-radius:12px;
   display:grid;place-items:center;background:var(--n50);color:var(--n850);
