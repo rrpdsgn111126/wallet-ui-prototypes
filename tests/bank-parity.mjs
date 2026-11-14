@@ -54,18 +54,33 @@ try{
    }
    return o;
  },selectors);
- // The amount field is generated dynamically in the archived app; use its
- // harvested, exact HTML/CSS specimen rather than querying an inactive view.
+ // The archived wallet contains this exact original USDT field DOM.
+ report.sourceNativeAmount=await reference.evaluate(()=>{
+   const inp=document.querySelector('#v-out-usdt-tron .wd-amt');
+   const fld=inp?.closest('.fld.w'),addon=fld?.querySelector(':scope > .addon');
+   const cur=addon?.querySelector(':scope > .cur'),max=addon?.querySelector(':scope > .mx.wd-max');
+   return {fieldTag:fld?.tagName,hasIcon:!!fld?.querySelector(':scope > .fi svg'),
+    inputTag:inp?.tagName,inputClass:inp?.className,inputMode:inp?.getAttribute('inputmode'),
+    placeholder:inp?.getAttribute('placeholder'),flTag:fld?.querySelector(':scope > .fl')?.tagName,
+    addonTag:addon?.tagName,addonChildren:addon?[...addon.children].map(el=>el.tagName+'.'+el.className):[],
+    curTag:cur?.tagName,curText:cur?.textContent,maxTag:max?.tagName,maxText:max?.textContent};
+ });
  const amountReference=await browser.newPage({viewport:{width:390,height:844}});
  await amountReference.goto(pathToFileURL(path.resolve('components/amount.html')).href,{waitUntil:'domcontentloaded'});
  await amountReference.evaluate(()=>document.fonts.ready);
  report.sourceAmount=await amountReference.evaluate(()=>{
-   const el=document.querySelector('.ds-st .mx');
-   const inp=document.querySelector('.ds-st .wd-amt');
-   if(!el||!inp)return null;
-   const s=getComputedStyle(el),p=getComputedStyle(inp);
-   return {max:Object.fromEntries(['fontSize','fontWeight','backgroundColor','color','borderRadius','paddingTop','paddingRight','letterSpacing'].map(k=>[k,s[k]])),
-     input:{fontSize:p.fontSize,fontWeight:p.fontWeight}};
+   const max=document.querySelector('.ds-st .mx'),inp=document.querySelector('.ds-st .wd-amt');
+   const addon=max?.closest('.addon'),cur=addon?.querySelector('.cur');
+   if(!max||!inp||!cur)return null;
+   const s=getComputedStyle(max),p=getComputedStyle(inp),a=getComputedStyle(addon),c=getComputedStyle(cur);
+   const mr=max.getBoundingClientRect(),cr=cur.getBoundingClientRect();
+   return {
+     max:Object.fromEntries(['fontSize','fontWeight','fontFamily','lineHeight','backgroundColor','color','borderRadius','paddingTop','paddingRight','paddingBottom','paddingLeft','letterSpacing','display'].map(k=>[k,s[k]])),
+     input:{fontSize:p.fontSize,fontWeight:p.fontWeight},
+     currency:Object.fromEntries(['fontSize','fontWeight','color','fontFamily'].map(k=>[k,c[k]])),
+     addon:{gap:a.gap,alignItems:a.alignItems,flexDirection:a.flexDirection},
+     geometry:{maxWidth:mr.width,maxHeight:mr.height,currencyGap:mr.left-cr.right}
+   };
  });
  await amountReference.close();
  await reference.close();
@@ -127,34 +142,72 @@ try{
      problems.push('timeline dot uses incompatible source badge positioning');
    if(screen==='out-config'){
      const amount=await page.evaluate(()=>{
-       const input=document.querySelector('#tf-out-amount');
-       const pill=document.querySelector('.tf-amount .tf-max');
-       const cs=pill&&getComputedStyle(pill), is=input&&getComputedStyle(input);
+       const inp=document.querySelector('#tf-out-amount'),fld=inp?.closest('.fld.w');
+       const addon=fld?.querySelector(':scope > .addon');
+       const max=addon?.querySelector('.mx.wd-max'),cur=addon?.querySelector('.cur');
+       const cs=max&&getComputedStyle(max),is=inp&&getComputedStyle(inp);
+       const c=cur&&getComputedStyle(cur),a=addon&&getComputedStyle(addon);
+       const mr=max?.getBoundingClientRect(),cr=cur?.getBoundingClientRect();
        return {
-         state:S.amount, value:input?.value,placeholder:input?.placeholder,
-         total:quote().amt,source:S.sourceCurrency,
-         symbol:document.querySelector('.tf-amount .cur')?.textContent,
-         inputWeight:is?.fontWeight,
-         max:cs&&Object.fromEntries(['fontSize','fontWeight','backgroundColor','color','borderRadius','paddingTop','paddingRight','letterSpacing'].map(k=>[k,cs[k]]))
+         state:S.amount,value:inp?.value,total:quote().amt,source:S.sourceCurrency,
+         fieldTag:fld?.tagName,hasIcon:!!fld?.querySelector(':scope > .fi svg'),
+         inputTag:inp?.tagName,inputClass:inp?.className,inputMode:inp?.getAttribute('inputmode'),
+         placeholder:inp?.getAttribute('placeholder'),flTag:fld?.querySelector(':scope > .fl')?.tagName,
+         addonTag:addon?.tagName,addonChildren:addon?[...addon.children].map(el=>el.tagName+'.'+el.className):[],
+         curTag:cur?.tagName,curText:cur?.textContent,
+         maxTag:max?.tagName,maxText:max?.textContent,inputWeight:is?.fontWeight,
+         max:cs&&Object.fromEntries(['fontSize','fontWeight','fontFamily','lineHeight','backgroundColor','color','borderRadius','paddingTop','paddingRight','paddingBottom','paddingLeft','letterSpacing','display'].map(k=>[k,cs[k]])),
+         currency:c&&Object.fromEntries(['fontSize','fontWeight','color','fontFamily'].map(k=>[k,c[k]])),
+         addon:a&&{gap:a.gap,alignItems:a.alignItems,flexDirection:a.flexDirection},
+         geometry:mr&&cr&&{maxWidth:mr.width,maxHeight:mr.height,currencyGap:mr.left-cr.right,
+           verticalOffset:(mr.top+mr.height/2)-(cr.top+cr.height/2)}
        };
      });
      if(amount.state!==''||amount.value!==''||amount.placeholder!=='0.00'||amount.total!==0)
-       problems.push('bank amount does not start with native gray 0.00 placeholder');
-     if(amount.source!=='USD'||amount.symbol!=='$')
-       problems.push('bank amount currency differs from USD wallet');
-     if(!report.sourceAmount)
-       problems.push('native alt.vu amount reference unavailable');
+       problems.push('native 0.00 placeholder is not initial bank amount');
+     if(amount.source!=='USD'||amount.curText!=='$')
+       problems.push('USD symbol must be to left of MAX');
+     if(!report.sourceNativeAmount?.maxTag||!report.sourceAmount)
+       problems.push('original USDT field source missing');
      else {
-       for(const [key,value] of Object.entries(report.sourceAmount.max)){
-         if(amount.max?.[key]!==value)problems.push('MAX pill mismatch: '+key);
+       for(const key of ['fieldTag','hasIcon','inputTag','inputClass','inputMode','placeholder','flTag','addonTag','curTag','curText','maxTag','maxText']){
+         if(amount[key]!==report.sourceNativeAmount[key])
+           problems.push('USDT field DOM differs: '+key);
        }
+       if(JSON.stringify(amount.addonChildren)!==JSON.stringify(report.sourceNativeAmount.addonChildren))
+         problems.push('USD and MAX sibling structure differs from native');
+       for(const [key,val] of Object.entries(report.sourceAmount.max)){
+         if(amount.max?.[key]!==val)problems.push('native MAX CSS differs: '+key);
+       }
+       for(const [key,val] of Object.entries(report.sourceAmount.currency)){
+         if(amount.currency?.[key]!==val)problems.push('native currency CSS differs: '+key);
+       }
+       for(const [key,val] of Object.entries(report.sourceAmount.addon)){
+         if(amount.addon?.[key]!==val)problems.push('native addon CSS differs: '+key);
+       }
+       for(const key of ['maxWidth','maxHeight','currencyGap']){
+         if(Math.abs((amount.geometry?.[key]??-100)-report.sourceAmount.geometry[key])>1)
+           problems.push('native USD / MAX geometry differs: '+key);
+       }
+       if(Math.abs(amount.geometry?.verticalOffset??100)>1.5)
+         problems.push('dollar and MAX not vertically aligned');
        if(amount.inputWeight!==report.sourceAmount.input.fontWeight)
-         problems.push('amount input weight differs from source');
+         problems.push('amount typography differs from native');
      }
-     await page.locator('.tf-amount .tf-max').click();
-     const filled=await page.evaluate(()=>({value:document.querySelector('#tf-out-amount')?.value, state:S.amount, valid:validConfig()}));
-     if(!filled.valid||!filled.value||filled.value!==filled.state)
-       problems.push('MAX does not fill an available valid amount');
+     await page.locator('.tf-amount .wd-max').click();
+     const read=()=>page.evaluate(()=>({value:document.querySelector('#tf-out-amount')?.value,state:S.amount,valid:validConfig()}));
+     const clicked=await read();
+     if(!clicked.valid||!clicked.value||clicked.value!==clicked.state)problems.push('MAX click failed');
+     await page.evaluate(()=>{S.amount='';render();});
+     await page.locator('.tf-amount .wd-max').focus();
+     await page.keyboard.press('Enter');
+     const entered=await read();
+     if(!entered.valid||!entered.value||entered.value!==entered.state)problems.push('MAX Enter failed');
+     await page.evaluate(()=>{S.amount='';render();});
+     await page.locator('.tf-amount .wd-max').focus();
+     await page.keyboard.press('Space');
+     const spaced=await read();
+     if(!spaced.valid||!spaced.value||spaced.value!==spaced.state)problems.push('MAX Space failed');
    }
    report.cases.push({label,flow,screen,rail,metrics,problems});
    if(problems.length)report.issues.push({label,problems});
