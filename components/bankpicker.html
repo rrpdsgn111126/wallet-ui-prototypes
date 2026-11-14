@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>alt.vu · Канонический селектор (страна, валюта, назначение)</title>
+<link rel="stylesheet" href="../css/alt-vu-wallet.css">
+<link rel="stylesheet" href="../showcase/states.css">
+<link rel="stylesheet" href="../showcase/specimen.css">
+<style>
+/* Только оболочка каталога. Внутренний iframe исполняет реальный
+   uxRenderPicker() и css/transfi-bank-altvu.css из рабочего прототипа.
+   Здесь нет копии реализации селектора, поэтому образец не дрейфует. */
+.canonical-embed{width:100%;height:590px;display:block;border:0;background:var(--n50)}
+.canonical-help{padding:0 16px;font-size:12px;line-height:18px;color:var(--n500);margin:0 0 8px}
+</style>
+</head>
+<body data-ds="bankpicker">
+<div class="phone ds-ph">
+<section class="ds-st ds-full">
+<div class="ds-lab" id="sample-label">Канонический селектор · страна</div>
+<p class="canonical-help">Живой компонент из банковского сценария: выберите строку, затем снова откройте поле для проверки состояния.</p>
+<div class="ds-screen" style="height:590px">
+<iframe class="canonical-embed" id="canonical-picker" title="Канонический селектор банковского вывода" loading="eager"></iframe>
+</div>
+</section>
+</div>
+<script>
+(function(){
+ const isCurrency=new URLSearchParams(location.search).get('mode')==='currency';
+ document.getElementById('sample-label').textContent=isCurrency
+   ? 'Канонический селектор · валюта'
+   : 'Канонический селектор · страна';
+ const scenario=isCurrency
+   ? 'flow=out&screen=out-config&rail=SWIFT&picker=outCurrency'
+   : 'flow=out&screen=out-config&rail=SEPA&picker=country';
+ document.getElementById('canonical-picker').src=
+   '../transfi-remittance/legacy.html?capture=1&embedded=1&'+scenario;
+})();
+</script>
+<script src="../showcase/specimen.js"></script>
+</body>
+</html>
