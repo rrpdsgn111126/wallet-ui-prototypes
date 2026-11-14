@@ -253,62 +253,93 @@ html.tf-embedded .proto-shell,html.tf-embedded .workspace{height:100%;width:100%
   .phone.tf-phone:not(.is-home)>.head .h1{font-size:18px}
 }
 
-/* Picker uses native alt.vu sheet/row primitives, not HTML select or segmented toggles. */
-.phone.tf-phone .fld.tf-picker-trigger {
-  box-sizing:border-box;appearance:none;-webkit-appearance:none;text-align:left;
-  cursor:pointer;color:var(--n900);border:0;font:inherit;
+/* Bank selectors reuse the original USDT network-sheet stacking and rows:
+   parent .view.ovl.on, sibling .dim (z4) + .sheet (z5),
+   one .box with .row, .ri, .rt and original .rd/.rd.on ring.
+   This intentionally overrides the previous separate-card custom selector. */
+.phone.tf-phone .fld.tf-picker-trigger{
+  box-sizing:border-box;appearance:none;-webkit-appearance:none;
+  text-align:left;cursor:pointer;color:var(--n900);border:0;font:inherit;
 }
 .phone.tf-phone .fld.tf-picker-trigger .fl i{font-weight:400}
 .phone.tf-phone .fld.tf-picker-trigger .fl b{font-weight:500}
-.phone.tf-phone .tf-picker-chevron{margin-left:auto;flex:0 0 20px;color:var(--n400);display:grid;place-items:center}
+.phone.tf-phone .tf-picker-chevron{
+  flex:0 0 20px;margin-left:auto;color:var(--n400);display:grid;place-items:center;
+}
 .phone.tf-phone .tf-picker-chevron svg{display:block}
 .phone.tf-phone .tf-picker-trigger:focus-visible,
 .phone.tf-phone .tf-picker-row:focus-visible,
-.phone.tf-phone .tf-head-action:focus-visible{outline:2px solid var(--brand-600);outline-offset:2px}
+.phone.tf-phone .tf-head-action:focus-visible{
+  outline:2px solid var(--brand-600);outline-offset:2px;
+}
 .phone.tf-phone .tf-picker-layer{
-  position:absolute;inset:0;z-index:40;display:flex;align-items:flex-end;
+  position:absolute;inset:0;z-index:40;overflow:hidden;
 }
 .phone.tf-phone .tf-picker-layer[hidden]{display:none!important}
-.phone.tf-phone .tf-picker-dim{
-  position:absolute;inset:0;width:100%;height:100%;margin:0;
-  border:0;background:#171b16a6;cursor:pointer;
+.phone.tf-phone .tf-picker-layer .tf-picker-dim{
+  position:absolute;inset:0;z-index:4;opacity:.4;
+  display:block;width:100%;height:100%;margin:0;
+  border:0;background:#161514;cursor:pointer;
 }
-.phone.tf-phone .tf-picker-sheet{
-  box-sizing:border-box;position:relative;z-index:1;left:auto;right:auto;bottom:auto;
-  display:block;width:100%;max-height:82%;overflow-y:auto;overscroll-behavior:contain;
+.phone.tf-phone .tf-picker-layer .tf-picker-sheet{
+  box-sizing:border-box;position:absolute;z-index:5;
+  left:0;right:0;bottom:0;width:100%;
+  max-height:calc(100% - 24px);
+  display:flex;flex-direction:column;
   margin:0;padding:10px 16px calc(36px + env(safe-area-inset-bottom));
-  background:var(--n50);border-radius:24px 24px 0 0;box-shadow:0 -10px 30px #1615141a;
+  background:var(--n50);border-radius:24px 24px 0 0;
+  box-shadow:0 -10px 30px var(--sh-2,#1615141a);
+  overflow:hidden;
 }
 .phone.tf-phone .tf-picker-sheet .grab{
-  height:5px;width:44px;display:block;background:var(--n400);border-radius:100px;
-  margin:0 auto 16px;
+  flex:none;width:44px;height:5px;margin:0 auto 16px;
+  border-radius:3px;background:var(--n400);
 }
 .phone.tf-phone .tf-picker-sheet .sh2{
-  padding:0;margin:0 0 14px;font:600 20px/24px Inter,system-ui,sans-serif;
-  color:var(--n900);
+  flex:none;margin:0 0 14px;padding:0;
+  font:600 20px/24px Inter,system-ui,sans-serif;color:var(--n900);
 }
-.phone.tf-phone .tf-picker-box{background:transparent;box-shadow:none;border:0;margin:0}
+.phone.tf-phone .tf-picker-box{
+  box-sizing:border-box;min-height:0;overflow-x:hidden;overflow-y:auto;
+  overscroll-behavior:contain;
+  width:100%;padding:0;margin:0 0 12px;
+  border-radius:16px;background:var(--surface);
+  box-shadow:0 1px 2px var(--sh-1,#1615140a);
+}
 .phone.tf-phone .tf-picker-row{
-  box-sizing:border-box;width:100%;height:64px;min-height:64px;
-  display:flex;align-items:center;gap:14px;text-align:left;cursor:pointer;
-  margin:0 0 10px;padding:0 16px;background:var(--surface);
-  border:0;border-radius:18px;color:var(--n900);font:500 16px/22px Inter,system-ui,sans-serif;
+  box-sizing:border-box;display:flex;align-items:center;gap:12px;
+  min-height:60px;height:auto;width:100%;
+  margin:0;padding:10px 16px;
+  border:0;border-radius:0;background:transparent;color:var(--n900);
+  text-align:left;font:inherit;cursor:pointer;
+  box-shadow:inset 0 1px 0 var(--n50);
 }
+.phone.tf-phone .tf-picker-row:first-child{box-shadow:none}
+.phone.tf-phone .tf-picker-row:active{background:var(--n50)}
 .phone.tf-phone .tf-picker-row .ri{
-  flex:0 0 40px;width:40px;height:40px;border-radius:50%;background:var(--n50);
-  display:grid;place-items:center;
+  flex:0 0 32px;width:32px;height:32px;
+  border-radius:999px;background:var(--n50);
+  display:flex;align-items:center;justify-content:center;
 }
-.phone.tf-phone .tf-picker-row .ri svg{display:block;width:20px;height:20px}
-.phone.tf-phone .tf-picker-row .rt{flex:1 1 auto;min-width:0}
+.phone.tf-phone .tf-picker-row .ri > svg{
+  display:block;width:20px;height:20px;
+}
+.phone.tf-phone .tf-picker-row .rt{
+  flex:1 1 auto;min-width:0;
+  font:500 16px/22px Inter,system-ui,sans-serif;
+}
 .phone.tf-phone .tf-picker-row .rd{
-  flex:0 0 22px;width:22px;height:22px;border:2px solid var(--n300);
-  border-radius:50%;font-size:15px;line-height:18px;text-align:center;color:transparent;
+  flex:0 0 24px;width:24px;height:24px;
+  margin:0;padding:0;border:0;border-radius:999px;
+  background:transparent;color:transparent;font-size:0;
+  box-shadow:inset 0 0 0 1.5px var(--n400);
 }
 .phone.tf-phone .tf-picker-row .rd.on{
-  border-color:var(--brand-600);background:var(--brand-600);color:var(--surface);
+  background:transparent;
+  box-shadow:inset 0 0 0 7px var(--brand);
 }
-.phone.tf-phone .tf-picker-row[aria-selected="true"]{box-shadow:inset 0 0 0 1px var(--brand-600)}
-
+/* Never draw a selected-row outline; the native ring shows selection. */
+.phone.tf-phone .tf-picker-row[aria-checked="true"]{outline-offset:-2px}
 
 /* Bank amount: same fld.w + coin icon + inputmode=decimal + currency + MAX as v-out-usdt-* and v-transfer. */
 .phone.tf-phone .fld.tf-amount .fl b{display:block;width:100%;min-width:0}
@@ -352,12 +383,21 @@ html.tf-embedded .proto-shell,html.tf-embedded .workspace{height:100%;width:100%
 .phone.tf-phone .box.tf-quote .row.tot .rv{
   color:var(--n900);font-weight:600;
 }
-/* Country flag icon is the current selection, not a generic globe. */
+/* Circular flag artwork INSIDE the existing gray icon plate.
+   Flags are vector stripes/marks, never emoji glyphs or country letters. */
 .phone.tf-phone .tf-flag-circle{
-  box-sizing:border-box;display:grid;place-items:center;
-  width:40px;height:40px;min-width:40px;border-radius:50%;
+  box-sizing:border-box;display:block;
+  flex:0 0 24px;width:24px;height:24px;min-width:24px;
+  border-radius:50%;overflow:hidden;background:transparent;
+}
+.phone.tf-phone .tf-country-flag{
+  display:block;width:24px;height:24px;max-width:none;
+  border-radius:50%;overflow:hidden;clip-path:circle(50% at 50%);
+}
+.phone.tf-phone .tf-picker-trigger .fi:has(.tf-flag-circle),
+.phone.tf-phone .tf-picker-row .ri:has(.tf-flag-circle){
   background:var(--n50);
 }
-.phone.tf-phone .tf-flag-emoji{font-size:24px;line-height:1;display:block}
-.phone.tf-phone .tf-picker-trigger .fi:has(.tf-flag-circle),
-.phone.tf-phone .tf-picker-row .ri:has(.tf-flag-circle){background:var(--n50)}
+.phone.tf-phone .tf-picker-row .ri .tf-country-flag{
+  width:24px;height:24px;
+}
