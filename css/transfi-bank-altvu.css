@@ -360,7 +360,12 @@ html.tf-embedded .proto-shell,html.tf-embedded .workspace{height:100%;width:100%
  color:var(--n300);font-weight:500;opacity:1;
 }
 /* Override only generic bank field addon gap 8px to the native 12px. */
-.phone.tf-phone .fld.tf-amount .addon{gap:12px}
+/* Both MAX and the dollar use the exact source wallet font stack.
+   Generic bank .cur otherwise forces Inter,system-ui and breaks parity. */
+.phone.tf-phone .fld.tf-amount .addon{
+ gap:12px;font-family:Inter,"Noto Sans Thai",Thonburi,"Leelawadee UI",system-ui,sans-serif;
+}
+.phone.tf-phone .fld.tf-amount .addon .cur{font-family:inherit}
 .phone.tf-phone .fld.tf-amount .wd-max:focus-visible{
  outline:2px solid var(--brand-600);outline-offset:2px;
 }
