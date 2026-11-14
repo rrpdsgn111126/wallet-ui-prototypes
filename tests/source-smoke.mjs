@@ -78,7 +78,7 @@ for(const viewport of [{width:390,height:844},{width:430,height:932},{width:1440
  // Simulate an expired wallet unlock TTL while the TransFi iframe is open.
  // Returning from the method must never trigger the native wallet lock.
  await page.evaluate(()=>sessionStorage.setItem('alt.unlock',String(Date.now()-10*60000)));
- await page.locator('#tf-bank-close').click();
+ await page.keyboard.press('Escape'); // adapter-supported way to dismiss the bank iframe
  if(await page.locator('#tf-bank-overlay').isVisible())throw new Error('Close failed');
  await page.evaluate(()=>{
    document.dispatchEvent(new Event('visibilitychange'));
