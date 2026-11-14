@@ -54,14 +54,20 @@ try{
    }
    return o;
  },selectors);
- report.sourceAmount=await reference.evaluate(()=>{
-   const el=document.querySelector('#v-transfer .mx');
-   const inp=document.querySelector('#v-transfer .wd-amt');
+ // The amount field is generated dynamically in the archived app; use its
+ // harvested, exact HTML/CSS specimen rather than querying an inactive view.
+ const amountReference=await browser.newPage({viewport:{width:390,height:844}});
+ await amountReference.goto(pathToFileURL(path.resolve('components/amount.html')).href,{waitUntil:'domcontentloaded'});
+ await amountReference.evaluate(()=>document.fonts.ready);
+ report.sourceAmount=await amountReference.evaluate(()=>{
+   const el=document.querySelector('.ds-st .mx');
+   const inp=document.querySelector('.ds-st .wd-amt');
    if(!el||!inp)return null;
    const s=getComputedStyle(el),p=getComputedStyle(inp);
    return {max:Object.fromEntries(['fontSize','fontWeight','backgroundColor','color','borderRadius','paddingTop','paddingRight','letterSpacing'].map(k=>[k,s[k]])),
      input:{fontSize:p.fontSize,fontWeight:p.fontWeight}};
  });
+ await amountReference.close();
  await reference.close();
  console.log('SOURCE_COMPONENTS',JSON.stringify(report.source));
  for(const viewport of [{width:390,height:844},{width:430,height:932}]){
