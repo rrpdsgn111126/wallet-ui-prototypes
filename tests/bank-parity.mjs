@@ -54,7 +54,6 @@ try{
    }
    return o;
  },selectors);
-
  report.sourceAmount=await reference.evaluate(()=>{
    const el=document.querySelector('#v-transfer .mx');
    const inp=document.querySelector('#v-transfer .wd-amt');
@@ -135,38 +134,7 @@ try{
      });
      if(amount.state!==''||amount.value!==''||amount.placeholder!=='0.00'||amount.total!==0)
        problems.push('bank amount does not start with native gray 0.00 placeholder');
-     if(amount.source!=='USD'||amount.symbol!=='
-   if(problems.length)report.issues.push({label,problems});
-   console.log('BANK_QA',label,JSON.stringify({problems,header:metrics.header,field:metrics.field,button:metrics.button,root:metrics.rootWidth}));
-   await page.close();
-  }
- }
- const page=await browser.newPage({viewport:{width:390,height:844}});
- const url=new URL(bank.href);
- url.searchParams.set('capture','1');url.searchParams.set('embedded','1');
- url.searchParams.set('flow','out');url.searchParams.set('screen','out-config');url.searchParams.set('rail','SWIFT');
- await page.goto(url.href);
- await page.evaluate(()=>{
-   S.amount='1000'; S.firstName='Ivan'; S.lastName='Ivanov';
-   S.account='000000000000';S.bic='DEMOXXXX';S.bank='Банк-партнёр'; render();
- });
- await page.locator('.tf-foot .btn').click();
- report.functional.recipient=(await page.locator('#phoneTitle').innerText()).includes('Вывод');
- report.functional.recipientScreen=await page.evaluate(()=>S.screen);
- await page.locator('.tf-foot .btn').click();
- report.functional.reviewScreen=await page.evaluate(()=>S.screen);
- await page.locator('.tf-foot .btn').click();
- report.functional.progressScreen=await page.evaluate(()=>S.screen);
- await page.close();
- if(report.functional.recipientScreen!=='out-recipient'||report.functional.reviewScreen!=='out-review'||report.functional.progressScreen!=='out-progress')
-   report.issues.push({label:'functional',problems:['SWIFT next/review/progress flow broken']});
-}finally{
- fs.writeFileSync(path.join(output,'report.json'),JSON.stringify(report,null,2));
- await browser.close();
-}
-console.log('BANK_QA_TOTAL',report.cases.length,'ISSUES',report.issues.length,'FUNCTIONAL',JSON.stringify(report.functional));
-if(report.issues.length)process.exitCode=1;
-)
+     if(amount.source!=='USD'||amount.symbol!=='$')
        problems.push('bank amount currency differs from USD wallet');
      if(!report.sourceAmount)
        problems.push('native alt.vu amount reference unavailable');
