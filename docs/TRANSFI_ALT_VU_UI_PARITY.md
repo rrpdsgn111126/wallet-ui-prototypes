@@ -24,6 +24,8 @@ Bank-only CSS is located at `css/transfi-bank-altvu.css`, is scoped to `.phone.t
 
 ## Канонический селектор — по экрану «Пополнение USDT → Сеть»
 
+**Канонический компонент в UI Kit:** [components/bankpicker.html](../components/bankpicker.html) (интерактивные варианты «Страна» и «Валюта»). В каталоге [ui-kit/index.html](../ui-kit/index.html#bankpicker) он открывает **реальный** `uxRenderPicker()` по capture-only параметру `?picker=country|outCurrency` из `legacy.html`. Это специально сделано без копирования логики селектора в библиотеку: пример и рабочий экран используют одну реализацию. Эталон исходного USDT-селектора остаётся [components/netsheet.html](../components/netsheet.html).
+
 Источники в исходном архиве alt.vu: `transfi-remittance/index.html`, извлечённые эталонные HTML-компоненты `components/netpick.html`, `components/netsheet.html`, исходные стили `css/alt-vu-wallet.css` (`.dim`, `.sheet`, `.grab`, `.sh2`, `.box`, `.row`, `.ri`, `.rt`, `.rd`).
 
 - Триггер: стандартное поле `.fld.w` с `.fi` 40×40, `.fl`, стрелкой. Для страны внутри серого круга рисуется **круглая векторная иконка флага 24×24**, а не emoji, текстовый код страны или дополнительный вложенный серый круг.
