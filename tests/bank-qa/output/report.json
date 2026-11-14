@@ -67,7 +67,7 @@
         "header": {
           "height": "24px",
           "borderRadius": "0px",
-          "fontSize": "18px",
+          "fontSize": "20px",
           "fontWeight": "600",
           "lineHeight": "24px",
           "paddingLeft": "0px"
@@ -103,9 +103,7 @@
         "fontReady": true,
         "screenTitle": "Пополнение SEPA"
       },
-      "problems": [
-        "header typography not matching source"
-      ]
+      "problems": []
     },
     {
       "label": "in-swift-390",
@@ -124,7 +122,7 @@
         "header": {
           "height": "24px",
           "borderRadius": "0px",
-          "fontSize": "18px",
+          "fontSize": "20px",
           "fontWeight": "600",
           "lineHeight": "24px",
           "paddingLeft": "0px"
@@ -160,9 +158,7 @@
         "fontReady": true,
         "screenTitle": "Пополнение SWIFT"
       },
-      "problems": [
-        "header typography not matching source"
-      ]
+      "problems": []
     },
     {
       "label": "in-pending-390",
@@ -181,7 +177,7 @@
         "header": {
           "height": "24px",
           "borderRadius": "0px",
-          "fontSize": "18px",
+          "fontSize": "20px",
           "fontWeight": "600",
           "lineHeight": "24px",
           "paddingLeft": "0px"
@@ -196,9 +192,7 @@
         "fontReady": true,
         "screenTitle": "Пополнение SEPA"
       },
-      "problems": [
-        "header typography not matching source"
-      ]
+      "problems": []
     },
     {
       "label": "in-success-390",
@@ -217,7 +211,7 @@
         "header": {
           "height": "24px",
           "borderRadius": "0px",
-          "fontSize": "18px",
+          "fontSize": "20px",
           "fontWeight": "600",
           "lineHeight": "24px",
           "paddingLeft": "0px"
@@ -246,9 +240,7 @@
         "fontReady": true,
         "screenTitle": "Пополнение SEPA"
       },
-      "problems": [
-        "header typography not matching source"
-      ]
+      "problems": []
     },
     {
       "label": "in-held-390",
@@ -267,7 +259,7 @@
         "header": {
           "height": "24px",
           "borderRadius": "0px",
-          "fontSize": "18px",
+          "fontSize": "20px",
           "fontWeight": "600",
           "lineHeight": "24px",
           "paddingLeft": "0px"
@@ -296,9 +288,7 @@
         "fontReady": true,
         "screenTitle": "Пополнение SEPA"
       },
-      "problems": [
-        "header typography not matching source"
-      ]
+      "problems": []
     },
     {
       "label": "out-sepa-390",
@@ -317,7 +307,7 @@
         "header": {
           "height": "24px",
           "borderRadius": "0px",
-          "fontSize": "18px",
+          "fontSize": "20px",
           "fontWeight": "600",
           "lineHeight": "24px",
           "paddingLeft": "0px"
@@ -353,9 +343,7 @@
         "fontReady": true,
         "screenTitle": "Вывод SEPA"
       },
-      "problems": [
-        "header typography not matching source"
-      ]
+      "problems": []
     },
     {
       "label": "out-swift-390",
@@ -374,7 +362,7 @@
         "header": {
           "height": "24px",
           "borderRadius": "0px",
-          "fontSize": "18px",
+          "fontSize": "20px",
           "fontWeight": "600",
           "lineHeight": "24px",
           "paddingLeft": "0px"
@@ -410,9 +398,7 @@
         "fontReady": true,
         "screenTitle": "Вывод SWIFT"
       },
-      "problems": [
-        "header typography not matching source"
-      ]
+      "problems": []
     },
     {
       "label": "out-recipient-sepa-390",
@@ -431,7 +417,7 @@
         "header": {
           "height": "24px",
           "borderRadius": "0px",
-          "fontSize": "18px",
+          "fontSize": "20px",
           "fontWeight": "600",
           "lineHeight": "24px",
           "paddingLeft": "0px"
@@ -460,9 +446,7 @@
         "fontReady": true,
         "screenTitle": "Вывод SEPA"
       },
-      "problems": [
-        "header typography not matching source"
-      ]
+      "problems": []
     },
     {
       "label": "out-recipient-swift-390",
@@ -481,7 +465,7 @@
         "header": {
           "height": "24px",
           "borderRadius": "0px",
-          "fontSize": "18px",
+          "fontSize": "20px",
           "fontWeight": "600",
           "lineHeight": "24px",
           "paddingLeft": "0px"
@@ -510,9 +494,7 @@
         "fontReady": true,
         "screenTitle": "Вывод SWIFT"
       },
-      "problems": [
-        "header typography not matching source"
-      ]
+      "problems": []
     },
     {
       "label": "out-review-sepa-390",
@@ -531,7 +513,7 @@
         "header": {
           "height": "24px",
           "borderRadius": "0px",
-          "fontSize": "18px",
+          "fontSize": "20px",
           "fontWeight": "600",
           "lineHeight": "24px",
           "paddingLeft": "0px"
@@ -560,9 +542,7 @@
         "fontReady": true,
         "screenTitle": "Вывод SEPA"
       },
-      "problems": [
-        "header typography not matching source"
-      ]
+      "problems": []
     },
     {
       "label": "out-review-swift-390",
@@ -581,7 +561,7 @@
         "header": {
           "height": "24px",
           "borderRadius": "0px",
-          "fontSize": "18px",
+          "fontSize": "20px",
           "fontWeight": "600",
           "lineHeight": "24px",
           "paddingLeft": "0px"
@@ -610,9 +590,7 @@
         "fontReady": true,
         "screenTitle": "Вывод SWIFT"
       },
-      "problems": [
-        "header typography not matching source"
-      ]
+      "problems": []
     },
     {
       "label": "out-progress-390",
@@ -631,7 +609,7 @@
         "header": {
           "height": "24px",
           "borderRadius": "0px",
-          "fontSize": "18px",
+          "fontSize": "20px",
           "fontWeight": "600",
           "lineHeight": "24px",
           "paddingLeft": "0px"
@@ -653,9 +631,7 @@
         "fontReady": true,
         "screenTitle": "Вывод SWIFT"
       },
-      "problems": [
-        "header typography not matching source"
-      ]
+      "problems": []
     },
     {
       "label": "out-success-390",
@@ -674,7 +650,7 @@
         "header": {
           "height": "24px",
           "borderRadius": "0px",
-          "fontSize": "18px",
+          "fontSize": "20px",
           "fontWeight": "600",
           "lineHeight": "24px",
           "paddingLeft": "0px"
@@ -703,9 +679,7 @@
         "fontReady": true,
         "screenTitle": "Вывод SWIFT"
       },
-      "problems": [
-        "header typography not matching source"
-      ]
+      "problems": []
     },
     {
       "label": "out-failed-390",
@@ -724,7 +698,7 @@
         "header": {
           "height": "24px",
           "borderRadius": "0px",
-          "fontSize": "18px",
+          "fontSize": "20px",
           "fontWeight": "600",
           "lineHeight": "24px",
           "paddingLeft": "0px"
@@ -753,9 +727,7 @@
         "fontReady": true,
         "screenTitle": "Вывод SWIFT"
       },
-      "problems": [
-        "header typography not matching source"
-      ]
+      "problems": []
     },
     {
       "label": "out-held-390",
@@ -774,7 +746,7 @@
         "header": {
           "height": "24px",
           "borderRadius": "0px",
-          "fontSize": "18px",
+          "fontSize": "20px",
           "fontWeight": "600",
           "lineHeight": "24px",
           "paddingLeft": "0px"
@@ -796,9 +768,7 @@
         "fontReady": true,
         "screenTitle": "Вывод SWIFT"
       },
-      "problems": [
-        "header typography not matching source"
-      ]
+      "problems": []
     },
     {
       "label": "out-unavailable-390",
@@ -817,7 +787,7 @@
         "header": {
           "height": "24px",
           "borderRadius": "0px",
-          "fontSize": "18px",
+          "fontSize": "20px",
           "fontWeight": "600",
           "lineHeight": "24px",
           "paddingLeft": "0px"
@@ -846,9 +816,7 @@
         "fontReady": true,
         "screenTitle": "Вывод SWIFT"
       },
-      "problems": [
-        "header typography not matching source"
-      ]
+      "problems": []
     },
     {
       "label": "in-sepa-430",
@@ -1619,104 +1587,7 @@
       "problems": []
     }
   ],
-  "issues": [
-    {
-      "label": "in-sepa-390",
-      "problems": [
-        "header typography not matching source"
-      ]
-    },
-    {
-      "label": "in-swift-390",
-      "problems": [
-        "header typography not matching source"
-      ]
-    },
-    {
-      "label": "in-pending-390",
-      "problems": [
-        "header typography not matching source"
-      ]
-    },
-    {
-      "label": "in-success-390",
-      "problems": [
-        "header typography not matching source"
-      ]
-    },
-    {
-      "label": "in-held-390",
-      "problems": [
-        "header typography not matching source"
-      ]
-    },
-    {
-      "label": "out-sepa-390",
-      "problems": [
-        "header typography not matching source"
-      ]
-    },
-    {
-      "label": "out-swift-390",
-      "problems": [
-        "header typography not matching source"
-      ]
-    },
-    {
-      "label": "out-recipient-sepa-390",
-      "problems": [
-        "header typography not matching source"
-      ]
-    },
-    {
-      "label": "out-recipient-swift-390",
-      "problems": [
-        "header typography not matching source"
-      ]
-    },
-    {
-      "label": "out-review-sepa-390",
-      "problems": [
-        "header typography not matching source"
-      ]
-    },
-    {
-      "label": "out-review-swift-390",
-      "problems": [
-        "header typography not matching source"
-      ]
-    },
-    {
-      "label": "out-progress-390",
-      "problems": [
-        "header typography not matching source"
-      ]
-    },
-    {
-      "label": "out-success-390",
-      "problems": [
-        "header typography not matching source"
-      ]
-    },
-    {
-      "label": "out-failed-390",
-      "problems": [
-        "header typography not matching source"
-      ]
-    },
-    {
-      "label": "out-held-390",
-      "problems": [
-        "header typography not matching source"
-      ]
-    },
-    {
-      "label": "out-unavailable-390",
-      "problems": [
-        "header typography not matching source"
-      ]
-    }
-  ],
+  "issues": [],
   "functional": {
     "recipient": true,
     "recipientScreen": "out-recipient",
