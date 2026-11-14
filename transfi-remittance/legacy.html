@@ -1174,5 +1174,14 @@ const queryScreen=tfQuery.get('screen');
 if(queryScreen==='home'||SCREENS[S.flow].some(([screen])=>screen===queryScreen))S.screen=queryScreen;
 if(S.screen==='home'&&(tfQuery.get('modal')==='in'||tfQuery.get('modal')==='out'))S.modal=tfQuery.get('modal');
 render();
+// Component-catalog / Playwright capture only: render an actual opened selector
+// using the very same DOM, CSS and event handlers as the working bank flow.
+if(tfQuery.get('capture')==='1'){
+  const examplePicker=tfQuery.get('picker');
+  const visiblePicker=document.querySelector('.phone.tf-phone [data-picker="'+examplePicker+'"]');
+  if(['country','inCurrency','outCurrency','purpose'].includes(examplePicker)&&visiblePicker){
+    uxOpenPicker(examplePicker);
+  }
+}
 </script>
 </body></html>
