@@ -5,6 +5,27 @@
   'use strict';
   if(!window.altPreview || !window.PV || !PV.data)return;
   const data=PV.data;
+  // The static UX prototype must not inherit the real wallet's idle/tab
+  // session lock. This fixes returning from the embedded SEPA/SWIFT screens:
+  // the original visibilitychange listener would lock after a stale TTL.
+  // Explicit transaction PIN confirmation stays available for UX testing.
+  function keepPreviewUnlocked(){
+    if(typeof guardT!=='undefined' && guardT){
+      clearInterval(guardT);guardT=null;
+    }
+    if(typeof unlockOpen==='function')unlockOpen();
+  }
+  // Override both entry points, not only the visible lock screen: hiding
+  // #v-lock would leave lockOn=true and make all navigation route to it.
+  lockNow=function previewNoIdleLock(){keepPreviewUnlocked();};
+  lockGuard=function previewNoLockGuard(){keepPreviewUnlocked();};
+  lockServer=function previewNoServerLock(){};
+  keepPreviewUnlocked();
+  document.addEventListener('visibilitychange',function(){
+    if(!document.hidden)keepPreviewUnlocked();
+  },true);
+  window.addEventListener('pageshow',keepPreviewUnlocked,true);
+  window.addEventListener('focus',keepPreviewUnlocked,true);
   const today=Date.now(),at=n=>new Date(today-n*60000).toISOString();
   const seed=[
     {id:'pv-card-001',kind:'card',status:'credited',amount_minor:-1961,
