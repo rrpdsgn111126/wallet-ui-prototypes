@@ -75,8 +75,23 @@ for(const viewport of [{width:390,height:844},{width:430,height:932},{width:1440
  const frame=page.frameLocator('#tf-bank-overlay iframe');
  if(!await frame.getByText('Валюта пополнения',{exact:true}).isVisible())throw new Error('SEPA legacy screen missing');
  await page.screenshot({path:path.join(out,'source-sepa-'+viewport.width+'.png'),animations:'disabled'});
+ // Simulate an expired wallet unlock TTL while the TransFi iframe is open.
+ // Returning from the method must never trigger the native wallet lock.
+ await page.evaluate(()=>sessionStorage.setItem('alt.unlock',String(Date.now()-10*60000)));
  await page.locator('#tf-bank-close').click();
  if(await page.locator('#tf-bank-overlay').isVisible())throw new Error('Close failed');
+ await page.evaluate(()=>{
+   document.dispatchEvent(new Event('visibilitychange'));
+   window.dispatchEvent(new Event('pageshow'));
+   lockNow(); // even an explicit idle-lock trigger must be a no-op in preview
+ });
+ const lockState=await page.evaluate(()=>({
+   view,lockOn,locked:document.querySelector('#v-lock').classList.contains('on'),
+   active:!!document.querySelector('.view.on')
+ }));
+ if(lockState.lockOn||lockState.locked||lockState.view==='lock'||!lockState.active)
+   throw new Error('PREVIEW_AUTO_LOCK_REGRESSION: '+JSON.stringify(lockState));
+ console.log('PREVIEW_AUTO_LOCK_REGRESSION_OK',viewport.width,JSON.stringify(lockState));
  // The original bottom-nav method sheet is modal and intentionally blocks tabs.
  // Close it through the original dim/back area before selecting another tab.
  if(viewport.width<1024)await page.locator('#v-topup .dim').click({position:{x:12,y:12}});
