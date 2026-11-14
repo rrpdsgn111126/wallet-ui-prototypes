@@ -54,6 +54,15 @@ try{
    }
    return o;
  },selectors);
+
+ report.sourceAmount=await reference.evaluate(()=>{
+   const el=document.querySelector('#v-transfer .mx');
+   const inp=document.querySelector('#v-transfer .wd-amt');
+   if(!el||!inp)return null;
+   const s=getComputedStyle(el),p=getComputedStyle(inp);
+   return {max:Object.fromEntries(['fontSize','fontWeight','backgroundColor','color','borderRadius','paddingTop','paddingRight','letterSpacing'].map(k=>[k,s[k]])),
+     input:{fontSize:p.fontSize,fontWeight:p.fontWeight}};
+ });
  await reference.close();
  console.log('SOURCE_COMPONENTS',JSON.stringify(report.source));
  for(const viewport of [{width:390,height:844},{width:430,height:932}]){
@@ -111,6 +120,68 @@ try{
      problems.push('status SVG missing');
    if(metrics.timelineDot&&metrics.timelineDot!=='static')
      problems.push('timeline dot uses incompatible source badge positioning');
+   if(screen==='out-config'){
+     const amount=await page.evaluate(()=>{
+       const input=document.querySelector('#tf-out-amount');
+       const pill=document.querySelector('.tf-amount .tf-max');
+       const cs=pill&&getComputedStyle(pill), is=input&&getComputedStyle(input);
+       return {
+         state:S.amount, value:input?.value,placeholder:input?.placeholder,
+         total:quote().amt,source:S.sourceCurrency,
+         symbol:document.querySelector('.tf-amount .cur')?.textContent,
+         inputWeight:is?.fontWeight,
+         max:cs&&Object.fromEntries(['fontSize','fontWeight','backgroundColor','color','borderRadius','paddingTop','paddingRight','letterSpacing'].map(k=>[k,cs[k]]))
+       };
+     });
+     if(amount.state!==''||amount.value!==''||amount.placeholder!=='0.00'||amount.total!==0)
+       problems.push('bank amount does not start with native gray 0.00 placeholder');
+     if(amount.source!=='USD'||amount.symbol!=='
+   if(problems.length)report.issues.push({label,problems});
+   console.log('BANK_QA',label,JSON.stringify({problems,header:metrics.header,field:metrics.field,button:metrics.button,root:metrics.rootWidth}));
+   await page.close();
+  }
+ }
+ const page=await browser.newPage({viewport:{width:390,height:844}});
+ const url=new URL(bank.href);
+ url.searchParams.set('capture','1');url.searchParams.set('embedded','1');
+ url.searchParams.set('flow','out');url.searchParams.set('screen','out-config');url.searchParams.set('rail','SWIFT');
+ await page.goto(url.href);
+ await page.evaluate(()=>{
+   S.amount='1000'; S.firstName='Ivan'; S.lastName='Ivanov';
+   S.account='000000000000';S.bic='DEMOXXXX';S.bank='Банк-партнёр'; render();
+ });
+ await page.locator('.tf-foot .btn').click();
+ report.functional.recipient=(await page.locator('#phoneTitle').innerText()).includes('Вывод');
+ report.functional.recipientScreen=await page.evaluate(()=>S.screen);
+ await page.locator('.tf-foot .btn').click();
+ report.functional.reviewScreen=await page.evaluate(()=>S.screen);
+ await page.locator('.tf-foot .btn').click();
+ report.functional.progressScreen=await page.evaluate(()=>S.screen);
+ await page.close();
+ if(report.functional.recipientScreen!=='out-recipient'||report.functional.reviewScreen!=='out-review'||report.functional.progressScreen!=='out-progress')
+   report.issues.push({label:'functional',problems:['SWIFT next/review/progress flow broken']});
+}finally{
+ fs.writeFileSync(path.join(output,'report.json'),JSON.stringify(report,null,2));
+ await browser.close();
+}
+console.log('BANK_QA_TOTAL',report.cases.length,'ISSUES',report.issues.length,'FUNCTIONAL',JSON.stringify(report.functional));
+if(report.issues.length)process.exitCode=1;
+)
+       problems.push('bank amount currency differs from USD wallet');
+     if(!report.sourceAmount)
+       problems.push('native alt.vu amount reference unavailable');
+     else {
+       for(const [key,value] of Object.entries(report.sourceAmount.max)){
+         if(amount.max?.[key]!==value)problems.push('MAX pill mismatch: '+key);
+       }
+       if(amount.inputWeight!==report.sourceAmount.input.fontWeight)
+         problems.push('amount input weight differs from source');
+     }
+     await page.locator('.tf-amount .tf-max').click();
+     const filled=await page.evaluate(()=>({value:document.querySelector('#tf-out-amount')?.value, state:S.amount, valid:validConfig()}));
+     if(!filled.valid||!filled.value||filled.value!==filled.state)
+       problems.push('MAX does not fill an available valid amount');
+   }
    report.cases.push({label,flow,screen,rail,metrics,problems});
    if(problems.length)report.issues.push({label,problems});
    console.log('BANK_QA',label,JSON.stringify({problems,header:metrics.header,field:metrics.field,button:metrics.button,root:metrics.rootWidth}));

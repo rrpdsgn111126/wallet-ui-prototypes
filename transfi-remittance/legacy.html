@@ -598,7 +598,7 @@ html.tf-capture.tf-embedded .phone.tf-phone,html.tf-capture.tf-embedded .phone.t
 const COUNTRY={DE:'Германия',FR:'Франция',NL:'Нидерланды',GB:'Великобритания',US:'США',ES:'Испания'};
 const SEPA_COUNTRIES=['DE','FR','NL','ES'];
 const CURRENCY=['EUR','USD','GBP'];
-const S={flow:'in',screen:'in-details',inCurrency:'EUR',inRail:'SEPA',outCurrency:'EUR',sourceCurrency:'EUR',outRail:'SEPA',country:'DE',amount:'1000',firstName:'',lastName:'',iban:'',account:'',bic:'',bank:'',routing:'',bankAddress:'',recipientAddress:'',intermediary:'',purpose:'personal',purposeOther:'',note:'',showError:false};
+const S={flow:'in',screen:'in-details',inCurrency:'EUR',inRail:'SEPA',outCurrency:'EUR',sourceCurrency:'USD',outRail:'SEPA',country:'DE',amount:'',firstName:'',lastName:'',iban:'',account:'',bic:'',bank:'',routing:'',bankAddress:'',recipientAddress:'',intermediary:'',purpose:'personal',purposeOther:'',note:'',showError:false};
 const SCREENS={in:[['in-details','Реквизиты'],['in-pending','Поступление ожидается'],['in-success','Зачислено'],['in-held','На проверке']],out:[['out-config','Параметры перевода'],['out-recipient','Реквизиты получателя'],['out-review','Подтверждение'],['out-progress','Обрабатывается'],['out-success','Доставлен'],['out-failed','Ошибка'],['out-held','На проверке'],['out-unavailable','Недоступное направление']]};
 const META={
 'in-details':{title:'Один экран: валюта → метод → реквизиты',desc:'Без хлебных крошек, подзаголовка и повторяющегося названия внутри блока. Реквизиты меняются сразу под переключателями.',apis:['GET /v3/config/payment-methods/iban','POST /v3/iban','GET /v3/iban (список счетов)'],rules:['Реквизиты выводятся из ответа сервера, а не генерируются клиентом.','SEPA показан только для EUR; входящий SWIFT — демонстрационная гипотеза до подтверждения MID.','Если реквизиты не выданы, показывать состояние недоступности, а не фальшивые реквизиты.']},
@@ -776,6 +776,9 @@ function uxSelectMethod(rail) {
     go('in-details');
   } else {
     S.outRail=rail;
+    // Starting a new bank method shows the canonical empty 0.00 placeholder.
+    // Keep the entered amount when moving between steps of the same transfer.
+    S.amount='';
     S.sourceCurrency='USD';
     if(rail==='SEPA'){
       S.outCurrency='EUR';
