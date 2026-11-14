@@ -143,6 +143,34 @@ async def smoke(browser, origin):
         await expect(page.locator("#wrap-purposeOther")).to_be_visible()
         await page.close()
 
+    # The design-system catalog must render the ACTUAL bank picker, not a
+    # static redrawing. Both examples use nested same-origin iframes.
+    catalog = await browser.new_page(viewport={"width": 1440, "height": 900})
+    await catalog.goto(origin + "/ui-kit/")
+    entry = catalog.locator("#bankpicker")
+    await expect(entry).to_have_count(1)
+    await entry.scroll_into_view_if_needed()
+    for mode, field, new_value, expected in (
+        ("country", "country", "FR", "Франция"),
+        ("currency", "outCurrency", "GBP", "GBP"),
+    ):
+        outer=catalog.frame_locator(
+            '#bankpicker iframe[src*="mode=' + mode + '"]'
+        )
+        inner=outer.frame_locator("iframe.canonical-embed")
+        await expect(inner.locator(".tf-picker-sheet")).to_be_visible(timeout=15000)
+        assert await inner.locator(".tf-picker-box").count() == 1
+        assert await inner.locator(".tf-picker-row .rd.on").count() == 1
+        if mode=="country":
+            assert await inner.locator(".tf-picker-row .tf-country-flag").count() == 4
+        await inner.locator('[data-picker-value="' + new_value + '"]').click()
+        await expect(inner.locator(".tf-picker-sheet")).to_have_count(0)
+        selected=inner.locator('[data-picker="' + field + '"]')
+        assert expected in await selected.inner_text()
+        await selected.click()
+        await expect(inner.locator(".tf-picker-sheet")).to_be_visible()
+    await catalog.close()
+
     # Test actual embedded exit, not just a standalone legacy.html page.
     page = await browser.new_page(viewport={"width": 430, "height": 932})
     await page.goto(origin + "/transfi-remittance/?flow=in&rail=SWIFT")
