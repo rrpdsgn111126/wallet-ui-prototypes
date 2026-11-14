@@ -1,5 +1,5 @@
 {
-  "run": "2026-11-13T16:40:37.450Z",
+  "run": "2026-11-14T07:15:32.100Z",
   "cases": [
     {
       "label": "home",
@@ -702,14 +702,6 @@
             "clientWidth": 398
           },
           {
-            "name": "fld w tf-field tf-fixed-currency",
-            "left": 16,
-            "right": 414,
-            "width": 398,
-            "scrollWidth": 398,
-            "clientWidth": 398
-          },
-          {
             "name": "fld w tf-field tf-picker-trigger",
             "left": 16,
             "right": 414,
@@ -719,6 +711,14 @@
           },
           {
             "name": "fld w tf-field tf-amount",
+            "left": 16,
+            "right": 414,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          },
+          {
+            "name": "fld w tf-field tf-fixed-currency",
             "left": 16,
             "right": 414,
             "width": 398,
@@ -788,7 +788,7 @@
             "clientWidth": 398
           },
           {
-            "name": "fld w tf-field tf-picker-trigger",
+            "name": "fld w tf-field tf-amount",
             "left": 16,
             "right": 414,
             "width": 398,
@@ -796,7 +796,7 @@
             "clientWidth": 398
           },
           {
-            "name": "fld w tf-field tf-amount",
+            "name": "fld w tf-field tf-picker-trigger",
             "left": 16,
             "right": 414,
             "width": 398,
@@ -959,7 +959,7 @@
           "width": 430,
           "scrollWidth": 430,
           "height": 718,
-          "scrollHeight": 744
+          "scrollHeight": 718
         },
         "footer": {
           "height": 108,
@@ -1919,14 +1919,6 @@
             "clientWidth": 358
           },
           {
-            "name": "fld w tf-field tf-fixed-currency",
-            "left": 16,
-            "right": 374,
-            "width": 358,
-            "scrollWidth": 358,
-            "clientWidth": 358
-          },
-          {
             "name": "fld w tf-field tf-picker-trigger",
             "left": 16,
             "right": 374,
@@ -1936,6 +1928,14 @@
           },
           {
             "name": "fld w tf-field tf-amount",
+            "left": 16,
+            "right": 374,
+            "width": 358,
+            "scrollWidth": 358,
+            "clientWidth": 358
+          },
+          {
+            "name": "fld w tf-field tf-fixed-currency",
             "left": 16,
             "right": 374,
             "width": 358,
@@ -2005,7 +2005,7 @@
             "clientWidth": 358
           },
           {
-            "name": "fld w tf-field tf-picker-trigger",
+            "name": "fld w tf-field tf-amount",
             "left": 16,
             "right": 374,
             "width": 358,
@@ -2013,7 +2013,7 @@
             "clientWidth": 358
           },
           {
-            "name": "fld w tf-field tf-amount",
+            "name": "fld w tf-field tf-picker-trigger",
             "left": 16,
             "right": 374,
             "width": 358,
@@ -2176,7 +2176,7 @@
           "width": 390,
           "scrollWidth": 390,
           "height": 630,
-          "scrollHeight": 744
+          "scrollHeight": 716
         },
         "footer": {
           "height": 108,
@@ -3136,14 +3136,6 @@
             "clientWidth": 398
           },
           {
-            "name": "fld w tf-field tf-fixed-currency",
-            "left": 16,
-            "right": 414,
-            "width": 398,
-            "scrollWidth": 398,
-            "clientWidth": 398
-          },
-          {
             "name": "fld w tf-field tf-picker-trigger",
             "left": 16,
             "right": 414,
@@ -3153,6 +3145,14 @@
           },
           {
             "name": "fld w tf-field tf-amount",
+            "left": 16,
+            "right": 414,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          },
+          {
+            "name": "fld w tf-field tf-fixed-currency",
             "left": 16,
             "right": 414,
             "width": 398,
@@ -3222,7 +3222,7 @@
             "clientWidth": 398
           },
           {
-            "name": "fld w tf-field tf-picker-trigger",
+            "name": "fld w tf-field tf-amount",
             "left": 16,
             "right": 414,
             "width": 398,
@@ -3230,7 +3230,7 @@
             "clientWidth": 398
           },
           {
-            "name": "fld w tf-field tf-amount",
+            "name": "fld w tf-field tf-picker-trigger",
             "left": 16,
             "right": 414,
             "width": 398,
@@ -3393,7 +3393,7 @@
           "width": 430,
           "scrollWidth": 430,
           "height": 718,
-          "scrollHeight": 744
+          "scrollHeight": 718
         },
         "footer": {
           "height": 108,
@@ -4353,14 +4353,6 @@
             "clientWidth": 388
           },
           {
-            "name": "fld w tf-field tf-fixed-currency",
-            "left": 499,
-            "right": 887,
-            "width": 388,
-            "scrollWidth": 388,
-            "clientWidth": 388
-          },
-          {
             "name": "fld w tf-field tf-picker-trigger",
             "left": 499,
             "right": 887,
@@ -4370,6 +4362,14 @@
           },
           {
             "name": "fld w tf-field tf-amount",
+            "left": 499,
+            "right": 887,
+            "width": 388,
+            "scrollWidth": 388,
+            "clientWidth": 388
+          },
+          {
+            "name": "fld w tf-field tf-fixed-currency",
             "left": 499,
             "right": 887,
             "width": 388,
@@ -4439,7 +4439,7 @@
             "clientWidth": 388
           },
           {
-            "name": "fld w tf-field tf-picker-trigger",
+            "name": "fld w tf-field tf-amount",
             "left": 499,
             "right": 887,
             "width": 388,
@@ -4447,7 +4447,7 @@
             "clientWidth": 388
           },
           {
-            "name": "fld w tf-field tf-amount",
+            "name": "fld w tf-field tf-picker-trigger",
             "left": 499,
             "right": 887,
             "width": 388,
@@ -4610,7 +4610,7 @@
           "width": 420,
           "scrollWidth": 420,
           "height": 708,
-          "scrollHeight": 744
+          "scrollHeight": 716
         },
         "footer": {
           "height": 108,
@@ -5016,7 +5016,7 @@
         "bodyBeforeContent": "none",
         "content": {
           "height": 453,
-          "scrollHeight": 488
+          "scrollHeight": 482
         },
         "sidebarDisplay": "none",
         "mobileNavDisplay": "none",
@@ -5033,7 +5033,7 @@
         "visaBrandVisible": false,
         "addCardButtonVisible": false,
         "scrollYAfter": 0,
-        "innerScrollTop": 35
+        "innerScrollTop": 29
       },
       "violations": []
     },
