@@ -18522,7 +18522,7 @@ pilotInit();
     previous=typeof view==='string'?view:'home';
     dismissWalletSheets();
     const iframe=overlay.querySelector('iframe');
-    iframe.src='legacy.html?capture=1&embedded=1&flow='+encodeURIComponent(flow)+'&screen='+encodeURIComponent(flow==='in'?'in-details':'out-config')+'&rail='+encodeURIComponent(rail);
+    iframe.src='legacy.html?v=amount-native-usdt-20261114&capture=1&embedded=1&flow='+encodeURIComponent(flow)+'&screen='+encodeURIComponent(flow==='in'?'in-details':'out-config')+'&rail='+encodeURIComponent(rail);
     overlay.hidden=false;
   };
   function close(){
