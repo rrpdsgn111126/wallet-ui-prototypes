@@ -343,10 +343,7 @@
         "fontReady": true,
         "screenTitle": "Вывод SEPA"
       },
-      "problems": [
-        "native MAX CSS differs: fontFamily",
-        "native currency CSS differs: fontFamily"
-      ]
+      "problems": []
     },
     {
       "label": "out-swift-390",
@@ -401,10 +398,7 @@
         "fontReady": true,
         "screenTitle": "Вывод SWIFT"
       },
-      "problems": [
-        "native MAX CSS differs: fontFamily",
-        "native currency CSS differs: fontFamily"
-      ]
+      "problems": []
     },
     {
       "label": "out-recipient-sepa-390",
@@ -1117,10 +1111,7 @@
         "fontReady": true,
         "screenTitle": "Вывод SEPA"
       },
-      "problems": [
-        "native MAX CSS differs: fontFamily",
-        "native currency CSS differs: fontFamily"
-      ]
+      "problems": []
     },
     {
       "label": "out-swift-430",
@@ -1175,10 +1166,7 @@
         "fontReady": true,
         "screenTitle": "Вывод SWIFT"
       },
-      "problems": [
-        "native MAX CSS differs: fontFamily",
-        "native currency CSS differs: fontFamily"
-      ]
+      "problems": []
     },
     {
       "label": "out-recipient-sepa-430",
@@ -1599,36 +1587,7 @@
       "problems": []
     }
   ],
-  "issues": [
-    {
-      "label": "out-sepa-390",
-      "problems": [
-        "native MAX CSS differs: fontFamily",
-        "native currency CSS differs: fontFamily"
-      ]
-    },
-    {
-      "label": "out-swift-390",
-      "problems": [
-        "native MAX CSS differs: fontFamily",
-        "native currency CSS differs: fontFamily"
-      ]
-    },
-    {
-      "label": "out-sepa-430",
-      "problems": [
-        "native MAX CSS differs: fontFamily",
-        "native currency CSS differs: fontFamily"
-      ]
-    },
-    {
-      "label": "out-swift-430",
-      "problems": [
-        "native MAX CSS differs: fontFamily",
-        "native currency CSS differs: fontFamily"
-      ]
-    }
-  ],
+  "issues": [],
   "functional": {
     "recipient": true,
     "recipientScreen": "out-recipient",
