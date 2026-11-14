@@ -343,9 +343,7 @@
         "fontReady": true,
         "screenTitle": "Вывод SEPA"
       },
-      "problems": [
-        "native alt.vu amount reference unavailable"
-      ]
+      "problems": []
     },
     {
       "label": "out-swift-390",
@@ -400,9 +398,7 @@
         "fontReady": true,
         "screenTitle": "Вывод SWIFT"
       },
-      "problems": [
-        "native alt.vu amount reference unavailable"
-      ]
+      "problems": []
     },
     {
       "label": "out-recipient-sepa-390",
@@ -1115,9 +1111,7 @@
         "fontReady": true,
         "screenTitle": "Вывод SEPA"
       },
-      "problems": [
-        "native alt.vu amount reference unavailable"
-      ]
+      "problems": []
     },
     {
       "label": "out-swift-430",
@@ -1172,9 +1166,7 @@
         "fontReady": true,
         "screenTitle": "Вывод SWIFT"
       },
-      "problems": [
-        "native alt.vu amount reference unavailable"
-      ]
+      "problems": []
     },
     {
       "label": "out-recipient-sepa-430",
@@ -1595,37 +1587,27 @@
       "problems": []
     }
   ],
-  "issues": [
-    {
-      "label": "out-sepa-390",
-      "problems": [
-        "native alt.vu amount reference unavailable"
-      ]
-    },
-    {
-      "label": "out-swift-390",
-      "problems": [
-        "native alt.vu amount reference unavailable"
-      ]
-    },
-    {
-      "label": "out-sepa-430",
-      "problems": [
-        "native alt.vu amount reference unavailable"
-      ]
-    },
-    {
-      "label": "out-swift-430",
-      "problems": [
-        "native alt.vu amount reference unavailable"
-      ]
-    }
-  ],
+  "issues": [],
   "functional": {
     "recipient": true,
     "recipientScreen": "out-recipient",
     "reviewScreen": "out-review",
     "progressScreen": "out-progress"
   },
-  "sourceAmount": null
+  "sourceAmount": {
+    "max": {
+      "fontSize": "13px",
+      "fontWeight": "600",
+      "backgroundColor": "rgb(233, 236, 240)",
+      "color": "rgb(33, 30, 29)",
+      "borderRadius": "999px",
+      "paddingTop": "10px",
+      "paddingRight": "14px",
+      "letterSpacing": "0.3px"
+    },
+    "input": {
+      "fontSize": "16px",
+      "fontWeight": "600"
+    }
+  }
 }
