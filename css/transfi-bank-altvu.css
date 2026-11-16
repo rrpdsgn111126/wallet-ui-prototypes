@@ -268,6 +268,24 @@ html.tf-embedded .proto-shell,html.tf-embedded .workspace{height:100%;width:100%
   .phone.tf-phone:not(.is-home)>.head .h1{font-size:20px}
 }
 
+/* UX: an unavailable action can still be tapped to explain the missing fields.
+   Use aria-disabled, never native disabled/pointer-events:none on these CTAs. */
+.phone.tf-phone:not(.is-home) > .tf-foot .btn.tf-inactive,
+.phone.tf-phone:not(.is-home) > .tf-foot .btn[aria-disabled="true"]{
+  background:var(--n100);
+  color:var(--n500);
+  box-shadow:none;
+  opacity:1;
+  cursor:pointer;
+  pointer-events:auto;
+}
+.phone.tf-phone .tf-submit-error{
+  font:400 12px/18px Inter,system-ui,sans-serif;
+  color:var(--err,#bd340e);
+  padding:7px 3px 0;
+}
+.phone.tf-phone .tf-submit-error[hidden]{display:none!important}
+
 /* Canonical icon-free bank recipient form: SEPA/SWIFT out-recipient only.
    All fields remain native .fld.w; only decorative leading .fi is removed.
    Currency, country and amount icons on out-config are unaffected. */
