@@ -113,7 +113,7 @@ try{
       box:css(document.querySelector('.tf-scroll .box')),
       table:css(document.querySelector('.tf-scroll .tbl')),
       segment:css(document.querySelector('.tf-scroll .seg')),
-      statusIcon:!!document.querySelector('.tf-hero .tf-mark svg,.tf-hero .okc svg'),
+      statusIcon:!!document.querySelector('.tf-hero .tf-mark svg,.tf-hero .okc svg,.tf-bank-wait .ring svg,.tf-bank-result .okc svg,.tf-bank-result .sbp-ic svg'),
       timelineDot:document.querySelector('.timeline .dot')?getComputedStyle(document.querySelector('.timeline .dot')).position:null,
       fontReady:document.fonts.check('16px Inter'),
       screenTitle:head?.textContent,
@@ -136,6 +136,21 @@ try{
      problems.push('box radius not matching source');
    if(metrics.table&&Math.abs(valuePx(metrics.table.borderRadius)-valuePx(report.source.table?.borderRadius))>1)
      problems.push('table radius not matching source');
+   if(flow==='out'&&['out-progress','out-held','out-failed','out-success'].includes(screen)&&metrics.timelineDot!==null)
+     problems.push('bank final states must not show a multi-step timeline');
+   if(flow==='out'&&screen==='out-review'){
+     const review=await page.evaluate(()=>({
+       header:document.querySelector('#phoneTitle')?.textContent,
+       labels:[...document.querySelectorAll('.tf-review-quote .row .rt')].map(x=>x.textContent.trim()),
+       totalClass:document.querySelector('.tf-review-quote .row:last-child')?.className,
+       recipientLabel:[...document.querySelectorAll('.tf-review-box .rt')].map(x=>x.textContent.trim()).find(x=>x==='Кому'),
+       heading:!!document.querySelector('.tf-scroll .gt'),
+       button:document.querySelector('.tf-foot .btn')?.textContent.trim()
+     }));
+     if(review.header!=='Проверьте перевод'||review.labels.join('|')!=='Сумма перевода|Курс|Комиссия|Спишется со счёта'||
+        !review.totalClass?.includes('tot')||review.recipientLabel!=='Кому'||review.heading||!review.button?.startsWith('Перевести '))
+       problems.push('bank review must mirror native P2P confirmation '+JSON.stringify(review));
+   }
    if(/pending|held|failed|success|progress/.test(screen)&&!metrics.statusIcon)
      problems.push('status SVG missing');
    if(metrics.timelineDot&&metrics.timelineDot!=='static')
