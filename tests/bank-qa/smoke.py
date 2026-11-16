@@ -334,32 +334,80 @@ async def smoke(browser, origin):
     await assert_mobile_header(narrow)
     await narrow.close()
 
-    # The design-system catalog must render the ACTUAL bank picker, not a
-    # static redrawing. Both examples use nested same-origin iframes.
-    catalog = await browser.new_page(viewport={"width": 1440, "height": 900})
-    await catalog.goto(origin + "/ui-kit/")
-    entry = catalog.locator("#bankpicker")
-    await expect(entry).to_have_count(1)
-    await entry.scroll_into_view_if_needed()
-    for mode, field, new_value, expected in (
-        ("country", "country", "FR", "Франция"),
-        ("currency", "outCurrency", "GBP", "GBP"),
+    # The ONE canonical picker block exposes only standalone fields.
+    # The original bank handlers are reused for country/currency; the
+    # source USDT net-pick/ns-sheet primitives are interactive for network.
+    catalog=await browser.new_page(viewport={"width":1440,"height":900})
+    await catalog.goto(origin+"/ui-kit/")
+    group=catalog.locator("#selectors.cmp")
+    await expect(group).to_have_count(1)
+    assert await catalog.locator('article.cmp#netsheet,article.cmp#bankpicker').count()==0
+    assert await group.locator("figure.v").count()==3
+    await group.scroll_into_view_if_needed()
+
+    # SEPA/SWIFT glyphs are catalogued alongside original wallet coins.
+    coins=catalog.frame_locator('#coins iframe[src*="coins.html#light"]')
+    for rail in ("SEPA","SWIFT"):
+        plate=coins.locator('[data-rail-icon="'+rail+'"]')
+        await expect(plate).to_be_visible()
+        dims=await plate.evaluate("""el => ({
+           plate:el.getBoundingClientRect().width,
+           badge:el.querySelector('.tf-rail-mark').getBoundingClientRect().width,
+           glyph:el.querySelector('.tf-rail-glyph').getBoundingClientRect().width
+        })""")
+        assert dims=={"plate":40,"badge":24,"glyph":16},(rail,dims)
+
+    network=catalog.frame_locator('#selectors iframe[src*="netsheet.html"]')
+    await expect(network.locator('#network-trigger')).to_be_visible(timeout=15000)
+    assert await network.locator('.ns-layer').is_hidden()
+    assert await network.locator('header,.head,.tf-source,.tf-quote').count()==0
+    await network.locator('#network-trigger').click()
+    await expect(network.locator('.ns-layer .ns-sheet')).to_be_visible()
+    assert await network.locator('.ns-box .row').count()==4
+    assert await network.locator('.ns-box .rd.on').count()==1
+    await network.locator('[data-ns="bnb"]').click()
+    await expect(network.locator('#network-value')).to_have_text("BEP-20")
+    await expect(network.locator('.ns-layer')).to_be_hidden()
+    await network.locator('#network-trigger').click()
+    await expect(network.locator('[data-ns="bnb"]')).to_have_attribute("aria-checked","true")
+    await network.locator('.ns-layer [data-close]').click()
+    await expect(network.locator('.ns-layer')).to_be_hidden()
+
+    for mode,field,new_value,expected in (
+       ("country","country","FR","Франция"),
+       ("currency","outCurrency","GBP","GBP")
     ):
         outer=catalog.frame_locator(
-            '#bankpicker iframe[src*="mode=' + mode + '"]'
+          '#selectors iframe[src*="mode='+mode+'"]'
         )
-        inner=outer.frame_locator("iframe.canonical-embed")
-        await expect(inner.locator(".tf-picker-sheet")).to_be_visible(timeout=15000)
-        assert await inner.locator(".tf-picker-box").count() == 1
-        assert await inner.locator(".tf-picker-row .rd.on").count() == 1
+        inner=outer.frame_locator('iframe.canonical-embed')
+        picker=inner.locator('[data-picker="'+field+'"]')
+        await expect(picker).to_be_visible(timeout=15000)
+        assert await inner.locator('#content > .fld').count()==1
+        assert await inner.locator('#content .tf-quote, #content .tf-source').count()==0
+        assert await inner.locator('.phone.tf-phone > .head').is_hidden()
+        assert await inner.locator('.tf-picker-layer').is_hidden()
+        assert await picker.get_attribute('aria-haspopup')=="dialog"
+        await picker.click()
+        await expect(inner.locator('.tf-picker-sheet')).to_be_visible()
+        assert await inner.locator('.tf-picker-box').count()==1
+        assert await inner.locator('.tf-picker-row .rd.on').count()==1
         if mode=="country":
-            assert await inner.locator(".tf-picker-row .tf-country-flag").count() == 4
-        await inner.locator('[data-picker-value="' + new_value + '"]').click()
-        await expect(inner.locator(".tf-picker-sheet")).to_have_count(0)
-        selected=inner.locator('[data-picker="' + field + '"]')
-        assert expected in await selected.inner_text()
-        await selected.click()
-        await expect(inner.locator(".tf-picker-sheet")).to_be_visible()
+            assert await inner.locator('.tf-picker-row .tf-country-flag').count()>=4
+        else:
+            assert await inner.locator('.tf-picker-row .tf-currency-icon').count()==3
+        z=await inner.locator('.tf-picker-layer').evaluate("""root => ({
+          sheet:Number(getComputedStyle(root.querySelector('.tf-picker-sheet')).zIndex),
+          dim:Number(getComputedStyle(root.querySelector('.tf-picker-dim')).zIndex)
+        })""")
+        assert z["sheet"]>z["dim"],z
+        await inner.locator('[data-picker-value="'+new_value+'"]').click()
+        await expect(inner.locator('.tf-picker-layer')).to_be_hidden()
+        assert expected in await picker.inner_text()
+        await picker.click()
+        await expect(inner.locator('[data-picker-value="'+new_value+'"]')).to_have_attribute("aria-checked","true")
+        await inner.locator('[data-picker-dismiss]').click()
+        await expect(inner.locator('.tf-picker-layer')).to_be_hidden()
     # Canonical source-account/currency specimens embed live bank fields.
     fields=catalog.locator("#bankfields")
     await expect(fields).to_have_count(1)
