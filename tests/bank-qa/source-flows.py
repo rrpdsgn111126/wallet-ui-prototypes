@@ -65,7 +65,7 @@ async def test_source(browser, origin):
         if "-out-" in operation_id:
             rows=page.locator("#d-money > .row")
             await expect(rows).to_have_count(4)
-            expected=(("Получено","Курс","Комиссия","Итого списано"))
+            expected=(("Отправлено","Курс","Комиссия","Итого списано"))
             actual=await rows.locator(".rt").all_inner_texts()
             assert actual==list(expected),(operation_id,actual)
             await expect(rows.nth(0).locator(".rv")).to_contain_text(currency)

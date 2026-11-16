@@ -49,14 +49,14 @@
   const formatBank=(minor,currency)=>money(minor)+' '+bankCurrency(currency);
   const displayBankRate=rate=>String(rate||'').replace(/\bUSD\b/g,'$');
   const isIn=o=>o.kind==='deposit';
-  const rateRows=o=>isIn(o)?[
+  const rateRows=(o,detailsOnly=false)=>isIn(o)?[
     ['Отправлено',formatBank(o.bank_source_minor,o.bank_source_currency)],
     ['Курс',displayBankRate(o.bank_rate)],
     ['Комиссия',formatBank(o.fee_minor||0,'USD')],
     ['Итого зачислено',formatBank(o.bank_dest_minor,'USD'),true]
   ]:[
     // bank_source_minor already includes the fee: do not add it again.
-    ['Получено',formatBank(o.bank_dest_minor,o.bank_dest_currency)],
+    [detailsOnly?'Отправлено':'Получено',formatBank(o.bank_dest_minor,o.bank_dest_currency)],
     ['Курс',displayBankRate(o.bank_rate)],
     ['Комиссия',formatBank(o.fee_minor||0,'USD')],
     ['Итого списано',formatBank(o.bank_source_minor,'USD'),true]
@@ -193,7 +193,7 @@
     const cat=document.getElementById('d-cat');
     if(cat){cat.hidden=false;cat.innerHTML=bankIcon(o.bank_rail,true);}
     const amounts=document.getElementById('d-money');
-    if(amounts){amounts.innerHTML=rowsWithSub(rateRows(o));amounts.hidden=false;}
+    if(amounts){amounts.innerHTML=rowsWithSub(rateRows(o,true));amounts.hidden=false;}
     const fields=document.getElementById('d-box');
     if(fields){
       const recordRows=detailsRows(o);
