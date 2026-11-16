@@ -233,8 +233,27 @@ async def smoke(browser, origin):
         page = await bank_page(browser, origin, "out", rail, "out-recipient")
         # No decorative field icons on the recipient step — including purpose
         # and the optional SWIFT/SEPA fields in the standalone disclosure.
-        field_count=4 if rail=="SEPA" else 6
+        field_count=3 if rail=="SEPA" else 5
         assert await page.locator('#content > .tf-recipient-field').count()==field_count, "Unexpected number of top-level recipient fields"
+        assert await page.locator('#f-firstName').count()==0
+        assert await page.locator('#f-lastName').count()==0
+        name=page.locator('#f-recipientName')
+        await expect(name).to_be_visible()
+        assert 'Имя и фамилия получателя' in await page.locator('#wrap-recipientName').inner_text()
+        cta=page.locator('.tf-foot .btn')
+        await expect(cta).to_have_attribute('aria-disabled','true')
+        assert await cta.get_attribute('disabled') is None, "Inactive CTA must remain clickable"
+        await cta.evaluate('(el) => el.click()')
+        await expect(page.locator('.tf-submit-error')).to_contain_text('имя и фамилию получателя')
+        await name.fill('Иван')
+        await expect(cta).to_have_attribute('aria-disabled','true')
+        await cta.evaluate('(el) => el.click()')
+        await expect(page.locator('.tf-submit-error')).to_contain_text('полностью')
+        await name.fill('Иван Иванов')
+        await expect(cta).to_have_attribute('aria-disabled','true')
+        await cta.evaluate('(el) => el.click()')
+        missing='IBAN' if rail=='SEPA' else 'номер счёта'
+        await expect(page.locator('.tf-submit-error')).to_contain_text(missing)
         assert await page.locator('#content .tf-recipient-field .fi').count()==0
         assert await page.locator('#content [data-picker="purpose"] .fi').count()==0
         details=page.locator('#content details.tf-recipient-extra')
@@ -251,6 +270,8 @@ async def smoke(browser, origin):
         expected_optional=2 if rail=="SEPA" else 4
         assert await details.locator(".tf-recipient-field").count()==expected_optional
         assert await details.locator(".fi").count()==0
+        for caption in await details.locator('.fld .fl i').all_inner_texts():
+            assert 'необязательно' not in caption, 'Optional qualifier should not appear in expanded labels'
         assert await details.locator('.fld.tf-field').first.evaluate(
             "el=>getComputedStyle(el).backgroundColor==='rgb(255, 255, 255)'"
         ),"Expanded fields should be individually white without an outer card"
@@ -265,6 +286,43 @@ async def smoke(browser, origin):
         await assert_native_picker(page)
         await page.locator('[data-picker-value="other"]').click()
         await expect(page.locator("#wrap-purposeOther")).to_be_visible()
+        await expect(page.locator('.tf-foot .btn')).to_have_attribute('aria-disabled','true')
+        await page.locator('#f-purposeOther').fill('Оплата обучения')
+        if rail=='SEPA':
+            await page.locator('#f-iban').fill('DE00 0000 0000 0000 0000 00')
+        else:
+            await page.locator('#f-account').fill('000000000000')
+            await page.locator('#f-bic').fill('DEMOXXXX')
+            await page.locator('#f-bank').fill('Банк получателя')
+        await expect(page.locator('.tf-foot .btn')).to_have_attribute('aria-disabled','false')
+        await page.locator('.tf-foot .btn').click()
+        await expect(page.locator('.tf-review-box')).to_be_visible()
+        assert 'Иван Иванов' in await page.locator('.tf-review-box').inner_text()
+        await page.locator('.phone.tf-phone > .head .back').click()
+        await expect(page.locator('#f-recipientName')).to_have_value('Иван Иванов')
+
+        await page.close()
+
+    # Config CTA must look disabled when amount is empty, but explain why on click.
+    for rail in ('SEPA','SWIFT'):
+        page=await bank_page(browser,origin,'out',rail,'out-config')
+        cta=page.locator('.tf-foot .btn')
+        await expect(cta).to_have_attribute('aria-disabled','true')
+        assert await cta.get_attribute('disabled') is None
+        await cta.evaluate('(el) => el.click()')
+        await expect(page.locator('.tf-submit-error')).to_contain_text('сумму перевода')
+        await page.locator('#tf-out-amount').fill('1')
+        await expect(cta).to_have_attribute('aria-disabled','true')
+        await cta.evaluate('(el) => el.click()')
+        await expect(page.locator('.tf-submit-error')).to_contain_text('комиссии')
+        await page.locator('#tf-out-amount').fill('5000')
+        await expect(cta).to_have_attribute('aria-disabled','true')
+        await cta.evaluate('(el) => el.click()')
+        await expect(page.locator('.tf-submit-error')).to_contain_text('Недостаточно средств')
+        await page.locator('#tf-out-amount').fill('100')
+        await expect(cta).to_have_attribute('aria-disabled','false')
+        await cta.click()
+        await expect(page.locator('#f-recipientName')).to_be_visible()
         await page.close()
 
     # The original wallet uses 14px top padding on 390px and 430px viewports.
