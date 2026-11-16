@@ -232,6 +232,23 @@ async def smoke(browser, origin):
         assert expected in await selected.inner_text()
         await selected.click()
         await expect(inner.locator(".tf-picker-sheet")).to_be_visible()
+    # Canonical source-account/currency specimens embed live bank fields.
+    fields=catalog.locator("#bankfields")
+    await expect(fields).to_have_count(1)
+    await fields.scroll_into_view_if_needed()
+    for mode,rail,code in (("sepa","SEPA","EUR"),("swift","SWIFT","EUR")):
+        outer=catalog.frame_locator('#bankfields iframe[src*="mode='+mode+'"]')
+        inner=outer.frame_locator("iframe.bank-field-sample")
+        await expect(inner.locator(".tf-source")).to_be_visible(timeout=15000)
+        assert await inner.locator(".tf-source .addon").count()==0
+        assert await inner.locator(".tf-source .fl b").inner_text()=="Доступно 4 812.60 $"
+        currency=(inner.locator(".tf-fixed-currency") if rail=="SEPA"
+                  else inner.locator('[data-picker="outCurrency"]'))
+        await expect(currency.locator("svg.tf-currency-icon")).to_have_attribute("data-currency",code)
+        assert await inner.locator(".tf-currency-icon").count()>=1
+        head=inner.locator(".phone.tf-phone:not(.is-home) > .head")
+        padding=await head.evaluate("el => parseFloat(getComputedStyle(el).paddingTop)")
+        assert padding==14,"Catalog bank header inset: "+str(padding)
     await catalog.close()
 
     # Test actual embedded exit, not just a standalone legacy.html page.
