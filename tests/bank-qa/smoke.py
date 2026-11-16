@@ -429,6 +429,25 @@ async def smoke(browser, origin):
         await expect(inner.locator('.tf-picker-layer')).to_be_hidden()
         assert expected in await picker.inner_text()
         bounds_before=await picker.evaluate('el => el.getBoundingClientRect().toJSON()')
+        if mode=="currency":
+            await inner.locator('.phone.tf-phone').evaluate("""phone => {
+                window.__pickerTrace=[];
+                const previousOpen=window.uxOpenPicker;
+                const previousClose=window.uxClosePicker;
+                window.uxOpenPicker=function(...args){
+                    window.__pickerTrace.push(['open',args[0],S.picker,S.modal]);
+                    return previousOpen(...args);
+                };
+                window.uxClosePicker=function(...args){
+                    window.__pickerTrace.push(['close',S.picker,S.modal]);
+                    return previousClose(...args);
+                };
+                phone.addEventListener('click',event=>{
+                    window.__pickerTrace.push(['event',event.target.tagName,
+                      event.target.closest('[data-picker]')?.dataset.picker,
+                      event.target.closest('[data-picker-dismiss]')?.className]);
+                },true);
+            }""")
         await picker.click()
         debug=await inner.locator('#pickerLayer').evaluate("""el => ({
           hidden:el.hidden,
@@ -437,6 +456,7 @@ async def smoke(browser, origin):
           modal:typeof S==='object'?S.modal:'unknown',
           chosen:typeof S==='object'?S.outCurrency:'unknown',
           rows:el.querySelectorAll('[data-picker-value]').length,
+          trace:window.__pickerTrace||[],
           trigger:document.querySelector('[data-picker]')?.outerHTML.slice(0,180)
         })""")
         assert not debug['hidden'] and debug['rows']>0,(
