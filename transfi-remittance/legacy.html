@@ -1341,6 +1341,14 @@ if(queryRail==='SEPA'||queryRail==='SWIFT'){
 }
 S.cardMode=tfQuery.get('card')==='ghost'?'ghost':'issued';
 S.profileTab='data';
+// Catalog / Playwright specimen: values are fictional and never trigger a
+// payment. The deployed user journey always starts with an empty amount.
+if(tfQuery.get('capture')==='1'&&tfQuery.get('sample')==='1'&&S.flow==='out'){
+ Object.assign(S,{amount:'1000',recipientName:'Иван Иванов',
+   iban:'DE00 0000 0000 0000 0000 00',account:'000000000000',
+   bic:'DEMOXXXX',bank:'Банк-партнёр',purpose:'personal',
+   outCurrency:'EUR',sourceCurrency:'USD'});
+}
 const queryScreen=tfQuery.get('screen');
 if(queryScreen==='home'||SCREENS[S.flow].some(([screen])=>screen===queryScreen))S.screen=queryScreen;
 if(S.screen==='home'&&(tfQuery.get('modal')==='in'||tfQuery.get('modal')==='out'))S.modal=tfQuery.get('modal');
