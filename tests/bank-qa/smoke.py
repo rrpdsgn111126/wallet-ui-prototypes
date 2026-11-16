@@ -231,6 +231,35 @@ async def smoke(browser, origin):
         await page.close()
 
         page = await bank_page(browser, origin, "out", rail, "out-recipient")
+        # No decorative field icons on the recipient step — including purpose
+        # and the optional SWIFT/SEPA fields in the standalone disclosure.
+        field_count=4 if rail=="SEPA" else 6
+        assert await page.locator('#content .tf-recipient-field').count()==field_count
+        assert await page.locator('#content .tf-recipient-field .fi').count()==0
+        assert await page.locator('#content [data-picker="purpose"] .fi').count()==0
+        details=page.locator('#content details.tf-recipient-extra')
+        await expect(details).to_have_count(1)
+        assert await details.evaluate("""el => {
+          const content=document.querySelector('#content');
+          return content.lastElementChild===el && getComputedStyle(el).backgroundColor==='rgba(0, 0, 0, 0)'
+            && getComputedStyle(el).paddingLeft==='0px'
+            && getComputedStyle(el).borderTopWidth==='0px';
+        }"""),"Optional details must be the last standalone header with no card wrapper"
+        assert not await details.get_attribute("open"), "Additional bank fields must initially be collapsed"
+        await details.locator("summary").click()
+        await expect(details).to_have_attribute("open","")
+        expected_optional=2 if rail=="SEPA" else 4
+        assert await details.locator(".tf-recipient-field").count()==expected_optional
+        assert await details.locator(".fi").count()==0
+        assert await details.locator('.fld.tf-field').first.evaluate(
+            "el=>getComputedStyle(el).backgroundColor==='rgb(255, 255, 255)'"
+        ),"Expanded fields should be individually white without an outer card"
+        optional=details.locator('input').first
+        await optional.fill("DEMO_OPTIONAL")
+        await details.locator("summary").click()
+        await expect(details).not_to_have_attribute("open","")
+        await details.locator("summary").click()
+        await expect(optional).to_have_value("DEMO_OPTIONAL")
         await page.locator('[data-picker="purpose"]').click()
         await expect(page.locator(".tf-picker-sheet")).to_be_visible()
         await assert_native_picker(page)
