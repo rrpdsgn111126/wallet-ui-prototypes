@@ -828,7 +828,7 @@ ${S.outRail==='SWIFT'?`<details class="tf-more tf-recipient-extra"><summary>До
 f=primary('Проверить перевод','checkRecipient()',Boolean(uxRecipientValidation()));break;
 case'out-review':p=`<div class="amt tf-review-amount">${esc(money(q.receive,S.outCurrency))}</div>
 <div class="amsub">${esc(S.recipientName.trim())} · ${esc(S.outRail)}</div>
-<div class="box tf-review-box">
+<div class="box tf-review-box tf-quote">
 ${tfBankReviewRow('Метод',S.outRail)}
 ${tfBankReviewRow('Кому',S.recipientName.trim())}
 ${tfBankReviewRow('Страна',COUNTRY[S.country])}
