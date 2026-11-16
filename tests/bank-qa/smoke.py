@@ -430,6 +430,18 @@ async def smoke(browser, origin):
         assert expected in await picker.inner_text()
         bounds_before=await picker.evaluate('el => el.getBoundingClientRect().toJSON()')
         await picker.click()
+        debug=await inner.locator('#pickerLayer').evaluate("""el => ({
+          hidden:el.hidden,
+          selected:typeof S==='object'?S.picker:'unknown',
+          method:typeof S==='object'?S.outRail:'unknown',
+          modal:typeof S==='object'?S.modal:'unknown',
+          chosen:typeof S==='object'?S.outCurrency:'unknown',
+          rows:el.querySelectorAll('[data-picker-value]').length,
+          trigger:document.querySelector('[data-picker]')?.outerHTML.slice(0,180)
+        })""")
+        assert not debug['hidden'] and debug['rows']>0,(
+          'The canonical picker did not reopen after value change',mode,debug
+        )
         await expect(inner.locator('[data-picker-value="'+new_value+'"]')).to_have_attribute("aria-checked","true")
         motion=await inner.locator('.tf-picker-sheet').evaluate("""el => ({
           name:getComputedStyle(el).animationName,
