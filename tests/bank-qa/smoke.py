@@ -40,6 +40,46 @@ async def bank_page(browser, origin, flow, rail, screen):
     return page
 
 
+async def assert_mobile_header(page):
+    metrics=await page.locator(".phone.tf-phone:not(.is-home) > .head").evaluate(
+        """el => ({
+            paddingTop:parseFloat(getComputedStyle(el).paddingTop),
+            safeArea:CSS.supports('padding-top','env(safe-area-inset-top)'),
+            height:el.getBoundingClientRect().height
+        })"""
+    )
+    assert metrics["paddingTop"] == 14, "Bank header must share the native mobile 14px inset: "+str(metrics)
+
+
+async def assert_currency_icon(page, selector, currency):
+    values=await page.locator(selector).evaluate("""(field) => {
+      const glyph=field.querySelector('.fi svg.tf-currency-icon');
+      const amount=document.querySelector('.tf-amount .fi svg');
+      if(!glyph)return {error:'missing currency SVG'};
+      const style=getComputedStyle(glyph);
+      const gRect=glyph.getBoundingClientRect();
+      const plate=field.querySelector('.fi').getBoundingClientRect();
+      return {
+        code:glyph.dataset.currency,
+        width:gRect.width,height:gRect.height,
+        viewBox:glyph.getAttribute('viewBox'),stroke:style.strokeWidth,
+        linecap:style.strokeLinecap,linejoin:style.strokeLinejoin,
+        plate:plate.width,
+        amountWidth:amount&&amount.getBoundingClientRect().width,
+        amountStroke:amount&&getComputedStyle(amount).strokeWidth
+      };
+    }""")
+    assert values.get("code") == currency, values
+    assert values["width"] == 20 and values["height"] == 20, values
+    assert values["viewBox"] == "0 0 24 24", values
+    assert values["stroke"] == "1.8px", values
+    assert values["linecap"] == "round" and values["linejoin"] == "round", values
+    assert values["plate"] == 40, values
+    if values["amountWidth"] is not None:
+        assert values["amountWidth"] == values["width"], values
+        assert values["amountStroke"] == values["stroke"], values
+
+
 async def assert_native_picker(page, country=False):
     """Verify the bank sheet matches the native USDT network picker markup/stack."""
     sheet=page.locator(".tf-picker-sheet")
@@ -98,9 +138,11 @@ async def assert_native_picker(page, country=False):
 async def smoke(browser, origin):
     for rail in ("SEPA", "SWIFT"):
         page = await bank_page(browser, origin, "in", rail, "in-details")
+        await assert_mobile_header(page)
         if rail == "SEPA":
             assert await page.locator('[data-picker="inCurrency"]').count() == 0, "SEPA EUR must be fixed"
             assert "EUR" in await page.locator(".tf-deposit-currency").inner_text()
+            await assert_currency_icon(page,".tf-deposit-currency","EUR")
         else:
             await page.locator('[data-picker="inCurrency"]').click()
             sheet = page.locator(".tf-picker-sheet")
@@ -110,12 +152,26 @@ async def smoke(browser, origin):
             await expect(sheet).to_have_count(0)
             assert "USD" in await page.locator('[data-picker="inCurrency"]').inner_text()
             assert "DEMOUS00" in await page.locator(".tf-requisites").inner_text()
+            # The selected USD currency glyph must use the same vector metric.
+            usd=page.locator('[data-picker="inCurrency"] svg.tf-currency-icon')
+            await expect(usd).to_have_attribute('data-currency','USD')
             await page.locator('[data-picker="inCurrency"]').click()
             await page.keyboard.press("Escape")
             await expect(page.locator(".tf-picker-sheet")).to_have_count(0)
         await page.close()
 
         page = await bank_page(browser, origin, "out", rail, "out-config")
+        await assert_mobile_header(page)
+        source=page.locator(".tf-source")
+        await expect(source).to_have_count(1)
+        assert await source.locator(".addon").count() == 0, "Unexpected USD right suffix"
+        assert await source.locator(".fl b").inner_text() == "Доступно 4 812.60 $"
+        assert await source.locator(".fi img").count() == 1
+        assert await page.locator(".tf-amount .fi svg").count() == 1
+        if rail=="SEPA":
+            await assert_currency_icon(page,".tf-fixed-currency","EUR")
+        else:
+            await assert_currency_icon(page,'[data-picker="outCurrency"]',"EUR")
         if rail == "SEPA":
             assert await page.locator('[data-picker="outCurrency"]').count() == 0, "SEPA EUR must be fixed"
         else:
@@ -124,6 +180,7 @@ async def smoke(browser, origin):
             await assert_native_picker(page)
             await page.locator('[data-picker-value="GBP"]').click()
             assert "GBP" in await page.locator('[data-picker="outCurrency"]').inner_text()
+            await assert_currency_icon(page,'[data-picker="outCurrency"]',"GBP")
         await page.locator('[data-picker="country"]').click()
         await assert_native_picker(page, country=True)
         # Row must be clickable without force, with the dim BEHIND the sheet.
@@ -142,6 +199,12 @@ async def smoke(browser, origin):
         await page.locator('[data-picker-value="other"]').click()
         await expect(page.locator("#wrap-purposeOther")).to_be_visible()
         await page.close()
+
+    # The original wallet uses 14px top padding on 390px and 430px viewports.
+    narrow=await browser.new_page(viewport={"width":390,"height":844},device_scale_factor=1)
+    await narrow.goto(origin+"/transfi-remittance/legacy.html?capture=1&embedded=1&flow=out&screen=out-config&rail=SEPA")
+    await assert_mobile_header(narrow)
+    await narrow.close()
 
     # The design-system catalog must render the ACTUAL bank picker, not a
     # static redrawing. Both examples use nested same-origin iframes.
