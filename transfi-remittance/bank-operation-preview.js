@@ -117,6 +117,7 @@
     body.innerHTML=(head?head.outerHTML:'')+
       '<div class="rttl" id="r-ttl">Квитанция по операции от '+
        tEsc(fullTime(o.created_at).split(',')[0])+'</div>'+
+      line('Операция',o.title)+
       detailsRows(o).map(x=>line(x[0],x[1],false)).join('')+
       '<div class="rsep"></div>'+
       rateRows(o).map(x=>line(x[0],x[1],Boolean(x[2]))).join('')+
@@ -134,6 +135,7 @@
     return sHead('Квитанция по операции')+
       '<div class="s-mr s-name"><b>'+sEsc(sWho())+'</b></div>'+
       '<div class="s-kv">'+
+      row('Операция',o.title)+
       detailsRows(o).map(x=>row(x[0],x[1],false)).join('')+
       rateRows(o).map(x=>row(x[0],x[1],Boolean(x[2]))).join('')+
       row('Статус',opStatus(o))+'</div>'+sFoot();
