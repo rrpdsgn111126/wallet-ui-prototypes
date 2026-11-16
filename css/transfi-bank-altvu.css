@@ -305,7 +305,7 @@ html.tf-embedded .proto-shell,html.tf-embedded .workspace{height:100%;width:100%
 }
 .phone.tf-phone .tf-more.tf-recipient-extra .fld.tf-field{
   margin:0 0 12px;background:var(--surface);
-  box-shadow:0 1px 2px var(--sh-1);
+  box-shadow:0 1px 2px var(--sh-1)!important;
 }
 .phone.tf-phone .tf-more.tf-recipient-extra .fld.tf-field:last-child{
   margin-bottom:12px;
