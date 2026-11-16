@@ -41,6 +41,42 @@ async def test_source(browser, origin):
     await expect(page.locator("#pv-qa")).to_be_visible()
     await expect(page.locator("#v-home .op[data-id]")).to_have_count(5)
 
+    # Four fixed bank transaction examples on the original home history:
+    # SEPA deposit, SEPA withdrawal, SWIFT deposit, SWIFT withdrawal.
+    bank_cases=(
+        ("pv-sepa-in-001", "SEPA", "Пополнение SEPA", "EUR", "Зачислено"),
+        ("pv-sepa-out-002", "SEPA", "Вывод SEPA", "EUR", "Отправлено"),
+        ("pv-swift-in-003", "SWIFT", "Пополнение SWIFT", "GBP", "Зачислено"),
+        ("pv-swift-out-004", "SWIFT", "Вывод SWIFT", "GBP", "Отправлено"),
+    )
+    for operation_id,rail,title,currency,status in bank_cases:
+        entry=page.locator('#v-home .op[data-id="'+operation_id+'"]')
+        await expect(entry).to_be_visible()
+        await expect(entry).to_contain_text(title)
+        await entry.click()
+        await expect(page.locator("#v-details.on")).to_be_visible()
+        await expect(page.locator("#d-sub")).to_contain_text(title)
+        await expect(page.locator("#d-box")).to_contain_text("Способ перевода")
+        await expect(page.locator("#d-box")).to_contain_text(rail)
+        await expect(page.locator("#d-money")).to_contain_text(currency)
+        await expect(page.locator("#d-money")).to_contain_text("Комиссия")
+        await expect(page.locator("#d-receipt")).to_be_visible()
+        await page.locator("#d-receipt").click()
+        await expect(page.locator("#v-receipt.on")).to_be_visible()
+        receipt=page.locator("#r-body")
+        await expect(receipt).to_contain_text(title)
+        await expect(receipt).to_contain_text("Способ перевода")
+        await expect(receipt).to_contain_text(rail)
+        await expect(receipt).to_contain_text(currency)
+        await expect(receipt).to_contain_text("Номер операции")
+        await expect(receipt).to_contain_text(status)
+        printed=await page.evaluate("() => sReceipt()")
+        assert title in printed and rail in printed and currency in printed,operation_id
+        await page.locator("#v-receipt .back[data-back]").click()
+        await expect(page.locator("#v-details.on")).to_be_visible()
+        await page.locator("#v-details .back[data-back]").click()
+        await expect(page.locator("#v-home.on")).to_be_visible()
+
     # Original detailed transaction card opened from the home operation row.
     await page.locator("#v-home .op[data-id]").first.click()
     await expect(page.locator("#v-details.on")).to_be_visible()
@@ -116,7 +152,7 @@ async def main():
                 await test_source(browser,"http://127.0.0.1:"+str(server.server_port))
             finally:
                 await browser.close()
-        print("PASS: original home details, deposit callback, withdrawal review/success/failure, peer review, SBP callback")
+        print("PASS: four bank history/detail/receipt flows and original home details, deposit callback, withdrawal review/success/failure, peer review, SBP callback")
     finally:
         server.shutdown()
         server.server_close()
