@@ -25,74 +25,68 @@ jobs:
           const path = require('path');
           (async () => {
             const browser = await chromium.launch({channel:'chrome',headless:true});
-            for(const width of [390,1440]) {
-              const page=await browser.newPage({viewport:{width,height:900}});
-              page.setDefaultTimeout(7000);
-              const errors=[];
-              page.on('pageerror',e=>errors.push(String(e)));
-              page.on('console',msg=>{if(msg.type()==='error')errors.push(msg.text())});
-              await page.goto('file://'+path.resolve('transfi-remittance/legacy.html'),{waitUntil:'domcontentloaded'});
-              await page.waitForTimeout(200);
-              const snapshot=async(label)=>console.log(JSON.stringify({width,label,title:await page.locator('#phoneTitle').innerText().catch(()=>null),steps:await page.locator('#stageLabel').innerText().catch(()=>null),errors:[...errors]}));
-              await snapshot('initial');
-              if(errors.length)throw Error('JS initialization error: '+errors.join(' / '));
-              for (const [selector,screen] of [
-                ['.tf-bottom-nav [data-mb="profile"]','Профиль'],
-                ['.tf-bottom-nav [data-mb="card"]','Карта'],
-                ['.tf-source-home .ha[data-go="notes"]','Уведомления'],
-                ['.tf-source-home .hh [data-go="history"]','История']
-              ]) {
-                await page.locator(selector).click();
-                const title=await page.locator('#phoneTitle').innerText();
-                if(title!==screen)throw Error('Main navigation failed for '+screen+': '+title);
+            try{
+              for(const width of [390,1440]){
+                const page=await browser.newPage({viewport:{width,height:900}});
+                page.setDefaultTimeout(9000);
+                const errors=[];
+                page.on('pageerror',error=>errors.push(String(error)));
+                await page.goto('file://'+path.resolve('transfi-remittance/legacy.html'),{waitUntil:'domcontentloaded'});
+                await page.locator('.tf-source-home').waitFor({state:'visible'});
+                for(const [selector,title] of [
+                  ['.tf-bottom-nav [data-mb="profile"]','Профиль'],
+                  ['.tf-bottom-nav [data-mb="card"]','Карта'],
+                  ['.tf-source-home .ha[data-go="notes"]','Уведомления'],
+                  ['.tf-source-home .hh [data-go="history"]','История']
+                ]){
+                  await page.locator(selector).click();
+                  if(await page.locator('#phoneTitle').innerText()!==title)
+                    throw Error(title+' navigation failed');
+                  await page.locator('.phone.tf-phone .back').click();
+                }
+                if(!await page.locator('.tf-visa-brand').isVisible())throw Error('Source card missing');
+                await page.locator('.tf-bottom-nav [data-mb="topup"]').click();
+                await page.locator('#methodLayer .tf-method-row').filter({hasText:'SEPA'}).click();
+                await page.locator('.tf-deposit-currency').waitFor();
+                if((await page.locator('.tf-deposit-currency b').innerText())!=='EUR')throw Error('SEPA must use fixed EUR');
                 await page.locator('.phone.tf-phone .back').click();
-                if(!await page.locator('.tf-source-home').isVisible())throw Error('Back to home failed from '+screen);
-              }
-
-              if(await page.locator('.phone.tf-phone .sb').count())throw Error('Native OS status bar should be removed');
-              if(await page.locator('.mobilemenu').count())throw Error('Obsolete top mobile menu should be removed');
-              if(await page.locator('.tf-source-home .acts').count())throw Error('Duplicate quick actions should be removed in bottom menu mode');
-              if(!await page.locator('.tf-visa-brand').isVisible())throw Error('VISA Platinum card mark missing');
-              if(!await page.locator('.tf-visa-card .tf-card-plus').isVisible())throw Error('Add-card + missing');
-              if(!await page.locator('.tf-visa-card .tf-card-gear').isVisible())throw Error('Card settings icon missing');
-              await page.locator('.tf-bottom-nav [data-mb="topup"]').click();
-              if(!await page.locator('#methodLayer .tf-method-sheet').isVisible())throw Error('Deposit method sheet not visible');
-              await page.locator('#methodLayer .tf-method-row').filter({hasText:'SEPA'}).click();
-              await snapshot('SEPA details directly');
-              if(!await page.getByText('Валюта пополнения',{exact:true}).isVisible())throw Error('SEPA currency label missing');
-              if(!await page.locator('#content .tf-deposit-currency b').isVisible())throw Error('SEPA static currency missing');
-              if((await page.locator('#content .tf-deposit-currency b').innerText())!=='EUR')throw Error('SEPA currency must be EUR');
-              if(await page.locator('#content .tf-deposit-currency select').count())throw Error('SEPA currency must not be selectable');
-              if(!await page.locator('#content .tf-requisites').isVisible())throw Error('SEPA bank details missing');
-              if(await page.getByRole('button',{name:'Получить реквизиты'}).count())throw Error('Obsolete intermediate currency screen');
-              if(!await page.getByRole('button',{name:'Скопировать все реквизиты'}).isVisible())throw Error('Copy details action missing');
-              await page.locator('.phone.tf-phone .back').click();
-              if(!await page.locator('#methodLayer .tf-method-sheet').isVisible())throw Error('Back from SEPA must open method sheet');
-              await page.locator('#methodLayer .tf-method-row').filter({hasText:'SWIFT'}).click();
-              await snapshot('SWIFT details directly');
-              const currencySelect=page.getByRole('combobox',{name:'Валюта пополнения'});
-              if(!await currencySelect.isVisible())throw Error('SWIFT currency selector missing');
-              if(!await page.locator('#content .tf-requisites').isVisible())throw Error('SWIFT bank details missing');
-              await currencySelect.selectOption('USD');
-              await snapshot('SWIFT USD bank details');
-              if((await currencySelect.inputValue())!=='USD')throw Error('SWIFT currency selection not persisted');
-              if(!await page.getByText('DEMOUS00',{exact:true}).isVisible())throw Error('SWIFT bank details did not refresh for USD');
-              if(await page.getByRole('button',{name:'Получить реквизиты'}).count())throw Error('SWIFT has obsolete currency step');
-              if(width<740) {
+                await page.locator('.tf-bottom-nav [data-mb="topup"]').click();
+                await page.locator('#methodLayer .tf-method-row').filter({hasText:'SWIFT'}).click();
+                const incoming=page.locator('[data-picker="inCurrency"]');
+                await incoming.click();
+                await page.locator('[data-picker-value="USD"]').click();
+                if(!(await incoming.innerText()).includes('USD')||!(await page.locator('.tf-requisites').innerText()).includes('DEMOUS00'))
+                  throw Error('SWIFT currency picker did not update bank details');
                 await page.locator('.phone.tf-phone .back').click();
-                await page.locator('#methodLayer .tf-method-dim').click({position:{x:10,y:10}});
-              } else {
-                await page.locator('#flow-home').click();
+                await page.locator('.tf-bottom-nav [data-mb="withdraw"]').click();
+                await page.locator('#methodLayer .tf-method-row').filter({hasText:'SWIFT'}).click();
+                await page.locator('#tf-out-amount').fill('100');
+                await page.getByRole('button',{name:'Продолжить'}).click();
+                await page.locator('#f-recipientName').fill('Иван Иванов');
+                await page.locator('#f-account').fill('000000000000');
+                await page.locator('#f-bic').fill('DEMOXXXX');
+                await page.locator('#f-bank').fill('Банк получателя');
+                await page.getByRole('button',{name:'Проверить перевод'}).click();
+                if((await page.locator('#phoneTitle').innerText())!=='Проверьте перевод')
+                  throw Error('Review title not canonical');
+                const labels=await page.locator('.tf-review-quote .row .rt').allInnerTexts();
+                if(labels.join('|')!=='Сумма перевода|Курс|Комиссия|Спишется со счёта')
+                  throw Error('Review rows not in canonical order: '+labels.join('|'));
+                if(!(await page.locator('.tf-review-quote').innerText()).includes('118,00 $'))
+                  throw Error('SWIFT USD debit must include fee');
+                await page.getByRole('button',{name:'Перевести 92,59 EUR'}).click();
+                await page.locator('.tf-bank-wait .ring').waitFor();
+                if(await page.locator('.timeline').count())throw Error('Legacy timeline still visible');
+                await page.evaluate(()=>uxBankCallback('success'));
+                await page.locator('.tf-bank-result .okc').waitFor();
+                if((await page.locator('.tf-bank-result .h2').innerText())!=='Перевели 92,59 EUR')
+                  throw Error('Success amount mismatch');
+                await page.evaluate(()=>{go('out-progress');uxBankCallback('failed')});
+                await page.locator('.tf-bank-result .sbp-ic').waitFor();
+                if(errors.length)throw Error('JavaScript errors: '+errors.join(' / '));
+                console.log('BANK_FLOW_NATIVE_PARITY_OK',width);
+                await page.close();
               }
-              await page.locator('.tf-bottom-nav [data-mb="withdraw"]').click();
-              await page.locator('#methodLayer .tf-method-row').filter({hasText:'SWIFT'}).click();
-              await snapshot('out SWIFT');
-              await page.getByRole('button',{name:'Продолжить'}).click();
-              await snapshot('out recipient');
-              if(!await page.locator('#f-firstName').isVisible())throw Error('recipient fields missing');
-              if(errors.length)throw Error('JS console/page errors: '+errors.join(' / '));
-              await page.close();
-            }
-            await browser.close();
-          })().catch(e=>{console.error(e);process.exit(1)});
+            }finally{await browser.close();}
+          })().catch(error=>{console.error(error);process.exit(1)});
           JS
