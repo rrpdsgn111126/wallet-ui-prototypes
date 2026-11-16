@@ -234,7 +234,7 @@ async def smoke(browser, origin):
         # No decorative field icons on the recipient step — including purpose
         # and the optional SWIFT/SEPA fields in the standalone disclosure.
         field_count=4 if rail=="SEPA" else 6
-        assert await page.locator('#content .tf-recipient-field').count()==field_count
+        assert await page.locator('#content > .tf-recipient-field').count()==field_count, "Unexpected number of top-level recipient fields"
         assert await page.locator('#content .tf-recipient-field .fi').count()==0
         assert await page.locator('#content [data-picker="purpose"] .fi').count()==0
         details=page.locator('#content details.tf-recipient-extra')
