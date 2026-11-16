@@ -44,15 +44,22 @@
     '#v-details #d-cat .pv-bank-mark svg{width:22px;height:22px}';
   document.head.appendChild(css);
 
-  const formatBank=(minor,currency)=>money(minor)+' '+currency;
+  // Currency codes remain in the fixture/API model; the interface uses "$".
+  const bankCurrency=currency=>currency==='USD'?'$':currency;
+  const formatBank=(minor,currency)=>money(minor)+' '+bankCurrency(currency);
+  const displayBankRate=rate=>String(rate||'').replace(/\bUSD\b/g,'$');
   const isIn=o=>o.kind==='deposit';
-  const rateRows=o=>[
-    isIn(o)?['Отправлено',formatBank(o.bank_source_minor,o.bank_source_currency)]
-           :['Списано со счёта',formatBank(o.bank_source_minor,'USD')],
-    ['Курс',o.bank_rate],
+  const rateRows=o=>isIn(o)?[
+    ['Отправлено',formatBank(o.bank_source_minor,o.bank_source_currency)],
+    ['Курс',displayBankRate(o.bank_rate)],
     ['Комиссия',formatBank(o.fee_minor||0,'USD')],
-    isIn(o)?['Итого зачислено',formatBank(o.bank_dest_minor,'USD'),true]
-           :['Получит',formatBank(o.bank_dest_minor,o.bank_dest_currency),true]
+    ['Итого зачислено',formatBank(o.bank_dest_minor,'USD'),true]
+  ]:[
+    // bank_source_minor already includes the fee: do not add it again.
+    ['Получено',formatBank(o.bank_dest_minor,o.bank_dest_currency)],
+    ['Курс',displayBankRate(o.bank_rate)],
+    ['Комиссия',formatBank(o.fee_minor||0,'USD')],
+    ['Итого списано',formatBank(o.bank_source_minor,'USD'),true]
   ];
   const detailsRows=o=>[
     ['Способ перевода',o.bank_rail],
@@ -177,7 +184,7 @@
   const originalOpSecond=opSecond;
   opSecond=function(o){
     if(!o||!o.bank_rail)return originalOpSecond(o);
-    return o.bank_rail+' · '+o.bank_source_currency+' → '+o.bank_dest_currency;
+    return o.bank_rail+' · '+bankCurrency(o.bank_source_currency)+' → '+bankCurrency(o.bank_dest_currency);
   };
   const originalOpenOp=openOp;
   openOp=function(o){

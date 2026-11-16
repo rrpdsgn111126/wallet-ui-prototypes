@@ -60,6 +60,27 @@ async def test_source(browser, origin):
         await expect(page.locator("#d-box")).to_contain_text(rail)
         await expect(page.locator("#d-money")).to_contain_text(currency)
         await expect(page.locator("#d-money")).to_contain_text("Комиссия")
+        # Values and order in the original details card must match the receipt.
+        # Withdrawal totals are the gross USD debit including the fee.
+        if "-out-" in operation_id:
+            rows=page.locator("#d-money > .row")
+            await expect(rows).to_have_count(4)
+            expected=(("Получено","Курс","Комиссия","Итого списано"))
+            actual=await rows.locator(".rt").all_inner_texts()
+            assert actual==list(expected),(operation_id,actual)
+            await expect(rows.nth(0).locator(".rv")).to_contain_text(currency)
+            await expect(rows.nth(1).locator(".rv")).to_contain_text("1 $ =")
+            assert "USD" not in await page.locator("#d-money").inner_text()
+            if rail=="SEPA":
+                await expect(rows.nth(0).locator(".rv")).to_contain_text("275.19 EUR")
+                await expect(rows.nth(2).locator(".rv")).to_contain_text("2.50 $")
+                await expect(rows.nth(3).locator(".rv")).to_contain_text("300.00 $")
+            else:
+                await expect(rows.nth(0).locator(".rv")).to_contain_text("491.70 GBP")
+                await expect(rows.nth(2).locator(".rv")).to_contain_text("18.00 $")
+                await expect(rows.nth(3).locator(".rv")).to_contain_text("650.00 $")
+        else:
+            assert "USD" not in await page.locator("#d-money").inner_text()
 
         # Verify native receipt-amount terminology, copy controls and book action.
         amount_total=page.locator("#d-money .row.tot .rt")
@@ -107,8 +128,21 @@ async def test_source(browser, origin):
         await expect(receipt).to_contain_text(currency)
         await expect(receipt).to_contain_text("Номер операции")
         await expect(receipt).to_contain_text(status)
+        assert "USD" not in await receipt.inner_text(),operation_id
+        if "-out-" in operation_id:
+            receipt_values=await receipt.locator(".rl").all_inner_texts()
+            assert next(x for x in receipt_values if "Получено" in x)
+            assert next(x for x in receipt_values if "Итого списано" in x)
+            assert not any("Получит" in x or "Списано со счёта" in x for x in receipt_values)
+            rate_pos=next(i for i,x in enumerate(receipt_values) if x.startswith("Получено"))
+            assert [x.split("\\n")[0] for x in receipt_values[rate_pos:rate_pos+4]]==[
+                "Получено","Курс","Комиссия","Итого списано"
+            ],receipt_values
         printed=await page.evaluate("() => sReceipt()")
         assert title in printed and rail in printed and currency in printed,operation_id
+        assert "USD" not in printed,operation_id
+        if "-out-" in operation_id:
+            assert "Итого списано" in printed and "Получено" in printed,operation_id
         await page.locator("#v-receipt .back[data-back]").click()
         await expect(page.locator("#v-details.on")).to_be_visible()
         await page.locator("#v-details .back[data-back]").click()
