@@ -57,13 +57,13 @@
       "rail": "SEPA",
       "metrics": {
         "viewportWidth": 390,
-        "rootWidth": 2147,
+        "rootWidth": 390,
         "phoneWidth": 390,
         "phoneScrollWidth": 390,
         "contentWidth": 390,
         "contentScrollWidth": 390,
-        "contentScrollHeight": 776,
-        "contentHeight": 776,
+        "contentScrollHeight": 668,
+        "contentHeight": 668,
         "header": {
           "height": "24px",
           "borderRadius": "0px",
@@ -72,21 +72,38 @@
           "lineHeight": "24px",
           "paddingLeft": "0px"
         },
-        "field": null,
-        "button": null,
-        "box": null,
+        "field": {
+          "height": "68px",
+          "borderRadius": "16px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "normal",
+          "paddingLeft": "16px"
+        },
+        "button": {
+          "height": "52px",
+          "borderRadius": "16px",
+          "fontSize": "16px",
+          "fontWeight": "600",
+          "lineHeight": "22px",
+          "paddingLeft": "0px"
+        },
+        "box": {
+          "height": "360px",
+          "borderRadius": "20px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "normal",
+          "paddingLeft": "0px"
+        },
         "table": null,
         "segment": null,
         "statusIcon": false,
-        "timelineDot": "absolute",
+        "timelineDot": null,
         "fontReady": true,
-        "screenTitle": "Международный перевод"
+        "screenTitle": "Пополнение SEPA"
       },
-      "problems": [
-        "Invalid or unexpected token",
-        "document horizontal overflow",
-        "timeline dot uses incompatible source badge positioning"
-      ]
+      "problems": []
     },
     {
       "label": "in-swift-390",
@@ -95,13 +112,13 @@
       "rail": "SWIFT",
       "metrics": {
         "viewportWidth": 390,
-        "rootWidth": 2147,
+        "rootWidth": 390,
         "phoneWidth": 390,
         "phoneScrollWidth": 390,
         "contentWidth": 390,
         "contentScrollWidth": 390,
-        "contentScrollHeight": 776,
-        "contentHeight": 776,
+        "contentScrollHeight": 668,
+        "contentHeight": 668,
         "header": {
           "height": "24px",
           "borderRadius": "0px",
@@ -110,21 +127,38 @@
           "lineHeight": "24px",
           "paddingLeft": "0px"
         },
-        "field": null,
-        "button": null,
-        "box": null,
+        "field": {
+          "height": "68px",
+          "borderRadius": "16px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "normal",
+          "paddingLeft": "16px"
+        },
+        "button": {
+          "height": "52px",
+          "borderRadius": "16px",
+          "fontSize": "16px",
+          "fontWeight": "600",
+          "lineHeight": "22px",
+          "paddingLeft": "0px"
+        },
+        "box": {
+          "height": "360px",
+          "borderRadius": "20px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "normal",
+          "paddingLeft": "0px"
+        },
         "table": null,
         "segment": null,
         "statusIcon": false,
-        "timelineDot": "absolute",
+        "timelineDot": null,
         "fontReady": true,
-        "screenTitle": "Международный перевод"
+        "screenTitle": "Пополнение SWIFT"
       },
-      "problems": [
-        "Invalid or unexpected token",
-        "document horizontal overflow",
-        "timeline dot uses incompatible source badge positioning"
-      ]
+      "problems": []
     },
     {
       "label": "in-pending-390",
@@ -133,13 +167,13 @@
       "rail": "SEPA",
       "metrics": {
         "viewportWidth": 390,
-        "rootWidth": 2147,
+        "rootWidth": 390,
         "phoneWidth": 390,
         "phoneScrollWidth": 390,
         "contentWidth": 390,
         "contentScrollWidth": 390,
-        "contentScrollHeight": 776,
-        "contentHeight": 776,
+        "contentScrollHeight": 668,
+        "contentHeight": 668,
         "header": {
           "height": "24px",
           "borderRadius": "0px",
@@ -153,17 +187,12 @@
         "box": null,
         "table": null,
         "segment": null,
-        "statusIcon": false,
-        "timelineDot": "absolute",
+        "statusIcon": true,
+        "timelineDot": "static",
         "fontReady": true,
-        "screenTitle": "Международный перевод"
+        "screenTitle": "Пополнение SEPA"
       },
-      "problems": [
-        "Invalid or unexpected token",
-        "document horizontal overflow",
-        "status SVG missing",
-        "timeline dot uses incompatible source badge positioning"
-      ]
+      "problems": []
     },
     {
       "label": "in-success-390",
@@ -172,13 +201,13 @@
       "rail": "SEPA",
       "metrics": {
         "viewportWidth": 390,
-        "rootWidth": 2147,
+        "rootWidth": 390,
         "phoneWidth": 390,
         "phoneScrollWidth": 390,
         "contentWidth": 390,
         "contentScrollWidth": 390,
-        "contentScrollHeight": 776,
-        "contentHeight": 776,
+        "contentScrollHeight": 668,
+        "contentHeight": 668,
         "header": {
           "height": "24px",
           "borderRadius": "0px",
@@ -188,21 +217,30 @@
           "paddingLeft": "0px"
         },
         "field": null,
-        "button": null,
+        "button": {
+          "height": "52px",
+          "borderRadius": "16px",
+          "fontSize": "16px",
+          "fontWeight": "600",
+          "lineHeight": "22px",
+          "paddingLeft": "0px"
+        },
         "box": null,
-        "table": null,
+        "table": {
+          "height": "144px",
+          "borderRadius": "20px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "normal",
+          "paddingLeft": "16px"
+        },
         "segment": null,
-        "statusIcon": false,
-        "timelineDot": "absolute",
+        "statusIcon": true,
+        "timelineDot": null,
         "fontReady": true,
-        "screenTitle": "Международный перевод"
+        "screenTitle": "Пополнение SEPA"
       },
-      "problems": [
-        "Invalid or unexpected token",
-        "document horizontal overflow",
-        "status SVG missing",
-        "timeline dot uses incompatible source badge positioning"
-      ]
+      "problems": []
     },
     {
       "label": "in-held-390",
@@ -211,7 +249,357 @@
       "rail": "SEPA",
       "metrics": {
         "viewportWidth": 390,
-        "rootWidth": 2147,
+        "rootWidth": 390,
+        "phoneWidth": 390,
+        "phoneScrollWidth": 390,
+        "contentWidth": 390,
+        "contentScrollWidth": 390,
+        "contentScrollHeight": 668,
+        "contentHeight": 668,
+        "header": {
+          "height": "24px",
+          "borderRadius": "0px",
+          "fontSize": "20px",
+          "fontWeight": "600",
+          "lineHeight": "24px",
+          "paddingLeft": "0px"
+        },
+        "field": null,
+        "button": {
+          "height": "52px",
+          "borderRadius": "16px",
+          "fontSize": "16px",
+          "fontWeight": "600",
+          "lineHeight": "22px",
+          "paddingLeft": "0px"
+        },
+        "box": null,
+        "table": {
+          "height": "101px",
+          "borderRadius": "20px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "normal",
+          "paddingLeft": "16px"
+        },
+        "segment": null,
+        "statusIcon": true,
+        "timelineDot": null,
+        "fontReady": true,
+        "screenTitle": "Пополнение SEPA"
+      },
+      "problems": []
+    },
+    {
+      "label": "out-sepa-390",
+      "flow": "out",
+      "screen": "out-config",
+      "rail": "SEPA",
+      "metrics": {
+        "viewportWidth": 390,
+        "rootWidth": 390,
+        "phoneWidth": 390,
+        "phoneScrollWidth": 390,
+        "contentWidth": 390,
+        "contentScrollWidth": 390,
+        "contentScrollHeight": 668,
+        "contentHeight": 668,
+        "header": {
+          "height": "24px",
+          "borderRadius": "0px",
+          "fontSize": "20px",
+          "fontWeight": "600",
+          "lineHeight": "24px",
+          "paddingLeft": "0px"
+        },
+        "field": {
+          "height": "68px",
+          "borderRadius": "16px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "normal",
+          "paddingLeft": "16px"
+        },
+        "button": {
+          "height": "52px",
+          "borderRadius": "16px",
+          "fontSize": "16px",
+          "fontWeight": "600",
+          "lineHeight": "22px",
+          "paddingLeft": "0px"
+        },
+        "box": {
+          "height": "180px",
+          "borderRadius": "20px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "normal",
+          "paddingLeft": "0px"
+        },
+        "table": null,
+        "segment": null,
+        "statusIcon": false,
+        "timelineDot": null,
+        "fontReady": true,
+        "screenTitle": "Вывод SEPA"
+      },
+      "problems": []
+    },
+    {
+      "label": "out-swift-390",
+      "flow": "out",
+      "screen": "out-config",
+      "rail": "SWIFT",
+      "metrics": {
+        "viewportWidth": 390,
+        "rootWidth": 390,
+        "phoneWidth": 390,
+        "phoneScrollWidth": 390,
+        "contentWidth": 390,
+        "contentScrollWidth": 390,
+        "contentScrollHeight": 668,
+        "contentHeight": 668,
+        "header": {
+          "height": "24px",
+          "borderRadius": "0px",
+          "fontSize": "20px",
+          "fontWeight": "600",
+          "lineHeight": "24px",
+          "paddingLeft": "0px"
+        },
+        "field": {
+          "height": "68px",
+          "borderRadius": "16px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "normal",
+          "paddingLeft": "16px"
+        },
+        "button": {
+          "height": "52px",
+          "borderRadius": "16px",
+          "fontSize": "16px",
+          "fontWeight": "600",
+          "lineHeight": "22px",
+          "paddingLeft": "0px"
+        },
+        "box": {
+          "height": "180px",
+          "borderRadius": "20px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "normal",
+          "paddingLeft": "0px"
+        },
+        "table": null,
+        "segment": null,
+        "statusIcon": false,
+        "timelineDot": null,
+        "fontReady": true,
+        "screenTitle": "Вывод SWIFT"
+      },
+      "problems": []
+    },
+    {
+      "label": "out-recipient-sepa-390",
+      "flow": "out",
+      "screen": "out-recipient",
+      "rail": "SEPA",
+      "metrics": {
+        "viewportWidth": 390,
+        "rootWidth": 390,
+        "phoneWidth": 390,
+        "phoneScrollWidth": 390,
+        "contentWidth": 390,
+        "contentScrollWidth": 390,
+        "contentScrollHeight": 668,
+        "contentHeight": 668,
+        "header": {
+          "height": "24px",
+          "borderRadius": "0px",
+          "fontSize": "20px",
+          "fontWeight": "600",
+          "lineHeight": "24px",
+          "paddingLeft": "0px"
+        },
+        "field": {
+          "height": "68px",
+          "borderRadius": "16px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "normal",
+          "paddingLeft": "16px"
+        },
+        "button": {
+          "height": "52px",
+          "borderRadius": "16px",
+          "fontSize": "16px",
+          "fontWeight": "600",
+          "lineHeight": "22px",
+          "paddingLeft": "0px"
+        },
+        "box": null,
+        "table": null,
+        "segment": null,
+        "statusIcon": false,
+        "timelineDot": null,
+        "fontReady": true,
+        "screenTitle": "Вывод SEPA"
+      },
+      "problems": []
+    },
+    {
+      "label": "out-recipient-swift-390",
+      "flow": "out",
+      "screen": "out-recipient",
+      "rail": "SWIFT",
+      "metrics": {
+        "viewportWidth": 390,
+        "rootWidth": 390,
+        "phoneWidth": 390,
+        "phoneScrollWidth": 390,
+        "contentWidth": 390,
+        "contentScrollWidth": 390,
+        "contentScrollHeight": 668,
+        "contentHeight": 668,
+        "header": {
+          "height": "24px",
+          "borderRadius": "0px",
+          "fontSize": "20px",
+          "fontWeight": "600",
+          "lineHeight": "24px",
+          "paddingLeft": "0px"
+        },
+        "field": {
+          "height": "68px",
+          "borderRadius": "16px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "normal",
+          "paddingLeft": "16px"
+        },
+        "button": {
+          "height": "52px",
+          "borderRadius": "16px",
+          "fontSize": "16px",
+          "fontWeight": "600",
+          "lineHeight": "22px",
+          "paddingLeft": "0px"
+        },
+        "box": null,
+        "table": null,
+        "segment": null,
+        "statusIcon": false,
+        "timelineDot": null,
+        "fontReady": true,
+        "screenTitle": "Вывод SWIFT"
+      },
+      "problems": []
+    },
+    {
+      "label": "out-review-sepa-390",
+      "flow": "out",
+      "screen": "out-review",
+      "rail": "SEPA",
+      "metrics": {
+        "viewportWidth": 390,
+        "rootWidth": 390,
+        "phoneWidth": 390,
+        "phoneScrollWidth": 390,
+        "contentWidth": 390,
+        "contentScrollWidth": 390,
+        "contentScrollHeight": 716,
+        "contentHeight": 668,
+        "header": {
+          "height": "24px",
+          "borderRadius": "0px",
+          "fontSize": "20px",
+          "fontWeight": "600",
+          "lineHeight": "24px",
+          "paddingLeft": "0px"
+        },
+        "field": null,
+        "button": {
+          "height": "52px",
+          "borderRadius": "16px",
+          "fontSize": "16px",
+          "fontWeight": "600",
+          "lineHeight": "22px",
+          "paddingLeft": "0px"
+        },
+        "box": {
+          "height": "300px",
+          "borderRadius": "20px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "normal",
+          "paddingLeft": "0px"
+        },
+        "table": null,
+        "segment": null,
+        "statusIcon": false,
+        "timelineDot": null,
+        "fontReady": true,
+        "screenTitle": "Вывод SEPA"
+      },
+      "problems": []
+    },
+    {
+      "label": "out-review-swift-390",
+      "flow": "out",
+      "screen": "out-review",
+      "rail": "SWIFT",
+      "metrics": {
+        "viewportWidth": 390,
+        "rootWidth": 390,
+        "phoneWidth": 390,
+        "phoneScrollWidth": 390,
+        "contentWidth": 390,
+        "contentScrollWidth": 390,
+        "contentScrollHeight": 716,
+        "contentHeight": 668,
+        "header": {
+          "height": "24px",
+          "borderRadius": "0px",
+          "fontSize": "20px",
+          "fontWeight": "600",
+          "lineHeight": "24px",
+          "paddingLeft": "0px"
+        },
+        "field": null,
+        "button": {
+          "height": "52px",
+          "borderRadius": "16px",
+          "fontSize": "16px",
+          "fontWeight": "600",
+          "lineHeight": "22px",
+          "paddingLeft": "0px"
+        },
+        "box": {
+          "height": "300px",
+          "borderRadius": "20px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "normal",
+          "paddingLeft": "0px"
+        },
+        "table": null,
+        "segment": null,
+        "statusIcon": false,
+        "timelineDot": null,
+        "fontReady": true,
+        "screenTitle": "Вывод SWIFT"
+      },
+      "problems": []
+    },
+    {
+      "label": "out-progress-390",
+      "flow": "out",
+      "screen": "out-progress",
+      "rail": "SWIFT",
+      "metrics": {
+        "viewportWidth": 390,
+        "rootWidth": 390,
         "phoneWidth": 390,
         "phoneScrollWidth": 390,
         "contentWidth": 390,
@@ -229,67 +617,983 @@
         "field": null,
         "button": null,
         "box": null,
+        "table": {
+          "height": "144px",
+          "borderRadius": "20px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "normal",
+          "paddingLeft": "16px"
+        },
+        "segment": null,
+        "statusIcon": true,
+        "timelineDot": "static",
+        "fontReady": true,
+        "screenTitle": "Вывод SWIFT"
+      },
+      "problems": []
+    },
+    {
+      "label": "out-success-390",
+      "flow": "out",
+      "screen": "out-success",
+      "rail": "SWIFT",
+      "metrics": {
+        "viewportWidth": 390,
+        "rootWidth": 390,
+        "phoneWidth": 390,
+        "phoneScrollWidth": 390,
+        "contentWidth": 390,
+        "contentScrollWidth": 390,
+        "contentScrollHeight": 668,
+        "contentHeight": 668,
+        "header": {
+          "height": "24px",
+          "borderRadius": "0px",
+          "fontSize": "20px",
+          "fontWeight": "600",
+          "lineHeight": "24px",
+          "paddingLeft": "0px"
+        },
+        "field": null,
+        "button": {
+          "height": "52px",
+          "borderRadius": "16px",
+          "fontSize": "16px",
+          "fontWeight": "600",
+          "lineHeight": "22px",
+          "paddingLeft": "0px"
+        },
+        "box": null,
+        "table": {
+          "height": "144px",
+          "borderRadius": "20px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "normal",
+          "paddingLeft": "16px"
+        },
+        "segment": null,
+        "statusIcon": true,
+        "timelineDot": null,
+        "fontReady": true,
+        "screenTitle": "Вывод SWIFT"
+      },
+      "problems": []
+    },
+    {
+      "label": "out-failed-390",
+      "flow": "out",
+      "screen": "out-failed",
+      "rail": "SWIFT",
+      "metrics": {
+        "viewportWidth": 390,
+        "rootWidth": 390,
+        "phoneWidth": 390,
+        "phoneScrollWidth": 390,
+        "contentWidth": 390,
+        "contentScrollWidth": 390,
+        "contentScrollHeight": 668,
+        "contentHeight": 668,
+        "header": {
+          "height": "24px",
+          "borderRadius": "0px",
+          "fontSize": "20px",
+          "fontWeight": "600",
+          "lineHeight": "24px",
+          "paddingLeft": "0px"
+        },
+        "field": null,
+        "button": {
+          "height": "52px",
+          "borderRadius": "16px",
+          "fontSize": "16px",
+          "fontWeight": "600",
+          "lineHeight": "22px",
+          "paddingLeft": "0px"
+        },
+        "box": null,
+        "table": {
+          "height": "101px",
+          "borderRadius": "20px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "normal",
+          "paddingLeft": "16px"
+        },
+        "segment": null,
+        "statusIcon": true,
+        "timelineDot": null,
+        "fontReady": true,
+        "screenTitle": "Вывод SWIFT"
+      },
+      "problems": []
+    },
+    {
+      "label": "out-held-390",
+      "flow": "out",
+      "screen": "out-held",
+      "rail": "SWIFT",
+      "metrics": {
+        "viewportWidth": 390,
+        "rootWidth": 390,
+        "phoneWidth": 390,
+        "phoneScrollWidth": 390,
+        "contentWidth": 390,
+        "contentScrollWidth": 390,
+        "contentScrollHeight": 776,
+        "contentHeight": 776,
+        "header": {
+          "height": "24px",
+          "borderRadius": "0px",
+          "fontSize": "20px",
+          "fontWeight": "600",
+          "lineHeight": "24px",
+          "paddingLeft": "0px"
+        },
+        "field": null,
+        "button": null,
+        "box": null,
+        "table": {
+          "height": "101px",
+          "borderRadius": "20px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "normal",
+          "paddingLeft": "16px"
+        },
+        "segment": null,
+        "statusIcon": true,
+        "timelineDot": null,
+        "fontReady": true,
+        "screenTitle": "Вывод SWIFT"
+      },
+      "problems": []
+    },
+    {
+      "label": "out-unavailable-390",
+      "flow": "out",
+      "screen": "out-unavailable",
+      "rail": "SWIFT",
+      "metrics": {
+        "viewportWidth": 390,
+        "rootWidth": 390,
+        "phoneWidth": 390,
+        "phoneScrollWidth": 390,
+        "contentWidth": 390,
+        "contentScrollWidth": 390,
+        "contentScrollHeight": 668,
+        "contentHeight": 668,
+        "header": {
+          "height": "24px",
+          "borderRadius": "0px",
+          "fontSize": "20px",
+          "fontWeight": "600",
+          "lineHeight": "24px",
+          "paddingLeft": "0px"
+        },
+        "field": null,
+        "button": {
+          "height": "52px",
+          "borderRadius": "16px",
+          "fontSize": "16px",
+          "fontWeight": "600",
+          "lineHeight": "22px",
+          "paddingLeft": "0px"
+        },
+        "box": null,
+        "table": {
+          "height": "144px",
+          "borderRadius": "20px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "normal",
+          "paddingLeft": "16px"
+        },
+        "segment": null,
+        "statusIcon": true,
+        "timelineDot": null,
+        "fontReady": true,
+        "screenTitle": "Вывод SWIFT"
+      },
+      "problems": []
+    },
+    {
+      "label": "in-sepa-430",
+      "flow": "in",
+      "screen": "in-details",
+      "rail": "SEPA",
+      "metrics": {
+        "viewportWidth": 430,
+        "rootWidth": 430,
+        "phoneWidth": 430,
+        "phoneScrollWidth": 430,
+        "contentWidth": 430,
+        "contentScrollWidth": 430,
+        "contentScrollHeight": 756,
+        "contentHeight": 756,
+        "header": {
+          "height": "24px",
+          "borderRadius": "0px",
+          "fontSize": "20px",
+          "fontWeight": "600",
+          "lineHeight": "24px",
+          "paddingLeft": "0px"
+        },
+        "field": {
+          "height": "68px",
+          "borderRadius": "16px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "normal",
+          "paddingLeft": "16px"
+        },
+        "button": {
+          "height": "52px",
+          "borderRadius": "16px",
+          "fontSize": "16px",
+          "fontWeight": "600",
+          "lineHeight": "22px",
+          "paddingLeft": "0px"
+        },
+        "box": {
+          "height": "360px",
+          "borderRadius": "20px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "normal",
+          "paddingLeft": "0px"
+        },
         "table": null,
         "segment": null,
         "statusIcon": false,
-        "timelineDot": "absolute",
+        "timelineDot": null,
         "fontReady": true,
-        "screenTitle": "Международный перевод"
+        "screenTitle": "Пополнение SEPA"
       },
-      "problems": [
-        "Invalid or unexpected token",
-        "document horizontal overflow",
-        "status SVG missing",
-        "timeline dot uses incompatible source badge positioning"
-      ]
+      "problems": []
+    },
+    {
+      "label": "in-swift-430",
+      "flow": "in",
+      "screen": "in-details",
+      "rail": "SWIFT",
+      "metrics": {
+        "viewportWidth": 430,
+        "rootWidth": 430,
+        "phoneWidth": 430,
+        "phoneScrollWidth": 430,
+        "contentWidth": 430,
+        "contentScrollWidth": 430,
+        "contentScrollHeight": 756,
+        "contentHeight": 756,
+        "header": {
+          "height": "24px",
+          "borderRadius": "0px",
+          "fontSize": "20px",
+          "fontWeight": "600",
+          "lineHeight": "24px",
+          "paddingLeft": "0px"
+        },
+        "field": {
+          "height": "68px",
+          "borderRadius": "16px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "normal",
+          "paddingLeft": "16px"
+        },
+        "button": {
+          "height": "52px",
+          "borderRadius": "16px",
+          "fontSize": "16px",
+          "fontWeight": "600",
+          "lineHeight": "22px",
+          "paddingLeft": "0px"
+        },
+        "box": {
+          "height": "360px",
+          "borderRadius": "20px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "normal",
+          "paddingLeft": "0px"
+        },
+        "table": null,
+        "segment": null,
+        "statusIcon": false,
+        "timelineDot": null,
+        "fontReady": true,
+        "screenTitle": "Пополнение SWIFT"
+      },
+      "problems": []
+    },
+    {
+      "label": "in-pending-430",
+      "flow": "in",
+      "screen": "in-pending",
+      "rail": "SEPA",
+      "metrics": {
+        "viewportWidth": 430,
+        "rootWidth": 430,
+        "phoneWidth": 430,
+        "phoneScrollWidth": 430,
+        "contentWidth": 430,
+        "contentScrollWidth": 430,
+        "contentScrollHeight": 756,
+        "contentHeight": 756,
+        "header": {
+          "height": "24px",
+          "borderRadius": "0px",
+          "fontSize": "20px",
+          "fontWeight": "600",
+          "lineHeight": "24px",
+          "paddingLeft": "0px"
+        },
+        "field": null,
+        "button": null,
+        "box": null,
+        "table": null,
+        "segment": null,
+        "statusIcon": true,
+        "timelineDot": "static",
+        "fontReady": true,
+        "screenTitle": "Пополнение SEPA"
+      },
+      "problems": []
+    },
+    {
+      "label": "in-success-430",
+      "flow": "in",
+      "screen": "in-success",
+      "rail": "SEPA",
+      "metrics": {
+        "viewportWidth": 430,
+        "rootWidth": 430,
+        "phoneWidth": 430,
+        "phoneScrollWidth": 430,
+        "contentWidth": 430,
+        "contentScrollWidth": 430,
+        "contentScrollHeight": 756,
+        "contentHeight": 756,
+        "header": {
+          "height": "24px",
+          "borderRadius": "0px",
+          "fontSize": "20px",
+          "fontWeight": "600",
+          "lineHeight": "24px",
+          "paddingLeft": "0px"
+        },
+        "field": null,
+        "button": {
+          "height": "52px",
+          "borderRadius": "16px",
+          "fontSize": "16px",
+          "fontWeight": "600",
+          "lineHeight": "22px",
+          "paddingLeft": "0px"
+        },
+        "box": null,
+        "table": {
+          "height": "144px",
+          "borderRadius": "20px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "normal",
+          "paddingLeft": "16px"
+        },
+        "segment": null,
+        "statusIcon": true,
+        "timelineDot": null,
+        "fontReady": true,
+        "screenTitle": "Пополнение SEPA"
+      },
+      "problems": []
+    },
+    {
+      "label": "in-held-430",
+      "flow": "in",
+      "screen": "in-held",
+      "rail": "SEPA",
+      "metrics": {
+        "viewportWidth": 430,
+        "rootWidth": 430,
+        "phoneWidth": 430,
+        "phoneScrollWidth": 430,
+        "contentWidth": 430,
+        "contentScrollWidth": 430,
+        "contentScrollHeight": 756,
+        "contentHeight": 756,
+        "header": {
+          "height": "24px",
+          "borderRadius": "0px",
+          "fontSize": "20px",
+          "fontWeight": "600",
+          "lineHeight": "24px",
+          "paddingLeft": "0px"
+        },
+        "field": null,
+        "button": {
+          "height": "52px",
+          "borderRadius": "16px",
+          "fontSize": "16px",
+          "fontWeight": "600",
+          "lineHeight": "22px",
+          "paddingLeft": "0px"
+        },
+        "box": null,
+        "table": {
+          "height": "101px",
+          "borderRadius": "20px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "normal",
+          "paddingLeft": "16px"
+        },
+        "segment": null,
+        "statusIcon": true,
+        "timelineDot": null,
+        "fontReady": true,
+        "screenTitle": "Пополнение SEPA"
+      },
+      "problems": []
+    },
+    {
+      "label": "out-sepa-430",
+      "flow": "out",
+      "screen": "out-config",
+      "rail": "SEPA",
+      "metrics": {
+        "viewportWidth": 430,
+        "rootWidth": 430,
+        "phoneWidth": 430,
+        "phoneScrollWidth": 430,
+        "contentWidth": 430,
+        "contentScrollWidth": 430,
+        "contentScrollHeight": 756,
+        "contentHeight": 756,
+        "header": {
+          "height": "24px",
+          "borderRadius": "0px",
+          "fontSize": "20px",
+          "fontWeight": "600",
+          "lineHeight": "24px",
+          "paddingLeft": "0px"
+        },
+        "field": {
+          "height": "68px",
+          "borderRadius": "16px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "normal",
+          "paddingLeft": "16px"
+        },
+        "button": {
+          "height": "52px",
+          "borderRadius": "16px",
+          "fontSize": "16px",
+          "fontWeight": "600",
+          "lineHeight": "22px",
+          "paddingLeft": "0px"
+        },
+        "box": {
+          "height": "180px",
+          "borderRadius": "20px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "normal",
+          "paddingLeft": "0px"
+        },
+        "table": null,
+        "segment": null,
+        "statusIcon": false,
+        "timelineDot": null,
+        "fontReady": true,
+        "screenTitle": "Вывод SEPA"
+      },
+      "problems": []
+    },
+    {
+      "label": "out-swift-430",
+      "flow": "out",
+      "screen": "out-config",
+      "rail": "SWIFT",
+      "metrics": {
+        "viewportWidth": 430,
+        "rootWidth": 430,
+        "phoneWidth": 430,
+        "phoneScrollWidth": 430,
+        "contentWidth": 430,
+        "contentScrollWidth": 430,
+        "contentScrollHeight": 756,
+        "contentHeight": 756,
+        "header": {
+          "height": "24px",
+          "borderRadius": "0px",
+          "fontSize": "20px",
+          "fontWeight": "600",
+          "lineHeight": "24px",
+          "paddingLeft": "0px"
+        },
+        "field": {
+          "height": "68px",
+          "borderRadius": "16px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "normal",
+          "paddingLeft": "16px"
+        },
+        "button": {
+          "height": "52px",
+          "borderRadius": "16px",
+          "fontSize": "16px",
+          "fontWeight": "600",
+          "lineHeight": "22px",
+          "paddingLeft": "0px"
+        },
+        "box": {
+          "height": "180px",
+          "borderRadius": "20px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "normal",
+          "paddingLeft": "0px"
+        },
+        "table": null,
+        "segment": null,
+        "statusIcon": false,
+        "timelineDot": null,
+        "fontReady": true,
+        "screenTitle": "Вывод SWIFT"
+      },
+      "problems": []
+    },
+    {
+      "label": "out-recipient-sepa-430",
+      "flow": "out",
+      "screen": "out-recipient",
+      "rail": "SEPA",
+      "metrics": {
+        "viewportWidth": 430,
+        "rootWidth": 430,
+        "phoneWidth": 430,
+        "phoneScrollWidth": 430,
+        "contentWidth": 430,
+        "contentScrollWidth": 430,
+        "contentScrollHeight": 756,
+        "contentHeight": 756,
+        "header": {
+          "height": "24px",
+          "borderRadius": "0px",
+          "fontSize": "20px",
+          "fontWeight": "600",
+          "lineHeight": "24px",
+          "paddingLeft": "0px"
+        },
+        "field": {
+          "height": "68px",
+          "borderRadius": "16px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "normal",
+          "paddingLeft": "16px"
+        },
+        "button": {
+          "height": "52px",
+          "borderRadius": "16px",
+          "fontSize": "16px",
+          "fontWeight": "600",
+          "lineHeight": "22px",
+          "paddingLeft": "0px"
+        },
+        "box": null,
+        "table": null,
+        "segment": null,
+        "statusIcon": false,
+        "timelineDot": null,
+        "fontReady": true,
+        "screenTitle": "Вывод SEPA"
+      },
+      "problems": []
+    },
+    {
+      "label": "out-recipient-swift-430",
+      "flow": "out",
+      "screen": "out-recipient",
+      "rail": "SWIFT",
+      "metrics": {
+        "viewportWidth": 430,
+        "rootWidth": 430,
+        "phoneWidth": 430,
+        "phoneScrollWidth": 430,
+        "contentWidth": 430,
+        "contentScrollWidth": 430,
+        "contentScrollHeight": 756,
+        "contentHeight": 756,
+        "header": {
+          "height": "24px",
+          "borderRadius": "0px",
+          "fontSize": "20px",
+          "fontWeight": "600",
+          "lineHeight": "24px",
+          "paddingLeft": "0px"
+        },
+        "field": {
+          "height": "68px",
+          "borderRadius": "16px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "normal",
+          "paddingLeft": "16px"
+        },
+        "button": {
+          "height": "52px",
+          "borderRadius": "16px",
+          "fontSize": "16px",
+          "fontWeight": "600",
+          "lineHeight": "22px",
+          "paddingLeft": "0px"
+        },
+        "box": null,
+        "table": null,
+        "segment": null,
+        "statusIcon": false,
+        "timelineDot": null,
+        "fontReady": true,
+        "screenTitle": "Вывод SWIFT"
+      },
+      "problems": []
+    },
+    {
+      "label": "out-review-sepa-430",
+      "flow": "out",
+      "screen": "out-review",
+      "rail": "SEPA",
+      "metrics": {
+        "viewportWidth": 430,
+        "rootWidth": 430,
+        "phoneWidth": 430,
+        "phoneScrollWidth": 430,
+        "contentWidth": 430,
+        "contentScrollWidth": 430,
+        "contentScrollHeight": 756,
+        "contentHeight": 756,
+        "header": {
+          "height": "24px",
+          "borderRadius": "0px",
+          "fontSize": "20px",
+          "fontWeight": "600",
+          "lineHeight": "24px",
+          "paddingLeft": "0px"
+        },
+        "field": null,
+        "button": {
+          "height": "52px",
+          "borderRadius": "16px",
+          "fontSize": "16px",
+          "fontWeight": "600",
+          "lineHeight": "22px",
+          "paddingLeft": "0px"
+        },
+        "box": {
+          "height": "300px",
+          "borderRadius": "20px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "normal",
+          "paddingLeft": "0px"
+        },
+        "table": null,
+        "segment": null,
+        "statusIcon": false,
+        "timelineDot": null,
+        "fontReady": true,
+        "screenTitle": "Вывод SEPA"
+      },
+      "problems": []
+    },
+    {
+      "label": "out-review-swift-430",
+      "flow": "out",
+      "screen": "out-review",
+      "rail": "SWIFT",
+      "metrics": {
+        "viewportWidth": 430,
+        "rootWidth": 430,
+        "phoneWidth": 430,
+        "phoneScrollWidth": 430,
+        "contentWidth": 430,
+        "contentScrollWidth": 430,
+        "contentScrollHeight": 756,
+        "contentHeight": 756,
+        "header": {
+          "height": "24px",
+          "borderRadius": "0px",
+          "fontSize": "20px",
+          "fontWeight": "600",
+          "lineHeight": "24px",
+          "paddingLeft": "0px"
+        },
+        "field": null,
+        "button": {
+          "height": "52px",
+          "borderRadius": "16px",
+          "fontSize": "16px",
+          "fontWeight": "600",
+          "lineHeight": "22px",
+          "paddingLeft": "0px"
+        },
+        "box": {
+          "height": "300px",
+          "borderRadius": "20px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "normal",
+          "paddingLeft": "0px"
+        },
+        "table": null,
+        "segment": null,
+        "statusIcon": false,
+        "timelineDot": null,
+        "fontReady": true,
+        "screenTitle": "Вывод SWIFT"
+      },
+      "problems": []
+    },
+    {
+      "label": "out-progress-430",
+      "flow": "out",
+      "screen": "out-progress",
+      "rail": "SWIFT",
+      "metrics": {
+        "viewportWidth": 430,
+        "rootWidth": 430,
+        "phoneWidth": 430,
+        "phoneScrollWidth": 430,
+        "contentWidth": 430,
+        "contentScrollWidth": 430,
+        "contentScrollHeight": 864,
+        "contentHeight": 864,
+        "header": {
+          "height": "24px",
+          "borderRadius": "0px",
+          "fontSize": "20px",
+          "fontWeight": "600",
+          "lineHeight": "24px",
+          "paddingLeft": "0px"
+        },
+        "field": null,
+        "button": null,
+        "box": null,
+        "table": {
+          "height": "144px",
+          "borderRadius": "20px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "normal",
+          "paddingLeft": "16px"
+        },
+        "segment": null,
+        "statusIcon": true,
+        "timelineDot": "static",
+        "fontReady": true,
+        "screenTitle": "Вывод SWIFT"
+      },
+      "problems": []
+    },
+    {
+      "label": "out-success-430",
+      "flow": "out",
+      "screen": "out-success",
+      "rail": "SWIFT",
+      "metrics": {
+        "viewportWidth": 430,
+        "rootWidth": 430,
+        "phoneWidth": 430,
+        "phoneScrollWidth": 430,
+        "contentWidth": 430,
+        "contentScrollWidth": 430,
+        "contentScrollHeight": 756,
+        "contentHeight": 756,
+        "header": {
+          "height": "24px",
+          "borderRadius": "0px",
+          "fontSize": "20px",
+          "fontWeight": "600",
+          "lineHeight": "24px",
+          "paddingLeft": "0px"
+        },
+        "field": null,
+        "button": {
+          "height": "52px",
+          "borderRadius": "16px",
+          "fontSize": "16px",
+          "fontWeight": "600",
+          "lineHeight": "22px",
+          "paddingLeft": "0px"
+        },
+        "box": null,
+        "table": {
+          "height": "144px",
+          "borderRadius": "20px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "normal",
+          "paddingLeft": "16px"
+        },
+        "segment": null,
+        "statusIcon": true,
+        "timelineDot": null,
+        "fontReady": true,
+        "screenTitle": "Вывод SWIFT"
+      },
+      "problems": []
+    },
+    {
+      "label": "out-failed-430",
+      "flow": "out",
+      "screen": "out-failed",
+      "rail": "SWIFT",
+      "metrics": {
+        "viewportWidth": 430,
+        "rootWidth": 430,
+        "phoneWidth": 430,
+        "phoneScrollWidth": 430,
+        "contentWidth": 430,
+        "contentScrollWidth": 430,
+        "contentScrollHeight": 756,
+        "contentHeight": 756,
+        "header": {
+          "height": "24px",
+          "borderRadius": "0px",
+          "fontSize": "20px",
+          "fontWeight": "600",
+          "lineHeight": "24px",
+          "paddingLeft": "0px"
+        },
+        "field": null,
+        "button": {
+          "height": "52px",
+          "borderRadius": "16px",
+          "fontSize": "16px",
+          "fontWeight": "600",
+          "lineHeight": "22px",
+          "paddingLeft": "0px"
+        },
+        "box": null,
+        "table": {
+          "height": "101px",
+          "borderRadius": "20px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "normal",
+          "paddingLeft": "16px"
+        },
+        "segment": null,
+        "statusIcon": true,
+        "timelineDot": null,
+        "fontReady": true,
+        "screenTitle": "Вывод SWIFT"
+      },
+      "problems": []
+    },
+    {
+      "label": "out-held-430",
+      "flow": "out",
+      "screen": "out-held",
+      "rail": "SWIFT",
+      "metrics": {
+        "viewportWidth": 430,
+        "rootWidth": 430,
+        "phoneWidth": 430,
+        "phoneScrollWidth": 430,
+        "contentWidth": 430,
+        "contentScrollWidth": 430,
+        "contentScrollHeight": 864,
+        "contentHeight": 864,
+        "header": {
+          "height": "24px",
+          "borderRadius": "0px",
+          "fontSize": "20px",
+          "fontWeight": "600",
+          "lineHeight": "24px",
+          "paddingLeft": "0px"
+        },
+        "field": null,
+        "button": null,
+        "box": null,
+        "table": {
+          "height": "101px",
+          "borderRadius": "20px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "normal",
+          "paddingLeft": "16px"
+        },
+        "segment": null,
+        "statusIcon": true,
+        "timelineDot": null,
+        "fontReady": true,
+        "screenTitle": "Вывод SWIFT"
+      },
+      "problems": []
+    },
+    {
+      "label": "out-unavailable-430",
+      "flow": "out",
+      "screen": "out-unavailable",
+      "rail": "SWIFT",
+      "metrics": {
+        "viewportWidth": 430,
+        "rootWidth": 430,
+        "phoneWidth": 430,
+        "phoneScrollWidth": 430,
+        "contentWidth": 430,
+        "contentScrollWidth": 430,
+        "contentScrollHeight": 756,
+        "contentHeight": 756,
+        "header": {
+          "height": "24px",
+          "borderRadius": "0px",
+          "fontSize": "20px",
+          "fontWeight": "600",
+          "lineHeight": "24px",
+          "paddingLeft": "0px"
+        },
+        "field": null,
+        "button": {
+          "height": "52px",
+          "borderRadius": "16px",
+          "fontSize": "16px",
+          "fontWeight": "600",
+          "lineHeight": "22px",
+          "paddingLeft": "0px"
+        },
+        "box": null,
+        "table": {
+          "height": "144px",
+          "borderRadius": "20px",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "lineHeight": "normal",
+          "paddingLeft": "16px"
+        },
+        "segment": null,
+        "statusIcon": true,
+        "timelineDot": null,
+        "fontReady": true,
+        "screenTitle": "Вывод SWIFT"
+      },
+      "problems": []
     }
   ],
-  "issues": [
-    {
-      "label": "in-sepa-390",
-      "problems": [
-        "Invalid or unexpected token",
-        "document horizontal overflow",
-        "timeline dot uses incompatible source badge positioning"
-      ]
-    },
-    {
-      "label": "in-swift-390",
-      "problems": [
-        "Invalid or unexpected token",
-        "document horizontal overflow",
-        "timeline dot uses incompatible source badge positioning"
-      ]
-    },
-    {
-      "label": "in-pending-390",
-      "problems": [
-        "Invalid or unexpected token",
-        "document horizontal overflow",
-        "status SVG missing",
-        "timeline dot uses incompatible source badge positioning"
-      ]
-    },
-    {
-      "label": "in-success-390",
-      "problems": [
-        "Invalid or unexpected token",
-        "document horizontal overflow",
-        "status SVG missing",
-        "timeline dot uses incompatible source badge positioning"
-      ]
-    },
-    {
-      "label": "in-held-390",
-      "problems": [
-        "Invalid or unexpected token",
-        "document horizontal overflow",
-        "status SVG missing",
-        "timeline dot uses incompatible source badge positioning"
-      ]
-    }
-  ],
-  "functional": {},
+  "issues": [],
+  "functional": {
+    "recipient": true,
+    "recipientScreen": "out-recipient",
+    "reviewScreen": "out-review",
+    "progressScreen": "out-progress"
+  },
   "sourceNativeAmount": {
     "fieldTag": "DIV",
     "hasIcon": true,
