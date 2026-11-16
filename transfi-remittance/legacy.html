@@ -1017,6 +1017,13 @@ function uxSetOutCountry(country){
 }
 
 function uxRenderScreen(){
+  // Design-system specimen: render ONLY the real selector field. Its picker
+  // reuses uxPickerField/uxRenderPicker/uxChoosePicker without a second copy.
+  if(S.componentPickerKey)return {
+    head:'',
+    p:uxPickerField(S.componentPickerLabel,S.componentPickerKey,S.componentPickerKey),
+    f:''
+  };
   if(S.screen==='home')return {
     head:'Николай',
     p:`<div class="tf-source-home" onclick="uxHomeNav(event)" onkeydown="uxHomeNavKey(event)">
@@ -1352,6 +1359,21 @@ if(tfQuery.get('capture')==='1'&&tfQuery.get('sample')==='1'&&S.flow==='out'){
 const queryScreen=tfQuery.get('screen');
 if(queryScreen==='home'||SCREENS[S.flow].some(([screen])=>screen===queryScreen))S.screen=queryScreen;
 if(S.screen==='home'&&(tfQuery.get('modal')==='in'||tfQuery.get('modal')==='out'))S.modal=tfQuery.get('modal');
+// Provider-independent canonical picker specimen. The internal SWIFT rail
+// merely supplies the full demo currency/country options; it is never shown.
+// A picker is a reusable field, not a complete bank transfer screen.
+if(tfQuery.get('component')==='picker'){
+  const kind=tfQuery.get('kind');
+  if(kind==='country'||kind==='currency'){
+    S.flow='out';
+    S.screen='out-config';
+    S.outRail='SWIFT';
+    S.modal=null;
+    S.componentPickerKey=kind==='country'?'country':'outCurrency';
+    S.componentPickerLabel=kind==='country'?'Страна':'Валюта';
+    document.documentElement.classList.add('tf-capture','tf-embedded','tf-component-only');
+  }
+}
 render();
 // Component-catalog / Playwright capture only: render an actual opened selector
 // using the very same DOM, CSS and event handlers as the working bank flow.
