@@ -15,7 +15,8 @@ async function verifyVisibleBankIcons(page,screen){
    const svg=plate?.querySelector('svg.tf-bank-glyph');
    if(!svg)return {rail,missing:true,text:plate?.textContent};
    const p=plate.getBoundingClientRect(),s=svg.getBoundingClientRect(),css=getComputedStyle(plate);
-   return {rail,size:[p.width,p.height],glyph:[s.width,s.height],bg:css.backgroundColor,
+   return {rail,size:[p.width,p.height],glyph:[s.width,s.height],
+     computedSize:[css.width,css.height],computedGlyph:[getComputedStyle(svg).width,getComputedStyle(svg).height],bg:css.backgroundColor,
      ink:css.color,centering:Math.max(Math.abs(p.x+p.width/2-s.x-s.width/2),
      Math.abs(p.y+p.height/2-s.y-s.height/2)),svg:svg.innerHTML};
   });
@@ -23,7 +24,7 @@ async function verifyVisibleBankIcons(page,screen){
  if(rows.length!==2)throw new Error(screen+': expected 2 method rows');
  for(const rail of ['SEPA','SWIFT']){
   const r=rows.find(x=>x.rail===rail);
-  if(!r||r.missing||r.size.join('x')!=='40x40'||r.glyph.join('x')!=='24x24'||
+  if(!r||r.missing||r.computedSize.join('x')!=='40pxx40px'||r.computedGlyph.join('x')!=='24pxx24px'||
      r.bg!=='rgb(111, 75, 242)'||r.ink!=='rgb(255, 255, 255)'||r.centering>0.6)
     throw new Error(screen+': wrong '+rail+' icon '+JSON.stringify(r));
  }
