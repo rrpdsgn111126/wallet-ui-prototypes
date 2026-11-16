@@ -135,7 +135,7 @@ async def test_source(browser, origin):
             assert next(x for x in receipt_values if "Итого списано" in x)
             assert not any("Получит" in x or "Списано со счёта" in x for x in receipt_values)
             rate_pos=next(i for i,x in enumerate(receipt_values) if x.startswith("Получено"))
-            assert [x.split("\\n")[0] for x in receipt_values[rate_pos:rate_pos+4]]==[
+            assert [x.splitlines()[0] for x in receipt_values[rate_pos:rate_pos+4]]==[
                 "Получено","Курс","Комиссия","Итого списано"
             ],receipt_values
         printed=await page.evaluate("() => sReceipt()")
