@@ -392,6 +392,94 @@ async def smoke(browser, origin):
     await page.close()
 
 
+async def assert_bank_review_and_status(browser,origin):
+    """Compare bank review to P2P .row.tot and outcomes to source SBP/P2P screens."""
+    for rail,fee in (("SEPA",2.50),("SWIFT",18.00)):
+        page=await bank_page(browser,origin,"out",rail,"out-recipient")
+        await page.evaluate("""() => {
+          S.amount='100';
+          S.recipientName='Иван Иванов';
+          S.iban='DE00 0000 0000 0000 0000 00';
+          S.account='000000000000';S.bic='DEMOXXXX';
+          S.bank='Банк получателя';S.purpose='personal';
+          go('out-review');
+        }""")
+        await expect(page.locator("#phoneTitle")).to_have_text("Проверьте перевод")
+        assert await page.locator('.tf-scroll .gt').count()==0
+        assert await page.locator(".tf-review-box .rt").all_inner_texts()==[
+            "Метод","Кому","Страна","Счёт","Назначение"
+        ]
+        assert "Иван Иванов" in await page.locator(".tf-review-box").inner_text()
+        rows=page.locator(".tf-review-quote .row")
+        assert await rows.locator(".rt").all_inner_texts()==[
+            "Сумма перевода","Курс","Комиссия","Спишется со счёта"
+        ]
+        assert await rows.nth(0).locator(".rv").inner_text()=="92,59 EUR"
+        assert await rows.nth(1).locator(".rv").inner_text()=="1 $ ≈ 0.9259 EUR"
+        assert await rows.nth(2).locator(".rv").inner_text()==f"{fee:,.2f}".replace(",", " ").replace(".", ",")+" $"
+        expected_total=100+fee
+        assert await rows.nth(3).locator(".rv").inner_text()==f"{expected_total:.2f}".replace(".", ",")+" $"
+        assert "tot" in await rows.last.get_attribute("class")
+        assert "USD" not in await page.locator(".tf-review-quote").inner_text()
+        await expect(page.locator(".tf-foot .btn")).to_have_text("Перевести 92,59 EUR")
+        await page.locator(".tf-foot .btn").click()
+        assert await page.evaluate("() => S.screen")=="out-progress"
+        await expect(page.locator(".tf-bank-wait .ring")).to_be_visible()
+        await expect(page.locator(".tf-bank-wait .h2")).to_have_text("Перевод обрабатывается")
+        assert await page.locator(".timeline, .track, .tf-scroll .tbl").count()==0
+        await page.evaluate("() => uxBankCallback('success')")
+        assert await page.evaluate("() => S.screen")=="out-success"
+        await expect(page.locator(".tf-bank-result .okc")).to_be_visible()
+        await expect(page.locator(".tf-bank-result .h2")).to_have_text("Перевели 92,59 EUR")
+        assert "Иван Иванов" in await page.locator(".tf-bank-result .p").inner_text()
+        assert await page.locator(".tf-bank-final > .head").is_hidden()
+        assert await page.locator(".tf-foot .btn").inner_text()=="На главную"
+        assert await page.locator(".tf-foot .btno").inner_text()=="Показать операцию"
+        await page.evaluate("() => {go('out-progress');uxBankCallback('failed')}")
+        await expect(page.locator(".tf-bank-result .sbp-ic")).to_be_visible()
+        await expect(page.locator(".tf-bank-result .h2")).to_have_text("Перевод не выполнен")
+        assert await page.locator(".timeline").count()==0
+        await page.evaluate("() => {go('out-progress');uxBankCallback('held')}")
+        await expect(page.locator(".tf-bank-wait .h2")).to_have_text("Перевод на проверке")
+        assert await page.locator(".timeline").count()==0
+        await page.close()
+
+
+async def assert_bank_history_bridge(browser,origin):
+    """Full user journey: SEPA from wallet to native operation details via callback."""
+    page=await browser.new_page(viewport={"width":430,"height":932})
+    errors=[]
+    page.on("pageerror",lambda err:errors.append(str(err)))
+    await page.goto(origin+"/transfi-remittance/?qa=1&flow=out&rail=SEPA")
+    await expect(page.locator("#tf-bank-overlay iframe")).to_be_visible(timeout=30000)
+    child=page.frame_locator("#tf-bank-overlay iframe")
+    await expect(child.locator("#tf-out-amount")).to_be_visible(timeout=15000)
+    await page.locator("#pv-qa").evaluate("(el) => el.style.display='none'")
+    await child.locator("#tf-out-amount").fill("100")
+    await child.locator(".tf-foot .btn").click()
+    await child.locator("#f-recipientName").fill("Иван Иванов")
+    await child.locator("#f-iban").fill("DE00 0000 0000 0000 0000 00")
+    await child.locator(".tf-foot .btn").click()
+    await expect(child.locator("#phoneTitle")).to_have_text("Проверьте перевод")
+    await child.locator(".tf-foot .btn").click()
+    await expect(child.locator(".tf-bank-wait")).to_be_visible()
+    await page.wait_for_function("""() => PV.data['/operations'].operations.some(
+       x=>String(x.id).startsWith('tf-bank-')&&x.status==='queued')""",timeout=10000)
+    await page.locator("#pv-qa").evaluate("(el) => el.style.display='block'")
+    await page.locator("#pv-qa details summary").click()
+    await page.locator("#pv-bank-ok").click()
+    await expect(child.locator(".tf-bank-result .h2")).to_have_text("Перевели 92,59 EUR")
+    await page.wait_for_function("""() => PV.data['/operations'].operations.some(
+       x=>String(x.id).startsWith('tf-bank-')&&x.status==='confirmed')""",timeout=10000)
+    await page.locator("#pv-qa").evaluate("(el) => el.style.display='none'")
+    await child.locator(".tf-foot .btno").click()
+    await expect(page.locator("#tf-bank-overlay")).to_be_hidden()
+    await expect(page.locator("#v-details.on")).to_be_visible()
+    assert "−102,50" in await page.locator("#d-amt").inner_text()
+    assert not errors, "Bank iframe JS errors: "+" | ".join(errors)
+    await page.close()
+
+
 async def main():
     server = ThreadingHTTPServer(("127.0.0.1", 0), partial(QuietHandler, directory=str(ROOT)))
     thread = Thread(target=server.serve_forever, daemon=True)
@@ -402,9 +490,11 @@ async def main():
             browser = await p.chromium.launch(headless=True, args=["--no-sandbox"])
             try:
                 await smoke(browser, origin)
+                await assert_bank_review_and_status(browser,origin)
+                await assert_bank_history_bridge(browser,origin)
             finally:
                 await browser.close()
-        print("PASS: SEPA/SWIFT deposit and withdrawal selectors, header, purpose and embedded back")
+        print("PASS: bank selectors, original P2P review totals, SBP wait/result, callback and native operation details")
     finally:
         server.shutdown()
         server.server_close()
