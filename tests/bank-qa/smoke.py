@@ -144,29 +144,32 @@ async def assert_rail_method_icons(browser, origin):
         await expect(sheet).to_be_visible()
         original_logo = sheet.locator('.tf-method-row .cn img').first
         await expect(original_logo).to_be_visible()
-        old_size = await original_logo.evaluate('el => [el.getBoundingClientRect().width, el.getBoundingClientRect().height]')
-        assert old_size == [24, 24], old_size
+        native = sheet.locator('.tf-method-row .cn:has(img)').first
+        native_style = await native.evaluate('el => {const s=getComputedStyle(el);return {size:[s.width,s.height],gray:s.backgroundColor}}')
+        old_size = await original_logo.evaluate('el => {const s=getComputedStyle(el);return [s.width,s.height]}')
+        assert old_size == ['24px', '24px'], old_size
         symbols = {}
         for rail in ('SEPA', 'SWIFT'):
             row = sheet.locator('.tf-method-row').filter(has_text=rail)
             assert await row.count() == 1, (flow, rail)
             icon = row.locator('.cn.tf-rail-icon[data-rail-icon="' + rail + '"]')
             await expect(icon).to_be_visible()
-            metrics = await icon.evaluate('''el => {
-              const glyph = el.querySelector('svg.tf-rail-glyph');
-              const plate = el.getBoundingClientRect();
-              const inner = glyph.getBoundingClientRect();
-              return {
-                plate: [plate.width, plate.height], glyph: [inner.width, inner.height],
-                color: getComputedStyle(el).backgroundColor,
-                ink: getComputedStyle(el).color,
-                centered: Math.abs(plate.left + plate.width/2 - inner.left - inner.width/2) < 0.6
-                  && Math.abs(plate.top + plate.height/2 - inner.top - inner.height/2) < 0.6,
-                artwork: glyph.innerHTML
-              };
-            }''')
-            assert metrics['plate'] == [40, 40] and metrics['glyph'] == [24, 24], metrics
-            assert metrics['color'] == 'rgb(111, 75, 242)' and metrics['ink'] == 'rgb(255, 255, 255)', metrics
+            metrics = await icon.evaluate("""el => {
+              const badge=el.querySelector('.tf-rail-mark'),glyph=badge?.querySelector('svg.tf-rail-glyph');
+              if(!badge||!glyph)return {missing:true};
+              const p=el.getBoundingClientRect(),b=badge.getBoundingClientRect(),
+                g=glyph.getBoundingClientRect(),ps=getComputedStyle(el),
+                bs=getComputedStyle(badge),gs=getComputedStyle(glyph);
+              return {plate:[ps.width,ps.height],badge:[bs.width,bs.height],
+                glyph:[gs.width,gs.height],gray:ps.backgroundColor,purple:bs.backgroundColor,
+                ink:bs.color,centered:Math.max(Math.abs(p.x+p.width/2-b.x-b.width/2),
+                  Math.abs(p.y+p.height/2-b.y-b.height/2),
+                  Math.abs(b.x+b.width/2-g.x-g.width/2),
+                  Math.abs(b.y+b.height/2-g.y-g.height/2))<0.6,artwork:glyph.innerHTML};
+            }""")
+            assert metrics['plate']==native_style['size'] and metrics['gray']==native_style['gray'], metrics
+            assert metrics['badge']==old_size and metrics['glyph']==['16px','16px'], metrics
+            assert metrics['purple']=='rgb(111, 75, 242)' and metrics['ink']=='rgb(255, 255, 255)', metrics
             assert metrics['centered'], metrics
             symbols[rail] = metrics['artwork']
         assert symbols['SEPA'] != symbols['SWIFT'], 'Method icons must differ by symbol'

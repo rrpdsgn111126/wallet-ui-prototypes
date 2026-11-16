@@ -8,28 +8,42 @@ const report={screens:[],errors:[]};
 const base=pathToFileURL(path.resolve('transfi-remittance/index.html'));
 // Check the ACTUAL top-up/withdraw method sheets in index.html, not legacy.html.
 async function verifyVisibleBankIcons(page,screen){
- const rows=await page.evaluate(screen=>{
+ const metrics=await page.evaluate(screen=>{
   const root=document.querySelector('#v-'+screen);
-  return [...root.querySelectorAll('[data-tf-bank]')].map(row=>{
+  const native=root.querySelector('.m[data-go] .cn:has(img[width="24"])');
+  const oldLogo=native?.querySelector('img');
+  const nativeCSS=native&&getComputedStyle(native);
+  const iconCSS=oldLogo&&getComputedStyle(oldLogo);
+  const rows=[...root.querySelectorAll('[data-tf-bank]')].map(row=>{
    const rail=row.dataset.tfBank,plate=row.querySelector('.cn.tf-bank-icon');
-   const svg=plate?.querySelector('svg.tf-bank-glyph');
+   const badge=plate?.querySelector('.tf-bank-mark'),svg=badge?.querySelector('svg.tf-bank-glyph');
    if(!svg)return {rail,missing:true,text:plate?.textContent};
-   const p=plate.getBoundingClientRect(),s=svg.getBoundingClientRect(),css=getComputedStyle(plate);
-   return {rail,size:[p.width,p.height],glyph:[s.width,s.height],
-     computedSize:[css.width,css.height],computedGlyph:[getComputedStyle(svg).width,getComputedStyle(svg).height],bg:css.backgroundColor,
-     ink:css.color,centering:Math.max(Math.abs(p.x+p.width/2-s.x-s.width/2),
-     Math.abs(p.y+p.height/2-s.y-s.height/2)),svg:svg.innerHTML};
+   const p=plate.getBoundingClientRect(),b=badge.getBoundingClientRect(),s=svg.getBoundingClientRect();
+   const cs=getComputedStyle(plate),bs=getComputedStyle(badge),gs=getComputedStyle(svg);
+   return {rail,plate:[cs.width,cs.height],badge:[bs.width,bs.height],
+     glyph:[gs.width,gs.height],gray:cs.backgroundColor,purple:bs.backgroundColor,
+     white:bs.color,
+     placement:Math.max(Math.abs(p.x+p.width/2-b.x-b.width/2),Math.abs(p.y+p.height/2-b.y-b.height/2),
+       Math.abs(b.x+b.width/2-s.x-s.width/2),Math.abs(b.y+b.height/2-s.y-s.height/2)),
+     svg:svg.innerHTML};
   });
+  return {nativePlate:nativeCSS&&[nativeCSS.width,nativeCSS.height],
+    nativeColor:nativeCSS?.backgroundColor,nativeLogo:iconCSS&&[iconCSS.width,iconCSS.height],rows};
  },screen);
- if(rows.length!==2)throw new Error(screen+': expected 2 method rows');
+ if(metrics.rows.length!==2)throw new Error(screen+': expected two bank method rows');
+ if(!metrics.nativeColor||metrics.nativeLogo?.join('x')!=='24pxx24px')
+   throw new Error(screen+': original 24px USDT/USDC reference absent '+JSON.stringify(metrics));
  for(const rail of ['SEPA','SWIFT']){
-  const r=rows.find(x=>x.rail===rail);
-  if(!r||r.missing||r.computedSize.join('x')!=='40pxx40px'||r.computedGlyph.join('x')!=='24pxx24px'||
-     r.bg!=='rgb(111, 75, 242)'||r.ink!=='rgb(255, 255, 255)'||r.centering>0.6)
-    throw new Error(screen+': wrong '+rail+' icon '+JSON.stringify(r));
+  const r=metrics.rows.find(x=>x.rail===rail);
+  if(!r||r.missing||r.plate.join('x')!==metrics.nativePlate.join('x')||
+     r.badge.join('x')!==metrics.nativeLogo.join('x')||r.glyph.join('x')!=='16pxx16px'||
+     r.gray!==metrics.nativeColor||r.purple!=='rgb(111, 75, 242)'||
+     r.white!=='rgb(255, 255, 255)'||r.placement>0.6)
+    throw new Error(screen+': '+rail+' nesting/layout mismatch '+JSON.stringify({native:metrics,r}));
  }
- if(rows[0].svg===rows[1].svg)throw new Error(screen+': bank/globe artwork identical');
- console.log('VISIBLE_BANK_ICONS_OK',screen,page.viewportSize().width);
+ if(metrics.rows[0].svg===metrics.rows[1].svg)
+   throw new Error(screen+': SEPA and SWIFT marks must have distinct artwork');
+ console.log('VISIBLE_BANK_ICONS_NATIVE_PARITY_OK',screen,page.viewportSize().width);
 }
 
 try{
