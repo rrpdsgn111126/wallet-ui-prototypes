@@ -29,13 +29,21 @@
 .ns-box button.row{flex-shrink:0;box-sizing:border-box}
 .ns-box .row[aria-checked="true"] .rd{box-shadow:inset 0 0 0 7px var(--brand)}
 .ns-note{font:400 13px/18px Inter,system-ui,sans-serif;color:var(--n500);margin:6px 0 0}
+/* The original ALT.VU .view.ovl sheet-in/dim-in motion is used on reopen;
+   the catalog first paint is intentionally already settled. */
+.ns-layer .sheet.settled{animation:none!important;transform:translateY(0)!important}
+.ns-layer .dim.settled{animation:none!important;opacity:.4}
+.ns-trigger{transform:none!important;transition:none!important;animation:none!important}
+@media(prefers-reduced-motion:reduce){
+  .ns-layer .sheet,.ns-layer .dim{animation:none!important}
+}
 </style>
 </head>
 <body data-ds="netsheet">
 <div class="phone ds-ph">
 <div class="ds-screen ns-stage" id="network-stage">
 <button type="button" class="fld w net-pick ns-trigger" id="network-trigger"
-  aria-haspopup="dialog" aria-expanded="false" aria-controls="network-layer"
+  aria-haspopup="dialog" aria-expanded="true" aria-controls="network-layer"
   aria-label="Сеть: TRC20">
   <span class="fi"><i class="nlg tron" aria-hidden="true" id="network-icon"></i></span>
   <span class="fl"><i>Сеть</i><b id="network-value">TRC20</b></span>
@@ -43,9 +51,9 @@
     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--n500)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 5 7 7-7 7"/></svg>
   </span>
 </button>
-<div class="view ovl on ns-layer" id="network-layer" hidden>
-  <button type="button" class="dim" data-close aria-label="Закрыть выбор сети"></button>
-  <section class="sheet ns-sheet" role="dialog" aria-modal="true" aria-label="Выбор сети">
+<div class="view ovl on ns-layer" id="network-layer">
+  <button type="button" class="dim settled" data-close aria-label="Закрыть выбор сети"></button>
+  <section class="sheet ns-sheet settled" role="dialog" aria-modal="true" aria-label="Выбор сети">
     <div class="grab"></div>
     <div class="sh2">Сеть</div>
     <div class="box ns-box" role="radiogroup" aria-label="Сеть">
@@ -67,18 +75,24 @@
  const rows=[...layer.querySelectorAll('[data-ns]')];
  const value=document.querySelector('#network-value');
  const icon=document.querySelector('#network-icon');
+ const sheet=layer.querySelector('.ns-sheet');
+ const dim=layer.querySelector('.dim');
  let selected='tron';
- function open(){
+ function open({settled=false,focus=true}={}){
+   // Remove .settled BEFORE showing the layer on user reopen, so only
+   // .sheet glides up and .dim fades via original 0.62s ALT.VU animation.
+   sheet.classList.toggle('settled',settled);
+   dim.classList.toggle('settled',settled);
    layer.hidden=false;
    trigger.setAttribute('aria-expanded','true');
-   (rows.find(row=>row.dataset.ns===selected)||rows[0]).focus();
+   if(focus)(rows.find(row=>row.dataset.ns===selected)||rows[0]).focus({preventScroll:true});
  }
  function close(){
    layer.hidden=true;
    trigger.setAttribute('aria-expanded','false');
-   trigger.focus();
+   trigger.focus({preventScroll:true});
  }
- trigger.addEventListener('click',open);
+ trigger.addEventListener('click',()=>open());
  layer.addEventListener('click',event=>{
    if(event.target.closest('[data-close]')){close();return;}
    const row=event.target.closest('[data-ns]');
