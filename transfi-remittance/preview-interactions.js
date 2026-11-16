@@ -330,12 +330,50 @@
     sbpCheck();
   }
 
+  // Bank iframe uses the real ALT.VU operation list. Each callback updates
+  // ONE synthetic withdrawal; there are no real provider requests.
+  function bankCallback(status){
+    const frame=document.querySelector('#tf-bank-overlay iframe');
+    if(!frame||!frame.contentWindow||typeof frame.contentWindow.uxBankCallback!=='function')return;
+    frame.contentWindow.uxBankCallback(status);
+  }
+  window.addEventListener('message',event=>{
+    const overlay=document.getElementById('tf-bank-overlay');
+    const frame=overlay&&overlay.querySelector('iframe');
+    if(!frame||event.source!==frame.contentWindow||event.origin!==location.origin)return;
+    const d=event.data;
+    if(!d||typeof d!=='object')return;
+    if(d.type==='altvu:bank:status'&&d.flow==='out'){
+      if(!/^tf-bank-[0-9]+-[0-9]+$/.test(String(d.id))||
+         !['SEPA','SWIFT'].includes(d.rail)||
+         !['pending','success','failed','held'].includes(d.status))return;
+      const map={pending:'queued',success:'confirmed',failed:'rejected',held:'confirming'};
+      const ops=data['/operations'].operations;
+      let op=ops.find(x=>x.id===d.id);
+      if(op){op.status=map[d.status];loadOps();return;}
+      op={id:d.id,kind:'withdrawal',status:map[d.status],
+        title:'Вывод '+d.rail,network:d.rail.toLowerCase(),coin:String(d.currency||'EUR'),
+        amount_minor:Math.min(0,Number(d.amount_minor)||0),
+        amount_crypto:String(d.amount_crypto||'0'),
+        fee_minor:Math.max(0,Number(d.fee_minor)||0),
+        address:String(d.account||''),recipient_name:String(d.beneficiary||''),
+        created_at:new Date().toISOString()};
+      record(op);return;
+    }
+    if(d.type==='altvu:bank:home'||d.type==='altvu:bank:open-operation'){
+      overlay.hidden=true;
+      frame.removeAttribute('src');
+      if(d.type==='altvu:bank:home'){show('home',false);loadOps();return;}
+      const op=(data['/operations'].operations||[]).find(x=>x.id===d.id);
+      if(op)openOp(op);else{show('home',false);loadOps();}
+    }
+  });
   function qa(){
     if(new URLSearchParams(location.search).get('qa')!=='1')return;
     const css=document.createElement('style');
     css.textContent='#pv-qa{position:fixed;right:12px;bottom:12px;width:210px;max-width:48vw;'+
       'background:white;border:1px solid #dfe3df;box-shadow:0 4px 25px #0002;border-radius:14px;'+
-      'z-index:200;box-sizing:border-box;padding:12px;color:#1e241e;font:12px/1.4 Inter,sans-serif}'+
+      'z-index:200;box-sizing:border-box;padding:12px;color:#1e241e;font:12px/1.4 Inter,sans-serif;max-height:75vh;overflow-y:auto}'+
       '#pv-qa h3{font-size:13px;margin:0 0 8px}#pv-qa select,#pv-qa button{box-sizing:border-box;'+
       'width:100%;min-height:34px;margin:0 0 7px;border:1px solid #d6dcd6;border-radius:8px;'+
       'background:#f5f7f5;color:#1e241e;font:inherit;padding:6px}#pv-qa button{cursor:pointer}'+
@@ -350,6 +388,11 @@
       '<button id="pv-internal-ok">ALT.VU: входящий перевод</button>'+
       '<button id="pv-sbp-ok">СБП callback: успех</button>'+
       '<button id="pv-sbp-fail">СБП callback: ошибка</button>'+
+      '<details style="margin:6px 0"><summary>Банк SEPA/SWIFT · callback</summary>'+
+      '<button id="pv-bank-ok">Банк: успех</button>'+
+      '<button id="pv-bank-failed">Банк: ошибка</button>'+
+      '<button id="pv-bank-held">Банк: на проверке</button>'+
+      '<button id="pv-bank-pending">Банк: в обработке</button></details>'+
       '<button id="pv-open-last">Детали последней операции</button>'+
       '<small>Только локальный UX-макет. Платежи не отправляются.</small>';
     document.body.appendChild(bar);
@@ -359,6 +402,10 @@
     bar.querySelector('#pv-internal-ok').onclick=()=>internalDepositCallback();
     bar.querySelector('#pv-sbp-ok').onclick=()=>sbpCallback('ok');
     bar.querySelector('#pv-sbp-fail').onclick=()=>sbpCallback('fail');
+    bar.querySelector('#pv-bank-ok').onclick=()=>bankCallback('success');
+    bar.querySelector('#pv-bank-failed').onclick=()=>bankCallback('failed');
+    bar.querySelector('#pv-bank-held').onclick=()=>bankCallback('held');
+    bar.querySelector('#pv-bank-pending').onclick=()=>bankCallback('pending');
     bar.querySelector('#pv-open-last').onclick=()=>openOp(data['/operations'].operations[0]);
   }
   qa();
