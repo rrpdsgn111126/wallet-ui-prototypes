@@ -601,7 +601,7 @@ html.tf-capture.tf-embedded .phone.tf-phone,html.tf-capture.tf-embedded .phone.t
 const COUNTRY={DE:'Германия',FR:'Франция',NL:'Нидерланды',GB:'Великобритания',US:'США',ES:'Испания'};
 const SEPA_COUNTRIES=['DE','FR','NL','ES'];
 const CURRENCY=['EUR','USD','GBP'];
-const S={flow:'in',screen:'in-details',inCurrency:'EUR',inRail:'SEPA',outCurrency:'EUR',sourceCurrency:'USD',outRail:'SEPA',country:'DE',amount:'',recipientName:'',iban:'',account:'',bic:'',bank:'',routing:'',bankAddress:'',recipientAddress:'',intermediary:'',purpose:'personal',purposeOther:'',note:'',showError:false};
+const S={flow:'in',screen:'in-details',inCurrency:'EUR',inRail:'SEPA',outCurrency:'EUR',sourceCurrency:'USD',outRail:'SEPA',country:'DE',amount:'',recipientName:'',bankDemoId:'',iban:'',account:'',bic:'',bank:'',routing:'',bankAddress:'',recipientAddress:'',intermediary:'',purpose:'personal',purposeOther:'',note:'',showError:false};
 const SCREENS={in:[['in-details','Реквизиты'],['in-pending','Поступление ожидается'],['in-success','Зачислено'],['in-held','На проверке']],out:[['out-config','Параметры перевода'],['out-recipient','Реквизиты получателя'],['out-review','Подтверждение'],['out-progress','Обрабатывается'],['out-success','Доставлен'],['out-failed','Ошибка'],['out-held','На проверке'],['out-unavailable','Недоступное направление']]};
 const META={
 'in-details':{title:'Один экран: валюта → метод → реквизиты',desc:'Без хлебных крошек, подзаголовка и повторяющегося названия внутри блока. Реквизиты меняются сразу под переключателями.',apis:['GET /v3/config/payment-methods/iban','POST /v3/iban','GET /v3/iban (список счетов)'],rules:['Реквизиты выводятся из ответа сервера, а не генерируются клиентом.','SEPA показан только для EUR; входящий SWIFT — демонстрационная гипотеза до подтверждения MID.','Если реквизиты не выданы, показывать состояние недоступности, а не фальшивые реквизиты.']},
@@ -753,7 +753,31 @@ function fillDemo(){
  render();
  notify('Заполнены вымышленные тестовые данные');
 }
-function checkReview(){if(!validConfig()){notify('Проверьте сумму перевода');go('out-config');return}go('out-progress')}
+function checkReview(){
+ if(!validConfig()){notify('Проверьте сумму перевода');go('out-config');return;}
+ if(!S.bankDemoId)S.bankDemoId='tf-bank-'+Date.now()+'-'+Math.floor(Math.random()*100000);
+ go('out-progress');
+ uxBankEmit('pending');
+}
+// Test prototype callbacks: status updates come from the payment provider in
+// production; never simulate their arrival automatically.
+function uxBankCallback(status){
+ const screens={pending:'out-progress',success:'out-success',failed:'out-failed',held:'out-held'};
+ if(S.flow!=='out'||!screens[status]||!['out-progress','out-held','out-failed','out-success'].includes(S.screen))return false;
+ go(screens[status]);uxBankEmit(status);return true;
+}
+function uxBankEmit(status){
+ if(window.parent===window||!S.bankDemoId)return;
+ const q=quote();
+ window.parent.postMessage({
+  type:'altvu:bank:status',id:S.bankDemoId,rail:S.outRail,flow:'out',
+  status,amount_minor:-Math.round(q.total*100),
+  amount_crypto:q.receive.toFixed(2),currency:S.outCurrency,
+  fee_minor:Math.round(q.fee*100),
+  beneficiary:S.recipientName.trim(),
+  account:S.outRail==='SEPA'?S.iban:S.account
+ },location.origin);
+}
 // Canonical SBP wait screen and P2P/SBP result, without a 3-stage timeline.
 function tfBankWait(heading,description){
  return '<div class="sbp-wait tf-bank-wait"><div class="ring"><div class="in"><div class="cn">'+
@@ -769,7 +793,7 @@ function tfBankResult(status,heading,description){
 }
 function uxLeaveBank(){
  if(window.parent!==window){
-   window.parent.postMessage({type:'altvu:transfi:exit',flow:S.flow},location.origin);
+   window.parent.postMessage({type:'altvu:bank:home',flow:S.flow},location.origin);
  }else uxGo('home');
 }
 function uxShowBankOperation(){
