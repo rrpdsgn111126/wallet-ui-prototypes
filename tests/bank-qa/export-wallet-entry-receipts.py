@@ -31,6 +31,7 @@ async def main():
      await expect(page.locator("#v-home.on")).to_be_visible(timeout=30000)
      await page.evaluate("document.fonts.ready")
      await page.wait_for_timeout(500)
+     await page.evaluate("() => document.querySelector('#pv-qa').style.display = 'none'")
      await page.locator('.bnv [data-mb="'+("topup" if flow=="in" else "withdraw")+'"]').click()
      await page.wait_for_timeout(550)
      await page.screenshot(path=str(out/"00_Method_selection.png"),animations="disabled")
