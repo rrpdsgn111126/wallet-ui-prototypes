@@ -1246,13 +1246,17 @@ function uxPickerField(label,key,icon){
     '</i><b>'+esc(selected?selected.label:'Выбрать')+'</b></span>'+
     '<span class="tf-picker-chevron" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 5 7 7-7 7"/></svg></span></button>';
 }
-function uxOpenPicker(key){
+function uxOpenPicker(key,{settled=false,focus=true}={}){
   if(!uxPickerOptions(key).length||S.modal)return;
   S.picker=key;
-  uxRenderPicker();
+  // Initial UI Kit previews are fully open at the first paint. Subsequent
+  // user interactions use the unchanged source sheet-in/dim-in animation.
+  uxRenderPicker({settled});
   const first=$('pickerLayer').querySelector('.tf-picker-row[aria-checked="true"]') ||
     $('pickerLayer').querySelector('.tf-picker-row');
-  if(first)first.focus();
+  // Focusing a row while the sheet is translating must NOT scroll the nested
+  // iframe or move the selector field behind the dim.
+  if(focus&&first)first.focus({preventScroll:true});
 }
 function uxClosePicker(){
   S.picker=null;
@@ -1271,11 +1275,11 @@ function uxChoosePicker(value){
   render();
   $('content').scrollTop=scrollTop;
   const trigger=document.querySelector('.phone.tf-phone [data-picker="'+key+'"]');
-  if(trigger)trigger.focus();
+  if(trigger)trigger.focus({preventScroll:true});
 }
 // Exact native network picker structure: .dim + .sheet + .grab + .sh2
 // + ONE .box containing .row / .ri / .rt / .rd, not separate cards.
-function uxRenderPicker(){
+function uxRenderPicker({settled=false}={}){
  const layer=$('pickerLayer');
  if(!layer)return;
  if(!S.picker){layer.hidden=true;layer.innerHTML='';return;}
@@ -1288,8 +1292,8 @@ function uxRenderPicker(){
      '</span><span class="rt">'+esc(option.label)+'</span>'+
      '<span class="rd'+(checked?' on':'')+'" aria-hidden="true"></span></button>';
  }).join('');
- layer.innerHTML='<div class="dim tf-picker-dim" data-picker-dismiss aria-hidden="true"></div>'+
-   '<section class="sheet tf-picker-sheet" role="dialog" aria-modal="true" aria-label="'+esc(heading)+'">'+
+ layer.innerHTML='<div class="dim tf-picker-dim'+(settled?' settled':'')+'" data-picker-dismiss aria-hidden="true"></div>'+
+   '<section class="sheet tf-picker-sheet'+(settled?' settled':'')+'" role="dialog" aria-modal="true" aria-label="'+esc(heading)+'">'+
    '<div class="grab"></div><h2 class="sh2">'+esc(heading)+'</h2>'+
    '<div class="box tf-picker-box" role="radiogroup" aria-label="'+esc(heading)+'">'+rows+'</div>'+
    '</section>';
@@ -1378,6 +1382,10 @@ if(tfQuery.get('component')==='picker'){
   }
 }
 render();
+// A component catalog starts with its picker ALREADY OPEN, with animations
+// settled. There is no initial movement of the dimmed trigger in the iframe.
+// Closing and reopening restores the original ALT.VU entrance animation.
+if(S.componentPickerKey)uxOpenPicker(S.componentPickerKey,{settled:true,focus:false});
 // Component-catalog / Playwright capture only: render an actual opened selector
 // using the very same DOM, CSS and event handlers as the working bank flow.
 if(tfQuery.get('capture')==='1'){
