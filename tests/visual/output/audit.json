@@ -1,5 +1,5 @@
 {
-  "run": "2026-11-16T07:58:28.907Z",
+  "run": "2026-11-16T08:08:19.288Z",
   "cases": [
     {
       "label": "home",
@@ -849,14 +849,6 @@
           "clientWidth": 430
         },
         "fields": [
-          {
-            "name": "fld w tf-field tf-recipient-field",
-            "left": 16,
-            "right": 414,
-            "width": 398,
-            "scrollWidth": 398,
-            "clientWidth": 398
-          },
           {
             "name": "fld w tf-field tf-recipient-field",
             "left": 16,
@@ -2099,14 +2091,6 @@
             "clientWidth": 358
           },
           {
-            "name": "fld w tf-field tf-recipient-field",
-            "left": 16,
-            "right": 374,
-            "width": 358,
-            "scrollWidth": 358,
-            "clientWidth": 358
-          },
-          {
             "name": "fld w tf-field tf-picker-trigger tf-recipient-field",
             "left": 16,
             "right": 374,
@@ -3316,14 +3300,6 @@
             "clientWidth": 398
           },
           {
-            "name": "fld w tf-field tf-recipient-field",
-            "left": 16,
-            "right": 414,
-            "width": 398,
-            "scrollWidth": 398,
-            "clientWidth": 398
-          },
-          {
             "name": "fld w tf-field tf-picker-trigger tf-recipient-field",
             "left": 16,
             "right": 414,
@@ -4500,14 +4476,6 @@
           "clientWidth": 420
         },
         "fields": [
-          {
-            "name": "fld w tf-field tf-recipient-field",
-            "left": 499,
-            "right": 887,
-            "width": 388,
-            "scrollWidth": 388,
-            "clientWidth": 388
-          },
           {
             "name": "fld w tf-field tf-recipient-field",
             "left": 499,
