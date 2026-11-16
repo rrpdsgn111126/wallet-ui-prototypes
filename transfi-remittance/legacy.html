@@ -1085,7 +1085,7 @@ function uxSourceAccountField(){
     '<div class="fl"><i>Со счёта alt.vu</i><b>Доступно 4 812.60 $</b></div></div>';
 }
 function uxFixedCurrencyField(label,value){
-  return '<div class="fld w tf-field tf-fixed-currency"><div class="fi">'+uxCurrencySymbol(value)+
+  return '<div class="fld w tf-field tf-fixed-currency'+(label==='Валюта пополнения'?' tf-deposit-currency':'')+'"><div class="fi">'+uxCurrencySymbol(value)+
     '</div><div class="fl"><i>'+esc(label)+'</i><b>'+esc(value)+'</b></div></div>';
 }
 function uxPickerField(label,key,icon){
