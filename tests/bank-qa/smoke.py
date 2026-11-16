@@ -442,12 +442,28 @@ async def smoke(browser, origin):
                     window.__pickerTrace.push(['close',S.picker,S.modal]);
                     return previousClose(...args);
                 };
-                phone.addEventListener('click',event=>{
-                    window.__pickerTrace.push(['event',event.target.tagName,
-                      event.target.closest('[data-picker]')?.dataset.picker,
-                      event.target.closest('[data-picker-dismiss]')?.className]);
-                },true);
+                const trace=(name,event)=>window.__pickerTrace.push([
+                  name,event.target.tagName,
+                  event.target.closest('[data-picker]')?.dataset.picker,
+                  event.target.closest('[data-picker-dismiss]')?.className,
+                  document.activeElement?.tagName
+                ]);
+                for(const eventName of ['pointerdown','pointerup','click']){
+                  phone.addEventListener(eventName,e=>trace('phone-'+eventName,e),true);
+                  document.addEventListener(eventName,e=>trace('document-'+eventName,e),true);
+                }
             }""")
+        before_click=await picker.evaluate("""el => {
+          const r=el.getBoundingClientRect();
+          const x=r.x+r.width/2,y=r.y+r.height/2;
+          return {disabled:el.disabled,connected:el.isConnected,
+            withinPhone:document.querySelector('.phone.tf-phone').contains(el),
+            pointerEvents:getComputedStyle(el).pointerEvents,
+            isTop:document.elementFromPoint(x,y)===el ||
+              el.contains(document.elementFromPoint(x,y)),
+            target:document.elementFromPoint(x,y)?.outerHTML.slice(0,260),
+            rect:r.toJSON(),scrollX,scrollY};
+        }""")
         await picker.click()
         debug=await inner.locator('#pickerLayer').evaluate("""el => ({
           hidden:el.hidden,
@@ -460,7 +476,7 @@ async def smoke(browser, origin):
           trigger:document.querySelector('[data-picker]')?.outerHTML.slice(0,180)
         })""")
         assert not debug['hidden'] and debug['rows']>0,(
-          'The canonical picker did not reopen after value change',mode,debug
+          'The canonical picker did not reopen after value change',mode,before_click,debug
         )
         await expect(inner.locator('[data-picker-value="'+new_value+'"]')).to_have_attribute("aria-checked","true")
         motion=await inner.locator('.tf-picker-sheet').evaluate("""el => ({
