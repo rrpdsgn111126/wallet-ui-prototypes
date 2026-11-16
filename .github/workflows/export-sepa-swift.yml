@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - 'tests/bank-qa/export-screenshots.py'
+      - 'tests/bank-qa/export-wallet-entry-receipts.py'
       - '.github/workflows/export-sepa-swift.yml'
   workflow_dispatch:
 
@@ -22,7 +23,9 @@ jobs:
           python -m pip install playwright
           python -m playwright install --with-deps chromium
       - name: Capture actual app screens
-        run: python tests/bank-qa/export-screenshots.py
+        run: |
+          python tests/bank-qa/export-screenshots.py
+          python tests/bank-qa/export-wallet-entry-receipts.py
       - uses: actions/upload-artifact@v4
         if: always()
         with:
