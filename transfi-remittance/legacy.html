@@ -755,7 +755,7 @@ function fillDemo(){
 }
 function checkReview(){
  if(!validConfig()){notify('Проверьте сумму перевода');go('out-config');return;}
- if(!S.bankDemoId)S.bankDemoId='tf-bank-'+Date.now()+'-'+Math.floor(Math.random()*100000);
+ S.bankDemoId='tf-bank-'+Date.now()+'-'+Math.floor(Math.random()*100000);
  go('out-progress');
  uxBankEmit('pending');
 }
@@ -912,6 +912,7 @@ function uxSelectMethod(rail) {
     // Starting a new bank method shows the canonical empty 0.00 placeholder.
     // Keep the entered amount when moving between steps of the same transfer.
     S.amount='';
+    S.bankDemoId='';
     S.sourceCurrency='USD';
     if(rail==='SEPA'){
       S.outCurrency='EUR';
