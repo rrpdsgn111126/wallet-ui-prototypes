@@ -259,6 +259,52 @@ html.tf-embedded .proto-shell,html.tf-embedded .workspace{height:100%;width:100%
   .phone.tf-phone:not(.is-home)>.head .h1{font-size:20px}
 }
 
+/* Canonical icon-free bank recipient form: SEPA/SWIFT out-recipient only.
+   All fields remain native .fld.w; only decorative leading .fi is removed.
+   Currency, country and amount icons on out-config are unaffected. */
+.phone.tf-phone .fld.tf-field.tf-recipient-field{
+  gap:0;
+}
+.phone.tf-phone .fld.tf-field.tf-recipient-field .fl{
+  flex:1 1 auto;min-width:0;
+}
+/* A standalone clickable heading, NOT a surrounding white card. The optional
+   fields each remain their own white native input when expanded. */
+.phone.tf-phone .tf-more.tf-recipient-extra{
+  box-sizing:border-box;display:block;
+  width:100%;margin:16px 0 8px;padding:0;
+  border:0;border-radius:0;background:transparent;box-shadow:none;
+}
+.phone.tf-phone .tf-more.tf-recipient-extra summary{
+  box-sizing:border-box;display:flex;align-items:center;justify-content:space-between;
+  width:100%;min-height:44px;gap:12px;margin:0;padding:8px 0 12px;
+  list-style:none;background:transparent;border:0;box-shadow:none;
+  color:var(--n900);font:600 16px/24px Inter,system-ui,sans-serif;cursor:pointer;
+}
+.phone.tf-phone .tf-more.tf-recipient-extra summary::-webkit-details-marker{display:none}
+.phone.tf-phone .tf-more.tf-recipient-extra summary::after{
+  content:"";flex:0 0 8px;width:8px;height:8px;
+  border-right:2px solid var(--n500);border-bottom:2px solid var(--n500);
+  transform:rotate(45deg);transition:transform .15s ease;
+  margin:0 5px 4px 0;
+}
+.phone.tf-phone .tf-more.tf-recipient-extra[open] summary::after{
+  transform:rotate(225deg);margin-bottom:-4px;
+}
+.phone.tf-phone .tf-more.tf-recipient-extra summary:focus-visible{
+  outline:2px solid var(--brand-600);outline-offset:3px;border-radius:4px;
+}
+.phone.tf-phone .tf-more.tf-recipient-extra .fld.tf-field{
+  margin:0 0 12px;background:var(--surface);
+  box-shadow:0 1px 2px var(--sh-1);
+}
+.phone.tf-phone .tf-more.tf-recipient-extra .fld.tf-field:last-child{
+  margin-bottom:12px;
+}
+@media(prefers-reduced-motion:reduce){
+  .phone.tf-phone .tf-more.tf-recipient-extra summary::after{transition:none}
+}
+
 /* Bank selectors reuse the original USDT network-sheet stacking and rows:
    parent .view.ovl.on, sibling .dim (z4) + .sheet (z5),
    one .box with .row, .ri, .rt and original .rd/.rd.on ring.
