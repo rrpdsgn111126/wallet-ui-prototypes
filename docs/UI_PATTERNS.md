@@ -89,7 +89,7 @@ Bank-only CSS is located at `css/transfi-bank-altvu.css`, is scoped to `.phone.t
 
 **Acceptance:** same computed sizes as alt.vu where component shapes match (field height 68 px, CTA 52 px, title 20 px, box/table radius 20 px); no horizontal scrolling; all existing TransFi states render at 390 and 430 px; SWIFT config → recipient → review → processing works. Automated checks: `tests/bank-parity.mjs` / workflow `transfi-bank-parity.yml`.
 
-#### Канонический селектор — по экрану «Пополнение USDT → Сеть»
+### Канонический селектор — по экрану «Пополнение USDT → Сеть»
 
 **Один канонический компонент в UI Kit:** [раздел «Канонический селектор: сеть, страна и валюта»](../ui-kit/index.html#selectors). Внутри **три автономных интерактивных поля** — сеть ([components/netsheet.html](../components/netsheet.html)), страна и валюта ([components/bankpicker.html](../components/bankpicker.html)). В UI Kit **все три образца сразу показаны с открытой и полностью остановившейся шторкой**: под затемнением находится одно неподвижное поле, без полного банковского экрана, навбара, сумм и реквизитов. Нажатие на затемнение закрывает шторку; повторное нажатие на поле открывает её с оригинальной анимацией.
 
@@ -110,7 +110,7 @@ Bank-only CSS is located at `css/transfi-bank-altvu.css`, is scoped to `.phone.t
 
 **Регрессия:** `tests/bank-qa/smoke.py` проверяет начальное открытое состояние, исходную анимацию 0,62 с при повторном открытии, неподвижность поля по координатам, `z-index`, radio, SVG-флаги и клики без `force`. `tests/bank-parity.mjs` проверяет общую визуальную согласованность на 390/430 px. Использовать GitHub Actions `prototype-playwright.yml` и `transfi-bank-parity.yml` перед приемкой.
 
-#### Каноническое поле списания, валюты и мобильная шапка (16.11.2026)
+### Каноническое поле списания, валюты и мобильная шапка (16.11.2026)
 
 **Проверенные источники:** исходный компонент [components/fld.html](../components/fld.html) (состояние «Только чтение, серое»), [components/amount.html](../components/amount.html) (монета у суммы), `css/alt-vu-wallet.css` (размеры `.fld`, `.fi`, `.head`). Актуальные экземпляры живых полей в [components/bankfields.html](../components/bankfields.html), [UI Kit](../ui-kit/index.html#bankfields); единственный источник их разметки и логики — `transfi-remittance/legacy.html`. Не подменять оригинал произвольно созданными собственными стилями.
 
@@ -136,7 +136,7 @@ Bank-only CSS is located at `css/transfi-bank-altvu.css`, is scoped to `.phone.t
 - На ширине браузера свыше 740 px сохраняется десктопный шаблон; избегать сдвигов самих элементов навбара дополнительными margin/padding на отдельных банковских экранах.
 - Playwright: `tests/bank-qa/smoke.py` проверяет невидимый правый USD, идентичную SVG-геометрию валют и монеты, мобильный отступ на 390 и 430 px, а также исходные действия селекторов.
 
-#### Каноническая форма реквизитов получателя (SEPA/SWIFT)
+### Каноническая форма реквизитов получателя (SEPA/SWIFT)
 
 **Область применения:** только шаг `out-recipient` исходящих международных переводов. Не переносить изменение на `out-config`, поля валют, суммы, страны и других исходных методов alt.vu. Рабочая разметка находится в `transfi-remittance/legacy.html`, стили — в `css/transfi-bank-altvu.css`.
 
@@ -161,7 +161,7 @@ Bank-only CSS is located at `css/transfi-bank-altvu.css`, is scoped to `.phone.t
 
 
 
-#### Каноническая проверка и три экрана результата банковского перевода
+### Каноническая проверка и три экрана результата банковского перевода
 
 Эталонные экраны из **полного исходного alt.vu**, восстановленного из архива Google Drive: `#v-transfer-check` («Проверьте перевод»), `#v-transfer-done` (успех P2P), `#v-dep-sbp-wait` (ожидание СБП), `#v-dep-sbp-out` (успех/ошибка СБП). Живые канонические примеры: [components/bankstatus.html](../components/bankstatus.html) и [UI Kit → Статусы и сообщения](../ui-kit/index.html#bankstatus).
 
@@ -193,7 +193,7 @@ Bank-only CSS is located at `css/transfi-bank-altvu.css`, is scoped to `.phone.t
 **Регрессия:** `tests/bank-qa/smoke.py` сравнивает SEPA/SWIFT, валюты, формулу суммы, порядок строк, `.row.tot`, кнопки и callback-детали; `tests/bank-parity.mjs` проверяет компоненты на 390 и 430 px, отсутствие таймлайна и переполнения.
 
 
-#### Монеты, сети и новые банковские методы в оправе
+### Монеты, сети и новые банковские методы в оправе
 
 Каталог [«Монеты и сети в оправе»](../ui-kit/index.html#coins) и [components/coins.html](../components/coins.html) включает **SEPA** и **SWIFT** вместе с исходными ALT.VU, СБП, USDT/USDC. Для банковских методов используется оригинальный `uxRailIcon(rail)` из `transfi-remittance/legacy.html` с той же геометрией, что в настоящей шторке выбора метода: оправа `40×40`, круглый фиолетовый знак `24×24`, белая SVG-пиктограмма `16×16`, `stroke-width:1.8`. Не рисовать текстовые заглушки «SEPA» или «SWIFT» внутри иконки и не менять эти изображения на произвольные банковские логотипы.
 
