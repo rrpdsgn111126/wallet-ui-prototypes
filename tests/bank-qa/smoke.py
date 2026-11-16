@@ -359,17 +359,36 @@ async def smoke(browser, origin):
 
     network=catalog.frame_locator('#selectors iframe[src*="netsheet.html"]')
     await expect(network.locator('#network-trigger')).to_be_visible(timeout=15000)
-    assert await network.locator('.ns-layer').is_hidden()
-    assert await network.locator('header,.head,.tf-source,.tf-quote').count()==0
-    await network.locator('#network-trigger').click()
+    # All three component specimens are already OPEN at initial paint.
     await expect(network.locator('.ns-layer .ns-sheet')).to_be_visible()
+    assert 'settled' in await network.locator('.ns-sheet').get_attribute('class')
+    assert 'settled' in await network.locator('.ns-layer .dim').get_attribute('class')
+    assert await network.locator('header,.head,.tf-source,.tf-quote').count()==0
     assert await network.locator('.ns-box .row').count()==4
     assert await network.locator('.ns-box .rd.on').count()==1
     await network.locator('[data-ns="bnb"]').click()
     await expect(network.locator('#network-value')).to_have_text("BEP-20")
     await expect(network.locator('.ns-layer')).to_be_hidden()
+    before=await network.locator('#network-trigger').evaluate(
+        'el => el.getBoundingClientRect().toJSON()'
+    )
     await network.locator('#network-trigger').click()
     await expect(network.locator('[data-ns="bnb"]')).to_have_attribute("aria-checked","true")
+    sheet_motion=await network.locator('.ns-sheet').evaluate("""el => ({
+        name:getComputedStyle(el).animationName,
+        duration:getComputedStyle(el).animationDuration,
+        easing:getComputedStyle(el).animationTimingFunction
+    })""")
+    assert sheet_motion['name']=='sheet-in' and sheet_motion['duration']=='0.62s',sheet_motion
+    await network.locator('.ns-sheet').evaluate(
+        'el => new Promise(resolve => el.addEventListener("animationend",resolve,{once:true}))'
+    )
+    after=await network.locator('#network-trigger').evaluate(
+        'el => el.getBoundingClientRect().toJSON()'
+    )
+    assert all(abs(before[k]-after[k])<1 for k in ('x','y','width','height')),(
+        "Network field moved while sheet animated",before,after
+    )
     await network.locator('.ns-layer [data-close]').click()
     await expect(network.locator('.ns-layer')).to_be_hidden()
 
@@ -386,10 +405,14 @@ async def smoke(browser, origin):
         assert await inner.locator('#content > .fld').count()==1
         assert await inner.locator('#content .tf-quote, #content .tf-source').count()==0
         assert await inner.locator('.phone.tf-phone > .head').is_hidden()
-        assert await inner.locator('.tf-picker-layer').is_hidden()
-        assert await picker.get_attribute('aria-haspopup')=="dialog"
-        await picker.click()
+        # Source-backed currency/country specimens begin fully expanded.
         await expect(inner.locator('.tf-picker-sheet')).to_be_visible()
+        assert await picker.get_attribute('aria-haspopup')=="dialog"
+        assert 'settled' in await inner.locator('.tf-picker-sheet').get_attribute('class')
+        assert 'settled' in await inner.locator('.tf-picker-dim').get_attribute('class')
+        assert await inner.locator('.tf-picker-sheet').evaluate(
+          'el => getComputedStyle(el).animationName'
+        )=='none'
         await expect(inner.locator('.tf-picker-sheet .sh2')).to_have_text(
             "Страна" if mode=="country" else "Валюта"
         )
@@ -407,8 +430,23 @@ async def smoke(browser, origin):
         await inner.locator('[data-picker-value="'+new_value+'"]').click()
         await expect(inner.locator('.tf-picker-layer')).to_be_hidden()
         assert expected in await picker.inner_text()
+        bounds_before=await picker.evaluate('el => el.getBoundingClientRect().toJSON()')
         await picker.click()
         await expect(inner.locator('[data-picker-value="'+new_value+'"]')).to_have_attribute("aria-checked","true")
+        motion=await inner.locator('.tf-picker-sheet').evaluate("""el => ({
+          name:getComputedStyle(el).animationName,
+          duration:getComputedStyle(el).animationDuration
+        })""")
+        assert motion=={'name':'sheet-in','duration':'0.62s'},motion
+        await inner.locator('.tf-picker-sheet').evaluate(
+          'el => new Promise(resolve => el.addEventListener("animationend",resolve,{once:true}))'
+        )
+        bounds_after=await picker.evaluate('el => el.getBoundingClientRect().toJSON()')
+        assert all(abs(bounds_before[k]-bounds_after[k])<1 for k in
+                   ('x','y','width','height')),(
+            "Underlying country/currency trigger jumped during sheet-in",
+            mode,bounds_before,bounds_after
+        )
         await inner.locator('[data-picker-dismiss]').click()
         await expect(inner.locator('.tf-picker-layer')).to_be_hidden()
     # Canonical source-account/currency specimens embed live bank fields.
