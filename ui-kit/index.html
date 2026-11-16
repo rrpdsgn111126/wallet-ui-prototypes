@@ -21,7 +21,12 @@
    This gallery-only layout does not modify application-level selectors. */
 #selectors.cmp{grid-template-columns:repeat(3,minmax(0,1fr))}
 #selectors.cmp>.meta{grid-column:1/-1}
-#selectors.cmp figure.v iframe{width:100%;max-width:none}
+#selectors.cmp figure.v iframe{
+  width:100%;max-width:none;
+  /* The catalog's generic ResizeObserver may otherwise resize an iframe
+     during an overlay transition, shifting its stationary background field. */
+  height:568px!important;
+}
 .anchor-alias{display:block;height:0;scroll-margin-top:64px}
 @media(max-width:1080px){#selectors.cmp{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:860px){#selectors.cmp{grid-template-columns:minmax(0,1fr)}}
