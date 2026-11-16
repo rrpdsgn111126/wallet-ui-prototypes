@@ -60,6 +60,43 @@ async def test_source(browser, origin):
         await expect(page.locator("#d-box")).to_contain_text(rail)
         await expect(page.locator("#d-money")).to_contain_text(currency)
         await expect(page.locator("#d-money")).to_contain_text("Комиссия")
+
+        # Verify native receipt-amount terminology, copy controls and book action.
+        amount_total=page.locator("#d-money .row.tot .rt")
+        if "-in-" in operation_id:
+            await expect(amount_total).to_have_text("Итого зачислено")
+            await expect(page.locator("#d-box .bk-act")).to_have_count(0)
+        else:
+            await expect(page.locator("#d-box .bk-act[data-act='bk-op-add']")).to_be_visible()
+            # In original alt.vu, bk-act belongs inside d-box and comes directly
+            # before the final operation-number row.
+            placement=await page.locator("#d-box").evaluate("""el=>{
+                const children=[...el.children],btn=el.querySelector('.bk-act');
+                return {beforeLast:children.indexOf(btn)===children.length-2,
+                  last:children[children.length-1]?.querySelector('.rt')?.textContent};
+            }""")
+            assert placement['beforeLast'] and placement['last']=='Номер операции',placement
+            await page.locator("#d-box .bk-act[data-act='bk-op-add']").click()
+            await expect(page.locator("#v-bank-book-add.on")).to_be_visible()
+            await expect(page.locator("#pv-bank-book-data")).to_contain_text(rail)
+            await page.locator("#pv-bank-book-label").fill("Тестовый "+rail)
+            await page.locator("#pv-bank-book-save").click()
+            await expect(page.locator("#v-details.on")).to_be_visible()
+            await expect(page.locator("#d-box .bk-act.saved")).to_contain_text("В книжке")
+            await expect(page.locator("#d-box .bk-act.saved")).to_contain_text("Тестовый "+rail)
+            await page.locator("#d-box .bk-act.saved").click()
+            await expect(page.locator("#v-bank-book-add.on")).to_be_visible()
+            await expect(page.locator("#pv-bank-book-label")).to_have_value("Тестовый "+rail)
+            await page.locator("#v-bank-book-add .back[data-back]").click()
+            await expect(page.locator("#v-details.on")).to_be_visible()
+        if "sepa-in" in operation_id:
+            iban=page.locator("#d-box .row").filter(has=page.locator(".rt",has_text="IBAN"))
+            await expect(iban.locator(".cpi")).to_have_count(0)
+            assert await iban.get_attribute("data-copy") is None
+        if "swift" in operation_id:
+            account=page.locator("#d-box .row").filter(has=page.locator(".rt",has_text="Номер счёта"))
+            await expect(account.locator(".cpi")).to_have_count(0)
+            assert await account.get_attribute("data-copy") is None
         await expect(page.locator("#d-receipt")).to_be_visible()
         await page.locator("#d-receipt").click()
         await expect(page.locator("#v-receipt.on")).to_be_visible()

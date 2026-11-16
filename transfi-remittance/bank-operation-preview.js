@@ -51,7 +51,7 @@
            :['Списано со счёта',formatBank(o.bank_source_minor,'USD')],
     ['Курс',o.bank_rate],
     ['Комиссия',formatBank(o.fee_minor||0,'USD')],
-    isIn(o)?['Зачислено',formatBank(o.bank_dest_minor,'USD'),true]
+    isIn(o)?['Итого зачислено',formatBank(o.bank_dest_minor,'USD'),true]
            :['Получит',formatBank(o.bank_dest_minor,o.bank_dest_currency),true]
   ];
   const detailsRows=o=>[
@@ -59,12 +59,107 @@
     [isIn(o)?'Отправитель':'Получатель',o.bank_party],
     ['Банк',o.bank_name],
     ['Страна банка',o.bank_country],
-    o.bank_iban?['IBAN',o.bank_iban,false,o.bank_iban]:null,
-    o.bank_account?['Номер счёта',o.bank_account,false,o.bank_account]:null,
+    o.bank_iban?isIn(o)?['IBAN',o.bank_iban]:['IBAN',o.bank_iban,false,o.bank_iban]:null,
+    o.bank_account?['Номер счёта',o.bank_account]:null,
     ['SWIFT / BIC',o.bank_bic],
     ['Дата и время',fullTime(o.created_at)],
     ['Номер операции',o.id,false,o.id]
   ].filter(Boolean);
+
+  // Follow the original alt.vu address-book row pattern (.bk-act, icons and
+  // saved state). Bank IBAN/BIC must not enter the crypto address book API.
+  const bankBookKey='alt.preview.bankRecipients.v1';
+  let bankSaved=[];
+  try{
+    const stored=JSON.parse(sessionStorage.getItem(bankBookKey)||'[]');
+    if(Array.isArray(stored))bankSaved=stored.filter(x=>x&&typeof x.key==='string'&&typeof x.label==='string');
+  }catch(_){}
+  const bankAddressKey=o=>[o.bank_rail,o.bank_iban||o.bank_account||'',o.bank_bic||'',o.bank_party||''].join('|');
+  const bankBookRecord=o=>bankSaved.find(x=>x.key===bankAddressKey(o));
+  function bankBookRow(o){
+    if(!o || !o.bank_rail || isIn(o))return '';
+    const saved=bankBookRecord(o);
+    if(saved){
+      return '<button class="bk-act saved" type="button" data-act="bk-op-open">'+
+        '<span class="ic">'+BK_IC_OK+'</span><span>В книжке</span>'+
+        '<i>'+esc(saved.label)+'</i><span class="chev">'+BK_IC_CHEV+'</span></button>';
+    }
+    return '<button class="bk-act" type="button" data-act="bk-op-add">'+
+      '<span class="ic">'+BK_IC_ADD+'</span><span>Добавить в адресную книгу</span></button>';
+  }
+  const nativeBkRowHtml=bkRowHtml;
+  bkRowHtml=function(o){
+    return o&&o.bank_rail ? bankBookRow(o) : nativeBkRowHtml(o);
+  };
+  function bankBookView(){
+    let page=document.getElementById('v-bank-book-add');
+    if(page)return page;
+    const root=document.querySelector('.phone');
+    page=document.createElement('section');
+    page.className='view';
+    page.id='v-bank-book-add';
+    page.innerHTML='<div class="tint"></div>'+
+      '<div class="head hic"><div class="back" data-back="1">'+
+      '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" '+
+      'stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">'+
+      '<path d="m15 5-7 7 7 7"/></svg></div><div class="h1">Новый адрес</div></div>'+
+      '<div class="wrap tight"><div class="fld w"><div class="fi">'+
+      '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--n850)" '+
+      'stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">'+
+      '<path d="M4.5 16.4 15.9 5a2.3 2.3 0 0 1 3.2 3.2L7.6 19.5l-4 .8z"/></svg>'+
+      '</div><div class="fl"><i>Название</i>'+
+      '<input id="pv-bank-book-label" maxlength="64" placeholder="Банк — основной"></div></div>'+
+      '<div class="hint">Название видите только вы. Банковские реквизиты сохраняются '+
+      'только в тестовом прототипе.</div><div class="box" id="pv-bank-book-data"></div>'+
+      '<div class="msg" id="pv-bank-book-error"></div></div>'+
+      '<div class="foot"><button class="btn" type="button" id="pv-bank-book-save">Сохранить</button></div>';
+    root.appendChild(page);
+    return page;
+  }
+  let bankBookPending=null;
+  function bankBookOpen(o){
+    if(!o || !o.bank_rail || isIn(o))return;
+    bankBookPending=o;
+    const page=bankBookView(),found=bankBookRecord(o);
+    page.querySelector('.h1').textContent=found?'Адрес в книжке':'Новый адрес';
+    const label=page.querySelector('#pv-bank-book-label');
+    label.value=found?found.label:'';
+    page.querySelector('#pv-bank-book-error').textContent='';
+    page.querySelector('#pv-bank-book-data').innerHTML=rowsWithSub([
+      ['Способ перевода',o.bank_rail],['Получатель',o.bank_party],
+      ['Банк',o.bank_name],['Страна банка',o.bank_country],
+      o.bank_iban?['IBAN',o.bank_iban]:null,
+      o.bank_account?['Номер счёта',o.bank_account]:null,
+      ['SWIFT / BIC',o.bank_bic]
+    ]);
+    show('bank-book-add');
+    setTimeout(()=>label.focus(),60);
+  }
+  const nativeBookAddFromOp=bookAddFromOp;
+  bookAddFromOp=function(o){
+    if(o&&o.bank_rail)return bankBookOpen(o);
+    return nativeBookAddFromOp(o);
+  };
+  const nativeBookOpenFromOp=bookOpenFromOp;
+  bookOpenFromOp=async function(o){
+    if(o&&o.bank_rail)return bankBookOpen(o);
+    return nativeBookOpenFromOp(o);
+  };
+  document.addEventListener('click',e=>{
+    if(!e.target.closest('#pv-bank-book-save'))return;
+    const o=bankBookPending;
+    if(!o || !o.bank_rail)return;
+    const label=document.getElementById('pv-bank-book-label').value.trim();
+    const error=document.getElementById('pv-bank-book-error');
+    if(!label){error.textContent='Введите название';return;}
+    const key=bankAddressKey(o);
+    bankSaved=bankSaved.filter(x=>x.key!==key);
+    bankSaved.push({key,label});
+    try{sessionStorage.setItem(bankBookKey,JSON.stringify(bankSaved));}catch(_){}
+    bankBookPending=null;
+    back(); // Native back() returns to details and invokes bkRowPaint().
+  });
+
   function bankIcon(rail,hero){
     const original=document.querySelector('#v-topup [data-tf-bank="'+rail+'"] svg.tf-bank-glyph');
     const paths=original?original.innerHTML:'';
@@ -93,7 +188,12 @@
     const amounts=document.getElementById('d-money');
     if(amounts){amounts.innerHTML=rowsWithSub(rateRows(o));amounts.hidden=false;}
     const fields=document.getElementById('d-box');
-    if(fields){fields.innerHTML=rowsWithSub(detailsRows(o));fields.hidden=false;}
+    if(fields){
+      const recordRows=detailsRows(o);
+      const reference=recordRows.pop(); // Operation number must always remain last.
+      fields.innerHTML=rowsWithSub(recordRows)+bankBookRow(o)+rowsWithSub([reference]);
+      fields.hidden=false;
+    }
     const warn=document.getElementById('d-warn');if(warn)warn.hidden=true;
     const scan=document.getElementById('d-scan');if(scan)scan.hidden=true;
     const receipt=document.getElementById('d-receipt');
