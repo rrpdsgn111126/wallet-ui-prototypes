@@ -201,6 +201,72 @@
 .phone.tf-phone .tf-more summary{font:500 14px/20px Inter,system-ui,sans-serif;color:var(--n850)}
 .phone.tf-phone .tf-more>.tf-field{margin-left:12px;margin-right:12px;width:calc(100% - 24px)}
 .phone.tf-phone .tf-more .tf-field{box-shadow:none;background:var(--n50)}
+/* SEPA/SWIFT final states mirror the original ALT.VU P2P and SBP
+   completion screens: no top navbar; lime check/neutral x, centered hero,
+   primary and secondary actions fixed in the native footer. */
+.phone.tf-phone.tf-bank-final > .head{display:none!important}
+.phone.tf-phone.tf-bank-final > .tf-scroll{
+  box-sizing:border-box;padding-top:130px;
+}
+.phone.tf-phone .tf-bank-result{
+  text-align:center;padding:0 8px;margin:0;
+}
+.phone.tf-phone .tf-bank-result .okc,
+.phone.tf-phone .tf-bank-result .sbp-ic{
+  display:grid;place-items:center;width:88px;height:88px;margin:0 auto;
+  border-radius:999px;
+}
+.phone.tf-phone .tf-bank-result .okc{background:var(--brand)}
+.phone.tf-phone .tf-bank-result .sbp-ic{background:var(--n100)}
+.phone.tf-phone .tf-bank-result .h2{
+  font:600 24px/30px Inter,system-ui,sans-serif;
+  margin:24px 0 8px;color:var(--n900);
+}
+.phone.tf-phone .tf-bank-result .p{
+  font:400 15px/21px Inter,system-ui,sans-serif;
+  margin:0 auto;color:var(--n500);max-width:330px;text-wrap:balance;
+}
+.phone.tf-phone.tf-bank-final > .tf-foot .btno{
+  margin-top:12px;
+}
+@media(max-height:600px){
+  .phone.tf-phone.tf-bank-final > .tf-scroll{padding-top:64px}
+}
+/* Waiting matches the original SBP screen, including the circular indicator
+   and absence of timeline or transaction details cards. */
+.phone.tf-phone.tf-bank-waiting .tf-bank-wait{
+  display:flex;align-items:center;flex-direction:column;
+  text-align:center;padding-top:56px;
+}
+.phone.tf-phone .tf-bank-wait .ring{width:108px;height:108px}
+.phone.tf-phone .tf-bank-wait .ring .in{width:94px;height:94px}
+.phone.tf-phone .tf-bank-wait .ring .cn{
+  display:grid;place-items:center;width:64px;height:64px;
+  border-radius:999px;background:var(--n100);
+}
+.phone.tf-phone .tf-bank-wait .h2{
+  font:600 24px/30px Inter,system-ui,sans-serif;
+  margin:24px 0 8px;color:var(--n900);
+}
+.phone.tf-phone .tf-bank-wait .p{
+  font:400 15px/21px Inter,system-ui,sans-serif;
+  max-width:330px;margin:0;color:var(--n500);text-wrap:balance;
+}
+.phone.tf-phone .tf-bank-wait-note{
+  margin:0 0 14px;text-align:center;
+  font:400 13px/18px Inter,system-ui,sans-serif;color:var(--n500);
+}
+/* Review calculations use the native ALT.VU .row.tot emphasis:
+   standard border above the charged amount, no extra heading "Расчёт". */
+.phone.tf-phone .tf-review-quote .row.tot{
+  border-top:2px solid var(--n100);min-height:64px;
+  font-weight:600;
+}
+.phone.tf-phone .tf-review-quote .row.tot .rt,
+.phone.tf-phone .tf-review-quote .row.tot .rv{
+  font-weight:600;
+}
+
 /* Status screens adopt the original hero/okc vocabulary and SVG icons. */
 .phone.tf-phone .tf-hero{margin:22px 0 24px;text-align:center}
 .phone.tf-phone .tf-hero .h2,
