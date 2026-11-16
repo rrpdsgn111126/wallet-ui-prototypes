@@ -410,6 +410,27 @@ async def assert_bank_review_and_status(browser,origin):
             "Метод","Кому","Страна","Счёт","Назначение"
         ]
         assert "Иван Иванов" in await page.locator(".tf-review-box").inner_text()
+        # The recipient/details card MUST inherit the same canonical
+        # left-label / right-value typography as the calculation card.
+        styles=await page.evaluate("""() => {
+          const selectors=['.tf-review-box .row:first-child',
+                           '.tf-review-quote .row:first-child'];
+          return selectors.map(sel => {
+            const row=document.querySelector(sel);
+            return ['rt','rv'].map(cls => {
+              const node=row.querySelector('.'+cls), css=getComputedStyle(node);
+              return Object.fromEntries([
+                'fontFamily','fontSize','fontWeight','lineHeight','color',
+                'textAlign','flexGrow','flexShrink','flexBasis','maxWidth',
+                'overflowWrap','whiteSpace'].map(key=>[key,css[key]]));
+            });
+          });
+        }""")
+        assert styles[0]==styles[1], (
+            "Upper recipient card must match lower calculation card in both columns: "+str(styles)
+        )
+        assert styles[0][0]['fontWeight']=="500" and styles[0][1]['fontWeight']=="400",styles
+        assert styles[0][0]['color']!=styles[0][1]['color'],styles
         rows=page.locator(".tf-review-quote .row")
         assert await rows.locator(".rt").all_inner_texts()==[
             "Сумма перевода","Курс","Комиссия","Спишется со счёта"
