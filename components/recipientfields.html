@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>alt.vu · Канонические реквизиты получателя SEPA/SWIFT</title>
+<link rel="stylesheet" href="../css/alt-vu-wallet.css">
+<link rel="stylesheet" href="../showcase/specimen.css">
+<style>
+.recipient-specimen{box-sizing:border-box;width:100%;height:610px;border:0;display:block;background:var(--n50)}
+.recipient-help{margin:0 16px 10px;font:400 12px/18px Inter,system-ui,sans-serif;color:var(--n500)}
+</style>
+</head>
+<body data-ds="recipientfields">
+<div class="phone ds-ph">
+<section class="ds-st ds-full">
+<div class="ds-lab" id="rail-heading">Реквизиты получателя · SEPA</div>
+<p class="recipient-help">Живой экран. Все поля без левых иконок; последний элемент — самостоятельный раскрывающийся заголовок. Нажмите его для просмотра дополнительных полей.</p>
+<div class="ds-screen" style="height:610px">
+<iframe class="recipient-specimen" id="recipient-preview" title="Реквизиты получателя SEPA/SWIFT" loading="eager"></iframe>
+</div>
+</section>
+</div>
+<script>
+(function(){
+ var swift=new URLSearchParams(location.search).get('mode')==='swift';
+ document.getElementById('rail-heading').textContent='Реквизиты получателя · '+(swift?'SWIFT':'SEPA');
+ document.getElementById('recipient-preview').src='../transfi-remittance/legacy.html?capture=1&embedded=1&flow=out&screen=out-recipient&rail='+(swift?'SWIFT':'SEPA');
+})();
+</script>
+<script src="../showcase/specimen.js"></script>
+</body>
+</html>
