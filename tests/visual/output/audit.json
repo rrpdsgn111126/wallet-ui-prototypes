@@ -1,5 +1,5 @@
 {
-  "run": "2026-11-14T07:15:32.100Z",
+  "run": "2026-11-16T07:47:38.850Z",
   "cases": [
     {
       "label": "home",
@@ -62,8 +62,8 @@
         "content": {
           "width": 430,
           "scrollWidth": 430,
-          "height": 826,
-          "scrollHeight": 826
+          "height": 864,
+          "scrollHeight": 864
         },
         "footer": {
           "height": 0,
@@ -99,8 +99,8 @@
         "content": {
           "width": 430,
           "scrollWidth": 430,
-          "height": 826,
-          "scrollHeight": 826
+          "height": 864,
+          "scrollHeight": 864
         },
         "footer": {
           "height": 0,
@@ -145,8 +145,8 @@
         "content": {
           "width": 430,
           "scrollWidth": 430,
-          "height": 826,
-          "scrollHeight": 826
+          "height": 864,
+          "scrollHeight": 864
         },
         "footer": {
           "height": 0,
@@ -191,8 +191,8 @@
         "content": {
           "width": 430,
           "scrollWidth": 430,
-          "height": 826,
-          "scrollHeight": 826
+          "height": 864,
+          "scrollHeight": 864
         },
         "footer": {
           "height": 0,
@@ -237,8 +237,8 @@
         "content": {
           "width": 430,
           "scrollWidth": 430,
-          "height": 826,
-          "scrollHeight": 826
+          "height": 864,
+          "scrollHeight": 864
         },
         "footer": {
           "height": 0,
@@ -447,8 +447,8 @@
         "content": {
           "width": 430,
           "scrollWidth": 430,
-          "height": 718,
-          "scrollHeight": 718
+          "height": 756,
+          "scrollHeight": 756
         },
         "footer": {
           "height": 108,
@@ -457,7 +457,7 @@
         },
         "fields": [
           {
-            "name": "fld w tf-field tf-deposit-currency",
+            "name": "fld w tf-field tf-fixed-currency tf-deposit-currency",
             "left": 16,
             "right": 414,
             "width": 398,
@@ -501,8 +501,8 @@
         "content": {
           "width": 430,
           "scrollWidth": 430,
-          "height": 718,
-          "scrollHeight": 718
+          "height": 756,
+          "scrollHeight": 756
         },
         "footer": {
           "height": 108,
@@ -555,8 +555,8 @@
         "content": {
           "width": 430,
           "scrollWidth": 430,
-          "height": 718,
-          "scrollHeight": 718
+          "height": 756,
+          "scrollHeight": 756
         },
         "footer": {
           "height": 108,
@@ -592,8 +592,8 @@
         "content": {
           "width": 430,
           "scrollWidth": 430,
-          "height": 718,
-          "scrollHeight": 718
+          "height": 756,
+          "scrollHeight": 756
         },
         "footer": {
           "height": 108,
@@ -638,8 +638,8 @@
         "content": {
           "width": 430,
           "scrollWidth": 430,
-          "height": 718,
-          "scrollHeight": 718
+          "height": 756,
+          "scrollHeight": 756
         },
         "footer": {
           "height": 108,
@@ -684,8 +684,8 @@
         "content": {
           "width": 430,
           "scrollWidth": 430,
-          "height": 718,
-          "scrollHeight": 718
+          "height": 756,
+          "scrollHeight": 756
         },
         "footer": {
           "height": 108,
@@ -762,8 +762,8 @@
         "content": {
           "width": 430,
           "scrollWidth": 430,
-          "height": 718,
-          "scrollHeight": 718
+          "height": 756,
+          "scrollHeight": 756
         },
         "footer": {
           "height": 108,
@@ -840,8 +840,8 @@
         "content": {
           "width": 430,
           "scrollWidth": 430,
-          "height": 718,
-          "scrollHeight": 718
+          "height": 756,
+          "scrollHeight": 756
         },
         "footer": {
           "height": 108,
@@ -850,7 +850,7 @@
         },
         "fields": [
           {
-            "name": "fld w tf-field",
+            "name": "fld w tf-field tf-recipient-field",
             "left": 16,
             "right": 414,
             "width": 398,
@@ -858,7 +858,7 @@
             "clientWidth": 398
           },
           {
-            "name": "fld w tf-field",
+            "name": "fld w tf-field tf-recipient-field",
             "left": 16,
             "right": 414,
             "width": 398,
@@ -866,7 +866,7 @@
             "clientWidth": 398
           },
           {
-            "name": "fld w tf-field",
+            "name": "fld w tf-field tf-recipient-field",
             "left": 16,
             "right": 414,
             "width": 398,
@@ -874,7 +874,7 @@
             "clientWidth": 398
           },
           {
-            "name": "fld w tf-field",
+            "name": "fld w tf-field tf-recipient-field",
             "left": 16,
             "right": 414,
             "width": 398,
@@ -882,7 +882,7 @@
             "clientWidth": 398
           },
           {
-            "name": "fld w tf-field",
+            "name": "fld w tf-field tf-recipient-field",
             "left": 16,
             "right": 414,
             "width": 398,
@@ -890,44 +890,44 @@
             "clientWidth": 398
           },
           {
-            "name": "fld w tf-field",
-            "left": 40,
+            "name": "fld w tf-field tf-picker-trigger tf-recipient-field",
+            "left": 16,
+            "right": 414,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          },
+          {
+            "name": "fld w tf-field tf-recipient-field",
+            "left": 16,
             "right": 390,
-            "width": 350,
-            "scrollWidth": 350,
-            "clientWidth": 350
+            "width": 374,
+            "scrollWidth": 374,
+            "clientWidth": 374
           },
           {
-            "name": "fld w tf-field",
-            "left": 40,
-            "right": 390,
-            "width": 350,
-            "scrollWidth": 350,
-            "clientWidth": 350
-          },
-          {
-            "name": "fld w tf-field",
-            "left": 40,
-            "right": 390,
-            "width": 350,
-            "scrollWidth": 350,
-            "clientWidth": 350
-          },
-          {
-            "name": "fld w tf-field",
-            "left": 40,
-            "right": 390,
-            "width": 350,
-            "scrollWidth": 350,
-            "clientWidth": 350
-          },
-          {
-            "name": "fld w tf-field tf-picker-trigger",
+            "name": "fld w tf-field tf-recipient-field",
             "left": 16,
-            "right": 414,
-            "width": 398,
-            "scrollWidth": 398,
-            "clientWidth": 398
+            "right": 390,
+            "width": 374,
+            "scrollWidth": 374,
+            "clientWidth": 374
+          },
+          {
+            "name": "fld w tf-field tf-recipient-field",
+            "left": 16,
+            "right": 390,
+            "width": 374,
+            "scrollWidth": 374,
+            "clientWidth": 374
+          },
+          {
+            "name": "fld w tf-field tf-recipient-field",
+            "left": 16,
+            "right": 390,
+            "width": 374,
+            "scrollWidth": 374,
+            "clientWidth": 374
           }
         ],
         "badElements": []
@@ -958,8 +958,8 @@
         "content": {
           "width": 430,
           "scrollWidth": 430,
-          "height": 718,
-          "scrollHeight": 718
+          "height": 756,
+          "scrollHeight": 756
         },
         "footer": {
           "height": 108,
@@ -1012,8 +1012,8 @@
         "content": {
           "width": 430,
           "scrollWidth": 430,
-          "height": 826,
-          "scrollHeight": 826
+          "height": 864,
+          "scrollHeight": 864
         },
         "footer": {
           "height": 0,
@@ -1058,8 +1058,8 @@
         "content": {
           "width": 430,
           "scrollWidth": 430,
-          "height": 718,
-          "scrollHeight": 718
+          "height": 756,
+          "scrollHeight": 756
         },
         "footer": {
           "height": 108,
@@ -1104,8 +1104,8 @@
         "content": {
           "width": 430,
           "scrollWidth": 430,
-          "height": 718,
-          "scrollHeight": 718
+          "height": 756,
+          "scrollHeight": 756
         },
         "footer": {
           "height": 108,
@@ -1150,8 +1150,8 @@
         "content": {
           "width": 430,
           "scrollWidth": 430,
-          "height": 826,
-          "scrollHeight": 826
+          "height": 864,
+          "scrollHeight": 864
         },
         "footer": {
           "height": 0,
@@ -1196,8 +1196,8 @@
         "content": {
           "width": 430,
           "scrollWidth": 430,
-          "height": 718,
-          "scrollHeight": 718
+          "height": 756,
+          "scrollHeight": 756
         },
         "footer": {
           "height": 108,
@@ -1279,8 +1279,8 @@
         "content": {
           "width": 390,
           "scrollWidth": 390,
-          "height": 738,
-          "scrollHeight": 738
+          "height": 776,
+          "scrollHeight": 776
         },
         "footer": {
           "height": 0,
@@ -1316,8 +1316,8 @@
         "content": {
           "width": 390,
           "scrollWidth": 390,
-          "height": 738,
-          "scrollHeight": 738
+          "height": 776,
+          "scrollHeight": 776
         },
         "footer": {
           "height": 0,
@@ -1362,8 +1362,8 @@
         "content": {
           "width": 390,
           "scrollWidth": 390,
-          "height": 738,
-          "scrollHeight": 738
+          "height": 776,
+          "scrollHeight": 776
         },
         "footer": {
           "height": 0,
@@ -1408,8 +1408,8 @@
         "content": {
           "width": 390,
           "scrollWidth": 390,
-          "height": 738,
-          "scrollHeight": 738
+          "height": 776,
+          "scrollHeight": 776
         },
         "footer": {
           "height": 0,
@@ -1454,8 +1454,8 @@
         "content": {
           "width": 390,
           "scrollWidth": 390,
-          "height": 738,
-          "scrollHeight": 738
+          "height": 776,
+          "scrollHeight": 776
         },
         "footer": {
           "height": 0,
@@ -1664,8 +1664,8 @@
         "content": {
           "width": 390,
           "scrollWidth": 390,
-          "height": 630,
-          "scrollHeight": 630
+          "height": 668,
+          "scrollHeight": 668
         },
         "footer": {
           "height": 108,
@@ -1674,7 +1674,7 @@
         },
         "fields": [
           {
-            "name": "fld w tf-field tf-deposit-currency",
+            "name": "fld w tf-field tf-fixed-currency tf-deposit-currency",
             "left": 16,
             "right": 374,
             "width": 358,
@@ -1718,8 +1718,8 @@
         "content": {
           "width": 390,
           "scrollWidth": 390,
-          "height": 630,
-          "scrollHeight": 630
+          "height": 668,
+          "scrollHeight": 668
         },
         "footer": {
           "height": 108,
@@ -1772,8 +1772,8 @@
         "content": {
           "width": 390,
           "scrollWidth": 390,
-          "height": 630,
-          "scrollHeight": 630
+          "height": 668,
+          "scrollHeight": 668
         },
         "footer": {
           "height": 108,
@@ -1809,8 +1809,8 @@
         "content": {
           "width": 390,
           "scrollWidth": 390,
-          "height": 630,
-          "scrollHeight": 630
+          "height": 668,
+          "scrollHeight": 668
         },
         "footer": {
           "height": 108,
@@ -1855,8 +1855,8 @@
         "content": {
           "width": 390,
           "scrollWidth": 390,
-          "height": 630,
-          "scrollHeight": 630
+          "height": 668,
+          "scrollHeight": 668
         },
         "footer": {
           "height": 108,
@@ -1901,8 +1901,8 @@
         "content": {
           "width": 390,
           "scrollWidth": 390,
-          "height": 630,
-          "scrollHeight": 630
+          "height": 668,
+          "scrollHeight": 668
         },
         "footer": {
           "height": 108,
@@ -1979,8 +1979,8 @@
         "content": {
           "width": 390,
           "scrollWidth": 390,
-          "height": 630,
-          "scrollHeight": 630
+          "height": 668,
+          "scrollHeight": 668
         },
         "footer": {
           "height": 108,
@@ -2057,8 +2057,8 @@
         "content": {
           "width": 390,
           "scrollWidth": 390,
-          "height": 630,
-          "scrollHeight": 630
+          "height": 668,
+          "scrollHeight": 668
         },
         "footer": {
           "height": 108,
@@ -2067,7 +2067,7 @@
         },
         "fields": [
           {
-            "name": "fld w tf-field",
+            "name": "fld w tf-field tf-recipient-field",
             "left": 16,
             "right": 374,
             "width": 358,
@@ -2075,7 +2075,7 @@
             "clientWidth": 358
           },
           {
-            "name": "fld w tf-field",
+            "name": "fld w tf-field tf-recipient-field",
             "left": 16,
             "right": 374,
             "width": 358,
@@ -2083,7 +2083,7 @@
             "clientWidth": 358
           },
           {
-            "name": "fld w tf-field",
+            "name": "fld w tf-field tf-recipient-field",
             "left": 16,
             "right": 374,
             "width": 358,
@@ -2091,7 +2091,7 @@
             "clientWidth": 358
           },
           {
-            "name": "fld w tf-field",
+            "name": "fld w tf-field tf-recipient-field",
             "left": 16,
             "right": 374,
             "width": 358,
@@ -2099,7 +2099,7 @@
             "clientWidth": 358
           },
           {
-            "name": "fld w tf-field",
+            "name": "fld w tf-field tf-recipient-field",
             "left": 16,
             "right": 374,
             "width": 358,
@@ -2107,44 +2107,44 @@
             "clientWidth": 358
           },
           {
-            "name": "fld w tf-field",
-            "left": 40,
+            "name": "fld w tf-field tf-picker-trigger tf-recipient-field",
+            "left": 16,
+            "right": 374,
+            "width": 358,
+            "scrollWidth": 358,
+            "clientWidth": 358
+          },
+          {
+            "name": "fld w tf-field tf-recipient-field",
+            "left": 16,
             "right": 350,
-            "width": 310,
-            "scrollWidth": 310,
-            "clientWidth": 310
+            "width": 334,
+            "scrollWidth": 334,
+            "clientWidth": 334
           },
           {
-            "name": "fld w tf-field",
-            "left": 40,
-            "right": 350,
-            "width": 310,
-            "scrollWidth": 310,
-            "clientWidth": 310
-          },
-          {
-            "name": "fld w tf-field",
-            "left": 40,
-            "right": 350,
-            "width": 310,
-            "scrollWidth": 310,
-            "clientWidth": 310
-          },
-          {
-            "name": "fld w tf-field",
-            "left": 40,
-            "right": 350,
-            "width": 310,
-            "scrollWidth": 310,
-            "clientWidth": 310
-          },
-          {
-            "name": "fld w tf-field tf-picker-trigger",
+            "name": "fld w tf-field tf-recipient-field",
             "left": 16,
-            "right": 374,
-            "width": 358,
-            "scrollWidth": 358,
-            "clientWidth": 358
+            "right": 350,
+            "width": 334,
+            "scrollWidth": 334,
+            "clientWidth": 334
+          },
+          {
+            "name": "fld w tf-field tf-recipient-field",
+            "left": 16,
+            "right": 350,
+            "width": 334,
+            "scrollWidth": 334,
+            "clientWidth": 334
+          },
+          {
+            "name": "fld w tf-field tf-recipient-field",
+            "left": 16,
+            "right": 350,
+            "width": 334,
+            "scrollWidth": 334,
+            "clientWidth": 334
           }
         ],
         "badElements": []
@@ -2175,7 +2175,7 @@
         "content": {
           "width": 390,
           "scrollWidth": 390,
-          "height": 630,
+          "height": 668,
           "scrollHeight": 716
         },
         "footer": {
@@ -2229,8 +2229,8 @@
         "content": {
           "width": 390,
           "scrollWidth": 390,
-          "height": 738,
-          "scrollHeight": 738
+          "height": 776,
+          "scrollHeight": 776
         },
         "footer": {
           "height": 0,
@@ -2275,8 +2275,8 @@
         "content": {
           "width": 390,
           "scrollWidth": 390,
-          "height": 630,
-          "scrollHeight": 630
+          "height": 668,
+          "scrollHeight": 668
         },
         "footer": {
           "height": 108,
@@ -2321,8 +2321,8 @@
         "content": {
           "width": 390,
           "scrollWidth": 390,
-          "height": 630,
-          "scrollHeight": 630
+          "height": 668,
+          "scrollHeight": 668
         },
         "footer": {
           "height": 108,
@@ -2367,8 +2367,8 @@
         "content": {
           "width": 390,
           "scrollWidth": 390,
-          "height": 738,
-          "scrollHeight": 738
+          "height": 776,
+          "scrollHeight": 776
         },
         "footer": {
           "height": 0,
@@ -2413,8 +2413,8 @@
         "content": {
           "width": 390,
           "scrollWidth": 390,
-          "height": 630,
-          "scrollHeight": 630
+          "height": 668,
+          "scrollHeight": 668
         },
         "footer": {
           "height": 108,
@@ -2496,8 +2496,8 @@
         "content": {
           "width": 430,
           "scrollWidth": 430,
-          "height": 826,
-          "scrollHeight": 826
+          "height": 864,
+          "scrollHeight": 864
         },
         "footer": {
           "height": 0,
@@ -2533,8 +2533,8 @@
         "content": {
           "width": 430,
           "scrollWidth": 430,
-          "height": 826,
-          "scrollHeight": 826
+          "height": 864,
+          "scrollHeight": 864
         },
         "footer": {
           "height": 0,
@@ -2579,8 +2579,8 @@
         "content": {
           "width": 430,
           "scrollWidth": 430,
-          "height": 826,
-          "scrollHeight": 826
+          "height": 864,
+          "scrollHeight": 864
         },
         "footer": {
           "height": 0,
@@ -2625,8 +2625,8 @@
         "content": {
           "width": 430,
           "scrollWidth": 430,
-          "height": 826,
-          "scrollHeight": 826
+          "height": 864,
+          "scrollHeight": 864
         },
         "footer": {
           "height": 0,
@@ -2671,8 +2671,8 @@
         "content": {
           "width": 430,
           "scrollWidth": 430,
-          "height": 826,
-          "scrollHeight": 826
+          "height": 864,
+          "scrollHeight": 864
         },
         "footer": {
           "height": 0,
@@ -2881,8 +2881,8 @@
         "content": {
           "width": 430,
           "scrollWidth": 430,
-          "height": 718,
-          "scrollHeight": 718
+          "height": 756,
+          "scrollHeight": 756
         },
         "footer": {
           "height": 108,
@@ -2891,7 +2891,7 @@
         },
         "fields": [
           {
-            "name": "fld w tf-field tf-deposit-currency",
+            "name": "fld w tf-field tf-fixed-currency tf-deposit-currency",
             "left": 16,
             "right": 414,
             "width": 398,
@@ -2935,8 +2935,8 @@
         "content": {
           "width": 430,
           "scrollWidth": 430,
-          "height": 718,
-          "scrollHeight": 718
+          "height": 756,
+          "scrollHeight": 756
         },
         "footer": {
           "height": 108,
@@ -2989,8 +2989,8 @@
         "content": {
           "width": 430,
           "scrollWidth": 430,
-          "height": 718,
-          "scrollHeight": 718
+          "height": 756,
+          "scrollHeight": 756
         },
         "footer": {
           "height": 108,
@@ -3026,8 +3026,8 @@
         "content": {
           "width": 430,
           "scrollWidth": 430,
-          "height": 718,
-          "scrollHeight": 718
+          "height": 756,
+          "scrollHeight": 756
         },
         "footer": {
           "height": 108,
@@ -3072,8 +3072,8 @@
         "content": {
           "width": 430,
           "scrollWidth": 430,
-          "height": 718,
-          "scrollHeight": 718
+          "height": 756,
+          "scrollHeight": 756
         },
         "footer": {
           "height": 108,
@@ -3118,8 +3118,8 @@
         "content": {
           "width": 430,
           "scrollWidth": 430,
-          "height": 718,
-          "scrollHeight": 718
+          "height": 756,
+          "scrollHeight": 756
         },
         "footer": {
           "height": 108,
@@ -3196,8 +3196,8 @@
         "content": {
           "width": 430,
           "scrollWidth": 430,
-          "height": 718,
-          "scrollHeight": 718
+          "height": 756,
+          "scrollHeight": 756
         },
         "footer": {
           "height": 108,
@@ -3274,8 +3274,8 @@
         "content": {
           "width": 430,
           "scrollWidth": 430,
-          "height": 718,
-          "scrollHeight": 718
+          "height": 756,
+          "scrollHeight": 756
         },
         "footer": {
           "height": 108,
@@ -3284,7 +3284,7 @@
         },
         "fields": [
           {
-            "name": "fld w tf-field",
+            "name": "fld w tf-field tf-recipient-field",
             "left": 16,
             "right": 414,
             "width": 398,
@@ -3292,7 +3292,7 @@
             "clientWidth": 398
           },
           {
-            "name": "fld w tf-field",
+            "name": "fld w tf-field tf-recipient-field",
             "left": 16,
             "right": 414,
             "width": 398,
@@ -3300,7 +3300,7 @@
             "clientWidth": 398
           },
           {
-            "name": "fld w tf-field",
+            "name": "fld w tf-field tf-recipient-field",
             "left": 16,
             "right": 414,
             "width": 398,
@@ -3308,7 +3308,7 @@
             "clientWidth": 398
           },
           {
-            "name": "fld w tf-field",
+            "name": "fld w tf-field tf-recipient-field",
             "left": 16,
             "right": 414,
             "width": 398,
@@ -3316,7 +3316,7 @@
             "clientWidth": 398
           },
           {
-            "name": "fld w tf-field",
+            "name": "fld w tf-field tf-recipient-field",
             "left": 16,
             "right": 414,
             "width": 398,
@@ -3324,44 +3324,44 @@
             "clientWidth": 398
           },
           {
-            "name": "fld w tf-field",
-            "left": 40,
+            "name": "fld w tf-field tf-picker-trigger tf-recipient-field",
+            "left": 16,
+            "right": 414,
+            "width": 398,
+            "scrollWidth": 398,
+            "clientWidth": 398
+          },
+          {
+            "name": "fld w tf-field tf-recipient-field",
+            "left": 16,
             "right": 390,
-            "width": 350,
-            "scrollWidth": 350,
-            "clientWidth": 350
+            "width": 374,
+            "scrollWidth": 374,
+            "clientWidth": 374
           },
           {
-            "name": "fld w tf-field",
-            "left": 40,
-            "right": 390,
-            "width": 350,
-            "scrollWidth": 350,
-            "clientWidth": 350
-          },
-          {
-            "name": "fld w tf-field",
-            "left": 40,
-            "right": 390,
-            "width": 350,
-            "scrollWidth": 350,
-            "clientWidth": 350
-          },
-          {
-            "name": "fld w tf-field",
-            "left": 40,
-            "right": 390,
-            "width": 350,
-            "scrollWidth": 350,
-            "clientWidth": 350
-          },
-          {
-            "name": "fld w tf-field tf-picker-trigger",
+            "name": "fld w tf-field tf-recipient-field",
             "left": 16,
-            "right": 414,
-            "width": 398,
-            "scrollWidth": 398,
-            "clientWidth": 398
+            "right": 390,
+            "width": 374,
+            "scrollWidth": 374,
+            "clientWidth": 374
+          },
+          {
+            "name": "fld w tf-field tf-recipient-field",
+            "left": 16,
+            "right": 390,
+            "width": 374,
+            "scrollWidth": 374,
+            "clientWidth": 374
+          },
+          {
+            "name": "fld w tf-field tf-recipient-field",
+            "left": 16,
+            "right": 390,
+            "width": 374,
+            "scrollWidth": 374,
+            "clientWidth": 374
           }
         ],
         "badElements": []
@@ -3392,8 +3392,8 @@
         "content": {
           "width": 430,
           "scrollWidth": 430,
-          "height": 718,
-          "scrollHeight": 718
+          "height": 756,
+          "scrollHeight": 756
         },
         "footer": {
           "height": 108,
@@ -3446,8 +3446,8 @@
         "content": {
           "width": 430,
           "scrollWidth": 430,
-          "height": 826,
-          "scrollHeight": 826
+          "height": 864,
+          "scrollHeight": 864
         },
         "footer": {
           "height": 0,
@@ -3492,8 +3492,8 @@
         "content": {
           "width": 430,
           "scrollWidth": 430,
-          "height": 718,
-          "scrollHeight": 718
+          "height": 756,
+          "scrollHeight": 756
         },
         "footer": {
           "height": 108,
@@ -3538,8 +3538,8 @@
         "content": {
           "width": 430,
           "scrollWidth": 430,
-          "height": 718,
-          "scrollHeight": 718
+          "height": 756,
+          "scrollHeight": 756
         },
         "footer": {
           "height": 108,
@@ -3584,8 +3584,8 @@
         "content": {
           "width": 430,
           "scrollWidth": 430,
-          "height": 826,
-          "scrollHeight": 826
+          "height": 864,
+          "scrollHeight": 864
         },
         "footer": {
           "height": 0,
@@ -3630,8 +3630,8 @@
         "content": {
           "width": 430,
           "scrollWidth": 430,
-          "height": 718,
-          "scrollHeight": 718
+          "height": 756,
+          "scrollHeight": 756
         },
         "footer": {
           "height": 108,
@@ -4108,7 +4108,7 @@
         },
         "fields": [
           {
-            "name": "fld w tf-field tf-deposit-currency",
+            "name": "fld w tf-field tf-fixed-currency tf-deposit-currency",
             "left": 499,
             "right": 887,
             "width": 388,
@@ -4501,7 +4501,7 @@
         },
         "fields": [
           {
-            "name": "fld w tf-field",
+            "name": "fld w tf-field tf-recipient-field",
             "left": 499,
             "right": 887,
             "width": 388,
@@ -4509,7 +4509,7 @@
             "clientWidth": 388
           },
           {
-            "name": "fld w tf-field",
+            "name": "fld w tf-field tf-recipient-field",
             "left": 499,
             "right": 887,
             "width": 388,
@@ -4517,7 +4517,7 @@
             "clientWidth": 388
           },
           {
-            "name": "fld w tf-field",
+            "name": "fld w tf-field tf-recipient-field",
             "left": 499,
             "right": 887,
             "width": 388,
@@ -4525,7 +4525,7 @@
             "clientWidth": 388
           },
           {
-            "name": "fld w tf-field",
+            "name": "fld w tf-field tf-recipient-field",
             "left": 499,
             "right": 887,
             "width": 388,
@@ -4533,7 +4533,7 @@
             "clientWidth": 388
           },
           {
-            "name": "fld w tf-field",
+            "name": "fld w tf-field tf-recipient-field",
             "left": 499,
             "right": 887,
             "width": 388,
@@ -4541,44 +4541,44 @@
             "clientWidth": 388
           },
           {
-            "name": "fld w tf-field",
-            "left": 523,
+            "name": "fld w tf-field tf-picker-trigger tf-recipient-field",
+            "left": 499,
+            "right": 887,
+            "width": 388,
+            "scrollWidth": 388,
+            "clientWidth": 388
+          },
+          {
+            "name": "fld w tf-field tf-recipient-field",
+            "left": 499,
             "right": 863,
-            "width": 340,
-            "scrollWidth": 340,
-            "clientWidth": 340
+            "width": 364,
+            "scrollWidth": 364,
+            "clientWidth": 364
           },
           {
-            "name": "fld w tf-field",
-            "left": 523,
-            "right": 863,
-            "width": 340,
-            "scrollWidth": 340,
-            "clientWidth": 340
-          },
-          {
-            "name": "fld w tf-field",
-            "left": 523,
-            "right": 863,
-            "width": 340,
-            "scrollWidth": 340,
-            "clientWidth": 340
-          },
-          {
-            "name": "fld w tf-field",
-            "left": 523,
-            "right": 863,
-            "width": 340,
-            "scrollWidth": 340,
-            "clientWidth": 340
-          },
-          {
-            "name": "fld w tf-field tf-picker-trigger",
+            "name": "fld w tf-field tf-recipient-field",
             "left": 499,
-            "right": 887,
-            "width": 388,
-            "scrollWidth": 388,
-            "clientWidth": 388
+            "right": 863,
+            "width": 364,
+            "scrollWidth": 364,
+            "clientWidth": 364
+          },
+          {
+            "name": "fld w tf-field tf-recipient-field",
+            "left": 499,
+            "right": 863,
+            "width": 364,
+            "scrollWidth": 364,
+            "clientWidth": 364
+          },
+          {
+            "name": "fld w tf-field tf-recipient-field",
+            "left": 499,
+            "right": 863,
+            "width": 364,
+            "scrollWidth": 364,
+            "clientWidth": 364
           }
         ],
         "badElements": []
@@ -5015,8 +5015,8 @@
         "phoneTransform": "none",
         "bodyBeforeContent": "none",
         "content": {
-          "height": 453,
-          "scrollHeight": 482
+          "height": 491,
+          "scrollHeight": 491
         },
         "sidebarDisplay": "none",
         "mobileNavDisplay": "none",
@@ -5033,7 +5033,7 @@
         "visaBrandVisible": false,
         "addCardButtonVisible": false,
         "scrollYAfter": 0,
-        "innerScrollTop": 29
+        "innerScrollTop": null
       },
       "violations": []
     },
@@ -5180,8 +5180,8 @@
         "phoneTransform": "none",
         "bodyBeforeContent": "none",
         "content": {
-          "height": 630,
-          "scrollHeight": 630
+          "height": 668,
+          "scrollHeight": 668
         },
         "sidebarDisplay": "none",
         "mobileNavDisplay": "none",
@@ -5345,8 +5345,8 @@
         "phoneTransform": "none",
         "bodyBeforeContent": "none",
         "content": {
-          "height": 718,
-          "scrollHeight": 718
+          "height": 756,
+          "scrollHeight": 756
         },
         "sidebarDisplay": "none",
         "mobileNavDisplay": "none",
