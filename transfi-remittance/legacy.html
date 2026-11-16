@@ -656,7 +656,10 @@ function tfIconFor(key){
  const p=tfFieldIcons[tfFieldMap[key]||'card'];
  return '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--n850)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+p+'</svg>';
 }
-function field(label,key,placeholder,{optional=false,hint='',type='text'}={}){return `<div class="fld w tf-field" id="wrap-${key}"><div class="fi">${tfIconFor(key)}</div><label class="fl" for="f-${key}"><i>${esc(label)}${optional?' · необязательно':''}</i><input id="f-${key}" type="${type}" placeholder="${esc(placeholder)}" value="${esc(S[key])}" oninput="store('${key}',this.value)" autocomplete="off"/></label></div>`}
+function field(label,key,placeholder,{optional=false,hint='',type='text'}={}){
+ const plain=S.screen==='out-recipient';
+ return `<div class="fld w tf-field${plain?' tf-recipient-field':''}" id="wrap-${key}">${plain?'':'<div class="fi">'+tfIconFor(key)+'</div>'}<label class="fl" for="f-${key}"><i>${esc(label)}${optional?' · необязательно':''}</i><input id="f-${key}" type="${type}" placeholder="${esc(placeholder)}" value="${esc(S[key])}" oninput="store('${key}',this.value)" autocomplete="off"/></label></div>`;
+}
 function selectField(label,key,opts){return uxPickerField(label,key,key)}
 function keyrow(k,v){return `<div class="rl tf-rl"><span>${esc(k)}</span><b>${esc(v)}</b></div>`}
 function notice(text,t=''){return `<div class="tf-notice ${t}">${esc(text)}</div>`}
@@ -704,9 +707,9 @@ f=primary('Продолжить','checkConfig()');break;
 case'out-recipient':p=`${field('Имя','firstName','Имя')}${field('Фамилия','lastName','Фамилия')}
 ${S.outRail==='SEPA'?field('IBAN получателя','iban','DE00 0000 0000 0000 0000 00'):
 `${field('Номер счёта / IBAN','account','Номер счёта')}${field('SWIFT / BIC','bic','XXXXXXXXXXX')}${field('Наименование банка','bank','Банк получателя')}`}
-${S.outRail==='SWIFT'?`<details class="tf-more"><summary>Дополнительные SWIFT-реквизиты</summary>${field('Банковский / routing код','routing','Если требуется',{optional:true})}${field('Адрес банка','bankAddress','Страна, город, улица',{optional:true})}${field('Адрес получателя','recipientAddress','Страна, город, улица',{optional:true})}${field('Банк-корреспондент','intermediary','Если требуется',{optional:true})}</details>`:`<details class="tf-more"><summary>Дополнительные реквизиты</summary>${field('SWIFT / BIC','bic','Если требуется',{optional:true})}${field('Адрес получателя','recipientAddress','Если требуется',{optional:true})}</details>`}
 ${selectField('Назначение перевода','purpose',[['personal','Перевод собственных средств'],['family','Перевод родственникам'],['education','Обучение'],['other','Другое']])}
-${S.purpose==='other'?field('Уточнение назначения','purposeOther','Опишите назначение перевода'):''}`;
+${S.purpose==='other'?field('Уточнение назначения','purposeOther','Опишите назначение перевода'):''}
+${S.outRail==='SWIFT'?`<details class="tf-more tf-recipient-extra"><summary>Дополнительные SWIFT-реквизиты</summary>${field('Банковский / routing код','routing','Если требуется',{optional:true})}${field('Адрес банка','bankAddress','Страна, город, улица',{optional:true})}${field('Адрес получателя','recipientAddress','Страна, город, улица',{optional:true})}${field('Банк-корреспондент','intermediary','Если требуется',{optional:true})}</details>`:`<details class="tf-more tf-recipient-extra"><summary>Дополнительные реквизиты</summary>${field('SWIFT / BIC','bic','Если требуется',{optional:true})}${field('Адрес получателя','recipientAddress','Если требуется',{optional:true})}</details>`}`;
 f=primary('Проверить перевод','checkRecipient()');break;
 case'out-review':p=`<div class="amt tf-review-amount">${esc(money(q.amt,S.sourceCurrency))}</div>
 <div class="amsub">${esc(S.outRail)} · Международный банковский перевод</div>
@@ -1090,9 +1093,9 @@ function uxFixedCurrencyField(label,value){
 }
 function uxPickerField(label,key,icon){
   const selected=uxPickerOptions(key).find(option=>option.value===S[key]);
-  return '<button type="button" class="fld w tf-field tf-picker-trigger" data-picker="'+esc(key)+
+  return '<button type="button" class="fld w tf-field tf-picker-trigger'+(S.screen==='out-recipient'&&key==='purpose'?' tf-recipient-field':'')+'" data-picker="'+esc(key)+
     '" aria-haspopup="dialog" aria-label="'+esc(label)+': '+esc(selected?selected.label:'Не выбрано')+
-    '"><span class="fi">'+(key==='country'?uxFlagPlate(S.country):(key==='outCurrency'||key==='inCurrency')?uxCurrencySymbol(S[key]):tfIconFor(icon||key))+'</span><span class="fl"><i>'+esc(label)+
+    '">'+(S.screen==='out-recipient'&&key==='purpose'?'':'<span class="fi">'+(key==='country'?uxFlagPlate(S.country):(key==='outCurrency'||key==='inCurrency')?uxCurrencySymbol(S[key]):tfIconFor(icon||key))+'</span>')+'<span class="fl"><i>'+esc(label)+
     '</i><b>'+esc(selected?selected.label:'Выбрать')+'</b></span>'+
     '<span class="tf-picker-chevron" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 5 7 7-7 7"/></svg></span></button>';
 }
