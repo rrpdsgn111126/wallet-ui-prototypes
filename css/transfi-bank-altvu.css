@@ -598,17 +598,34 @@ html.tf-component-only .phone.tf-phone > .tf-bottom-nav{
   display:none!important;
 }
 html.tf-component-only .phone.tf-phone .tf-scroll{
-  box-sizing:border-box;
-  padding:16px!important;
-  margin:0;
-  overflow-x:hidden;
-  overflow-y:auto;
-  height:100%;
-  max-height:100%;
+  /* Lock the dimmed field in a stationary viewport. Opening the picker
+     changes only the absolute overlay, never this content layer. */
+  box-sizing:border-box;position:absolute!important;inset:0!important;
+  padding:16px!important;margin:0;
+  overflow:hidden!important;overscroll-behavior:none;
+  height:100%!important;max-height:100%!important;
+  scroll-behavior:auto!important;
 }
 html.tf-component-only .phone.tf-phone .tf-scroll > .fld.tf-picker-trigger{
   margin:0;
 }
 html.tf-component-only .phone.tf-phone .tf-picker-layer{
   z-index:60;
+}
+html.tf-component-only .phone.tf-phone .tf-scroll > .fld.tf-picker-trigger{
+  transform:none!important;transition:none!important;animation:none!important;
+}
+.phone.tf-phone .tf-picker-layer .tf-picker-dim.settled{
+  /* First catalog paint: already dimmed, no fade-in from zero. */
+  animation:none!important;opacity:.4;
+}
+.phone.tf-phone .tf-picker-layer .tf-picker-sheet.settled{
+  /* Source CSS already supports .sheet.settled; make it explicit. */
+  animation:none!important;transform:translateY(0)!important;
+}
+@media(prefers-reduced-motion:reduce){
+  .phone.tf-phone .tf-picker-layer .tf-picker-dim,
+  .phone.tf-phone .tf-picker-layer .tf-picker-sheet{
+    animation:none!important;
+  }
 }
