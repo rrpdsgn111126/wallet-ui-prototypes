@@ -6,6 +6,31 @@ const browser=await chromium.launch({channel:'chrome',headless:true});
 const out=path.resolve('tests/source-output');fs.mkdirSync(out,{recursive:true});
 const report={screens:[],errors:[]};
 const base=pathToFileURL(path.resolve('transfi-remittance/index.html'));
+// Check the ACTUAL top-up/withdraw method sheets in index.html, not legacy.html.
+async function verifyVisibleBankIcons(page,screen){
+ const rows=await page.evaluate(screen=>{
+  const root=document.querySelector('#v-'+screen);
+  return [...root.querySelectorAll('[data-tf-bank]')].map(row=>{
+   const rail=row.dataset.tfBank,plate=row.querySelector('.cn.tf-bank-icon');
+   const svg=plate?.querySelector('svg.tf-bank-glyph');
+   if(!svg)return {rail,missing:true,text:plate?.textContent};
+   const p=plate.getBoundingClientRect(),s=svg.getBoundingClientRect(),css=getComputedStyle(plate);
+   return {rail,size:[p.width,p.height],glyph:[s.width,s.height],bg:css.backgroundColor,
+     ink:css.color,centering:Math.max(Math.abs(p.x+p.width/2-s.x-s.width/2),
+     Math.abs(p.y+p.height/2-s.y-s.height/2)),svg:svg.innerHTML};
+  });
+ },screen);
+ if(rows.length!==2)throw new Error(screen+': expected 2 method rows');
+ for(const rail of ['SEPA','SWIFT']){
+  const r=rows.find(x=>x.rail===rail);
+  if(!r||r.missing||r.size.join('x')!=='40x40'||r.glyph.join('x')!=='24x24'||
+     r.bg!=='rgb(111, 75, 242)'||r.ink!=='rgb(255, 255, 255)'||r.centering>0.6)
+    throw new Error(screen+': wrong '+rail+' icon '+JSON.stringify(r));
+ }
+ if(rows[0].svg===rows[1].svg)throw new Error(screen+': bank/globe artwork identical');
+ console.log('VISIBLE_BANK_ICONS_OK',screen,page.viewportSize().width);
+}
+
 try{
 for(const viewport of [{width:390,height:844},{width:430,height:932},{width:1440,height:900}]){
  const page=await browser.newPage({viewport,deviceScaleFactor:1});
@@ -66,6 +91,7 @@ for(const viewport of [{width:390,height:844},{width:430,height:932},{width:1440
  await page.locator('.bnv [data-mb="topup"]').click();
  await page.waitForTimeout(450);
  await page.screenshot({path:path.join(out,'original-topup-'+viewport.width+'.png'),animations:'disabled'});
+ await verifyVisibleBankIcons(page,'topup');
  if(!await page.locator('#v-topup [data-tf-bank="SEPA"]').isVisible())throw new Error('SEPA missing in topup sheet');
  if(!await page.locator('#v-topup [data-go="dep-usdt-tron"]').isVisible())throw new Error('Original USDT method missing');
  if(!await page.locator('#v-topup [data-go="dep-usdc-polygon"]').isVisible())throw new Error('Original USDC method missing');
@@ -99,6 +125,7 @@ for(const viewport of [{width:390,height:844},{width:430,height:932},{width:1440
  await page.waitForTimeout(250);
  await page.locator('.bnv [data-mb="withdraw"]').click();
  await page.waitForTimeout(450);
+ await verifyVisibleBankIcons(page,'withdraw');
  if(!await page.locator('#v-withdraw [data-tf-bank="SWIFT"]').isVisible())throw new Error('SWIFT missing in withdraw sheet');
  await page.locator('#v-withdraw [data-tf-bank="SWIFT"]').click();
  await page.waitForTimeout(300);
