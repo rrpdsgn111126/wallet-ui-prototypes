@@ -1210,6 +1210,9 @@ function uxFlagPlate(country){
  return '<span class="tf-flag-circle" aria-hidden="true">'+uxFlag(country)+'</span>';
 }
 function uxPickerTitle(key){
+  // In the design-system specimen the label is generic. The same picker in
+  // a payment flow retains its contextual "получения"/"пополнения" heading.
+  if(S.componentPickerKey===key)return S.componentPickerLabel;
   return {inCurrency:'Валюта пополнения',outCurrency:'Валюта получения',country:'Страна получателя',purpose:'Назначение перевода'}[key]||'Выберите значение';
 }
 // Canonical 20x20 outline currency icons. All glyphs use the SAME icon
