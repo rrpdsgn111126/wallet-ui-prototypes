@@ -221,7 +221,7 @@ try{
  url.searchParams.set('flow','out');url.searchParams.set('screen','out-config');url.searchParams.set('rail','SWIFT');
  await page.goto(url.href);
  await page.evaluate(()=>{
-   S.amount='1000'; S.firstName='Ivan'; S.lastName='Ivanov';
+   S.amount='1000'; S.recipientName='Ivan Ivanov';
    S.account='000000000000';S.bic='DEMOXXXX';S.bank='Банк-партнёр'; render();
  });
  await page.locator('.tf-foot .btn').click();
