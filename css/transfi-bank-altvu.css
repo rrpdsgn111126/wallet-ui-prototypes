@@ -347,6 +347,26 @@ html.tf-embedded .proto-shell,html.tf-embedded .workspace{height:100%;width:100%
 /* Never draw a selected-row outline; the native ring shows selection. */
 .phone.tf-phone .tf-picker-row[aria-checked="true"]{outline-offset:-2px}
 
+/* Canonical currency icons share the visual grid of the amount coin.
+   20px glyph in a 40px field plate, 24-unit viewBox and 1.8 stroke;
+   no font-sized currency symbols that vary by OS. */
+.phone.tf-phone .fld.tf-field .fi svg.tf-currency-icon,
+.phone.tf-phone .tf-picker-row .ri svg.tf-currency-icon{
+  display:block;width:20px;height:20px;min-width:20px;
+  fill:none;stroke:var(--n850);stroke-width:1.8;
+  stroke-linecap:round;stroke-linejoin:round;
+}
+
+/* Source alt.vu adjusts its navigation to the mobile safe area:
+   on <=740px the native .head starts 14px from the safe-area edge.
+   The desktop 52px inset is intentional only on large preview screens.
+   Bank flows must not keep that desktop inset inside mobile iframe views. */
+@media(max-width:740px){
+  .phone.tf-phone:not(.is-home)>.head{
+    padding-top:calc(14px + env(safe-area-inset-top));
+  }
+}
+
 /* Canonical USDT withdrawal amount: original .fld.w + .wd-amt + .addon
    with .cur and .mx.wd-max. Native .mx from alt-vu-wallet.css owns the
    MAX pill: padding 10px 14px, radius 999px, gray n100, dark n850,
