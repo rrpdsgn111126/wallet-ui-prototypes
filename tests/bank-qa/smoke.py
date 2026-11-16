@@ -380,16 +380,14 @@ async def smoke(browser, origin):
         easing:getComputedStyle(el).animationTimingFunction
     })""")
     assert sheet_motion['name']=='sheet-in' and sheet_motion['duration']=='0.62s',sheet_motion
-    await network.locator('.ns-sheet').evaluate(
-        'el => new Promise(resolve => el.addEventListener("animationend",resolve,{once:true}))'
-    )
+    await catalog.wait_for_timeout(700)  # original motion is 620ms
     after=await network.locator('#network-trigger').evaluate(
         'el => el.getBoundingClientRect().toJSON()'
     )
     assert all(abs(before[k]-after[k])<1 for k in ('x','y','width','height')),(
         "Network field moved while sheet animated",before,after
     )
-    await network.locator('.ns-layer [data-close]').click()
+    await network.locator('.ns-layer [data-close]').click(position={"x":8,"y":8})
     await expect(network.locator('.ns-layer')).to_be_hidden()
 
     for mode,field,new_value,expected in (
@@ -438,16 +436,14 @@ async def smoke(browser, origin):
           duration:getComputedStyle(el).animationDuration
         })""")
         assert motion=={'name':'sheet-in','duration':'0.62s'},motion
-        await inner.locator('.tf-picker-sheet').evaluate(
-          'el => new Promise(resolve => el.addEventListener("animationend",resolve,{once:true}))'
-        )
+        await catalog.wait_for_timeout(700)  # original motion is 620ms
         bounds_after=await picker.evaluate('el => el.getBoundingClientRect().toJSON()')
         assert all(abs(bounds_before[k]-bounds_after[k])<1 for k in
                    ('x','y','width','height')),(
             "Underlying country/currency trigger jumped during sheet-in",
             mode,bounds_before,bounds_after
         )
-        await inner.locator('[data-picker-dismiss]').click()
+        await inner.locator('[data-picker-dismiss]').click(position={"x":8,"y":8})
         await expect(inner.locator('.tf-picker-layer')).to_be_hidden()
     # Canonical source-account/currency specimens embed live bank fields.
     fields=catalog.locator("#bankfields")
