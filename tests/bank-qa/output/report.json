@@ -626,14 +626,12 @@
         "box": null,
         "table": null,
         "segment": null,
-        "statusIcon": false,
+        "statusIcon": true,
         "timelineDot": null,
         "fontReady": true,
         "screenTitle": "Вывод SWIFT"
       },
-      "problems": [
-        "status SVG missing"
-      ]
+      "problems": []
     },
     {
       "label": "out-success-390",
@@ -669,14 +667,12 @@
         "box": null,
         "table": null,
         "segment": null,
-        "statusIcon": false,
+        "statusIcon": true,
         "timelineDot": null,
         "fontReady": true,
         "screenTitle": "Вывод SWIFT"
       },
-      "problems": [
-        "status SVG missing"
-      ]
+      "problems": []
     },
     {
       "label": "out-failed-390",
@@ -712,14 +708,12 @@
         "box": null,
         "table": null,
         "segment": null,
-        "statusIcon": false,
+        "statusIcon": true,
         "timelineDot": null,
         "fontReady": true,
         "screenTitle": "Вывод SWIFT"
       },
-      "problems": [
-        "status SVG missing"
-      ]
+      "problems": []
     },
     {
       "label": "out-held-390",
@@ -755,14 +749,12 @@
         "box": null,
         "table": null,
         "segment": null,
-        "statusIcon": false,
+        "statusIcon": true,
         "timelineDot": null,
         "fontReady": true,
         "screenTitle": "Вывод SWIFT"
       },
-      "problems": [
-        "status SVG missing"
-      ]
+      "problems": []
     },
     {
       "label": "out-unavailable-390",
@@ -1388,14 +1380,12 @@
         "box": null,
         "table": null,
         "segment": null,
-        "statusIcon": false,
+        "statusIcon": true,
         "timelineDot": null,
         "fontReady": true,
         "screenTitle": "Вывод SWIFT"
       },
-      "problems": [
-        "status SVG missing"
-      ]
+      "problems": []
     },
     {
       "label": "out-success-430",
@@ -1431,14 +1421,12 @@
         "box": null,
         "table": null,
         "segment": null,
-        "statusIcon": false,
+        "statusIcon": true,
         "timelineDot": null,
         "fontReady": true,
         "screenTitle": "Вывод SWIFT"
       },
-      "problems": [
-        "status SVG missing"
-      ]
+      "problems": []
     },
     {
       "label": "out-failed-430",
@@ -1474,14 +1462,12 @@
         "box": null,
         "table": null,
         "segment": null,
-        "statusIcon": false,
+        "statusIcon": true,
         "timelineDot": null,
         "fontReady": true,
         "screenTitle": "Вывод SWIFT"
       },
-      "problems": [
-        "status SVG missing"
-      ]
+      "problems": []
     },
     {
       "label": "out-held-430",
@@ -1517,14 +1503,12 @@
         "box": null,
         "table": null,
         "segment": null,
-        "statusIcon": false,
+        "statusIcon": true,
         "timelineDot": null,
         "fontReady": true,
         "screenTitle": "Вывод SWIFT"
       },
-      "problems": [
-        "status SVG missing"
-      ]
+      "problems": []
     },
     {
       "label": "out-unavailable-430",
@@ -1575,56 +1559,7 @@
       "problems": []
     }
   ],
-  "issues": [
-    {
-      "label": "out-progress-390",
-      "problems": [
-        "status SVG missing"
-      ]
-    },
-    {
-      "label": "out-success-390",
-      "problems": [
-        "status SVG missing"
-      ]
-    },
-    {
-      "label": "out-failed-390",
-      "problems": [
-        "status SVG missing"
-      ]
-    },
-    {
-      "label": "out-held-390",
-      "problems": [
-        "status SVG missing"
-      ]
-    },
-    {
-      "label": "out-progress-430",
-      "problems": [
-        "status SVG missing"
-      ]
-    },
-    {
-      "label": "out-success-430",
-      "problems": [
-        "status SVG missing"
-      ]
-    },
-    {
-      "label": "out-failed-430",
-      "problems": [
-        "status SVG missing"
-      ]
-    },
-    {
-      "label": "out-held-430",
-      "problems": [
-        "status SVG missing"
-      ]
-    }
-  ],
+  "issues": [],
   "functional": {
     "recipient": true,
     "recipientScreen": "out-recipient",
