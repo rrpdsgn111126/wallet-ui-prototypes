@@ -390,6 +390,9 @@ async def smoke(browser, origin):
         assert await picker.get_attribute('aria-haspopup')=="dialog"
         await picker.click()
         await expect(inner.locator('.tf-picker-sheet')).to_be_visible()
+        await expect(inner.locator('.tf-picker-sheet .sh2')).to_have_text(
+            "Страна" if mode=="country" else "Валюта"
+        )
         assert await inner.locator('.tf-picker-box').count()==1
         assert await inner.locator('.tf-picker-row .rd.on').count()==1
         if mode=="country":
