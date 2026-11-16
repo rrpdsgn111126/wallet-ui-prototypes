@@ -135,7 +135,45 @@ async def assert_native_picker(page, country=False):
         assert geometry["flags"] == 0, geometry
 
 
+async def assert_rail_method_icons(browser, origin):
+    # Preserve existing method-row geometry in deposit and withdrawal sheets.
+    for flow in ('in', 'out'):
+        page = await browser.new_page(viewport={'width': 430, 'height': 932})
+        await page.goto(origin + '/transfi-remittance/legacy.html?capture=1&embedded=1&flow=' + flow + '&screen=home&modal=' + flow)
+        sheet = page.locator('#methodLayer .tf-method-sheet')
+        await expect(sheet).to_be_visible()
+        original_logo = sheet.locator('.tf-method-row .cn img').first
+        await expect(original_logo).to_be_visible()
+        old_size = await original_logo.evaluate('el => [el.getBoundingClientRect().width, el.getBoundingClientRect().height]')
+        assert old_size == [24, 24], old_size
+        symbols = {}
+        for rail in ('SEPA', 'SWIFT'):
+            row = sheet.locator('.tf-method-row').filter(has_text=rail)
+            assert await row.count() == 1, (flow, rail)
+            icon = row.locator('.cn.tf-rail-icon[data-rail-icon="' + rail + '"]')
+            await expect(icon).to_be_visible()
+            metrics = await icon.evaluate('''el => {
+              const glyph = el.querySelector('svg.tf-rail-glyph');
+              const plate = el.getBoundingClientRect();
+              const inner = glyph.getBoundingClientRect();
+              return {
+                plate: [plate.width, plate.height], glyph: [inner.width, inner.height],
+                color: getComputedStyle(el).backgroundColor,
+                ink: getComputedStyle(el).color,
+                centered: Math.abs(plate.left + plate.width/2 - inner.left - inner.width/2) < 0.6
+                  && Math.abs(plate.top + plate.height/2 - inner.top - inner.height/2) < 0.6,
+                artwork: glyph.innerHTML
+              };
+            }''')
+            assert metrics['plate'] == [40, 40] and metrics['glyph'] == [24, 24], metrics
+            assert metrics['color'] == 'rgb(111, 75, 242)' and metrics['ink'] == 'rgb(255, 255, 255)', metrics
+            assert metrics['centered'], metrics
+            symbols[rail] = metrics['artwork']
+        assert symbols['SEPA'] != symbols['SWIFT'], 'Method icons must differ by symbol'
+        await page.close()
+
 async def smoke(browser, origin):
+    await assert_rail_method_icons(browser, origin)
     for rail in ("SEPA", "SWIFT"):
         page = await bank_page(browser, origin, "in", rail, "in-details")
         await assert_mobile_header(page)
