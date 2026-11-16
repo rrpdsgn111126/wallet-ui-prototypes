@@ -589,3 +589,26 @@ html.tf-embedded .proto-shell,html.tf-embedded .workspace{height:100%;width:100%
 .phone.tf-phone .tf-picker-row .ri .tf-country-flag{
   width:24px;height:24px;
 }
+
+/* The canonical selector specimen uses the REAL bank picker DOM/events but
+   shows only one interactive field. No bank navbar, amount, quotes or footer. */
+html.tf-component-only .phone.tf-phone > .head,
+html.tf-component-only .phone.tf-phone > .tf-foot,
+html.tf-component-only .phone.tf-phone > .tf-bottom-nav{
+  display:none!important;
+}
+html.tf-component-only .phone.tf-phone .tf-scroll{
+  box-sizing:border-box;
+  padding:16px!important;
+  margin:0;
+  overflow-x:hidden;
+  overflow-y:auto;
+  height:100%;
+  max-height:100%;
+}
+html.tf-component-only .phone.tf-phone .tf-scroll > .fld.tf-picker-trigger{
+  margin:0;
+}
+html.tf-component-only .phone.tf-phone .tf-picker-layer{
+  z-index:60;
+}
