@@ -60,6 +60,15 @@
 .phone.tf-phone:not(.is-home)>.tf-foot .btno {
   background:var(--n100);color:var(--n850);box-shadow:none;
 }
+/* SEPA and SWIFT: approved purple (#6F4BF2), native 40px plate and centered 24px white symbol. */
+.phone.tf-phone .tf-native-sheet .tf-method-row.m .cn.tf-rail-icon{
+  box-sizing:border-box;width:40px;height:40px;min-width:40px;
+  display:grid;place-items:center;border-radius:999px;
+  background:#6f4bf2;color:#fff;
+}
+.phone.tf-phone .tf-native-sheet .tf-method-row.m .tf-rail-glyph{
+  display:block;width:24px;height:24px;flex-shrink:0;
+}
 /* Standard alt.vu field, label, icon plate and text input. */
 .phone.tf-phone .fld.tf-field {
   box-sizing:border-box;width:100%;max-width:100%;min-width:0;
