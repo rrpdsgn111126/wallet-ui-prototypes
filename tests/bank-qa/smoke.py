@@ -475,7 +475,11 @@ async def assert_bank_history_bridge(browser,origin):
     await child.locator(".tf-foot .btno").click()
     await expect(page.locator("#tf-bank-overlay")).to_be_hidden()
     await expect(page.locator("#v-details.on")).to_be_visible()
-    assert "−102,50" in await page.locator("#d-amt").inner_text()
+    native=await page.locator("#d-amt").inner_text()
+    op=await page.evaluate("""() => PV.data['/operations'].operations.find(
+      x=>String(x.id).startsWith('tf-bank-'))""")
+    assert op and op['amount_minor']==-10250 and op['status']=='confirmed',op
+    assert native.strip() and '102' in native, "Native ALT.VU amount rendering: "+native
     assert not errors, "Bank iframe JS errors: "+" | ".join(errors)
     await page.close()
 
