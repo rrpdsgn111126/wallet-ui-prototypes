@@ -22,7 +22,7 @@
 
 - [APP_ARCHITECTURE.md](./APP_ARCHITECTURE.md): карта экранов по PNG и HTML-библиотеке. В ней описаны СБП, USDT/USDC, внутренние ALT.VU-переводы, история, KYC, карты, профиль. Это **не** схема реального backend и не контракт ledger.
 - [transfi-remittance/index.html](../transfi-remittance/index.html): существующий интерактивный канонический прототип TransFi Remittance. **Пополнение:** in-details / in-pending / in-success / in-held. **Вывод:** out-config / out-recipient / out-review / out-progress / out-success / out-failed / out-held / out-unavailable.
-- В v6 пока жёстко заданы: валюты EUR/USD/GBP; страны DE/FR/NL/GB/US/ES; SEPA/SWIFT; комиссия 2.5/18, таблица FX; демонстрационные IBAN, BIC и банк; ручные симуляции статусов. **Ни одно из этих значений не переносить в реальные требования или production.**
+- В первоначальных mock-версиях прототипа жёстко задавались: валюты EUR/USD/GBP; страны DE/FR/NL/GB/US/ES; SEPA/SWIFT; комиссия 2.5/18, таблица FX; демонстрационные IBAN, BIC и банк; ручные симуляции статусов. **Ни одно из этих значений не переносить в реальные требования или production.**
 - HTML/CSS образцы — reference для визуальной сборки; не работающие банковские интеграции. Сохранять общие светлую/тёмную темы, 390/1440 px и источники компонентов.
 
 ## 3. Матрица соответствия пользовательских сценариев и API
@@ -80,7 +80,7 @@ TransFi webhook → verify HMAC on raw bytes → persist event / deduplicate →
 
 1. «Вывести → Международный перевод»: backend выдаёт доступные страны/валюты/платёжные методы по MID, пользователю и source balance. Для MVP физическое лицо; business recipient — отдельный сценарий.
 2. Ввод суммы: проверить balance, currency, min/max, destination amount vs source amount, fees. GET /v3/exchange-rates с orderType=payout; показать явный курс, комиссии и «Получит».
-3. По стране и валюте получить **динамические поля** из POST /v3/recipients/mandatory-fields; использовать реальные правила валидации (в т.ч. cross-field). Для SEPA/SWIFT не копировать универсальную статическую форму из v6.
+3. По стране и валюте получить **динамические поля** из POST /v3/recipients/mandatory-fields; использовать реальные правила валидации (в т.ч. cross-field). Для SEPA/SWIFT не копировать универсальную статическую форму из ранних мокапов.
 4. Создать/повторно использовать verified recipient по разрешённой модели и показать review: метод → ФИО → страна → счёт → назначение → расчёт. Перед отправкой освежить quote; при изменении расчёта требовать повторного подтверждения.
 5. После user authorization/backend risk checks создать **один** payout: POST /v3/orders с orderType=payout, purposeCode, partnerId, source/destination. До запроса атомарно зарезервировать сумму в ledger; при неоднозначном тайм-ауте сначала выяснить состояние по partnerId/orderId, а не отправлять второй payout.
 6. После создания показать processing, а не success. Финальное «Доставлен» — только на fund_settled. fund_failed → корректно освободить reservation/восстановить balance после reconciliation; создать новую операцию только по явному действию и новому partnerId.
@@ -115,7 +115,7 @@ Provider enums зависят от типа order. Не считать redirect 
 - Проверить спорные маршруты (IBAN/mandatory fields/rates), deviceDetails, invoiceId/document requirements, bank details, order cancellation, статусы и webhooks.
 - **Выход:** сохранённые обезличенные request/response fixtures, таблица confirmed/unsupported и mapping field/schema/validation.
 
-**Этап 2 — продуктовая спецификация и UX (на основе v6).**
+**Этап 2 — продуктовая спецификация и UX (на основе действующего прототипа).**
 - Добавить раздел международного перевода в APP_ARCHITECTURE (entry points, eligibility, balance model, navigation, states, data, recovery) после подтверждения этапов 0–1.
 - Вынести из прототипа фиксированные страны, валюты, банк, fee и курс; рендерить из конфигурации/fixtures. Сделать dynamic recipient fields и проверки; добавить KYC, unavailable, held, quote changed, insufficient balance, retry-safeguard.
 - Использовать компоненты из repo, сохранить существующие сценарии СБП/крипто/P2P; не переписывать UI kit и исходный CSS ради новой фичи.
