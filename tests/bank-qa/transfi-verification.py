@@ -43,6 +43,8 @@ async def test_all_rails(browser, origin):
         await expect(page.locator("#tfv-body .sbp-wait .h2")).to_have_text("Подтвердите почту")
         await page.evaluate("tfVerificationQA.setStatus('verified')")
         await expect(page.locator("#tfv-body .sbp-wait .h2")).to_have_text("Проверяем данные")
+        await page.screenshot(path=str(shots / f"wallet-screening-waiting-{width}.png"),
+                              animations="disabled")
         await page.evaluate("tfVerificationQA.setStatus('approved')")
         await expect(page.locator("#tfv-body .hero .h2")).to_have_text("Проверка завершена")
         await page.locator('#tfv-page [data-tfv="continue"]').click()
@@ -89,6 +91,8 @@ async def test_manual_review_and_rejection(browser, origin):
 
 async def test_library_components_and_copy(browser, origin):
     """Compare live verification states with components/fld.html and done.html."""
+    shots = ROOT / "tests" / "bank-qa" / "output" / "verification"
+    shots.mkdir(parents=True, exist_ok=True)
     for width in (390, 430):
         context, page, errors = await fresh_page(browser, origin)
         await page.set_viewport_size({"width": width, "height": 932})
@@ -104,10 +108,14 @@ async def test_library_components_and_copy(browser, origin):
         assert await page.get_by_text(
             "После подтверждения мы проверим доступность переводов"
         ).count() == 0
+        await page.screenshot(path=str(shots / f"wallet-email-readonly-{width}.png"),
+                              animations="disabled")
 
         # Compare actual computed tokens against the native component specimen.
         specimen = await context.new_page()
         await specimen.goto(origin + "/components/fld.html")
+        await specimen.screenshot(path=str(shots / f"reference-readonly-{width}.png"),
+                                  animations="disabled")
         expected = await specimen.locator(".fld.g").evaluate("""el => ({
             bg:getComputedStyle(el).backgroundColor,
             height:getComputedStyle(el).minHeight,
@@ -133,14 +141,20 @@ async def test_library_components_and_copy(browser, origin):
             "el => Math.round(el.getBoundingClientRect().width)"
         ) == 108
         await expect(page.locator("#tfv-body .fld.g.tfv-email")).to_be_visible()
+        await page.screenshot(path=str(shots / f"wallet-email-waiting-{width}.png"),
+                              animations="disabled")
         await page.evaluate("tfVerificationQA.setStatus('verified')")
         await expect(page.locator("#tfv-body .sbp-wait .h2")).to_have_text("Проверяем данные")
         await page.evaluate("tfVerificationQA.setStatus('approved')")
         await expect(page.locator("#tfv-body .hero.sbp-out .okc svg")).to_be_visible()
         assert await page.locator("#tfv-body .okc svg path").get_attribute("d") == "m5 12.5 5 5 9-10"
+        await page.screenshot(path=str(shots / f"wallet-approved-{width}.png"),
+                              animations="disabled")
         await page.evaluate("tfVerificationQA.setStatus('rejected')")
         await expect(page.locator("#tfv-body .hero.sbp-out .sbp-ic svg")).to_be_visible()
         assert await page.locator("#tfv-body .sbp-ic svg path").first.get_attribute("d") == "M7 7l10 10M17 7 7 17"
+        await page.screenshot(path=str(shots / f"wallet-rejected-{width}.png"),
+                              animations="disabled")
         assert not errors, errors
         await context.close()
 
