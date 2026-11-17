@@ -468,6 +468,9 @@ async def smoke(browser, origin):
     # Test actual embedded exit, not just a standalone legacy.html page.
     page = await browser.new_page(viewport={"width": 430, "height": 932})
     await page.goto(origin + "/transfi-remittance/?flow=in&rail=SWIFT")
+    # Direct links must now show the first-use provider confirmation gate.
+    await expect(page.locator("#tfv-page")).to_be_visible(timeout=15000)
+    await page.evaluate("() => {tfVerificationQA.setScenarioStatus('approved');tfOpenBank('SWIFT','in')}")
     iframe = page.locator("#tf-bank-overlay iframe")
     await expect(iframe).to_be_visible(timeout=30000)
     child = page.frame_locator("#tf-bank-overlay iframe")
