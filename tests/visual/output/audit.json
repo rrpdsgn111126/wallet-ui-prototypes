@@ -1,5 +1,5 @@
 {
-  "run": "2026-11-16T08:30:17.848Z",
+  "run": "2026-11-17T07:46:05.449Z",
   "cases": [
     {
       "label": "home",
@@ -960,7 +960,7 @@
         },
         "fields": [
           {
-            "name": "box tf-review-box",
+            "name": "box tf-review-box tf-quote",
             "left": 16,
             "right": 414,
             "width": 398,
@@ -968,7 +968,7 @@
             "clientWidth": 398
           },
           {
-            "name": "box tf-quote",
+            "name": "box tf-quote tf-review-quote",
             "left": 16,
             "right": 414,
             "width": 398,
@@ -1004,24 +1004,15 @@
         "content": {
           "width": 430,
           "scrollWidth": 430,
-          "height": 864,
-          "scrollHeight": 864
+          "height": 724,
+          "scrollHeight": 724
         },
         "footer": {
-          "height": 0,
-          "scrollWidth": 0,
-          "clientWidth": 0
+          "height": 140,
+          "scrollWidth": 430,
+          "clientWidth": 430
         },
-        "fields": [
-          {
-            "name": "tbl",
-            "left": 16,
-            "right": 414,
-            "width": 398,
-            "scrollWidth": 398,
-            "clientWidth": 398
-          }
-        ],
+        "fields": [],
         "badElements": []
       },
       "errors": []
@@ -1050,24 +1041,15 @@
         "content": {
           "width": 430,
           "scrollWidth": 430,
-          "height": 756,
-          "scrollHeight": 756
+          "height": 760,
+          "scrollHeight": 760
         },
         "footer": {
-          "height": 108,
+          "height": 172,
           "scrollWidth": 430,
           "clientWidth": 430
         },
-        "fields": [
-          {
-            "name": "tbl",
-            "left": 16,
-            "right": 414,
-            "width": 398,
-            "scrollWidth": 398,
-            "clientWidth": 398
-          }
-        ],
+        "fields": [],
         "badElements": []
       },
       "errors": []
@@ -1096,24 +1078,15 @@
         "content": {
           "width": 430,
           "scrollWidth": 430,
-          "height": 756,
-          "scrollHeight": 756
+          "height": 760,
+          "scrollHeight": 760
         },
         "footer": {
-          "height": 108,
+          "height": 172,
           "scrollWidth": 430,
           "clientWidth": 430
         },
-        "fields": [
-          {
-            "name": "tbl",
-            "left": 16,
-            "right": 414,
-            "width": 398,
-            "scrollWidth": 398,
-            "clientWidth": 398
-          }
-        ],
+        "fields": [],
         "badElements": []
       },
       "errors": []
@@ -1142,24 +1115,15 @@
         "content": {
           "width": 430,
           "scrollWidth": 430,
-          "height": 864,
-          "scrollHeight": 864
+          "height": 756,
+          "scrollHeight": 756
         },
         "footer": {
-          "height": 0,
-          "scrollWidth": 0,
-          "clientWidth": 0
+          "height": 108,
+          "scrollWidth": 430,
+          "clientWidth": 430
         },
-        "fields": [
-          {
-            "name": "tbl",
-            "left": 16,
-            "right": 414,
-            "width": 398,
-            "scrollWidth": 398,
-            "clientWidth": 398
-          }
-        ],
+        "fields": [],
         "badElements": []
       },
       "errors": []
@@ -2160,7 +2124,7 @@
           "width": 390,
           "scrollWidth": 390,
           "height": 668,
-          "scrollHeight": 716
+          "scrollHeight": 704
         },
         "footer": {
           "height": 108,
@@ -2169,7 +2133,7 @@
         },
         "fields": [
           {
-            "name": "box tf-review-box",
+            "name": "box tf-review-box tf-quote",
             "left": 16,
             "right": 374,
             "width": 358,
@@ -2177,7 +2141,7 @@
             "clientWidth": 358
           },
           {
-            "name": "box tf-quote",
+            "name": "box tf-quote tf-review-quote",
             "left": 16,
             "right": 374,
             "width": 358,
@@ -2213,24 +2177,15 @@
         "content": {
           "width": 390,
           "scrollWidth": 390,
-          "height": 776,
-          "scrollHeight": 776
+          "height": 618,
+          "scrollHeight": 618
         },
         "footer": {
-          "height": 0,
-          "scrollWidth": 0,
-          "clientWidth": 0
+          "height": 158,
+          "scrollWidth": 390,
+          "clientWidth": 390
         },
-        "fields": [
-          {
-            "name": "tbl",
-            "left": 16,
-            "right": 374,
-            "width": 358,
-            "scrollWidth": 358,
-            "clientWidth": 358
-          }
-        ],
+        "fields": [],
         "badElements": []
       },
       "errors": []
@@ -2259,24 +2214,15 @@
         "content": {
           "width": 390,
           "scrollWidth": 390,
-          "height": 668,
-          "scrollHeight": 668
+          "height": 672,
+          "scrollHeight": 672
         },
         "footer": {
-          "height": 108,
+          "height": 172,
           "scrollWidth": 390,
           "clientWidth": 390
         },
-        "fields": [
-          {
-            "name": "tbl",
-            "left": 16,
-            "right": 374,
-            "width": 358,
-            "scrollWidth": 358,
-            "clientWidth": 358
-          }
-        ],
+        "fields": [],
         "badElements": []
       },
       "errors": []
@@ -2305,24 +2251,15 @@
         "content": {
           "width": 390,
           "scrollWidth": 390,
-          "height": 668,
-          "scrollHeight": 668
+          "height": 672,
+          "scrollHeight": 672
         },
         "footer": {
-          "height": 108,
+          "height": 172,
           "scrollWidth": 390,
           "clientWidth": 390
         },
-        "fields": [
-          {
-            "name": "tbl",
-            "left": 16,
-            "right": 374,
-            "width": 358,
-            "scrollWidth": 358,
-            "clientWidth": 358
-          }
-        ],
+        "fields": [],
         "badElements": []
       },
       "errors": []
@@ -2351,24 +2288,15 @@
         "content": {
           "width": 390,
           "scrollWidth": 390,
-          "height": 776,
-          "scrollHeight": 776
+          "height": 668,
+          "scrollHeight": 668
         },
         "footer": {
-          "height": 0,
-          "scrollWidth": 0,
-          "clientWidth": 0
+          "height": 108,
+          "scrollWidth": 390,
+          "clientWidth": 390
         },
-        "fields": [
-          {
-            "name": "tbl",
-            "left": 16,
-            "right": 374,
-            "width": 358,
-            "scrollWidth": 358,
-            "clientWidth": 358
-          }
-        ],
+        "fields": [],
         "badElements": []
       },
       "errors": []
@@ -3378,7 +3306,7 @@
         },
         "fields": [
           {
-            "name": "box tf-review-box",
+            "name": "box tf-review-box tf-quote",
             "left": 16,
             "right": 414,
             "width": 398,
@@ -3386,7 +3314,7 @@
             "clientWidth": 398
           },
           {
-            "name": "box tf-quote",
+            "name": "box tf-quote tf-review-quote",
             "left": 16,
             "right": 414,
             "width": 398,
@@ -3422,24 +3350,15 @@
         "content": {
           "width": 430,
           "scrollWidth": 430,
-          "height": 864,
-          "scrollHeight": 864
+          "height": 724,
+          "scrollHeight": 724
         },
         "footer": {
-          "height": 0,
-          "scrollWidth": 0,
-          "clientWidth": 0
+          "height": 140,
+          "scrollWidth": 430,
+          "clientWidth": 430
         },
-        "fields": [
-          {
-            "name": "tbl",
-            "left": 16,
-            "right": 414,
-            "width": 398,
-            "scrollWidth": 398,
-            "clientWidth": 398
-          }
-        ],
+        "fields": [],
         "badElements": []
       },
       "errors": []
@@ -3468,24 +3387,15 @@
         "content": {
           "width": 430,
           "scrollWidth": 430,
-          "height": 756,
-          "scrollHeight": 756
+          "height": 760,
+          "scrollHeight": 760
         },
         "footer": {
-          "height": 108,
+          "height": 172,
           "scrollWidth": 430,
           "clientWidth": 430
         },
-        "fields": [
-          {
-            "name": "tbl",
-            "left": 16,
-            "right": 414,
-            "width": 398,
-            "scrollWidth": 398,
-            "clientWidth": 398
-          }
-        ],
+        "fields": [],
         "badElements": []
       },
       "errors": []
@@ -3514,24 +3424,15 @@
         "content": {
           "width": 430,
           "scrollWidth": 430,
-          "height": 756,
-          "scrollHeight": 756
+          "height": 760,
+          "scrollHeight": 760
         },
         "footer": {
-          "height": 108,
+          "height": 172,
           "scrollWidth": 430,
           "clientWidth": 430
         },
-        "fields": [
-          {
-            "name": "tbl",
-            "left": 16,
-            "right": 414,
-            "width": 398,
-            "scrollWidth": 398,
-            "clientWidth": 398
-          }
-        ],
+        "fields": [],
         "badElements": []
       },
       "errors": []
@@ -3560,24 +3461,15 @@
         "content": {
           "width": 430,
           "scrollWidth": 430,
-          "height": 864,
-          "scrollHeight": 864
+          "height": 756,
+          "scrollHeight": 756
         },
         "footer": {
-          "height": 0,
-          "scrollWidth": 0,
-          "clientWidth": 0
+          "height": 108,
+          "scrollWidth": 430,
+          "clientWidth": 430
         },
-        "fields": [
-          {
-            "name": "tbl",
-            "left": 16,
-            "right": 414,
-            "width": 398,
-            "scrollWidth": 398,
-            "clientWidth": 398
-          }
-        ],
+        "fields": [],
         "badElements": []
       },
       "errors": []
@@ -4578,7 +4470,7 @@
           "width": 420,
           "scrollWidth": 420,
           "height": 708,
-          "scrollHeight": 716
+          "scrollHeight": 708
         },
         "footer": {
           "height": 108,
@@ -4587,7 +4479,7 @@
         },
         "fields": [
           {
-            "name": "box tf-review-box",
+            "name": "box tf-review-box tf-quote",
             "left": 499,
             "right": 887,
             "width": 388,
@@ -4595,7 +4487,7 @@
             "clientWidth": 388
           },
           {
-            "name": "box tf-quote",
+            "name": "box tf-quote tf-review-quote",
             "left": 499,
             "right": 887,
             "width": 388,
@@ -4631,24 +4523,15 @@
         "content": {
           "width": 420,
           "scrollWidth": 420,
-          "height": 816,
-          "scrollHeight": 816
+          "height": 676,
+          "scrollHeight": 676
         },
         "footer": {
-          "height": 0,
-          "scrollWidth": 0,
-          "clientWidth": 0
+          "height": 140,
+          "scrollWidth": 420,
+          "clientWidth": 420
         },
-        "fields": [
-          {
-            "name": "tbl",
-            "left": 499,
-            "right": 887,
-            "width": 388,
-            "scrollWidth": 388,
-            "clientWidth": 388
-          }
-        ],
+        "fields": [],
         "badElements": []
       },
       "errors": []
@@ -4677,24 +4560,15 @@
         "content": {
           "width": 420,
           "scrollWidth": 420,
-          "height": 708,
-          "scrollHeight": 708
+          "height": 750,
+          "scrollHeight": 750
         },
         "footer": {
-          "height": 108,
+          "height": 172,
           "scrollWidth": 420,
           "clientWidth": 420
         },
-        "fields": [
-          {
-            "name": "tbl",
-            "left": 499,
-            "right": 887,
-            "width": 388,
-            "scrollWidth": 388,
-            "clientWidth": 388
-          }
-        ],
+        "fields": [],
         "badElements": []
       },
       "errors": []
@@ -4723,24 +4597,15 @@
         "content": {
           "width": 420,
           "scrollWidth": 420,
-          "height": 708,
-          "scrollHeight": 708
+          "height": 750,
+          "scrollHeight": 750
         },
         "footer": {
-          "height": 108,
+          "height": 172,
           "scrollWidth": 420,
           "clientWidth": 420
         },
-        "fields": [
-          {
-            "name": "tbl",
-            "left": 499,
-            "right": 887,
-            "width": 388,
-            "scrollWidth": 388,
-            "clientWidth": 388
-          }
-        ],
+        "fields": [],
         "badElements": []
       },
       "errors": []
@@ -4769,24 +4634,15 @@
         "content": {
           "width": 420,
           "scrollWidth": 420,
-          "height": 816,
-          "scrollHeight": 816
+          "height": 708,
+          "scrollHeight": 708
         },
         "footer": {
-          "height": 0,
-          "scrollWidth": 0,
-          "clientWidth": 0
+          "height": 108,
+          "scrollWidth": 420,
+          "clientWidth": 420
         },
-        "fields": [
-          {
-            "name": "tbl",
-            "left": 499,
-            "right": 887,
-            "width": 388,
-            "scrollWidth": 388,
-            "clientWidth": 388
-          }
-        ],
+        "fields": [],
         "badElements": []
       },
       "errors": []
