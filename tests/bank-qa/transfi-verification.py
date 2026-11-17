@@ -42,7 +42,10 @@ async def test_all_rails(browser, origin):
         await page.locator('#tfv-page [data-tfv="send"]').click()
         await expect(page.locator("#tfv-body .sbp-wait .h2")).to_have_text("Подтвердите почту")
         await page.evaluate("tfVerificationQA.setStatus('verified')")
-        await expect(page.locator("#tfv-body .sbp-wait .h2")).to_have_text("Проверяем данные")
+        await expect(page.locator("#tfv-body .sbp-wait .h2")).to_have_text("Проверяем почту")
+        await expect(page.locator("#tfv-body .sbp-wait .p")).to_have_text(
+            "После проверки станут доступны международные переводы"
+        )
 
         await page.evaluate("tfVerificationQA.setStatus('approved')")
         await expect(page.locator("#tfv-body .hero .h2")).to_have_text("Проверка завершена")
@@ -78,10 +81,17 @@ async def test_close_notification_sheet_and_reopen(browser, origin):
 
 async def test_manual_review_and_rejection(browser, origin):
     context, page, errors = await fresh_page(browser, origin)
+    await page.evaluate("tfVerificationQA.setStatus('verified')")
+    baseline = await page.locator("#tfv-body").inner_html()
     await page.evaluate("tfVerificationQA.setStatus('manual_review')")
-    await expect(page.locator("#tfv-body .sbp-wait .h2")).to_have_text("Проверяем данные")
+    await expect(page.locator("#tfv-body .sbp-wait .h2")).to_have_text("Проверяем почту")
+    assert await page.locator("#tfv-body").inner_html() == baseline
+    assert await page.evaluate("tfVerificationQA.getState().notice") == ""
     await page.evaluate("tfVerificationQA.setStatus('rejected')")
     await expect(page.locator("#tfv-body .hero .h2")).to_have_text("Проверка не пройдена")
+    await expect(page.locator("#tfv-body .hero .p")).to_have_text(
+        "Международные переводы недоступны. Обратитесь в поддержку"
+    )
     await page.locator('#tfv-page [data-tfv="support"]').click()
     await expect(page.locator("#tfv-page")).to_be_hidden()
     assert not errors, errors
@@ -143,7 +153,10 @@ async def test_library_components_and_copy(browser, origin):
         await page.screenshot(path=str(shots / f"wallet-email-waiting-{width}.png"),
                               animations="disabled")
         await page.evaluate("tfVerificationQA.setStatus('verified')")
-        await expect(page.locator("#tfv-body .sbp-wait .h2")).to_have_text("Проверяем данные")
+        await expect(page.locator("#tfv-body .sbp-wait .h2")).to_have_text("Проверяем почту")
+        await expect(page.locator("#tfv-body .sbp-wait .p")).to_have_text(
+            "После проверки станут доступны международные переводы"
+        )
         await page.screenshot(path=str(shots / f"wallet-screening-waiting-{width}.png"),
                               animations="disabled")
         await page.evaluate("tfVerificationQA.setStatus('approved')")
@@ -185,8 +198,13 @@ async def test_external_qa_panel(browser, origin):
     await expect(page.locator("#pv-qa")).to_be_hidden()
 
     # The approved state is a fixture setup: no notification and no extra verification screen.
-    await page.locator("#tfqa-flow").select_option("out")
-    await page.locator("#tfqa-rail").select_option("SWIFT")
+    assert await page.locator("#tfqa-flow, #tfqa-rail").count() == 0
+    assert await page.locator('#tfqa-status option[value="manual_review"]').count() == 0
+    await expect(page.locator('#tfqa-status option[value="verified"]')).to_have_text("Проверяем почту")
+    await expect(page.locator("#tfqa-help")).to_be_hidden()
+    assert await panel.get_by_text("появится запрос подтверждения", exact=False).count() == 0
+    # QA keeps the latest bank context instead of supplying redundant controls.
+    await page.evaluate("tfVerificationQA.setContext('SWIFT','out')")
     await page.locator("#tfqa-status").select_option("approved")
     assert await page.evaluate("tfVerificationQA.getState().notice") == ""
     await page.locator("#tfqa-open").click()
@@ -200,6 +218,12 @@ async def test_external_qa_panel(browser, origin):
     await page.locator("#tfqa-open").click()
     await expect(page.locator("#tfv-page")).to_be_visible()
     await expect(page.locator("#tfv-head .h1")).to_have_text("Подтверждение почты")
+    await page.locator("#tfqa-status").select_option("verified")
+    await page.locator("#tfqa-open").click()
+    await expect(page.locator("#tfv-body .sbp-wait .h2")).to_have_text("Проверяем почту")
+    await expect(page.locator("#tfv-body .sbp-wait .p")).to_have_text(
+        "После проверки станут доступны международные переводы"
+    )
 
     # A separate action simulates an incoming approval, not just setting the starting fixture.
     await page.evaluate("show('home', false)")

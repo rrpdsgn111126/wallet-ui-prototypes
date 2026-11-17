@@ -49,9 +49,7 @@ aside.setAttribute('aria-label','Управление тестовыми сос�
 aside.innerHTML='<header><div class="tfqa-eyebrow">alt.vu · QA</div><h2>Тестирование</h2><p>Выберите сценарий или имитируйте событие</p></header>'+
 '<div class="tfqa-tabs" role="tablist" aria-label="Тестовые инструменты"><button type="button" role="tab" id="tfqa-tab-scenarios" aria-selected="true" aria-controls="tfqa-scenarios">Сценарии</button><button type="button" role="tab" id="tfqa-tab-events" aria-selected="false" aria-controls="tfqa-events">События</button></div>'+
 '<section id="tfqa-scenarios" class="tfqa-pane" role="tabpanel" aria-labelledby="tfqa-tab-scenarios">'
-+'<label class="tfqa-field" for="tfqa-flow"><span>Направление</span><select id="tfqa-flow"><option value="in">Пополнение</option><option value="out">Вывод</option></select></label>'
-+'<label class="tfqa-field" for="tfqa-rail"><span>Метод перевода</span><select id="tfqa-rail"><option value="SEPA">SEPA</option><option value="SWIFT">SWIFT</option></select></label>'
-+'<label class="tfqa-field" for="tfqa-status"><span>Статус проверки</span><select id="tfqa-status"><option value="idle">Email не подтверждён</option><option value="initiated">Письмо отправлено</option><option value="verified">Email подтверждён, идёт проверка</option><option value="approved">Проверка одобрена</option><option value="manual_review">Дополнительная проверка</option><option value="rejected">Проверка отклонена</option><option value="error">Ошибка проверки</option></select></label>'
++'<label class="tfqa-field" for="tfqa-status"><span>Статус проверки</span><select id="tfqa-status"><option value="idle">Email не подтверждён</option><option value="initiated">Письмо отправлено</option><option value="verified">Проверяем почту</option><option value="approved">Проверка одобрена</option><option value="rejected">Проверка отклонена</option><option value="error">Ошибка проверки</option></select></label>'
 +'<div class="tfqa-note" id="tfqa-help" aria-live="polite"></div><div class="tfqa-actions"><button class="tfqa-primary" type="button" id="tfqa-open">Открыть сценарий</button><button class="tfqa-secondary" type="button" id="tfqa-notify">Получить уведомление</button><button class="tfqa-reset" type="button" id="tfqa-reset">Сбросить проверку</button></div>'
 +'<footer><div class="tfqa-state"><span class="tfqa-dot" id="tfqa-dot"></span><span id="tfqa-summary"></span></div><p>Тестовый режим без платежей и запросов к TransFi</p></footer></section>'+
 '<section id="tfqa-events" class="tfqa-pane" role="tabpanel" aria-labelledby="tfqa-tab-events" hidden></section>';
@@ -86,29 +84,26 @@ aside.querySelector('[role="tablist"]').addEventListener('keydown',event=>{
 });
 
 const help={
- idle:'При входе в SEPA/SWIFT появится запрос подтверждения email',
+ idle:'',
  initiated:'Письмо отправлено. Показан экран ожидания перехода по ссылке',
- verified:'Email подтверждён, но банковские операции ещё недоступны',
+ verified:'Почта подтверждена. Ожидается завершение проверки',
  approved:'Проверка завершена. Откроется обычный сценарий без подтверждения',
- manual_review:'Проверка продолжается. Продолжить перевод пока нельзя',
+ manual_review:'Почта подтверждена. Ожидается завершение проверки',
  rejected:'Проверка не пройдена. Пользователь может обратиться в поддержку',
  error:'Ошибка получения статуса. Пользователь может повторить проверку'
 };
 function render(){
- const s=qa.getState(),ctx=s.context||{flow:'in',rail:'SEPA'};
- el('tfqa-flow').value=ctx.flow==='out'?'out':'in';
- el('tfqa-rail').value=ctx.rail==='SWIFT'?'SWIFT':'SEPA';
- el('tfqa-status').value=help[s.status]?s.status:'idle';
- el('tfqa-help').textContent=help[s.status]||help.idle;
+ const s=qa.getState();
+ el('tfqa-status').value=s.status==='manual_review'?'verified':(Object.hasOwn(help,s.status)?s.status:'idle');
+ const description=help[s.status]||'';
+ el('tfqa-help').textContent=description;
+ el('tfqa-help').hidden=!description;
  el('tfqa-summary').textContent=s.notice==='approved'?'Уведомление получено':s.status==='approved'?'Можно продолжать':'Проверка не завершена';
  el('tfqa-dot').className='tfqa-dot'+(s.status==='approved'?' approved':s.status==='verified'||s.status==='initiated'||s.status==='manual_review'?' pending':'');
 }
-function contextChange(){qa.setContext(el('tfqa-rail').value,el('tfqa-flow').value)}
-el('tfqa-flow').addEventListener('change',contextChange);
-el('tfqa-rail').addEventListener('change',contextChange);
 el('tfqa-status').addEventListener('change',function(){qa.setScenarioStatus(this.value)});
-el('tfqa-open').addEventListener('click',function(){contextChange();qa.openSelected()});
-el('tfqa-notify').addEventListener('click',function(){contextChange();qa.triggerApprovalNotice()});
+el('tfqa-open').addEventListener('click',function(){qa.openSelected()});
+el('tfqa-notify').addEventListener('click',function(){qa.triggerApprovalNotice()});
 el('tfqa-reset').addEventListener('click',function(){qa.reset()});
 document.addEventListener('tfv-change',render);
 render();

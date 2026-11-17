@@ -98,11 +98,9 @@ function render(){
     button(expired?'Отправить новую ссылку':'Отправить ещё раз','send','alt',!canRequest())+
     button('В кошелёк','close','text')+
     (!canRequest()?'<p class="note tfv-inline-note">Превышен лимит отправок. Попробуйте позже</p>':'');
- }else if(s.status==='verified'){
-   html=waiting('Проверяем данные','Адрес почты подтверждён. Проверяем доступность международных переводов')+
-    button('В кошелёк','close','alt');
- }else if(s.status==='manual_review'){
-   html=waiting('Проверяем данные','Нужна дополнительная проверка. Сообщим, когда она завершится')+
+ }else if(s.status==='verified'||s.status==='manual_review'){
+   // Both backend states use one customer-facing screening screen.
+   html=waiting('Проверяем почту','После проверки станут доступны международные переводы')+
     button('В кошелёк','close','alt');
  }else if(s.status==='approved'){
    final=true;
@@ -110,7 +108,7 @@ function render(){
     button('Продолжить','continue')+button('Позже','close','alt');
  }else if(s.status==='rejected'){
    final=true;
-   html=statusHero('cross','Проверка не пройдена','Международные переводы недоступны. За подробностями обратитесь в поддержку')+
+   html=statusHero('cross','Проверка не пройдена','Международные переводы недоступны. Обратитесь в поддержку')+
     button('Связаться с поддержкой','support')+button('Закрыть','close','alt');
  }else{
    final=true;
@@ -127,7 +125,7 @@ function requestLink(){
  if(!s.windowStart||Date.now()-s.windowStart>=600000){s.windowStart=Date.now();s.requests=0}
  s.requests++;s.requestedAt=Date.now();s.status='initiated';save();render();emitState();
 }
-function noticeInfo(){return {approved:['Проверка завершена','Банковские переводы SEPA и SWIFT доступны','Продолжить'],manual_review:['Проверка продолжается','Нужна дополнительная проверка','Посмотреть статус'],rejected:['Проверка не пройдена','Банковские переводы недоступны','Посмотреть статус']}[s.notice]}
+function noticeInfo(){return {approved:['Проверка завершена','Банковские переводы SEPA и SWIFT доступны','Продолжить'],manual_review:['Проверяем почту','После проверки станут доступны международные переводы','Посмотреть статус'],rejected:['Проверка не пройдена','Банковские переводы недоступны','Посмотреть статус']}[s.notice]}
 function syncNotice(){
  const list=document.getElementById('n-list');if(!list)return;
  list.querySelectorAll('.tfv-note,.tfv-note-date').forEach(el=>el.remove());
@@ -163,7 +161,7 @@ function setStatus(status,options={}){
  if(status==='idle'){s.requestedAt=0;s.windowStart=0;s.requests=0}
  s.status=status;
  if(quiet){s.notice='';s.noticeAt=0;s.noticeRead=false;s.sheetShown=true;sheet.hidden=true;page.hidden=true;hideBank()}
- else if(['approved','manual_review','rejected'].includes(status)&&s.notice!==status){
+ else if(['approved','rejected'].includes(status)&&s.notice!==status){
    s.notice=status;s.noticeAt=Date.now();s.noticeRead=false;s.sheetShown=false;
  }
  save();render();updateNotes();
