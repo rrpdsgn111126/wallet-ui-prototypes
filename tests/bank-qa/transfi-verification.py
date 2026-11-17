@@ -64,7 +64,9 @@ async def test_close_notification_sheet_and_reopen(browser, origin):
     await expect(page.locator("#tfv-page")).to_be_hidden()
     await page.evaluate("tfVerificationQA.setStatus('approved')")
     await expect(page.locator("#tfv-sheet")).to_be_visible()
-    await page.locator('#tfv-sheet [data-tfv="dismiss"]').last.click()
+    # Only one visible CTA remains. Dismissal is via the backdrop.
+    assert await page.locator('#tfv-sheet button').count() == 1
+    await page.locator("#tfv-sheet .tfv-dim").click(position={"x": 5, "y": 5})
     await expect(page.locator("#tfv-sheet")).to_be_hidden()
     await page.evaluate("show('notes')")
     await expect(page.locator("#v-notes.on")).to_be_visible()
@@ -231,15 +233,33 @@ async def test_external_qa_panel(browser, origin):
     await page.locator("#tfqa-notify").click()
     await expect(page.locator("#tfv-page")).to_be_hidden()
     await expect(page.locator("#tfv-sheet")).to_be_visible()
-    await expect(page.locator("#tfv-sheet .tfv-notice-copy .h2")).to_have_text("Проверка завершена")
+    await expect(page.locator("#tfv-sheet .tfv-notice-copy .h2")).to_have_text("Международные переводы доступны")
     await expect(page.locator("#tfv-sheet .tfv-notice-copy .p")).to_have_text(
-        "Международные переводы доступны"
+        "Проверка завершена"
     )
+    # Match the exact native success symbol from the canonical transfer result.
+    icon = page.locator("#tfv-sheet .tfv-notice-copy .okc")
+    await expect(icon).to_be_visible()
+    assert await icon.locator("svg path").get_attribute("d") == "m5 12.5 5 5 9-10"
+    assert await page.locator("#tfv-sheet button").count() == 1
+    await expect(page.locator('#tfv-sheet button[data-tfv="continue"]')).to_have_text("Продолжить")
+    assert await page.locator("#tfv-sheet .tfv-notice-copy .p").evaluate(
+        "el => getComputedStyle(el).marginBottom"
+    ) == "18px"
+    await page.screenshot(path=str((ROOT / "tests" / "bank-qa" / "output" / "verification" / "approval-sheet-desktop.png")), animations="disabled")
     # Reference: UI Kit > Статусы и сообщения > Перевод выполнен.
     reference = await browser.new_page()
     await reference.goto(origin + "/components/bankstatus.html?screen=out-success")
     reference_title = reference.frame_locator("#bank-screen").locator(".hero.sbp-out .h2")
     reference_subtitle = reference.frame_locator("#bank-screen").locator(".hero.sbp-out .p")
+    reference_icon = reference.frame_locator("#bank-screen").locator(".hero.sbp-out .okc")
+    await expect(reference_icon).to_be_visible()
+    assert await icon.evaluate("el => getComputedStyle(el).backgroundColor") == (
+        await reference_icon.evaluate("el => getComputedStyle(el).backgroundColor")
+    )
+    assert await icon.evaluate("el => el.getBoundingClientRect().width") == (
+        await reference_icon.evaluate("el => el.getBoundingClientRect().width")
+    )
     await expect(reference_title).to_be_visible()
     await expect(reference_subtitle).to_be_visible()
     styles = """el => {const s=getComputedStyle(el);return {
@@ -264,7 +284,7 @@ async def test_external_qa_panel(browser, origin):
                 clickOnSheet:sheet.contains(mid)};
     }""")
     assert stacking["sheet"] > stacking["dim"] and stacking["clickOnSheet"], stacking
-    await page.locator('#tfv-sheet [data-tfv="dismiss"]').last.click()
+    await page.locator("#tfv-sheet .tfv-dim").click(position={"x": 5, "y": 5})
     await expect(page.locator("#tfv-sheet")).to_be_hidden()
 
     await page.evaluate("show('notes')")
@@ -277,6 +297,34 @@ async def test_external_qa_panel(browser, origin):
     assert await page.evaluate("tfVerificationQA.getState().status") == "idle"
     assert not errors, errors
     await page.close()
+
+
+async def test_approval_sheet_continue(browser, origin):
+    """The only primary CTA resumes the previously selected banking route."""
+    for width in (390, 430):
+        context, page, errors = await fresh_page(browser, origin, "out", "SWIFT")
+        await page.set_viewport_size({"width": width, "height": 932})
+        await page.evaluate("tfVerificationQA.triggerApprovalNotice()")
+        await expect(page.locator("#tfv-sheet")).to_be_visible()
+        await expect(page.locator("#tfv-sheet .tfv-notice-copy .okc")).to_be_visible()
+        assert await page.locator("#tfv-sheet button").count() == 1
+        await expect(page.locator("#tfv-sheet .tfv-notice-copy .h2")).to_have_text(
+            "Международные переводы доступны"
+        )
+        await expect(page.locator("#tfv-sheet .tfv-notice-copy .p")).to_have_text(
+            "Проверка завершена"
+        )
+        shots = ROOT / "tests" / "bank-qa" / "output" / "verification"
+        shots.mkdir(parents=True, exist_ok=True)
+        await page.screenshot(path=str(shots / f"approval-sheet-{width}.png"),
+                              animations="disabled")
+        await page.locator('#tfv-sheet button[data-tfv="continue"]').click()
+        await expect(page.locator("#tfv-sheet")).to_be_hidden()
+        await expect(page.locator("#tf-bank-overlay")).to_be_visible()
+        await expect(page.frame_locator("#tf-bank-overlay iframe")
+                     .locator(".phone.tf-phone > .head .h1")).to_contain_text("SWIFT")
+        assert not errors, errors
+        await context.close()
 
 
 async def test_qa_panel_mobile_hidden(browser, origin):
@@ -301,6 +349,7 @@ async def main():
                 await test_manual_review_and_rejection(browser, origin)
                 await test_library_components_and_copy(browser, origin)
                 await test_external_qa_panel(browser, origin)
+                await test_approval_sheet_continue(browser, origin)
                 await test_qa_panel_mobile_hidden(browser, origin)
             finally:
                 await browser.close()
