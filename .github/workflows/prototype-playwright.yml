@@ -32,3 +32,10 @@ jobs:
         run: python tests/bank-qa/source-flows.py
       - name: TransFi verification and unified QA sidebar
         run: python tests/bank-qa/transfi-verification.py
+      - name: Upload TransFi verification UI comparisons
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: transfi-verification-ui
+          path: tests/bank-qa/output/verification
+          if-no-files-found: warn
