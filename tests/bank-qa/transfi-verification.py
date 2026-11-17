@@ -382,6 +382,14 @@ async def test_approval_sheet_continue(browser, origin):
         await expect(page.locator("#tfv-sheet .tfv-notice-copy .p")).to_have_text(
             "Проверка завершена"
         )
+        # The approval notice deliberately focuses the CTA for keyboard access.
+        # Blur only for the documentation screenshot: browser focus-ring is not
+        # part of the resting visual state of the primary button.
+        continue_button = page.locator('#tfv-sheet button[data-tfv="continue"]')
+        await continue_button.evaluate("(button) => button.blur()")
+        assert not await continue_button.evaluate(
+            "(button) => button.matches(':focus, :focus-visible')"
+        )
         shots = ROOT / "tests" / "bank-qa" / "output" / "verification"
         shots.mkdir(parents=True, exist_ok=True)
         await page.screenshot(path=str(shots / f"approval-sheet-{width}.png"),
