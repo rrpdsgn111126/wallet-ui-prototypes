@@ -40,6 +40,7 @@ const css=[
 '#tfv-sheet .tfv-panel{z-index:5;padding-bottom:calc(34px + env(safe-area-inset-bottom))}',
 '#tfv-sheet .tfv-btn{width:100%;cursor:pointer;font:600 16px Inter,system-ui,sans-serif}',
 '#tfv-sheet .tfv-btn.alt{margin-top:12px}',
+'#tfv-sheet .tfv-notice-copy .p{margin:0 auto 18px}',
 '.tfv-note{cursor:pointer}.tfv-note .nm{color:var(--brand-600)}',
 '@keyframes tfv-dim-in{from{opacity:0}to{opacity:.4}}',
 '@media(prefers-reduced-motion:reduce){#tfv-sheet .tfv-panel,#tfv-sheet .tfv-dim{animation:none}}'
@@ -52,7 +53,7 @@ page.style.setProperty('--t-h','300px');
 page.style.setProperty('--t-mask','linear-gradient(180deg,#000 0%,#000 46%,transparent 100%)');
 page.innerHTML='<div class="tint" aria-hidden="true"></div><header id="tfv-head" class="head"><button type="button" class="back" data-tfv="close" aria-label="Назад"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 5-7 7 7 7"/></svg></button><div class="h1">Подтверждение почты</div></header><main id="tfv-body" class="wrap tight"></main><footer id="tfv-foot" class="foot"></footer>';phone.appendChild(page);
 const sheet=document.createElement('div');sheet.id='tfv-sheet';sheet.hidden=true;
-sheet.innerHTML='<div class="dim tfv-dim" data-tfv="dismiss"></div><section class="sheet tfv-panel" role="dialog" aria-modal="true" aria-label="Проверка завершена"><div class="grab"></div><div class="hero sbp-out tfv-notice-copy"><div class="h2">Проверка завершена</div><p class="p">Международные переводы доступны</p></div><button type="button" class="btn tfv-btn" data-tfv="continue">Продолжить</button><button type="button" class="btno tfv-btn alt" data-tfv="dismiss">Позже</button></section>';phone.appendChild(sheet);
+sheet.innerHTML='<div class="dim tfv-dim" data-tfv="dismiss"></div><section class="sheet tfv-panel" role="dialog" aria-modal="true" aria-label="Международные переводы доступны"><div class="grab"></div><div class="hero sbp-out tfv-notice-copy"><div class="okc" aria-hidden="true"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--n850)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 5 5 9-10"/></svg></div><div class="h2">Международные переводы доступны</div><p class="p">Проверка завершена</p></div><button type="button" class="btn tfv-btn" data-tfv="continue">Продолжить</button></section>';phone.appendChild(sheet);
 function button(text,action,variant,disabled){return '<button type="button" class="'+(['alt','text'].includes(variant)?'btno':'btn')+' tfv-btn '+(variant||'')+'" data-tfv="'+action+'"'+(disabled?' disabled':'')+'>'+text+'</button>'}
 function tfvIcon(kind){
  const paths={
@@ -125,7 +126,7 @@ function requestLink(){
  if(!s.windowStart||Date.now()-s.windowStart>=600000){s.windowStart=Date.now();s.requests=0}
  s.requests++;s.requestedAt=Date.now();s.status='initiated';save();render();emitState();
 }
-function noticeInfo(){return {approved:['Проверка завершена','Международные переводы доступны','Продолжить'],manual_review:['Проверяем почту','После проверки станут доступны международные переводы','Посмотреть статус'],rejected:['Проверка не пройдена','Банковские переводы недоступны','Посмотреть статус']}[s.notice]}
+function noticeInfo(){return {approved:['Международные переводы доступны','Проверка завершена','Продолжить'],manual_review:['Проверяем почту','После проверки станут доступны международные переводы','Посмотреть статус'],rejected:['Проверка не пройдена','Банковские переводы недоступны','Посмотреть статус']}[s.notice]}
 function syncNotice(){
  const list=document.getElementById('n-list');if(!list)return;
  list.querySelectorAll('.tfv-note,.tfv-note-date').forEach(el=>el.remove());
