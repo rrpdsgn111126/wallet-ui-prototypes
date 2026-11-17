@@ -32,6 +32,8 @@ jobs:
         run: python tests/bank-qa/source-flows.py
       - name: TransFi verification and unified QA sidebar
         run: python tests/bank-qa/transfi-verification.py
+      - name: Standalone QA callbacks and deposit method visibility
+        run: python tests/bank-qa/qa-events.py
       - name: Upload TransFi verification UI comparisons
         if: always()
         uses: actions/upload-artifact@v4

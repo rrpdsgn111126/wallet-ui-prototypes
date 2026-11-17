@@ -577,9 +577,10 @@ async def assert_bank_history_bridge(browser,origin):
     await expect(child.locator(".tf-bank-wait")).to_be_visible()
     await page.wait_for_function("""() => PV.data['/operations'].operations.some(
        x=>String(x.id).startsWith('tf-bank-')&&x.status==='queued')""",timeout=10000)
-    # The original wallet callback is preserved inside the desktop-only Events tab.
-    # On mobile, trigger the same DOM handler without revealing tester controls.
-    await page.evaluate("() => document.getElementById('pv-bank-ok').click()")
+    # The existing iframe callback remains available for active transfers.
+    # Standalone QA event buttons have their own end-to-end regression.
+    await page.evaluate("""() => document.querySelector(
+        '#tf-bank-overlay iframe').contentWindow.uxBankCallback('success')""")
     await expect(child.locator(".tf-bank-result .h2")).to_have_text("Перевели 92,59 EUR")
     await page.wait_for_function("""() => PV.data['/operations'].operations.some(
        x=>String(x.id).startsWith('tf-bank-')&&x.status==='confirmed')""",timeout=10000)

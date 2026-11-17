@@ -206,7 +206,7 @@
     for(const dir of ['dep','out']){
       const root=document.getElementById('v-'+(dir==='dep'?'topup':'withdraw'));
       if(!root)continue;
-      root.querySelectorAll('.m[data-go^="'+dir+'-"]').forEach(row=>{
+      root.querySelectorAll('.m[data-go^="'+dir+'-"]:not([data-go="dep-sbp"])').forEach(row=>{
         const coin=row.dataset.go.split('-')[1].toUpperCase();
         const active=networks.filter(n=>n.coin===coin&&n['can_'+(dir==='dep'?'deposit':'withdraw')]);
         row.hidden=!active.length;
@@ -330,12 +330,46 @@
     sbpCheck();
   }
 
-  // Bank iframe uses the real ALT.VU operation list. Each callback updates
-  // ONE synthetic withdrawal; there are no real provider requests.
-  function bankCallback(status){
-    const frame=document.querySelector('#tf-bank-overlay iframe');
-    if(!frame||!frame.contentWindow||typeof frame.contentWindow.uxBankCallback!=='function')return;
-    frame.contentWindow.uxBankCallback(status);
+  // Standalone test events use native screens and callbacks; no provider APIs.
+  function qaCloseTransient(){
+    const overlay=document.getElementById('tf-bank-overlay');
+    if(overlay){overlay.hidden=true;const frame=overlay.querySelector('iframe');if(frame)frame.removeAttribute('src');}
+    for(const id of ['tfv-page','tfv-sheet']){
+      const node=document.getElementById(id);if(node)node.hidden=true;
+    }
+  }
+  function qaBankEvent(rail,flow,state){
+    if(!['SEPA','SWIFT'].includes(rail)||!['in','out'].includes(flow))return;
+    const allowed=flow==='in'?['details','pending','success','held']:['pending','success','failed','held'];
+    if(!allowed.includes(state))return;
+    qaCloseTransient();
+    show('home',false);
+    const overlay=document.getElementById('tf-bank-overlay');
+    if(!overlay)return;
+    const frame=overlay.querySelector('iframe');
+    frame.src='legacy.html?v=qa-event-20261117&capture=1&embedded=1&flow='+flow+
+      '&rail='+rail+'&qa-event='+state;
+    overlay.hidden=false;
+  }
+  function qaCryptoDeposit(coin,status){
+    qaCloseTransient();
+    const c=coin==='USDC'?'usdc':'usdt',network=c==='usdc'?'polygon':'tron';
+    show('dep-'+c+'-'+network,false);
+    depositCallback(status);
+  }
+  function qaSbpEvent(status){
+    qaCloseTransient();
+    // Reuse the active local SBP order if pending; otherwise create a demo order.
+    if(!sbp.dep||!sbpOrders.has(sbp.dep.id)||sbpOrders.get(sbp.dep.id).status!=='wait'){
+      const id=eventId('sbp');
+      const order={id,status:'wait',bank_id:bankNames[0].id,bank_name:bankNames[0].name,
+        usd_minor:10000,rub_minor:888800,rate:'88.88',fee_minor:0,
+        qr_url:'https://example.invalid/altvu-demo-only',
+        qr:previewQr(id),expires_at:new Date(Date.now()+10*60000).toISOString()};
+      sbpOrders.set(id,order);
+      sbp.dep=Object.assign({},order);
+    }
+    sbpCallback(status);
   }
   window.addEventListener('message',event=>{
     const overlay=document.getElementById('tf-bank-overlay');
@@ -380,33 +414,56 @@
       '@media(max-width:600px){#pv-qa{max-width:none;width:175px;padding:8px;right:6px;bottom:5px}}';
     document.head.appendChild(css);
     const bar=document.createElement('aside');bar.id='pv-qa';
-    bar.innerHTML='<h3>Тестовые события</h3><label>Следующий результат<select id="pv-outcome">'+
+    const bankGroup=rail=>{
+      const bid=rail.toLowerCase();
+      const actions=[
+        ['in','details','Пополнение · Реквизиты'],
+        ['in','pending','Пополнение · Ожидание'],
+        ['in','success','Пополнение · Зачислено'],
+        ['in','held','Пополнение · Проверка'],
+        ['out','pending','Вывод · Обрабатывается'],
+        ['out','success','Вывод · Успех'],
+        ['out','failed','Вывод · Ошибка'],
+        ['out','held','Вывод · На проверке']
+      ];
+      return '<details class="pv-group" id="pv-group-'+bid+'"><summary>'+rail+'</summary>'+
+        '<div class="pv-group-actions">'+actions.map(([flow,status,label])=>
+          '<button type="button" id="pv-'+bid+'-'+flow+'-'+status+
+          '" data-pv-bank="'+rail+'" data-pv-flow="'+flow+'" data-pv-event="'+status+'">'+label+'</button>'
+        ).join('')+'</div></details>';
+    };
+    bar.innerHTML='<h3>Тестовые события</h3>'+bankGroup('SEPA')+bankGroup('SWIFT')+
+      '<details class="pv-group" id="pv-group-sbp"><summary>СБП</summary><div class="pv-group-actions">'+
+      '<button type="button" id="pv-sbp-ok">Пополнение · Успех</button>'+
+      '<button type="button" id="pv-sbp-fail">Пополнение · Ошибка</button></div></details>'+
+      '<details class="pv-group" id="pv-group-crypto"><summary>USDT / USDC</summary><div class="pv-group-actions">'+
+      '<button type="button" id="pv-deposit-ok">USDT · Зачислено</button>'+
+      '<button type="button" id="pv-deposit-review">USDT · На проверке</button>'+
+      '<button type="button" id="pv-usdc-ok">USDC · Зачислено</button>'+
+      '<button type="button" id="pv-usdc-review">USDC · На проверке</button></div></details>'+
+      '<details class="pv-group" id="pv-group-other"><summary>ALT.VU и прочее</summary><div class="pv-group-actions">'+
+      '<button type="button" id="pv-internal-ok">ALT.VU · Входящий перевод</button>'+
+      '<label>Следующий результат обычного вывода<select id="pv-outcome">'+
       '<option value="success">Успех</option><option value="failed">Ошибка</option>'+
       '<option value="pending">В обработке</option></select></label>'+
-      '<button id="pv-deposit-ok">Пополнение: успех</button>'+
-      '<button id="pv-deposit-review">Пополнение: проверка</button>'+
-      '<button id="pv-internal-ok">ALT.VU: входящий перевод</button>'+
-      '<button id="pv-sbp-ok">СБП callback: успех</button>'+
-      '<button id="pv-sbp-fail">СБП callback: ошибка</button>'+
-      '<details style="margin:6px 0"><summary>Банк SEPA/SWIFT · callback</summary>'+
-      '<button id="pv-bank-ok">Банк: успех</button>'+
-      '<button id="pv-bank-failed">Банк: ошибка</button>'+
-      '<button id="pv-bank-held">Банк: на проверке</button>'+
-      '<button id="pv-bank-pending">Банк: в обработке</button></details>'+
-      '<button id="pv-open-last">Детали последней операции</button>'+
-      '<small>Только локальный UX-макет. Платежи не отправляются.</small>';
+      '<button type="button" id="pv-open-last">Детали последней операции</button></div></details>'+
+      '<small>Локальные демонстрационные события. Платежи не отправляются.</small>';
     document.body.appendChild(bar);
+    bar.querySelectorAll('[data-pv-bank]').forEach(button=>{
+      button.addEventListener('click',()=>qaBankEvent(
+        button.dataset.pvBank,button.dataset.pvFlow,button.dataset.pvEvent));
+    });
     bar.querySelector('#pv-outcome').onchange=e=>{nextOutcome=e.target.value;};
-    bar.querySelector('#pv-deposit-ok').onclick=()=>depositCallback('credited');
-    bar.querySelector('#pv-deposit-review').onclick=()=>depositCallback('review');
-    bar.querySelector('#pv-internal-ok').onclick=()=>internalDepositCallback();
-    bar.querySelector('#pv-sbp-ok').onclick=()=>sbpCallback('ok');
-    bar.querySelector('#pv-sbp-fail').onclick=()=>sbpCallback('fail');
-    bar.querySelector('#pv-bank-ok').onclick=()=>bankCallback('success');
-    bar.querySelector('#pv-bank-failed').onclick=()=>bankCallback('failed');
-    bar.querySelector('#pv-bank-held').onclick=()=>bankCallback('held');
-    bar.querySelector('#pv-bank-pending').onclick=()=>bankCallback('pending');
-    bar.querySelector('#pv-open-last').onclick=()=>openOp(data['/operations'].operations[0]);
+    bar.querySelector('#pv-deposit-ok').onclick=()=>qaCryptoDeposit('USDT','credited');
+    bar.querySelector('#pv-deposit-review').onclick=()=>qaCryptoDeposit('USDT','review');
+    bar.querySelector('#pv-usdc-ok').onclick=()=>qaCryptoDeposit('USDC','credited');
+    bar.querySelector('#pv-usdc-review').onclick=()=>qaCryptoDeposit('USDC','review');
+    bar.querySelector('#pv-internal-ok').onclick=()=>{qaCloseTransient();internalDepositCallback();};
+    bar.querySelector('#pv-sbp-ok').onclick=()=>qaSbpEvent('ok');
+    bar.querySelector('#pv-sbp-fail').onclick=()=>qaSbpEvent('fail');
+    bar.querySelector('#pv-open-last').onclick=()=>{
+      qaCloseTransient();openOp(data['/operations'].operations[0]);
+    };
   }
   qa();
 })();

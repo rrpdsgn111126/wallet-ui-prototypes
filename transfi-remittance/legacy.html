@@ -1395,5 +1395,30 @@ if(tfQuery.get('capture')==='1'){
     uxOpenPicker(examplePicker);
   }
 }
+// Isolated QA entry. Use the actual bank status screens and existing callback;
+// test-only fictional prerequisites replace the manual form-entry sequence.
+const tfQAEvent=tfQuery.get('qa-event');
+if(tfQuery.get('capture')==='1'&&tfQuery.get('embedded')==='1'&&
+   ['SEPA','SWIFT'].includes(queryRail)){
+  if(S.flow==='out'&&['pending','success','failed','held'].includes(tfQAEvent)){
+    Object.assign(S,{amount:'100',recipientName:'Тестовый получатель',
+      iban:'DE00 0000 0000 0000 0000 00',account:'000000000000',
+      bic:'DEMOXXXX',bank:'Demo International Bank',purpose:'personal',
+      outRail:queryRail,outCurrency:queryRail==='SWIFT'?'GBP':'EUR',
+      country:queryRail==='SWIFT'?'GB':'DE',
+      bankDemoId:'tf-bank-'+Date.now()+'-'+Math.floor(Math.random()*100000)});
+    go('out-progress');
+    uxBankEmit('pending');
+    if(tfQAEvent!=='pending')uxBankCallback(tfQAEvent);
+  }else if(S.flow==='in'){
+    const screens={details:'in-details',pending:'in-pending',
+      success:'in-success',held:'in-held'};
+    if(screens[tfQAEvent]){
+      S.inRail=queryRail;
+      S.inCurrency=queryRail==='SWIFT'?'GBP':'EUR';
+      go(screens[tfQAEvent]);
+    }
+  }
+}
 </script>
 </body></html>
