@@ -56,7 +56,7 @@ async def test_all_rails(browser, origin):
 async def test_close_notification_sheet_and_reopen(browser, origin):
     context, page, errors = await fresh_page(browser, origin)
     await page.locator('#tfv-page [data-tfv="send"]').click()
-    await page.locator('#tfv-page [data-tfv="close"]').click()
+    await page.locator('#tfv-foot [data-tfv="close"]').click()
     await expect(page.locator("#tfv-page")).to_be_hidden()
     await page.evaluate("tfVerificationQA.setStatus('approved')")
     await expect(page.locator("#tfv-sheet")).to_be_visible()
