@@ -16,6 +16,9 @@ const css=[
 '#tfv-page[hidden],#tfv-sheet[hidden]{display:none!important}',
 '#tfv-page .head{flex:0 0 auto}',
 '#tfv-page .head .back{border:0;cursor:pointer}',
+'#tfv-head .h1{flex:1 1 auto;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}',
+'#tfv-head .hacts{flex:0 0 auto;margin-left:auto}',
+'#tfv-head .ha{appearance:none;padding:0;border:0;cursor:pointer}',
 '#tfv-body{flex:1 1 auto;min-height:0;overflow-y:auto;padding:16px 16px 0;overscroll-behavior:contain}',
 '#tfv-body{position:relative;z-index:1}',
 '#tfv-body .tfv-status-hero{padding:36px 8px 0}',
@@ -51,7 +54,7 @@ page.style.setProperty('--t-op','.42');
 page.style.setProperty('--t-blur','26px');
 page.style.setProperty('--t-h','300px');
 page.style.setProperty('--t-mask','linear-gradient(180deg,#000 0%,#000 46%,transparent 100%)');
-page.innerHTML='<div class="tint" aria-hidden="true"></div><header id="tfv-head" class="head"><button type="button" class="back" data-tfv="close" aria-label="Назад"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 5-7 7 7 7"/></svg></button><div class="h1">Подтверждение почты</div></header><main id="tfv-body" class="wrap tight"></main><footer id="tfv-foot" class="foot"></footer>';phone.appendChild(page);
+page.innerHTML='<div class="tint" aria-hidden="true"></div><header id="tfv-head" class="head hic"><button type="button" class="back" data-tfv="close" aria-label="Назад"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 5-7 7 7 7"/></svg></button><div class="h1">Подтверждение почты</div><div class="hacts"><button type="button" class="ha" data-go="notes" aria-label="Уведомления"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 8.5a6 6 0 1 0-12 0c0 6-2.2 7.5-2.2 7.5h16.4S18 14.5 18 8.5Z"/><path d="M13.7 19.5a2 2 0 0 1-3.4 0"/></svg></button><button type="button" class="ha" data-go="support" aria-label="Поддержка"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 11.6a7.9 7.9 0 0 1-8.5 7.9 9 9 0 0 1-3.2-.6L3.5 20.5l1.6-4.8A7.6 7.6 0 0 1 4 11.6C4 7.2 7.7 3.7 12.3 3.7s8.2 3.5 8.2 7.9Z"/></svg></button></div></header><main id="tfv-body" class="wrap tight"></main><footer id="tfv-foot" class="foot"></footer>';phone.appendChild(page);
 const sheet=document.createElement('div');sheet.id='tfv-sheet';sheet.hidden=true;
 sheet.innerHTML='<div class="dim tfv-dim" data-tfv="dismiss"></div><section class="sheet tfv-panel" role="dialog" aria-modal="true" aria-label="Международные переводы доступны"><div class="grab"></div><div class="hero sbp-out tfv-notice-copy"><div class="okc" aria-hidden="true"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--n850)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 5 5 9-10"/></svg></div><div class="h2">Международные переводы доступны</div><p class="p">Проверка завершена</p></div><button type="button" class="btn tfv-btn" data-tfv="continue">Продолжить</button></section>';phone.appendChild(sheet);
 function button(text,action,variant,disabled){return '<button type="button" class="'+(['alt','text'].includes(variant)?'btno':'btn')+' tfv-btn '+(variant||'')+'" data-tfv="'+action+'"'+(disabled?' disabled':'')+'>'+text+'</button>'}
@@ -194,6 +197,9 @@ function action(which){
  if(which==='notice'){s.noticeRead=true;save();updateNotes();if(s.status==='approved')proceed();else{render();page.hidden=false;emitState()}}
 }
 phone.addEventListener('click',function(e){
+ // Native data-go performs navigation and afterShow; first dismiss our overlay.
+ // Keep data-go so the wallet's existing paintBadges() updates both icon counters.
+ if(!page.hidden&&e.target.closest('#tfv-head .ha[data-go]')){close();return}
  const a=e.target.closest('[data-tfv]');if(a){e.preventDefault();action(a.dataset.tfv)}
  if(e.target.closest('[data-act="notes-read"]')&&s.notice&&!s.noticeRead){s.noticeRead=true;save();setTimeout(updateNotes,0)}
 },true);

@@ -32,6 +32,9 @@ async def fresh_page(browser, origin, flow="in", rail="SEPA"):
     await page.goto(origin + "/transfi-remittance/?" + q)
     await expect(page.locator("#tfv-page")).to_be_visible(timeout=30000)
     await expect(page.locator("#tfv-head .h1")).to_have_text("Подтверждение почты")
+    await expect(page.locator("#tfv-head.hic .hacts")).to_be_visible()
+    assert await page.locator('#tfv-head .ha[data-go="notes"]').count() == 1
+    assert await page.locator('#tfv-head .ha[data-go="support"]').count() == 1
     return context, page, errors
 
 
@@ -174,6 +177,57 @@ async def test_library_components_and_copy(browser, origin):
                               animations="disabled")
         assert not errors, errors
         await context.close()
+
+
+async def test_header_actions(browser, origin):
+    """The email gate reuses the source header icons and native navigation."""
+    for width in (390, 430, 1440):
+        context, page, errors = await fresh_page(browser, origin)
+        await page.set_viewport_size({"width": width, "height": 900})
+        header = page.locator("#tfv-head")
+        notes = header.locator('.ha[data-go="notes"]')
+        support = header.locator('.ha[data-go="support"]')
+        title = header.locator(".h1")
+        for control in (notes, support):
+            await expect(control).to_be_visible()
+            rect = await control.bounding_box()
+            assert rect and round(rect["width"]) == 40 and round(rect["height"]) == 40
+            assert await control.locator("svg").get_attribute("width") == "22"
+        title_rect = await title.bounding_box()
+        notes_rect = await notes.bounding_box()
+        assert title_rect and notes_rect and title_rect["x"] + title_rect["width"] <= notes_rect["x"] + 1
+
+        # Native badge-painting also covers the new navbar, without a separate counter.
+        await page.evaluate("paintBadges(2,1)")
+        await expect(notes.locator(".dot")).to_have_text("2")
+        await expect(support.locator(".dot")).to_have_text("1")
+
+        # All non-final verification states preserve the same navbar.
+        for status in ("initiated", "verified", "manual_review"):
+            await page.evaluate("(status) => tfVerificationQA.setStatus(status)", status)
+            await expect(notes).to_be_visible()
+            await expect(support).to_be_visible()
+
+        await notes.click()
+        await expect(page.locator("#tfv-page")).to_be_hidden()
+        await expect(page.locator("#v-notes.on")).to_be_visible()
+        await page.evaluate("tfVerificationQA.openSelected()")
+        await expect(page.locator("#tfv-page")).to_be_visible()
+        await support.click()
+        await expect(page.locator("#tfv-page")).to_be_hidden()
+        await expect(page.locator("#v-support.on")).to_be_visible()
+        assert not errors, (width, errors)
+        await context.close()
+
+    # The design system publishes an additional variant, not a duplicate component.
+    context = await browser.new_context(viewport={"width": 430, "height": 900})
+    page = await context.new_page()
+    for variant in ("#light", "#dark"):
+        await page.goto(origin + "/components/head.html" + variant)
+        section = page.locator(".ds-st").filter(has=page.locator(".ds-lab", has_text="Уведомления и поддержка"))
+        await expect(section.locator('.head.hic .ha[data-go="notes"]')).to_be_visible()
+        await expect(section.locator('.head.hic .ha[data-go="support"]')).to_be_visible()
+    await context.close()
 
 
 async def test_external_qa_panel(browser, origin):
@@ -353,6 +407,7 @@ async def main():
                 await test_close_notification_sheet_and_reopen(browser, origin)
                 await test_manual_review_and_rejection(browser, origin)
                 await test_library_components_and_copy(browser, origin)
+                await test_header_actions(browser, origin)
                 await test_external_qa_panel(browser, origin)
                 await test_approval_sheet_continue(browser, origin)
                 await test_qa_panel_mobile_hidden(browser, origin)
