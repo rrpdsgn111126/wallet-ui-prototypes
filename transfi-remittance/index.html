@@ -18552,7 +18552,7 @@ pilotInit();
   const q=new URLSearchParams(location.search);
   if(q.get('flow')==='in'||q.get('flow')==='out'){
     const rail=q.get('rail')==='SWIFT'?'SWIFT':'SEPA';
-    setTimeout(()=>window.tfOpenBank(rail,q.get('flow')),0);
+    window.__tfInitialBank={rail:rail,flow:q.get('flow')};
   }
 })();
 </script><script src="./transfi-verification.js?v=3"></script><script src="./transfi-qa-panel.js?v=2"></script></body></html>
