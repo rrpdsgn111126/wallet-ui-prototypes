@@ -69,6 +69,7 @@ async def test_close_notification_sheet_and_reopen(browser, origin):
     await page.evaluate("show('notes')")
     await expect(page.locator("#v-notes.on")).to_be_visible()
     await expect(page.locator(".tfv-note")).to_contain_text("Проверка завершена")
+    await expect(page.locator(".tfv-note")).to_contain_text("Международные переводы доступны")
     await page.locator(".tfv-note").click()
     await expect(page.locator("#tf-bank-overlay")).to_be_visible()
     await page.reload()
@@ -230,7 +231,28 @@ async def test_external_qa_panel(browser, origin):
     await page.locator("#tfqa-notify").click()
     await expect(page.locator("#tfv-page")).to_be_hidden()
     await expect(page.locator("#tfv-sheet")).to_be_visible()
-    await expect(page.locator("#tfv-sheet")).to_contain_text("Проверка завершена")
+    await expect(page.locator("#tfv-sheet .tfv-notice-copy .h2")).to_have_text("Проверка завершена")
+    await expect(page.locator("#tfv-sheet .tfv-notice-copy .p")).to_have_text(
+        "Международные переводы доступны"
+    )
+    # Reference: UI Kit > Статусы и сообщения > Перевод выполнен.
+    reference = await browser.new_page()
+    await reference.goto(origin + "/components/bankstatus.html?screen=out-success")
+    reference_title = reference.frame_locator("#bank-screen").locator(".hero.sbp-out .h2")
+    reference_subtitle = reference.frame_locator("#bank-screen").locator(".hero.sbp-out .p")
+    await expect(reference_title).to_be_visible()
+    await expect(reference_subtitle).to_be_visible()
+    styles = """el => {const s=getComputedStyle(el);return {
+        size:s.fontSize,weight:s.fontWeight,height:s.lineHeight,color:s.color,align:s.textAlign
+    }}"""
+    for selector, specimen in (
+        ("#tfv-sheet .tfv-notice-copy .h2", reference_title),
+        ("#tfv-sheet .tfv-notice-copy .p", reference_subtitle),
+    ):
+        actual_style = await page.locator(selector).evaluate(styles)
+        expected_style = await specimen.evaluate(styles)
+        assert actual_style == expected_style, (selector, actual_style, expected_style)
+    await reference.close()
     # The native .dim must be behind the .sheet; buttons must be hit-testable.
     stacking = await page.evaluate("""() => {
         const layer=document.getElementById('tfv-sheet');
