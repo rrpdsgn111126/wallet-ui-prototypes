@@ -558,10 +558,12 @@ async def assert_bank_history_bridge(browser,origin):
     errors=[]
     page.on("pageerror",lambda err:errors.append(str(err)))
     await page.goto(origin+"/transfi-remittance/?qa=1&flow=out&rail=SEPA")
+    await page.wait_for_function("() => !!window.tfVerificationQA")
+    # This regression is about the bank operation bridge, not first-use email verification.
+    await page.evaluate("() => {tfVerificationQA.setScenarioStatus('approved');tfOpenBank('SEPA','out')}")
     await expect(page.locator("#tf-bank-overlay iframe")).to_be_visible(timeout=30000)
     child=page.frame_locator("#tf-bank-overlay iframe")
     await expect(child.locator("#tf-out-amount")).to_be_visible(timeout=15000)
-    await page.locator("#pv-qa").evaluate("(el) => el.style.display='none'")
     await child.locator("#tf-out-amount").fill("100")
     await child.locator(".tf-foot .btn").click()
     await child.locator("#f-recipientName").fill("Иван Иванов")
@@ -572,13 +574,12 @@ async def assert_bank_history_bridge(browser,origin):
     await expect(child.locator(".tf-bank-wait")).to_be_visible()
     await page.wait_for_function("""() => PV.data['/operations'].operations.some(
        x=>String(x.id).startsWith('tf-bank-')&&x.status==='queued')""",timeout=10000)
-    await page.locator("#pv-qa").evaluate("(el) => el.style.display='block'")
-    await page.locator("#pv-qa details summary").click()
-    await page.locator("#pv-bank-ok").click()
+    # The original wallet callback is preserved inside the desktop-only Events tab.
+    # On mobile, trigger the same DOM handler without revealing tester controls.
+    await page.evaluate("() => document.getElementById('pv-bank-ok').click()")
     await expect(child.locator(".tf-bank-result .h2")).to_have_text("Перевели 92,59 EUR")
     await page.wait_for_function("""() => PV.data['/operations'].operations.some(
        x=>String(x.id).startsWith('tf-bank-')&&x.status==='confirmed')""",timeout=10000)
-    await page.locator("#pv-qa").evaluate("(el) => el.style.display='none'")
     await child.locator(".tf-foot .btno").click()
     await expect(page.locator("#tf-bank-overlay")).to_be_hidden()
     await expect(page.locator("#v-details.on")).to_be_visible()
