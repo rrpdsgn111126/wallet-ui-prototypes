@@ -42,7 +42,7 @@ const css=[
 ].join('\n');
 const style=document.createElement('style');style.id='tfv-css';style.textContent=css;document.head.appendChild(style);
 const page=document.createElement('section');page.id='tfv-page';page.hidden=true;page.setAttribute('aria-label','Подтверждение email');
-page.innerHTML='<header id="tfv-head" class="head"><button type="button" data-tfv="close" aria-label="Назад">‹</button><span>Подтверждение email</span></header><main id="tfv-body"></main>';phone.appendChild(page);
+page.innerHTML='<header id="tfv-head" class="head"><button type="button" data-tfv="close" aria-label="Назад">‹</button><span>Подтверждение почты</span></header><main id="tfv-body"></main>';phone.appendChild(page);
 const sheet=document.createElement('div');sheet.id='tfv-sheet';sheet.hidden=true;
 sheet.innerHTML='<div class="dim tfv-dim" data-tfv="dismiss"></div><section class="sheet tfv-panel" role="dialog" aria-modal="true" aria-label="Проверка завершена"><div class="grab"></div><h2>Проверка завершена</h2><p>Банковские переводы SEPA и SWIFT доступны</p><button type="button" class="btn tfv-btn" data-tfv="continue">Продолжить</button><button type="button" class="btno tfv-btn alt" data-tfv="dismiss">Позже</button></section>';phone.appendChild(sheet);
 function button(text,action,variant,disabled){return '<button type="button" class="'+(variant==='alt'?'btno':'btn')+' tfv-btn '+(variant||'')+'" data-tfv="'+action+'"'+(disabled?' disabled':'')+'>'+text+'</button>'}
@@ -58,7 +58,7 @@ return '<div class="tfv-hero"><div class="tfv-icon '+(cls||'')+'" aria-hidden="t
 }
 function canRequest(){return !s.windowStart||Date.now()-s.windowStart>=600000||s.requests<3}
 function render(){
- const address='<div class="box tfv-card"><div class="tfv-caption">Email для подтверждения</div><div class="tfv-value">'+safe(emailLabel())+'</div></div>';
+ const address='<div class="box tfv-card"><div class="tfv-caption">Адрес почты</div><div class="tfv-value">'+safe(emailLabel())+'</div></div>';
  let html='';
  if(s.status==='idle')html=hero('✉','','Подтвердите адрес почты, чтобы пользоваться банковскими переводами')+address+'<div class="tfv-info">После подтверждения мы проверим доступность переводов</div>'+button('Отправить письмо','send')+button('Позже','close','alt');
  else if(s.status==='initiated'){const expired=Date.now()-s.requestedAt>=600000;html=hero('✉',expired?'Срок действия ссылки истёк':'Проверьте почту',expired?'Отправьте новую ссылку для подтверждения':'Перейдите по ссылке в письме. Статус обновится автоматически')+address+'<div class="tfv-info">Ссылка действует 10 минут. Проверку можно продолжить позже</div>'+button(expired?'Отправить новую ссылку':'Отправить ещё раз','send','alt',!canRequest())+button('В кошелёк','close','text')+(!canRequest()?'<p class="tfv-desc" style="text-align:center">Превышен лимит отправок. Попробуйте позже</p>':'')}
@@ -72,7 +72,7 @@ function render(){
 function requestLink(){
  if(!canRequest())return;
  if(!s.windowStart||Date.now()-s.windowStart>=600000){s.windowStart=Date.now();s.requests=0}
- s.requests++;s.requestedAt=Date.now();s.status='initiated';save();render();
+ s.requests++;s.requestedAt=Date.now();s.status='initiated';save();render();emitState();
 }
 function noticeInfo(){return {approved:['Проверка завершена','Банковские переводы SEPA и SWIFT доступны','Продолжить'],manual_review:['Проверка продолжается','Нужна дополнительная проверка','Посмотреть статус'],rejected:['Проверка не пройдена','Банковские переводы недоступны','Посмотреть статус']}[s.notice]}
 function syncNotice(){
@@ -135,10 +135,10 @@ function action(which){
  if(which==='close')return close();
  if(which==='send')return requestLink();
  if(which==='continue')return proceed();
- if(which==='dismiss'){sheet.hidden=true;return}
- if(which==='retry'){s.status=s.requestedAt?'initiated':'idle';save();return render()}
+ if(which==='dismiss'){sheet.hidden=true;emitState();return}
+ if(which==='retry'){s.status=s.requestedAt?'initiated':'idle';save();render();emitState();return}
  if(which==='support'){close();if(typeof show==='function')show('support');return}
- if(which==='notice'){s.noticeRead=true;save();updateNotes();if(s.status==='approved')proceed();else{render();page.hidden=false}}
+ if(which==='notice'){s.noticeRead=true;save();updateNotes();if(s.status==='approved')proceed();else{render();page.hidden=false;emitState()}}
 }
 phone.addEventListener('click',function(e){
  const a=e.target.closest('[data-tfv]');if(a){e.preventDefault();action(a.dataset.tfv)}
