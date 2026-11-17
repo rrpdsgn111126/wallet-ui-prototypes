@@ -43,8 +43,7 @@ async def test_all_rails(browser, origin):
         await expect(page.locator("#tfv-body .sbp-wait .h2")).to_have_text("Подтвердите почту")
         await page.evaluate("tfVerificationQA.setStatus('verified')")
         await expect(page.locator("#tfv-body .sbp-wait .h2")).to_have_text("Проверяем данные")
-        await page.screenshot(path=str(shots / f"wallet-screening-waiting-{width}.png"),
-                              animations="disabled")
+
         await page.evaluate("tfVerificationQA.setStatus('approved')")
         await expect(page.locator("#tfv-body .hero .h2")).to_have_text("Проверка завершена")
         await page.locator('#tfv-page [data-tfv="continue"]').click()
@@ -145,6 +144,8 @@ async def test_library_components_and_copy(browser, origin):
                               animations="disabled")
         await page.evaluate("tfVerificationQA.setStatus('verified')")
         await expect(page.locator("#tfv-body .sbp-wait .h2")).to_have_text("Проверяем данные")
+        await page.screenshot(path=str(shots / f"wallet-screening-waiting-{width}.png"),
+                              animations="disabled")
         await page.evaluate("tfVerificationQA.setStatus('approved')")
         await expect(page.locator("#tfv-body .hero.sbp-out .okc svg")).to_be_visible()
         assert await page.locator("#tfv-body .okc svg path").get_attribute("d") == "m5 12.5 5 5 9-10"
