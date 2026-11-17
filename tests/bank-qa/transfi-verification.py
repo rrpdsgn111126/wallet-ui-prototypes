@@ -87,6 +87,62 @@ async def test_manual_review_and_rejection(browser, origin):
     await context.close()
 
 
+async def test_external_qa_panel(browser, origin):
+    page = await browser.new_page(viewport={"width": 1440, "height": 900},
+                                  reduced_motion="reduce")
+    errors = []
+    page.on("pageerror", lambda exc: errors.append(str(exc)))
+    await page.goto(origin + "/transfi-remittance/?qa=1")
+    panel = page.locator("#tf-qa-panel")
+    await expect(panel).to_be_visible(timeout=30000)
+    assert await page.locator("#tfv-qa").count() == 0, "Old QA selector inside wallet must be removed"
+    phone_box = await page.locator("body > .phone").bounding_box()
+    panel_box = await panel.bounding_box()
+    assert phone_box and panel_box and panel_box["x"] > phone_box["x"] + phone_box["width"], (
+        "QA controls must be outside the phone preview", phone_box, panel_box
+    )
+
+    # The approved state is a fixture setup: no notification and no extra verification screen.
+    await page.locator("#tfqa-flow").select_option("out")
+    await page.locator("#tfqa-rail").select_option("SWIFT")
+    await page.locator("#tfqa-status").select_option("approved")
+    assert await page.evaluate("tfVerificationQA.getState().notice") == ""
+    await page.locator("#tfqa-open").click()
+    await expect(page.locator("#tf-bank-overlay")).to_be_visible()
+    await expect(page.locator("#tfv-page")).to_be_hidden()
+    await expect(page.frame_locator("#tf-bank-overlay iframe")
+                 .locator(".phone.tf-phone > .head .h1")).to_contain_text("SWIFT")
+
+    # Return to the unverified state and check the normal email-gate UI.
+    await page.locator("#tfqa-status").select_option("idle")
+    await page.locator("#tfqa-open").click()
+    await expect(page.locator("#tfv-page")).to_be_visible()
+    await expect(page.locator("#tfv-page .tfv-title")).to_have_count(0)
+
+    # A separate action simulates an incoming approval, not just setting the starting fixture.
+    await page.locator("#tfqa-notify").click()
+    await expect(page.locator("#tfv-page")).to_be_hidden()
+    await expect(page.locator("#tfv-sheet")).to_be_visible()
+    await expect(page.locator("#tfv-sheet")).to_contain_text("Проверка завершена")
+    await page.locator('#tfv-sheet [data-tfv="dismiss"]').last.click()
+    await expect(page.locator("#tfv-sheet")).to_be_hidden()
+
+    await page.evaluate("show('notes')")
+    await expect(page.locator(".tfv-note")).to_contain_text("Проверка завершена")
+    await page.locator("#tfqa-reset").click()
+    assert await page.evaluate("tfVerificationQA.getState().status") == "idle"
+    assert not errors, errors
+    await page.close()
+
+
+async def test_qa_panel_mobile_hidden(browser, origin):
+    for width in (390, 430):
+        page = await browser.new_page(viewport={"width": width, "height": 932})
+        await page.goto(origin + "/transfi-remittance/?qa=1")
+        await expect(page.locator("#tf-qa-panel")).to_be_hidden()
+        await page.close()
+
+
 async def main():
     server = ThreadingHTTPServer(("127.0.0.1", 0), partial(Quiet, directory=str(ROOT)))
     thread = Thread(target=server.serve_forever, daemon=True)
@@ -99,6 +155,8 @@ async def main():
                 await test_all_rails(browser, origin)
                 await test_close_notification_sheet_and_reopen(browser, origin)
                 await test_manual_review_and_rejection(browser, origin)
+                await test_external_qa_panel(browser, origin)
+                await test_qa_panel_mobile_hidden(browser, origin)
             finally:
                 await browser.close()
     finally:
