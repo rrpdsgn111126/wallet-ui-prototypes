@@ -110,6 +110,9 @@ for(const viewport of [{width:390,height:844},{width:430,height:932},{width:1440
  if(!await page.locator('#v-topup [data-tf-bank="SEPA"]').isVisible())throw new Error('SEPA missing in topup sheet');
  if(!await page.locator('#v-topup [data-go="dep-usdt-tron"]').isVisible())throw new Error('Original USDT method missing');
  if(!await page.locator('#v-topup [data-go="dep-usdc-polygon"]').isVisible())throw new Error('Original USDC method missing');
+ // Source UI parity checks the existing bank screens after provider onboarding.
+ // First-use email gating is covered separately by tests/bank-qa/transfi-verification.py.
+ await page.evaluate(()=>tfVerificationQA.setScenarioStatus('approved'));
  await page.locator('#v-topup [data-tf-bank="SEPA"]').click();
  await page.waitForTimeout(300);
  if(!await page.locator('#tf-bank-overlay').isVisible())throw new Error('SEPA overlay missing');
