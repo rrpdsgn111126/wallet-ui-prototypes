@@ -40,9 +40,9 @@ async def test_all_rails(browser, origin):
                        ("SEPA", "out"), ("SWIFT", "out")):
         context, page, errors = await fresh_page(browser, origin, flow, rail)
         await page.locator('#tfv-page [data-tfv="send"]').click()
-        await expect(page.locator("#tfv-body .hero .h2")).to_have_text("Проверьте почту")
+        await expect(page.locator("#tfv-body .sbp-wait .h2")).to_have_text("Подтвердите почту")
         await page.evaluate("tfVerificationQA.setStatus('verified')")
-        await expect(page.locator("#tfv-body .hero .h2")).to_have_text("Проверяем данные")
+        await expect(page.locator("#tfv-body .sbp-wait .h2")).to_have_text("Проверяем данные")
         await page.evaluate("tfVerificationQA.setStatus('approved')")
         await expect(page.locator("#tfv-body .hero .h2")).to_have_text("Проверка завершена")
         await page.locator('#tfv-page [data-tfv="continue"]').click()
@@ -85,6 +85,64 @@ async def test_manual_review_and_rejection(browser, origin):
     await expect(page.locator("#tfv-page")).to_be_hidden()
     assert not errors, errors
     await context.close()
+
+
+async def test_library_components_and_copy(browser, origin):
+    """Compare live verification states with components/fld.html and done.html."""
+    for width in (390, 430):
+        context, page, errors = await fresh_page(browser, origin)
+        await page.set_viewport_size({"width": width, "height": 932})
+        # Input reference uses a gray .fld.g and non-editable text (not an input).
+        await expect(page.locator("#tfv-body .fld.g.tfv-email")).to_be_visible()
+        assert await page.locator("#tfv-body .tfv-email input").count() == 0
+        await expect(page.locator("#tfv-body .tfv-email .fl i")).to_have_text("Адрес почты")
+        await expect(page.locator("#tfv-body .tfv-email .fl b")).to_contain_text("@")
+        await expect(page.locator("#tfv-body .tfv-email .fi svg")).to_be_visible()
+        await expect(page.locator("#tfv-body .hero .p")).to_have_text(
+            "Подтвердите адрес почты, чтобы воспользоваться международными переводами"
+        )
+        assert await page.get_by_text(
+            "После подтверждения мы проверим доступность переводов"
+        ).count() == 0
+
+        # Compare actual computed tokens against the native component specimen.
+        specimen = await context.new_page()
+        await specimen.goto(origin + "/components/fld.html")
+        expected = await specimen.locator(".fld.g").evaluate("""el => ({
+            bg:getComputedStyle(el).backgroundColor,
+            height:getComputedStyle(el).minHeight,
+            radius:getComputedStyle(el).borderRadius
+        })""")
+        actual = await page.locator("#tfv-body .fld.g.tfv-email").evaluate("""el => ({
+            bg:getComputedStyle(el).backgroundColor,
+            height:getComputedStyle(el).minHeight,
+            radius:getComputedStyle(el).borderRadius
+        })""")
+        assert actual["bg"] == expected["bg"], (actual, expected)
+        assert actual["radius"] == expected["radius"], (actual, expected)
+        assert await page.locator("#tfv-page .tint").count() == 1
+        await specimen.close()
+
+        await page.locator('#tfv-page [data-tfv="send"]').click()
+        await expect(page.locator("#tfv-body .sbp-wait .h2")).to_have_text("Подтвердите почту")
+        await expect(page.locator("#tfv-body .sbp-wait .p")).to_have_text(
+            "Перейдите по ссылке в письме, отправленном на ваш адрес. Ссылка действует 10 минут"
+        )
+        assert await page.locator("#tfv-body .sbp-wait .ring .in .cn svg").count() == 1
+        assert await page.locator("#tfv-body .sbp-wait .ring").evaluate(
+            "el => Math.round(el.getBoundingClientRect().width)"
+        ) == 108
+        await expect(page.locator("#tfv-body .fld.g.tfv-email")).to_be_visible()
+        await page.evaluate("tfVerificationQA.setStatus('verified')")
+        await expect(page.locator("#tfv-body .sbp-wait .h2")).to_have_text("Проверяем данные")
+        await page.evaluate("tfVerificationQA.setStatus('approved')")
+        await expect(page.locator("#tfv-body .hero.sbp-out .okc svg")).to_be_visible()
+        assert await page.locator("#tfv-body .okc svg path").get_attribute("d") == "m5 12.5 5 5 9-10"
+        await page.evaluate("tfVerificationQA.setStatus('rejected')")
+        await expect(page.locator("#tfv-body .hero.sbp-out .sbp-ic svg")).to_be_visible()
+        assert await page.locator("#tfv-body .sbp-ic svg path").first.get_attribute("d") == "M7 7l10 10M17 7 7 17"
+        assert not errors, errors
+        await context.close()
 
 
 async def test_external_qa_panel(browser, origin):
@@ -180,6 +238,7 @@ async def main():
                 await test_all_rails(browser, origin)
                 await test_close_notification_sheet_and_reopen(browser, origin)
                 await test_manual_review_and_rejection(browser, origin)
+                await test_library_components_and_copy(browser, origin)
                 await test_external_qa_panel(browser, origin)
                 await test_qa_panel_mobile_hidden(browser, origin)
             finally:
