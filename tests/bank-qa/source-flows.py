@@ -38,7 +38,8 @@ async def test_source(browser, origin):
     page.on("pageerror",lambda exc:errors.append(str(exc)))
     await page.goto(origin+"/transfi-remittance/?qa=1")
     await expect(page.locator("#v-home.on")).to_be_visible(timeout=30000)
-    await expect(page.locator("#pv-qa")).to_be_visible()
+    await expect(page.locator("#tf-qa-panel #pv-qa")).to_have_count(1)
+    await expect(page.locator("#tf-qa-panel")).to_be_hidden()  # Desktop-only QA
     await expect(page.locator("#v-home .op[data-id]")).to_have_count(5)
 
     # Four fixed bank transaction examples on the original home history:
@@ -158,7 +159,7 @@ async def test_source(browser, origin):
     # Original crypto deposit screen obtains an offline, visibly dummy address.
     await open_source(page,"dep-usdt-tron")
     await expect(page.locator("#v-dep-usdt-tron .dep-addr")).to_contain_text("DEMO_ONLY")
-    await page.locator("#pv-deposit-ok").click()
+    await page.evaluate("() => document.getElementById('pv-deposit-ok').click()")
     await expect(page.locator("#v-details.on")).to_be_visible()
     await expect(page.locator("#d-amt")).to_contain_text("+100")
 
@@ -175,7 +176,7 @@ async def test_source(browser, origin):
 
     # Failure uses the original withdrawal review and an explicit preview-only
     # failure state (real transactions are never submitted).
-    await page.locator("#pv-outcome").select_option("failed")
+    await page.evaluate("""() => {const e=document.getElementById('pv-outcome');e.value='failed';e.dispatchEvent(new Event('change',{bubbles:true}))}""")
     await open_source(page,"out-usdt-tron")
     await root.locator(".wd-addr").fill("TDEMOONLYPLACEHOLDERFORCRYPTOOUT00002")
     await root.locator(".wd-amt").fill("20.00")
@@ -184,7 +185,7 @@ async def test_source(browser, origin):
     await page.locator("#wdc-go").click()
     await enter_pin(page)
     await expect(page.locator("#v-preview-failed.on")).to_be_visible()
-    await page.locator("#pv-outcome").select_option("success")
+    await page.evaluate("""() => {const e=document.getElementById('pv-outcome');e.value='success';e.dispatchEvent(new Event('change',{bubbles:true}))}""")
 
     # Peer transfer to an existing demo user, with native review and success.
     await open_source(page,"transfer")
@@ -205,7 +206,7 @@ async def test_source(browser, origin):
     await page.wait_for_function("() => Boolean(sbp.quote && sbp.bank)",timeout=15000)
     await page.locator("#sbp-go").click()
     await expect(page.locator("#v-dep-sbp-qr.on, #v-dep-sbp-wait.on")).to_be_visible()
-    await page.locator("#pv-sbp-ok").click()
+    await page.evaluate("() => document.getElementById('pv-sbp-ok').click()")
     await expect(page.locator("#v-dep-sbp-out.on")).to_be_visible(timeout=15000)
     assert "Зачислили" in await page.locator("#sbp-o-h").inner_text()
 
