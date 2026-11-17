@@ -20,6 +20,7 @@ const css=[
 '.tfv-hero{text-align:center;padding:0 10px 22px}',
 '.tfv-icon{width:88px;height:88px;display:grid;place-items:center;border-radius:50%;background:var(--brand,#cbf14a);margin:0 auto 24px;font-size:35px}',
 '.tfv-icon.wait{background:#e9ecf0}.tfv-icon.fail{background:#fbe9e4}',
+'.tfv-icon svg{width:36px;height:36px;display:block}',
 '.tfv-title{font-size:26px;line-height:32px;font-weight:600;margin:0 0 10px}',
 '.tfv-desc{font-size:15px;line-height:22px;color:var(--n500,#6b6767);margin:0;overflow-wrap:anywhere}',
 '.tfv-card{background:#fff;border-radius:20px;padding:16px;margin-bottom:12px;box-shadow:0 1px 2px #1615140a}',
@@ -51,7 +52,16 @@ const sheet=document.createElement('div');sheet.id='tfv-sheet';sheet.hidden=true
 sheet.innerHTML='<div class="tfv-dim" data-tfv="dismiss"></div><section class="tfv-panel" role="dialog" aria-modal="true" aria-label="Проверка завершена"><div class="grab"></div><h2>Проверка завершена</h2><p>Теперь вы можете пользоваться банковскими переводами SEPA и SWIFT.</p><button type="button" class="tfv-btn" data-tfv="continue">Продолжить</button><button type="button" class="tfv-btn alt" data-tfv="dismiss">Позже</button></section>';phone.appendChild(sheet);
 if(QA){const qa=document.createElement('div');qa.id='tfv-qa';qa.innerHTML='<div id="tfv-qa-options" hidden><button data-tfv-status="initiated">Письмо отправлено</button><button data-tfv-status="verified">Email подтверждён</button><button data-tfv-status="approved">Проверка одобрена</button><button data-tfv-status="manual_review">Ручная проверка</button><button data-tfv-status="rejected">Отказ</button><button data-tfv-status="error">Ошибка</button><button data-tfv-status="reset">Сброс</button></div><button type="button" id="tfv-qa-main">QA · TransFi</button>';phone.appendChild(qa);qa.querySelector('#tfv-qa-main').addEventListener('click',()=>{const menu=qa.querySelector('#tfv-qa-options');menu.hidden=!menu.hidden})}
 function button(text,action,variant,disabled){return '<button type="button" class="tfv-btn '+(variant||'')+'" data-tfv="'+action+'"'+(disabled?' disabled':'')+'>'+text+'</button>'}
-function hero(icon,title,description,cls){return '<div class="tfv-hero"><div class="tfv-icon '+(cls||'')+'" aria-hidden="true">'+icon+'</div><h1 class="tfv-title">'+title+'</h1><p class="tfv-desc">'+description+'</p></div>'}
+function hero(icon,title,description,cls){
+const icons={
+ '✉':'<rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7 8 6 8-6"/>',
+ '✓':'<path d="m5 12 5 5 9-10"/>',
+ '◷':'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+ '!':'<circle cx="12" cy="12" r="9"/><path d="M12 7v6m0 4h.01"/>'
+};
+const svg='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true">'+(icons[icon]||'')+'</svg>';
+return '<div class="tfv-hero"><div class="tfv-icon '+(cls||'')+'" aria-hidden="true">'+svg+'</div><h1 class="tfv-title">'+title+'</h1><p class="tfv-desc">'+description+'</p></div>'
+}
 function canRequest(){return !s.windowStart||Date.now()-s.windowStart>=600000||s.requests<3}
 function render(){
  const address='<div class="tfv-card"><div class="tfv-caption">Email для подтверждения</div><div class="tfv-value">'+safe(emailLabel())+'</div></div>';
@@ -88,8 +98,8 @@ if(typeof oldNotes==='function')window.renderNotes=function(){const r=oldNotes.a
 const oldBadge=window.paintBadges;
 if(typeof oldBadge==='function')window.paintBadges=function(n,sp){return oldBadge.call(this,(n|0)+(s.notice&&!s.noticeRead?1:0),sp)};
 function updateNotes(){if(typeof window.renderNotes==='function')window.renderNotes();else syncNotice();if(typeof window.paintBadges==='function'){let n=0,sp=0;try{n=typeof notes!=='undefined'?notes.filter(x=>!x.read).length:0;sp=typeof supUnread!=='undefined'?supUnread:0}catch(e){}window.paintBadges(n,sp)}}
-function close(){page.hidden=true}
-function proceed(){page.hidden=true;sheet.hidden=true;baseOpen(s.context.rail,s.context.flow)}
+function close(){page.hidden=true;if(s.status==='approved'){s.sheetShown=true;save()}}
+function proceed(){page.hidden=true;sheet.hidden=true;s.sheetShown=true;save();baseOpen(s.context.rail,s.context.flow)}
 function safeToInterrupt(){const v=typeof view!=='undefined'?view:'home';const bank=document.getElementById('tf-bank-overlay');return ['home','topup','withdraw','profile'].includes(v)&&(!bank||bank.hidden)&&!document.querySelector('.view.on .sheet:not([hidden]),.view.on .dim.pop:not([hidden])')}
 function maybeSheet(){if(s.status==='approved'&&!s.sheetShown&&page.hidden&&sheet.hidden&&safeToInterrupt()){s.sheetShown=true;save();sheet.hidden=false;const b=sheet.querySelector('[data-tfv="continue"]');if(b)b.focus({preventScroll:true})}}
 function setStatus(status){
@@ -111,7 +121,7 @@ function action(which){
  if(which==='send')return requestLink();
  if(which==='continue')return proceed();
  if(which==='dismiss'){sheet.hidden=true;return}
- if(which==='retry')return render();
+ if(which==='retry'){s.status=s.requestedAt?'initiated':'idle';save();return render()}
  if(which==='support'){close();if(typeof show==='function')show('support');return}
  if(which==='notice'){s.noticeRead=true;save();updateNotes();if(s.status==='approved')proceed();else{render();page.hidden=false}}
 }
