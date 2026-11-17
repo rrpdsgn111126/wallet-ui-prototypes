@@ -190,8 +190,13 @@ async def test_header_actions(browser, origin):
         title = header.locator(".h1")
         for control in (notes, support):
             await expect(control).to_be_visible()
-            rect = await control.bounding_box()
-            assert rect and round(rect["width"]) == 40 and round(rect["height"]) == 40, (width, rect)
+            # The desktop preview scales the entire .phone; verify CSS px,
+            # not the transformed on-screen bounding-box dimensions.
+            size = await control.evaluate("""el => ({
+                width: getComputedStyle(el).width,
+                height: getComputedStyle(el).height
+            })""")
+            assert size == {"width": "40px", "height": "40px"}, (width, size)
             assert await control.locator("svg").get_attribute("width") == "22"
         title_rect = await title.bounding_box()
         notes_rect = await notes.bounding_box()
