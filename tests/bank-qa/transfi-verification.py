@@ -78,7 +78,7 @@ async def test_close_notification_sheet_and_reopen(browser, origin):
 async def test_manual_review_and_rejection(browser, origin):
     context, page, errors = await fresh_page(browser, origin)
     await page.evaluate("tfVerificationQA.setStatus('manual_review')")
-    await expect(page.locator("#tfv-body .hero .h2")).to_have_text("Проверяем данные")
+    await expect(page.locator("#tfv-body .sbp-wait .h2")).to_have_text("Проверяем данные")
     await page.evaluate("tfVerificationQA.setStatus('rejected')")
     await expect(page.locator("#tfv-body .hero .h2")).to_have_text("Проверка не пройдена")
     await page.locator('#tfv-page [data-tfv="support"]').click()
