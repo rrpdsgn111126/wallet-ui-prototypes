@@ -66,7 +66,7 @@ async def test_close_notification_sheet_and_reopen(browser, origin):
     await expect(page.locator("#tfv-sheet")).to_be_visible()
     # Only one visible CTA remains. Dismissal is via the backdrop.
     assert await page.locator('#tfv-sheet button').count() == 1
-    await page.locator("#tfv-sheet .tfv-dim").click(position={"x": 5, "y": 5})
+    await page.locator("#tfv-sheet .tfv-dim").click(position={"x": 100, "y": 140})
     await expect(page.locator("#tfv-sheet")).to_be_hidden()
     await page.evaluate("show('notes')")
     await expect(page.locator("#v-notes.on")).to_be_visible()
@@ -289,7 +289,7 @@ async def test_external_qa_panel(browser, origin):
                 clickOnSheet:sheet.contains(mid)};
     }""")
     assert stacking["sheet"] > stacking["dim"] and stacking["clickOnSheet"], stacking
-    await page.locator("#tfv-sheet .tfv-dim").click(position={"x": 5, "y": 5})
+    await page.locator("#tfv-sheet .tfv-dim").click(position={"x": 100, "y": 140})
     await expect(page.locator("#tfv-sheet")).to_be_hidden()
 
     await page.evaluate("show('notes')")
