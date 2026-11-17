@@ -47,11 +47,11 @@ const css=[
 ].join('\n');
 const style=document.createElement('style');style.id='tfv-css';style.textContent=css;document.head.appendChild(style);
 const page=document.createElement('section');page.id='tfv-page';page.hidden=true;page.setAttribute('aria-label','Подтверждение email');
-page.innerHTML='<header id="tfv-head"><button type="button" data-tfv="close" aria-label="Назад">‹</button><span>Подтверждение email</span></header><main id="tfv-body"></main>';phone.appendChild(page);
+page.innerHTML='<header id="tfv-head" class="head"><button type="button" data-tfv="close" aria-label="Назад">‹</button><span>Подтверждение email</span></header><main id="tfv-body"></main>';phone.appendChild(page);
 const sheet=document.createElement('div');sheet.id='tfv-sheet';sheet.hidden=true;
-sheet.innerHTML='<div class="tfv-dim" data-tfv="dismiss"></div><section class="tfv-panel" role="dialog" aria-modal="true" aria-label="Проверка завершена"><div class="grab"></div><h2>Проверка завершена</h2><p>Теперь вы можете пользоваться банковскими переводами SEPA и SWIFT.</p><button type="button" class="tfv-btn" data-tfv="continue">Продолжить</button><button type="button" class="tfv-btn alt" data-tfv="dismiss">Позже</button></section>';phone.appendChild(sheet);
+sheet.innerHTML='<div class="dim tfv-dim" data-tfv="dismiss"></div><section class="sheet tfv-panel" role="dialog" aria-modal="true" aria-label="Проверка завершена"><div class="grab"></div><h2>Проверка завершена</h2><p>Теперь вы можете пользоваться банковскими переводами SEPA и SWIFT.</p><button type="button" class="btn tfv-btn" data-tfv="continue">Продолжить</button><button type="button" class="btno tfv-btn alt" data-tfv="dismiss">Позже</button></section>';phone.appendChild(sheet);
 if(QA){const qa=document.createElement('div');qa.id='tfv-qa';qa.innerHTML='<div id="tfv-qa-options" hidden><button data-tfv-status="initiated">Письмо отправлено</button><button data-tfv-status="verified">Email подтверждён</button><button data-tfv-status="approved">Проверка одобрена</button><button data-tfv-status="manual_review">Ручная проверка</button><button data-tfv-status="rejected">Отказ</button><button data-tfv-status="error">Ошибка</button><button data-tfv-status="reset">Сброс</button></div><button type="button" id="tfv-qa-main">QA · TransFi</button>';phone.appendChild(qa);qa.querySelector('#tfv-qa-main').addEventListener('click',()=>{const menu=qa.querySelector('#tfv-qa-options');menu.hidden=!menu.hidden})}
-function button(text,action,variant,disabled){return '<button type="button" class="tfv-btn '+(variant||'')+'" data-tfv="'+action+'"'+(disabled?' disabled':'')+'>'+text+'</button>'}
+function button(text,action,variant,disabled){return '<button type="button" class="'+(variant==='alt'?'btno':'btn')+' tfv-btn '+(variant||'')+'" data-tfv="'+action+'"'+(disabled?' disabled':'')+'>'+text+'</button>'}
 function hero(icon,title,description,cls){
 const icons={
  '✉':'<rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7 8 6 8-6"/>',
@@ -64,7 +64,7 @@ return '<div class="tfv-hero"><div class="tfv-icon '+(cls||'')+'" aria-hidden="t
 }
 function canRequest(){return !s.windowStart||Date.now()-s.windowStart>=600000||s.requests<3}
 function render(){
- const address='<div class="tfv-card"><div class="tfv-caption">Email для подтверждения</div><div class="tfv-value">'+safe(emailLabel())+'</div></div>';
+ const address='<div class="box tfv-card"><div class="tfv-caption">Email для подтверждения</div><div class="tfv-value">'+safe(emailLabel())+'</div></div>';
  let html='';
  if(s.status==='idle')html=hero('✉','Подтвердите email','Для банковских переводов необходимо подтвердить контакт в TransFi.')+address+'<div class="tfv-info">Email повторно вводить не нужно. После подтверждения провайдер проверит доступность переводов.</div>'+button('Отправить письмо','send')+button('Позже','close','alt');
  else if(s.status==='initiated'){const expired=Date.now()-s.requestedAt>=600000;html=hero('✉',expired?'Ссылка больше не действует':'Проверьте почту',expired?'Запросите новую ссылку.':'Откройте письмо от TransFi и перейдите по ссылке. Проверим результат автоматически.')+address+'<div class="tfv-info">Ссылка действует 10 минут. Экран можно закрыть, не прерывая проверку.</div>'+button(expired?'Отправить новую ссылку':'Отправить повторно','send','alt',!canRequest())+button('Вернуться в кошелёк','close','text')+(!canRequest()?'<p class="tfv-desc" style="text-align:center">Лимит запросов. Повторите позже.</p>':'')}
