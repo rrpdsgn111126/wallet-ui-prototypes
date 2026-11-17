@@ -31,7 +31,7 @@ async def fresh_page(browser, origin, flow="in", rail="SEPA"):
     q = urlencode({"qa": "1", "flow": flow, "rail": rail})
     await page.goto(origin + "/transfi-remittance/?" + q)
     await expect(page.locator("#tfv-page")).to_be_visible(timeout=30000)
-    await expect(page.locator("#tfv-page .tfv-title")).to_have_text("Подтвердите email")
+    await expect(page.locator("#tfv-head .h1")).to_have_text("Подтверждение почты")
     return context, page, errors
 
 
@@ -40,11 +40,11 @@ async def test_all_rails(browser, origin):
                        ("SEPA", "out"), ("SWIFT", "out")):
         context, page, errors = await fresh_page(browser, origin, flow, rail)
         await page.locator('#tfv-page [data-tfv="send"]').click()
-        await expect(page.locator("#tfv-page .tfv-title")).to_have_text("Проверьте почту")
+        await expect(page.locator("#tfv-body .hero .h2")).to_have_text("Проверьте почту")
         await page.evaluate("tfVerificationQA.setStatus('verified')")
-        await expect(page.locator("#tfv-page .tfv-title")).to_have_text("Проверяем данные")
+        await expect(page.locator("#tfv-body .hero .h2")).to_have_text("Проверяем данные")
         await page.evaluate("tfVerificationQA.setStatus('approved')")
-        await expect(page.locator("#tfv-page .tfv-title")).to_have_text("Проверка завершена")
+        await expect(page.locator("#tfv-body .hero .h2")).to_have_text("Проверка завершена")
         await page.locator('#tfv-page [data-tfv="continue"]').click()
         await expect(page.locator("#tf-bank-overlay")).to_be_visible()
         bank = page.frame_locator("#tf-bank-overlay iframe")
@@ -78,9 +78,9 @@ async def test_close_notification_sheet_and_reopen(browser, origin):
 async def test_manual_review_and_rejection(browser, origin):
     context, page, errors = await fresh_page(browser, origin)
     await page.evaluate("tfVerificationQA.setStatus('manual_review')")
-    await expect(page.locator("#tfv-page .tfv-title")).to_have_text("Проверка занимает больше времени")
+    await expect(page.locator("#tfv-body .hero .h2")).to_have_text("Проверяем данные")
     await page.evaluate("tfVerificationQA.setStatus('rejected')")
-    await expect(page.locator("#tfv-page .tfv-title")).to_have_text("Проверка не пройдена")
+    await expect(page.locator("#tfv-body .hero .h2")).to_have_text("Проверка не пройдена")
     await page.locator('#tfv-page [data-tfv="support"]').click()
     await expect(page.locator("#tfv-page")).to_be_hidden()
     assert not errors, errors
@@ -102,6 +102,15 @@ async def test_external_qa_panel(browser, origin):
         "QA controls must be outside the phone preview", phone_box, panel_box
     )
 
+    # The wallet test actions must be inside the second tab, not floating over QA.
+    assert await page.locator("#tf-qa-panel #pv-qa").count() == 1
+    await expect(page.locator("#pv-qa")).to_be_hidden()
+    await page.locator("#tfqa-tab-events").click()
+    await expect(page.locator("#pv-qa")).to_be_visible()
+    await expect(page.locator("#pv-deposit-ok")).to_be_visible()
+    await page.locator("#tfqa-tab-scenarios").click()
+    await expect(page.locator("#pv-qa")).to_be_hidden()
+
     # The approved state is a fixture setup: no notification and no extra verification screen.
     await page.locator("#tfqa-flow").select_option("out")
     await page.locator("#tfqa-rail").select_option("SWIFT")
@@ -117,18 +126,34 @@ async def test_external_qa_panel(browser, origin):
     await page.locator("#tfqa-status").select_option("idle")
     await page.locator("#tfqa-open").click()
     await expect(page.locator("#tfv-page")).to_be_visible()
-    await expect(page.locator("#tfv-page .tfv-title")).to_have_count(0)
+    await expect(page.locator("#tfv-head .h1")).to_have_text("Подтверждение почты")
 
     # A separate action simulates an incoming approval, not just setting the starting fixture.
+    await page.evaluate("show('home', false)")
     await page.locator("#tfqa-notify").click()
     await expect(page.locator("#tfv-page")).to_be_hidden()
     await expect(page.locator("#tfv-sheet")).to_be_visible()
     await expect(page.locator("#tfv-sheet")).to_contain_text("Проверка завершена")
+    # The native .dim must be behind the .sheet; buttons must be hit-testable.
+    stacking = await page.evaluate("""() => {
+        const layer=document.getElementById('tfv-sheet');
+        const dim=layer.querySelector('.tfv-dim'),sheet=layer.querySelector('.tfv-panel');
+        const rect=sheet.getBoundingClientRect();
+        const mid=document.elementFromPoint(rect.left+rect.width/2,rect.bottom-44);
+        return {dim:Number(getComputedStyle(dim).zIndex),
+                sheet:Number(getComputedStyle(sheet).zIndex),
+                clickOnSheet:sheet.contains(mid)};
+    }""")
+    assert stacking["sheet"] > stacking["dim"] and stacking["clickOnSheet"], stacking
     await page.locator('#tfv-sheet [data-tfv="dismiss"]').last.click()
     await expect(page.locator("#tfv-sheet")).to_be_hidden()
 
     await page.evaluate("show('notes')")
     await expect(page.locator(".tfv-note")).to_contain_text("Проверка завершена")
+    await page.locator("#tfqa-tab-events").click()
+    await page.locator("#pv-internal-ok").click()
+    await expect(page.locator("#v-details.on")).to_be_visible()
+    await page.locator("#tfqa-tab-scenarios").click()
     await page.locator("#tfqa-reset").click()
     assert await page.evaluate("tfVerificationQA.getState().status") == "idle"
     assert not errors, errors
