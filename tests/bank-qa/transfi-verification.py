@@ -191,7 +191,7 @@ async def test_header_actions(browser, origin):
         for control in (notes, support):
             await expect(control).to_be_visible()
             rect = await control.bounding_box()
-            assert rect and round(rect["width"]) == 40 and round(rect["height"]) == 40
+            assert rect and round(rect["width"]) == 40 and round(rect["height"]) == 40, (width, rect)
             assert await control.locator("svg").get_attribute("width") == "22"
         title_rect = await title.bounding_box()
         notes_rect = await notes.bounding_box()

@@ -45,6 +45,7 @@ body{font-family:Inter,"Noto Sans Thai",Thonburi,"Leelawadee UI",system-ui,sans-
 .hrow{display:flex;align-items:center;justify-content:space-between;height:44px}
 .who{display:flex;align-items:center;gap:6px;font-size:18px;font-weight:600}
 .hacts{display:flex;gap:8px}
+.head.hic .hacts > .ha{flex:0 0 40px;min-width:40px;min-height:40px;box-sizing:border-box}
 
 .ha{position:relative;width:40px;height:40px;border-radius:999px;background:var(--glass,#ffffffe0);
   box-shadow:0 1px 3px var(--sh-2,#1615141a),inset 0 0 0 1px var(--sh-1,#16151410);
