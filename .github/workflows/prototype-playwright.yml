@@ -30,3 +30,5 @@ jobs:
         run: python tests/bank-qa/smoke.py
       - name: Original wallet end-to-end simulation
         run: python tests/bank-qa/source-flows.py
+      - name: TransFi verification and unified QA sidebar
+        run: python tests/bank-qa/transfi-verification.py
