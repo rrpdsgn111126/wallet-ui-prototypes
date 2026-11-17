@@ -17,14 +17,19 @@ const css=[
 '#tfv-page .head{flex:0 0 auto}',
 '#tfv-page .head .back{border:0;cursor:pointer}',
 '#tfv-body{flex:1 1 auto;min-height:0;overflow-y:auto;padding:16px 16px 0;overscroll-behavior:contain}',
-'#tfv-body .hero{padding:20px 8px 8px}',
-'#tfv-body .hero .okc.pw-wait{background:var(--n100)}',
-'#tfv-body .hero .okc.tfv-error{background:var(--err-bg)}',
-'#tfv-body .hero .okc svg{width:40px;height:40px}',
-'#tfv-body .hero .p{margin-bottom:16px;overflow-wrap:anywhere}',
-'#tfv-body .tfv-email{margin:8px 0 12px}',
-'#tfv-body .tfv-email .rt{overflow-wrap:anywhere}',
-'#tfv-body .note{margin:12px 4px 18px}',
+'#tfv-body{position:relative;z-index:1}',
+'#tfv-body .tfv-status-hero{padding:36px 8px 0}',
+'#tfv-page.tfv-final #tfv-head{display:none}',
+'#tfv-page.tfv-final #tfv-body{padding-top:min(130px,17vh)}',
+'#tfv-page.tfv-final #tfv-body .tfv-status-hero{padding:0 8px}',
+'#tfv-body .tfv-status-hero .p{margin:0 auto;max-width:330px;overflow-wrap:anywhere}',
+'#tfv-body .tfv-wait .p{max-width:330px;overflow-wrap:anywhere}',
+'#tfv-body .tfv-wait .cn{display:flex;align-items:center;justify-content:center;background:var(--n100);border-radius:50%}',
+'#tfv-body .tfv-wait svg{display:block}',
+'#tfv-body .tfv-email{height:auto;min-height:68px;margin:18px 0 12px;padding-top:10px;padding-bottom:10px}',
+'#tfv-body .tfv-email .fl b{white-space:normal;overflow:visible;text-overflow:clip;overflow-wrap:anywhere}',
+'#tfv-body .tfv-email .fi svg{display:block}',
+'#tfv-body .tfv-inline-note{margin:12px 4px 18px}',
 '#tfv-foot{position:static;flex:0 0 auto;padding:16px 16px calc(34px + env(safe-area-inset-bottom));box-sizing:border-box}',
 '#tfv-foot .tfv-btn{width:100%;min-height:52px;cursor:pointer;font:600 16px Inter,system-ui,sans-serif}',
 '#tfv-foot .tfv-btn + .tfv-btn{margin-top:12px}',
@@ -40,32 +45,79 @@ const css=[
 '@media(prefers-reduced-motion:reduce){#tfv-sheet .tfv-panel,#tfv-sheet .tfv-dim{animation:none}}'
 ].join('\n');
 const style=document.createElement('style');style.id='tfv-css';style.textContent=css;document.head.appendChild(style);
-const page=document.createElement('section');page.id='tfv-page';page.hidden=true;page.setAttribute('aria-label','Подтверждение email');
-page.innerHTML='<header id="tfv-head" class="head"><button type="button" class="back" data-tfv="close" aria-label="Назад"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 5-7 7 7 7"/></svg></button><div class="h1">Подтверждение почты</div></header><main id="tfv-body" class="wrap tight"></main><footer id="tfv-foot" class="foot"></footer>';phone.appendChild(page);
+const page=document.createElement('section');page.id='tfv-page';page.hidden=true;page.setAttribute('aria-label','Подтверждение почты');
+page.style.setProperty('--t-op','.42');
+page.style.setProperty('--t-blur','26px');
+page.style.setProperty('--t-h','300px');
+page.style.setProperty('--t-mask','linear-gradient(180deg,#000 0%,#000 46%,transparent 100%)');
+page.innerHTML='<div class="tint" aria-hidden="true"></div><header id="tfv-head" class="head"><button type="button" class="back" data-tfv="close" aria-label="Назад"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 5-7 7 7 7"/></svg></button><div class="h1">Подтверждение почты</div></header><main id="tfv-body" class="wrap tight"></main><footer id="tfv-foot" class="foot"></footer>';phone.appendChild(page);
 const sheet=document.createElement('div');sheet.id='tfv-sheet';sheet.hidden=true;
 sheet.innerHTML='<div class="dim tfv-dim" data-tfv="dismiss"></div><section class="sheet tfv-panel" role="dialog" aria-modal="true" aria-label="Проверка завершена"><div class="grab"></div><div class="sh2">Проверка завершена</div><p class="p">Банковские переводы SEPA и SWIFT доступны</p><button type="button" class="btn tfv-btn" data-tfv="continue">Продолжить</button><button type="button" class="btno tfv-btn alt" data-tfv="dismiss">Позже</button></section>';phone.appendChild(sheet);
 function button(text,action,variant,disabled){return '<button type="button" class="'+(['alt','text'].includes(variant)?'btno':'btn')+' tfv-btn '+(variant||'')+'" data-tfv="'+action+'"'+(disabled?' disabled':'')+'>'+text+'</button>'}
-function hero(icon,title,description,cls){
-const icons={
- '✉':'<rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7 8 6 8-6"/>',
- '✓':'<path d="m5 12 5 5 9-10"/>',
- '◷':'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
- '!':'<circle cx="12" cy="12" r="9"/><path d="M12 7v6m0 4h.01"/>'
-};
-const svg='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true">'+(icons[icon]||'')+'</svg>';
-return '<div class="hero"><div class="okc '+(cls==='wait'?'pw-wait':cls==='fail'?'tfv-error':'')+'" aria-hidden="true">'+svg+'</div>'+(title?'<div class="h2">'+title+'</div>':'')+'<div class="p">'+description+'</div></div>'
+function tfvIcon(kind){
+ const paths={
+  mail:'<rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7 8 6 8-6"/>',
+  clock:'<circle cx="12" cy="12" r="8.6"/><path d="M12 7.2V12l3.2 2.1"/>',
+  check:'<path d="m5 12.5 5 5 9-10"/>',
+  cross:'<path d="M7 7l10 10M17 7 7 17"/>'
+ };
+ const size=kind==='cross'?34:kind==='clock'?30:40;
+ const color=kind==='cross'?'var(--n500)':'var(--n850)';
+ return '<svg width="'+size+'" height="'+size+'" viewBox="0 0 24 24" fill="none" stroke="'+color+'" stroke-width="'+(kind==='cross'?'2.4':'2.2')+'" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+(paths[kind]||'')+'</svg>';
+}
+function statusHero(kind,title,description){
+ const symbol=kind==='cross'
+  ?'<div class="sbp-ic" aria-hidden="true">'+tfvIcon('cross')+'</div>'
+  :'<div class="okc '+(kind==='mail'?'pw-wait':'')+'" aria-hidden="true">'+tfvIcon(kind)+'</div>';
+ return '<div class="hero sbp-out tfv-status-hero">'+symbol+
+  (title?'<div class="h2">'+title+'</div>':'')+
+  '<div class="p">'+description+'</div></div>';
+}
+function waiting(title,description){
+ // Same canonical SBP/TransFi processing pattern as legacy.html: tfBankWait().
+ return '<div class="sbp-wait tfv-wait"><div class="ring"><div class="in"><div class="cn">'+tfvIcon('clock')+
+  '</div></div></div><div class="h2">'+title+'</div><p class="p">'+description+'</p></div>';
+}
+function emailField(){
+ const mail='<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--n850)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7 8 6 8-6"/></svg>';
+ // Exact structural pattern: components/fld.html -> "Только чтение (серое)".
+ return '<div class="fld g tfv-email" aria-label="Адрес почты, только чтение"><div class="fi">'+mail+
+  '</div><div class="fl"><i>Адрес почты</i><b>'+safe(emailLabel())+'</b></div></div>';
 }
 function canRequest(){return !s.windowStart||Date.now()-s.windowStart>=600000||s.requests<3}
 function render(){
- const address='<div class="box tfv-email"><div class="row"><div class="rt"><i>Адрес почты</i>'+safe(emailLabel())+'</div></div></div>';
- let html='';
- if(s.status==='idle')html=hero('✉','','Подтвердите адрес почты, чтобы пользоваться банковскими переводами')+address+'<div class="note">После подтверждения мы проверим доступность переводов</div>'+button('Отправить письмо','send')+button('Позже','close','alt');
- else if(s.status==='initiated'){const expired=Date.now()-s.requestedAt>=600000;html=hero('✉',expired?'Срок действия ссылки истёк':'Проверьте почту',expired?'Отправьте новую ссылку для подтверждения':'Перейдите по ссылке в письме. Статус обновится автоматически')+address+'<div class="note">Ссылка действует 10 минут. Проверку можно продолжить позже</div>'+button(expired?'Отправить новую ссылку':'Отправить ещё раз','send','alt',!canRequest())+button('В кошелёк','close','text')+(!canRequest()?'<p class="note" style="text-align:center">Превышен лимит отправок. Попробуйте позже</p>':'')}
- else if(s.status==='verified')html=hero('◷','Проверяем данные','Адрес почты подтверждён. Проверяем доступность банковских переводов','wait')+button('В кошелёк','close','alt');
- else if(s.status==='approved')html=hero('✓','Проверка завершена','Банковские переводы доступны')+button('Продолжить','continue')+button('Позже','close','alt');
- else if(s.status==='manual_review')html=hero('◷','Проверяем данные','Нужна дополнительная проверка. Сообщим, когда она завершится','wait')+button('В кошелёк','close','alt');
- else if(s.status==='rejected')html=hero('!','Проверка не пройдена','Банковские переводы недоступны. За подробностями обратитесь в поддержку','fail')+button('Связаться с поддержкой','support')+button('Закрыть','close','alt');
- else html=hero('!','Не удалось проверить статус','Повторите попытку','fail')+button('Проверить ещё раз','retry')+button('Закрыть','close','alt');
+ let html='',final=false;
+ if(s.status==='idle'){
+   html=statusHero('mail','','Подтвердите адрес почты, чтобы воспользоваться международными переводами')+
+    emailField()+button('Отправить письмо','send')+button('Позже','close','alt');
+ }else if(s.status==='initiated'){
+   const expired=Date.now()-s.requestedAt>=600000;
+   html=waiting(expired?'Срок действия ссылки истёк':'Подтвердите почту',
+    expired?'Отправьте новую ссылку для подтверждения':'Перейдите по ссылке в письме, отправленном на ваш адрес. Ссылка действует 10 минут')+
+    emailField()+
+    button(expired?'Отправить новую ссылку':'Отправить ещё раз','send','alt',!canRequest())+
+    button('В кошелёк','close','text')+
+    (!canRequest()?'<p class="note tfv-inline-note">Превышен лимит отправок. Попробуйте позже</p>':'');
+ }else if(s.status==='verified'){
+   html=waiting('Проверяем данные','Адрес почты подтверждён. Проверяем доступность международных переводов')+
+    button('В кошелёк','close','alt');
+ }else if(s.status==='manual_review'){
+   html=waiting('Проверяем данные','Нужна дополнительная проверка. Сообщим, когда она завершится')+
+    button('В кошелёк','close','alt');
+ }else if(s.status==='approved'){
+   final=true;
+   html=statusHero('check','Проверка завершена','Международные переводы доступны')+
+    button('Продолжить','continue')+button('Позже','close','alt');
+ }else if(s.status==='rejected'){
+   final=true;
+   html=statusHero('cross','Проверка не пройдена','Международные переводы недоступны. За подробностями обратитесь в поддержку')+
+    button('Связаться с поддержкой','support')+button('Закрыть','close','alt');
+ }else{
+   final=true;
+   html=statusHero('cross','Не удалось проверить статус','Повторите попытку')+
+    button('Проверить ещё раз','retry')+button('Закрыть','close','alt');
+ }
+ page.classList.toggle('tfv-final',final);
  const main=page.querySelector('#tfv-body');
  main.innerHTML=html;
  page.querySelector('#tfv-foot').replaceChildren(...main.querySelectorAll('button.tfv-btn'));
