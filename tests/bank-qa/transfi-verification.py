@@ -257,8 +257,13 @@ async def test_external_qa_panel(browser, origin):
     assert await icon.evaluate("el => getComputedStyle(el).backgroundColor") == (
         await reference_icon.evaluate("el => getComputedStyle(el).backgroundColor")
     )
-    assert await icon.evaluate("el => el.getBoundingClientRect().width") == (
-        await reference_icon.evaluate("el => el.getBoundingClientRect().width")
+    # Compare component dimensions in CSS pixels; preview frames may be scaled.
+    actual_size = await icon.evaluate("el => ({width:getComputedStyle(el).width,height:getComputedStyle(el).height})")
+    reference_size = await reference_icon.evaluate(
+        "el => ({width:getComputedStyle(el).width,height:getComputedStyle(el).height})"
+    )
+    assert actual_size == reference_size == {"width": "88px", "height": "88px"}, (
+        actual_size, reference_size
     )
     await expect(reference_title).to_be_visible()
     await expect(reference_subtitle).to_be_visible()
