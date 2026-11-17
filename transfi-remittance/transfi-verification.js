@@ -164,4 +164,9 @@ window.addEventListener('focus',()=>setTimeout(maybeSheet,150));
 document.addEventListener('click',function(){setTimeout(maybeSheet,150)},true);
 window.addEventListener('message',function(){setTimeout(maybeSheet,250)});
 setTimeout(maybeSheet,450);
+if(window.__tfInitialBank){
+ const initial=window.__tfInitialBank;
+ delete window.__tfInitialBank;
+ window.tfOpenBank(initial.rail,initial.flow);
+}
 })();
