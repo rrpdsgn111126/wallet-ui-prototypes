@@ -1,0 +1,32 @@
+name: Design system normalization QA
+on:
+  push:
+    branches: [design-system-normalization, main]
+    paths:
+      - 'tokens/**'
+      - 'css/**'
+      - 'components/**'
+      - 'ui-kit/**'
+      - 'transfi-remittance/**'
+      - 'build/build.py'
+      - 'tests/design-system/**'
+      - '.github/workflows/design-system-qa.yml'
+  workflow_dispatch:
+jobs:
+  parity:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Install Playwright, PNG comparison utilities
+        run: |
+          npm install --no-save playwright@1.56.1 pngjs@7.0.0 pixelmatch@5.3.0
+          npx playwright install --with-deps chromium
+      - name: Verify Python build syntax
+        run: python -m py_compile build/build.py
+      - name: Checkout unchanged main baseline
+        run: git worktree add --detach "$RUNNER_TEMP/ds-baseline" origin/main
+      - name: Compare baseline and verify live tokens
+        run: node tests/design-system/qa.mjs "$RUNNER_TEMP/ds-baseline" "$GITHUB_WORKSPACE"
