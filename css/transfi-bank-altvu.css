@@ -101,7 +101,7 @@
   border:0;outline:0;background:transparent;margin:0;padding:0;
   font:var(--ds-type-field-value);color:var(--n900);
 }
-.phone.tf-phone .fld.tf-field .fl input::placeholder{color:var(--n300);font-weight:400}
+.phone.tf-phone .fld.tf-field .fl input::placeholder{color:var(--n500);font-weight:400}
 .phone.tf-phone .fld.tf-field .fl select{cursor:pointer;height:24px}
 .phone.tf-phone .fld.tf-field .addon{display:flex;gap:8px;align-items:center;flex:0 0 auto}
 .phone.tf-phone .fld.tf-field .cur{font:var(--ds-type-field-value);color:var(--n500)}
@@ -521,7 +521,7 @@ html.tf-embedded .proto-shell,html.tf-embedded .workspace{height:100%;width:100%
  font:var(--ds-type-bank-strong);color:var(--n900);
 }
 .phone.tf-phone .fld.tf-amount .fl b input::placeholder{
- color:var(--n300);font-weight:400;opacity:1;
+ color:var(--n500);font-weight:400;opacity:1;
 }
 /* Override only generic bank field addon gap 8px to the native 12px. */
 /* Both MAX and the dollar use the exact source wallet font stack.

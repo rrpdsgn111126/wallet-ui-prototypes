@@ -21,11 +21,11 @@ html body .phone:not(.tf-phone) {
   --n100: var(--ds-color-n100);
   --n300: var(--ds-color-n300);
   --n400: var(--ds-color-n400);
-  --n500: var(--ds-color-n500);
+  --n500: var(--ds-sem-text-secondary);
   --n850: var(--ds-color-n850);
   --n900: var(--ds-color-n900);
-  --ok: var(--ds-color-ok);
-  --err: var(--ds-color-err);
+  --ok: var(--ds-sem-success);
+  --err: var(--ds-sem-error);
   --err-mark: var(--ds-color-err-mark);
   --warn-bg: var(--ds-color-warn-bg);
   --warn-ink: var(--ds-color-warn-ink);
@@ -64,11 +64,11 @@ html.dark body .phone:not(.tf-phone) {
   --n100: var(--ds-color-n100);
   --n300: var(--ds-color-n300);
   --n400: var(--ds-color-n400);
-  --n500: var(--ds-color-n500);
+  --n500: var(--ds-sem-text-secondary);
   --n850: var(--ds-color-n850);
   --n900: var(--ds-color-n900);
-  --ok: var(--ds-color-ok);
-  --err: var(--ds-color-err);
+  --ok: var(--ds-sem-success);
+  --err: var(--ds-sem-error);
   --err-mark: var(--ds-color-err-mark);
   --warn-bg: var(--ds-color-warn-bg);
   --warn-ink: var(--ds-color-warn-ink);
@@ -97,13 +97,13 @@ html.dark body .phone:not(.tf-phone) {
   --cat-money-ink: var(--ds-color-cat-money-ink);
   --cat-other-bg: var(--ds-color-cat-other-bg);
   --cat-other-ink: var(--ds-color-cat-other-ink);
-  --surface: var(--ds-color-surface);
+  --surface: var(--ds-sem-surface);
   --text: var(--ds-color-text);
   --sh-1: var(--ds-color-sh-1);
   --sh-2: var(--ds-color-sh-2);
   --glass: var(--ds-color-glass);
   --glass-2: var(--ds-color-glass-2);
-  --line: var(--ds-color-line);
+  --line: var(--ds-sem-border);
   --n200: var(--ds-color-n200);
   --n700: var(--ds-color-n700);
 }

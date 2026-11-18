@@ -41,6 +41,7 @@ jobs:
           trap 'kill "$PID" 2>/dev/null || true' EXIT
           node tests/design-system/ui-kit-typography.mjs http://127.0.0.1:8765/ui-kit/
           node tests/design-system/font-weight-audit.mjs http://127.0.0.1:8765/ui-kit/ "$RUNNER_TEMP/font-weight-audit.json"
+          node tests/design-system/color-tokens.mjs http://127.0.0.1:8765/ "$RUNNER_TEMP/ds-07-colors.json"
       - name: Upload before/after and audit
         if: always()
         uses: actions/upload-artifact@v4
@@ -50,5 +51,7 @@ jobs:
             ${{ runner.temp }}/ds-02-visual-diff/
             ${{ runner.temp }}/typography-audit.json
             ${{ runner.temp }}/font-weight-audit.json
+            ${{ runner.temp }}/ds-07-colors.json
+            ${{ runner.temp }}/ds-07-semantic-palette.png
             ${{ runner.temp }}/ds-03-typography/
           if-no-files-found: warn
