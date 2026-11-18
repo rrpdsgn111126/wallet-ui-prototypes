@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>alt.vu · Бейджи и отметки</title>
+<script>/* тема — из адреса: components/bdg.html#dark */
+if (location.hash === '#dark') document.documentElement.classList.add('dark');</script>
+<link rel="stylesheet" href="../css/alt-vu-wallet.css">
+<link rel="stylesheet" href="../showcase/states.css">
+<link rel="stylesheet" href="../showcase/specimen.css">
+</head>
+<body data-ds="bdg">
+<div class="phone ds-ph">
+<!-- Бейджи и отметки. Откуда: .bdg — src/alt.py:604; цвет бейджа — src/accent.py:44; .chk.ok — src/alt.py:319 -->
+<section class="ds-st">
+<div class="ds-lab">Бейджи</div>
+<!-- состояние: Бейджи -->
+<div class="ds-row" style="gap:8px;align-items:center"><span class="bdg g">Активна</span><span class="bdg g">Пройдена</span><span class="bdg n">Заморожена</span><span class="bdg n">TRC20</span></div>
+</section>
+<section class="ds-st">
+<div class="ds-lab">Отметки на значке операции</div>
+<!-- состояние: Отметки на значке операции -->
+<div class="ds-row"><div class="ds-cn"><div class="oi"><div class="catfill cat-shop"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9.5v10h16v-10"/><path d="M3 9.5 5 4.5h14l2 5z"/><path d="M9.5 19.5v-6h5v6"/></svg></div><div class="chk ok"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#211e1d" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 5 5 9-10"/></svg></div></div><span>Успешно</span></div><div class="ds-cn"><div class="oi"><div class="catfill cat-shop"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9.5v10h16v-10"/><path d="M3 9.5 5 4.5h14l2 5z"/><path d="M9.5 19.5v-6h5v6"/></svg></div><div class="chk no"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6 6 18"/></svg></div></div><span>Отказ</span></div><div class="ds-cn"><div class="oi"><div class="catfill cat-shop"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9.5v10h16v-10"/><path d="M3 9.5 5 4.5h14l2 5z"/><path d="M9.5 19.5v-6h5v6"/></svg></div></div><span>В работе</span></div></div>
+</section>
+</div>
+<script src="../showcase/specimen.js"></script>
+</body>
+</html>

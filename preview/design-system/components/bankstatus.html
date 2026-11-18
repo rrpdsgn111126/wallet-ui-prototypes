@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>alt.vu · Канонические экраны банковского перевода</title>
+<link rel="stylesheet" href="../css/alt-vu-wallet.css">
+<link rel="stylesheet" href="../showcase/states.css">
+<link rel="stylesheet" href="../showcase/specimen.css">
+<style>
+.tf-screen-spec{width:100%;height:610px;border:0;display:block;background:var(--n50)}
+.tf-screen-note{margin:0 16px 8px;font:400 12px/18px Inter,system-ui,sans-serif;color:var(--n500)}
+</style>
+</head>
+<body data-ds="bankstatus">
+<div class="phone ds-ph">
+<section class="ds-st ds-full">
+<div class="ds-lab" id="bank-screen-name">Канонический банковский перевод</div>
+<p class="tf-screen-note">Живой экран из SEPA/SWIFT-прототипа на оригинальных компонентах P2P и СБП. Данные исключительно тестовые.</p>
+<div class="ds-screen" style="height:610px">
+<iframe class="tf-screen-spec" id="bank-screen" title="Канонический экран подтверждения или результата перевода" loading="eager"></iframe>
+</div>
+</section>
+</div>
+<script>
+(function(){
+ var params=new URLSearchParams(location.search);
+ var requested=params.get('screen');
+ var permitted={'out-review':'Проверьте перевод',
+   'out-progress':'Перевод обрабатывается',
+   'out-success':'Перевод выполнен',
+   'out-failed':'Ошибка перевода'};
+ var screen=Object.prototype.hasOwnProperty.call(permitted,requested)?requested:'out-review';
+ var rail=params.get('rail')==='SWIFT'?'SWIFT':'SEPA';
+ document.getElementById('bank-screen-name').textContent=permitted[screen]+' · '+rail;
+ document.getElementById('bank-screen').src='../transfi-remittance/legacy.html?'+
+   new URLSearchParams({capture:'1',sample:'1',embedded:'1',flow:'out',rail:rail,screen:screen}).toString();
+})();
+</script>
+<script src="../showcase/specimen.js"></script>
+</body>
+</html>

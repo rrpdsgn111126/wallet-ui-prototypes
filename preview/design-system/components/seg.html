@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>alt.vu · Сегменты</title>
+<script>/* тема — из адреса: components/seg.html#dark */
+if (location.hash === '#dark') document.documentElement.classList.add('dark');</script>
+<link rel="stylesheet" href="../css/alt-vu-wallet.css">
+<link rel="stylesheet" href="../showcase/states.css">
+<link rel="stylesheet" href="../showcase/specimen.css">
+</head>
+<body data-ds="seg">
+<div class="phone ds-ph">
+<!-- Сегменты. Откуда: .seg — src/app.py:977; .seg .on — src/screens_card.py:100; разметка — src/app_views.py:600 -->
+<section class="ds-st">
+<div class="ds-lab">Первый выбран</div>
+<!-- состояние: Первый выбран -->
+<div class="seg"><div class="on" data-seg="apple">Apple Pay</div><div class="" data-seg="google">Google Pay</div></div>
+</section>
+<section class="ds-st">
+<div class="ds-lab">Второй выбран</div>
+<!-- состояние: Второй выбран -->
+<div class="seg"><div class="" data-seg="apple">Apple Pay</div><div class="on" data-seg="google">Google Pay</div></div>
+</section>
+</div>
+<script src="../showcase/specimen.js"></script>
+</body>
+</html>

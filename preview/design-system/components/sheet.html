@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>alt.vu · Шторка</title>
+<script>/* тема — из адреса: components/sheet.html#dark */
+if (location.hash === '#dark') document.documentElement.classList.add('dark');</script>
+<link rel="stylesheet" href="../css/alt-vu-wallet.css">
+<link rel="stylesheet" href="../showcase/states.css">
+<link rel="stylesheet" href="../showcase/specimen.css">
+</head>
+<body data-ds="sheet">
+<div class="phone ds-ph">
+<!-- Шторка. Откуда: .dim .sheet — src/alt.py:625; .grab — src/alt.py:627; .m — src/alt.py:331; .m.off — src/app.py:941; разметка «Пополнить» — src/screens.py:240 -->
+<section class="ds-st ds-full">
+<div class="ds-lab">Обычное</div>
+<!-- состояние: Обычное -->
+<div class="ds-screen" style="height:470px"><div class="dim" data-back="1"></div><div class="sheet">
+  <div class="grab"></div>
+  <div class="sh2">Пополнить</div>
+  <div class="m" data-go="dep-sbp" hidden=""><div class="ic"><div class="cn" style="width:40px;height:40px"><img class="sbp-lg" width="24" height="24" src="../assets/img-61ce324e.png" alt=""></div></div><div class="mt"><b>СБП</b><i>RUB, все банки РФ</i></div><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--n400)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 5 7 7-7 7"></path></svg></div>
+  <div class="m" data-go="dep-usdt-tron"><div class="ic"><div class="cn" style="width:40px;height:40px"><img width="24" height="24" alt="USDT" style="display:block;border-radius:999px" src="../assets/img-df9900c4.png"></div></div><div class="mt"><b>USDT</b><i>TRON · BNB Chain · Polygon · TON</i></div><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--n400)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 5 7 7-7 7"></path></svg></div>
+  <div class="m" data-go="dep-usdc-polygon"><div class="ic"><div class="cn" style="width:40px;height:40px"><img width="24" height="24" alt="USDC" style="display:block;border-radius:999px" src="../assets/img-a82008b8.png"></div></div><div class="mt"><b>USDC</b><i>BNB Chain · Polygon</i></div><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--n400)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 5 7 7-7 7"></path></svg></div>
+  <div class="m" data-go="my-qr"><div class="ic"><div class="cn" style="width:40px;height:40px"><img class="logo" width="24" height="24" style="border-radius:999px" src="../assets/img-27f3d8cf.png" alt="alt.vu"></div></div><div class="mt"><b>ALT.VU</b><i>От другого пользователя alt.vu</i></div><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--n400)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 5 7 7-7 7"></path></svg></div>
+  <div class="note" style="margin-bottom:10px">Зачисление занимает 1–3 минуты после подтверждения сети. Комиссию сети платит отправитель. Перевод внутри alt.vu приходит сразу.</div>
+  <a class="lnk" href="#" data-act="tariffs">Условия и тарифы <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.6"></circle><path d="M12 11v5.2"></path><path d="M12 7.6v.1"></path></svg></a>
+</div></div>
+</section>
+<section class="ds-st ds-full">
+<div class="ds-lab">Строка выключена</div>
+<!-- состояние: Строка выключена -->
+<div class="ds-screen" style="height:470px"><div class="dim" data-back="1"></div><div class="sheet">
+  <div class="grab"></div>
+  <div class="sh2">Пополнить</div>
+  <div class="m" data-go="dep-sbp" hidden=""><div class="ic"><div class="cn" style="width:40px;height:40px"><img class="sbp-lg" width="24" height="24" src="../assets/img-61ce324e.png" alt=""></div></div><div class="mt"><b>СБП</b><i>RUB, все банки РФ</i></div><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--n400)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 5 7 7-7 7"></path></svg></div>
+  <div class="m" data-go="dep-usdt-tron"><div class="ic"><div class="cn" style="width:40px;height:40px"><img width="24" height="24" alt="USDT" style="display:block;border-radius:999px" src="../assets/img-df9900c4.png"></div></div><div class="mt"><b>USDT</b><i>TRON · BNB Chain · Polygon · TON</i></div><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--n400)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 5 7 7-7 7"></path></svg></div>
+  <div class="m off" data-go="dep-usdc-polygon"><div class="ic"><div class="cn" style="width:40px;height:40px"><img width="24" height="24" alt="USDC" style="display:block;border-radius:999px" src="../assets/img-a82008b8.png"></div></div><div class="mt"><b>USDC</b><i>BNB Chain · Polygon</i></div><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--n400)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 5 7 7-7 7"></path></svg></div>
+  <div class="m" data-go="my-qr"><div class="ic"><div class="cn" style="width:40px;height:40px"><img class="logo" width="24" height="24" style="border-radius:999px" src="../assets/img-27f3d8cf.png" alt="alt.vu"></div></div><div class="mt"><b>ALT.VU</b><i>От другого пользователя alt.vu</i></div><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--n400)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 5 7 7-7 7"></path></svg></div>
+  <div class="note" style="margin-bottom:10px">Зачисление занимает 1–3 минуты после подтверждения сети. Комиссию сети платит отправитель. Перевод внутри alt.vu приходит сразу.</div>
+  <a class="lnk" href="#" data-act="tariffs">Условия и тарифы <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.6"></circle><path d="M12 11v5.2"></path><path d="M12 7.6v.1"></path></svg></a>
+</div></div>
+</section>
+</div>
+<script src="../showcase/specimen.js"></script>
+</body>
+</html>
