@@ -21,11 +21,17 @@ try {
       await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 30000 });
       const cards = page.locator('article.cmp');
       assert.equal(await cards.count(), 42, 'Unexpected component gallery count');
-      await page.waitForFunction(() => {
-        const cards = [...document.querySelectorAll('article.cmp')];
-        return cards.length === 42 && cards.every(c =>
-          c.querySelector('.ds-typography')?.dataset.ready === '1');
-      }, null, { timeout: 90000 });
+      assert.equal(await page.locator('article.cmp .ds-typography').count(), 42,
+        'Not every component received a typography panel');
+      // Bank component frames are intentionally loading="lazy" in the UI Kit.
+      // Scroll the checked specimens into view before expecting their metrics.
+      for (const id of ['btn','head','bnv','amount','type','bankfields','recipientfields']) {
+        const frames = page.locator('#' + id + ' figure.v:not(.d) iframe');
+        const n = await frames.count();
+        for (let k = 0; k < n; k++) await frames.nth(k).scrollIntoViewIfNeeded();
+        await page.waitForFunction(id => document.querySelector('#' + id +
+          ' .ds-typography')?.dataset.ready === '1', id, { timeout: 30000 });
+      }
 
       const report = await page.evaluate(() => {
         const cards = [...document.querySelectorAll('article.cmp')];
