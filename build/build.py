@@ -864,12 +864,6 @@ BUILT = datetime.datetime.fromtimestamp(SN["source"]["www_index_mtime"]).strftim
 
 def write(path, text):
     p = ROOT / path
-    # Canonical tokens and customized specimen pages are versioned source files.
-    # A routine reference rebuild MUST NOT overwrite design-system decisions.
-    protected = path.startswith(("tokens/", "components/", "ui-kit/"))
-    if protected and p.exists() and os.environ.get("ALT_REFRESH_LIBRARY") != "1":
-        WARN.append(f"preserved canonical library file: {path} (ALT_REFRESH_LIBRARY=1 to regenerate)")
-        return
     p.parent.mkdir(parents=True, exist_ok=True)
     p.write_text(text)
 
@@ -894,11 +888,7 @@ HEAD_CSS = (f"/* CSS кошелька alt.vu — как уезжает на alt.
             f"   Исходник — src/alt.py (CSS), src/app.py (APP_CSS и др.), порядок склейки —\n"
             f"   {ref('app.py', 'css = (CSS + APP_CSS')}. Править здесь бессмысленно: файл\n"
             f"   пересобирается из живой сборки командой build/build.py. */\n")
-# Reference CSS is generated, but its consumer always loads the canonical
-# design-system bridge. No approved library tokens are embedded into this file.
-write("css/alt-vu-wallet.css", HEAD_CSS +
-      '@import url("design-system.css");\n' +
-      rel_assets(CSS, "../assets/"))
+write("css/alt-vu-wallet.css", HEAD_CSS + rel_assets(CSS, "../assets/"))
 
 # шрифт Inter для самой витрины — те же @font-face, что у кошелька
 faces = re.findall(r"@font-face\{[^}]*\}", CSS)
