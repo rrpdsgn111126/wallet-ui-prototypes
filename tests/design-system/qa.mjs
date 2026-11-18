@@ -1,8 +1,13 @@
 #!/usr/bin/env node
 // DS-01 Playwright: main-vs-branch screenshot parity and runtime token tests.
-const fs=require('fs'),path=require('path'),assert=require('node:assert/strict');
-const {pathToFileURL}=require('node:url');
-const {chromium}=require('playwright'),{PNG}=require('pngjs'),pixelmatch=require('pixelmatch');
+import fs from 'node:fs';
+import path from 'node:path';
+import assert from 'node:assert/strict';
+import {pathToFileURL} from 'node:url';
+import playwright from 'playwright';
+import pngjs from 'pngjs';
+import pixelmatch from 'pixelmatch';
+const {chromium}=playwright, {PNG}=pngjs;
 const [baseline,current]=process.argv.slice(2);
 assert.ok(baseline&&current,'Usage: qa.mjs <baseline-dir> <current-dir>');
 const css=fs.readFileSync(path.join(current,'tokens/tokens.css'),'utf8');
