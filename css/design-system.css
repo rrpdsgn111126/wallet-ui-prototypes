@@ -123,7 +123,7 @@ html body .phone.tf-phone {
 .phone .cbal { font: var(--ds-type-card-balance); }
 
 /* Центы и знак на карте */
-.phone .cbal .cnt { font: var(--ds-type-card-cents); }
+.phone .cbal .cnt { font: var(--ds-type-card-cents); line-height: inherit; }
 
 /* Заголовок экрана */
 .phone .h1 { font: var(--ds-type-title); }
@@ -135,7 +135,7 @@ html body .phone.tf-phone {
 .phone .hh h2 { font: var(--ds-type-section); }
 
 /* Кнопка */
-.phone .btn, .phone .btno { font: var(--ds-type-button); }
+.phone .btn, .phone .btno { font: var(--ds-type-button); line-height: inherit; }
 
 /* Строка в плите */
 .phone .row .rt { font: var(--ds-type-row); }
@@ -156,7 +156,7 @@ html body .phone.tf-phone {
 .phone .hint { font: var(--ds-type-hint); }
 
 /* Ссылка действия */
-.phone .lnk { font: var(--ds-type-link); }
+.phone .lnk { font: var(--ds-type-link); line-height: inherit; }
 
 /* Подпись быстрого действия */
 .phone .act span { font: var(--ds-type-action-label); }
