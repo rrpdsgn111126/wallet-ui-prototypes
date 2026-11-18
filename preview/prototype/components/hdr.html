@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>alt.vu · Шапка главной</title>
+<script>/* тема — из адреса: components/hdr.html#dark */
+if (location.hash === '#dark') document.documentElement.classList.add('dark');</script>
+<link rel="stylesheet" href="../css/alt-vu-wallet.css">
+<link rel="stylesheet" href="../showcase/states.css">
+<link rel="stylesheet" href="../showcase/specimen.css">
+</head>
+<body data-ds="hdr">
+<div class="phone ds-ph">
+<!-- Шапка главной. Откуда: разметка — src/screens.py:79; .ha — src/alt.py:137; .dot — src/alt.py:154; .uav — src/screens5.py:28; счётчик (скрипт) — src/app.py:15898 -->
+<section class="ds-st">
+<div class="ds-lab">Обычное</div>
+<!-- состояние: Обычное -->
+<div class="hdr"><div class="hrow">
+  <div class="who" data-go="profile"><div class="uav">АК</div><span class="uname">Анна</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 5 7 7-7 7"></path></svg></div>
+  <div class="hacts">
+    <div class="ha" data-go="notes"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8.5a6 6 0 1 0-12 0c0 6-2.2 7.5-2.2 7.5h16.4S18 14.5 18 8.5Z"></path><path d="M13.7 19.5a2 2 0 0 1-3.4 0"></path></svg></div>
+    <div class="ha" data-go="support"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 11.6a7.9 7.9 0 0 1-8.5 7.9 9 9 0 0 1-3.2-.6L3.5 20.5l1.6-4.8A7.6 7.6 0 0 1 4 11.6C4 7.2 7.7 3.7 12.3 3.7s8.2 3.5 8.2 7.9Z"></path></svg></div>
+  </div>
+</div></div>
+</section>
+<section class="ds-st">
+<div class="ds-lab">Есть непрочитанные</div>
+<!-- состояние: Есть непрочитанные -->
+<div class="hdr"><div class="hrow">
+  <div class="who" data-go="profile"><div class="uav">АК</div><span class="uname">Анна</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 5 7 7-7 7"></path></svg></div>
+  <div class="hacts">
+    <div class="ha" data-go="notes"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8.5a6 6 0 1 0-12 0c0 6-2.2 7.5-2.2 7.5h16.4S18 14.5 18 8.5Z"></path><path d="M13.7 19.5a2 2 0 0 1-3.4 0"></path></svg><div class="dot">2</div></div>
+    <div class="ha" data-go="support"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 11.6a7.9 7.9 0 0 1-8.5 7.9 9 9 0 0 1-3.2-.6L3.5 20.5l1.6-4.8A7.6 7.6 0 0 1 4 11.6C4 7.2 7.7 3.7 12.3 3.7s8.2 3.5 8.2 7.9Z"></path></svg></div>
+  </div>
+</div></div>
+</section>
+</div>
+<script src="../showcase/specimen.js"></script>
+</body>
+</html>

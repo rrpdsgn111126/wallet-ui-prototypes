@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>alt.vu · Поле выбора страны или валюты</title>
+<link rel="stylesheet" href="../css/alt-vu-wallet.css">
+<link rel="stylesheet" href="../showcase/specimen.css">
+<style>
+/* Exactly one field is visible until tapped. The nested frame renders the
+   actual uxPickerField() and uxRenderPicker() from the bank prototype. */
+.selector-stage{height:552px}
+.canonical-embed{display:block;width:100%;height:100%;border:0;background:var(--n50)}
+</style>
+</head>
+<body data-ds="bankpicker">
+<div class="phone ds-ph">
+<div class="ds-screen selector-stage">
+<iframe class="canonical-embed" id="canonical-picker" title="Поле с интерактивной нижней шторкой выбора" loading="eager"></iframe>
+</div>
+</div>
+<script>
+(function(){
+  const kind=new URLSearchParams(location.search).get('mode')==='currency'?'currency':'country';
+  document.querySelector('#canonical-picker').src=
+    '../transfi-remittance/legacy.html?'+new URLSearchParams({
+      component:'picker',kind,capture:'1',embedded:'1'
+    }).toString();
+})();
+</script>
+<script src="../showcase/specimen.js"></script>
+</body>
+</html>

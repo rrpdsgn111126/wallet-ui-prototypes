@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>alt.vu · Выбор одного из списка</title>
+<script>/* тема — из адреса: components/radio.html#dark */
+if (location.hash === '#dark') document.documentElement.classList.add('dark');</script>
+<link rel="stylesheet" href="../css/alt-vu-wallet.css">
+<link rel="stylesheet" href="../showcase/states.css">
+<link rel="stylesheet" href="../showcase/specimen.css">
+</head>
+<body data-ds="radio">
+<div class="phone ds-ph">
+<!-- Выбор одного из списка. Откуда: .rd — src/alt.py:637; .lang-box .rd.on — src/app.py:1724; разметка «Язык» — src/app.py:13834 -->
+<section class="ds-st">
+<div class="ds-lab">Выбран «Русский»</div>
+<!-- состояние: Выбран «Русский» -->
+<div class="box lang-box"><div class="row lang-row" data-lang="en" translate="no"><div class="rt" lang="en">English<i>English</i></div><div class="rd"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--brand-ink)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12.5 5 5 9-10"></path></svg></div></div><div class="row lang-row" data-lang="es" translate="no"><div class="rt" lang="es">Español<i>Spanish</i></div><div class="rd"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--brand-ink)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12.5 5 5 9-10"></path></svg></div></div><div class="row lang-row" data-lang="fr" translate="no"><div class="rt" lang="fr">Français<i>French</i></div><div class="rd"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--brand-ink)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12.5 5 5 9-10"></path></svg></div></div><div class="row lang-row" data-lang="pt" translate="no"><div class="rt" lang="pt">Português<i>Portuguese</i></div><div class="rd"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--brand-ink)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12.5 5 5 9-10"></path></svg></div></div><div class="row lang-row" data-lang="th" translate="no"><div class="rt" lang="th">ไทย<i>Thai</i></div><div class="rd"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--brand-ink)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12.5 5 5 9-10"></path></svg></div></div><div class="row lang-row" data-lang="ru" translate="no"><div class="rt" lang="ru">Русский<i>Russian</i></div><div class="rd on"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--brand-ink)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12.5 5 5 9-10"></path></svg></div></div></div>
+</section>
+</div>
+<script src="../showcase/specimen.js"></script>
+</body>
+</html>

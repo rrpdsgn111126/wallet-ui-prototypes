@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>alt.vu · Пустое состояние</title>
+<script>/* тема — из адреса: components/empty.html#dark */
+if (location.hash === '#dark') document.documentElement.classList.add('dark');</script>
+<link rel="stylesheet" href="../css/alt-vu-wallet.css">
+<link rel="stylesheet" href="../showcase/states.css">
+<link rel="stylesheet" href="../showcase/specimen.css">
+</head>
+<body data-ds="empty">
+<div class="phone ds-ph">
+<!-- Пустое состояние. Откуда: .empty — src/alt.py:271; разметка — src/screens.py:153 -->
+<section class="ds-st">
+<div class="ds-lab">Обычное</div>
+<!-- состояние: Обычное -->
+<div class="empty">
+    <div class="ei"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5" width="19" height="14" rx="2.6"></rect><path d="M2.5 9.6h19"></path></svg></div>
+    <b>Операций пока нет</b>
+    <i>Пополните счёт — операции появятся здесь</i>
+  </div>
+</section>
+</div>
+<script src="../showcase/specimen.js"></script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>alt.vu · Предупреждение, заметка, подсказка</title>
+<script>/* тема — из адреса: components/warn.html#dark */
+if (location.hash === '#dark') document.documentElement.classList.add('dark');</script>
+<link rel="stylesheet" href="../css/alt-vu-wallet.css">
+<link rel="stylesheet" href="../showcase/states.css">
+<link rel="stylesheet" href="../showcase/specimen.css">
+</head>
+<body data-ds="warn">
+<div class="phone ds-ph">
+<!-- Предупреждение, заметка, подсказка. Откуда: .warn — src/alt.py:520; .note — src/alt.py:449; .hint — src/alt.py:447; разметка .warn — src/screens.py:333 -->
+<section class="ds-st">
+<div class="ds-lab">Предупреждение</div>
+<!-- состояние: Предупреждение -->
+<div class="warn"><div class="wi"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.6 21.2 19.6H2.8z"></path><path d="M12 10v4.2"></path><path d="M12 17.4v.1"></path></svg></div><p>Отправляйте только <b>USDT в сети TRC20</b>. Монеты, присланные в другой сети, вернуть нельзя.</p></div>
+</section>
+<section class="ds-st">
+<div class="ds-lab">Заметка</div>
+<!-- состояние: Заметка -->
+<div class="note">Пополнять и выводить деньги можно <b>уже сейчас</b> —
+  верификация обязательна для выпуска карты.</div>
+</section>
+<section class="ds-st">
+<div class="ds-lab">Подсказка</div>
+<!-- состояние: Подсказка -->
+<div class="hint" style="margin:0">Перевод в сети отменить нельзя — сверьте адрес целиком.</div>
+</section>
+<section class="ds-st">
+<div class="ds-lab">Ошибка</div>
+<!-- состояние: Ошибка -->
+<div class="err-note" style="margin:0">Не удалось отправить код</div>
+</section>
+</div>
+<script src="../showcase/specimen.js"></script>
+</body>
+</html>
