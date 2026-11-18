@@ -133,7 +133,7 @@
         for (const child of doc.querySelectorAll('.ds-ph iframe')) {
           try {
             const inner = child.contentDocument;
-            if (!inner || inner.readyState === 'loading') waitingForNested = true;
+            if (!inner || inner.readyState === 'loading' || !inner.querySelector('.phone')) waitingForNested = true;
           } catch (e) { waitingForNested = true; }
         }
         const state = new URL(frame.src, location.href).searchParams.get('mode') || '';
