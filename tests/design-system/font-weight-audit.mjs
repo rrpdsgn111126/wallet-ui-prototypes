@@ -7,6 +7,45 @@ import path from 'node:path';
 import { chromium } from 'playwright';
 const url=process.argv[2] || 'http://127.0.0.1:8765/ui-kit/';
 const out=process.argv[3] || path.join(process.env.RUNNER_TEMP||'/tmp','font-weight-audit.json');
+
+function sourceAudit(root){
+ const paths=['css/alt-vu-wallet.css','css/transfi-bank-altvu.css','showcase/showcase.css',
+  'showcase/specimen.css','transfi-remittance/index.html','transfi-remittance/legacy.html',
+  'transfi-remittance/transfi-qa-panel.js',
+  ...fs.readdirSync(path.join(root,'components')).filter(f=>f.endsWith('.html')).map(f=>'components/'+f)];
+ const counts={};const violations=[], exceptions=[];
+ for(const file of paths){
+  const raw=fs.readFileSync(path.join(root,file),'utf8');
+  const css=file.endsWith('.html')?[...raw.matchAll(/<style[^>]*>([\s\S]*?)<\/style>/gi)].map(m=>m[1]).join('\n'):raw;
+  for(const match of css.matchAll(/([^{}]+)\{([^{}]*)\}/g)){
+   const selector=match[1].trim().replace(/\s+/g,' ').slice(-125),body=match[2];
+   if(selector.includes('@font-face'))continue;
+   const sizes=[...body.matchAll(/\bfont-size\s*:\s*(?:var\([^,;]*,\s*)?([\d.]+)px/g)]
+      .map(x=>Number(x[1]));
+   const directWeights=[...body.matchAll(/\bfont-weight\s*:\s*(\d{3})\b/g)].map(x=>Number(x[1]));
+   for(const short of body.matchAll(/\bfont\s*:\s*([^;{}\n]+)/g)){
+    const m=short[1].match(/(?:^|\s)(\d{3})\s+([\d.]+)px(?:\/|\s)/);
+    if(m){sizes.push(Number(m[2]));directWeights.push(Number(m[1]));}
+   }
+   if(!sizes.length || !directWeights.length)continue;
+   if(!sizes.some(x=>x<=20))continue;
+   for(const weight of directWeights){
+    const item={file,selector,weight,sizes};
+    counts[weight]=(counts[weight]||0)+1;
+    const isGraphic=/\.mark \.m\b|\.tf-method-icon\b|\.tf-currency-check\b/.test(selector);
+    if(isGraphic){exceptions.push(item);continue;}
+    if(![400,500,600].includes(weight))violations.push(item);
+   }
+  }
+ }
+ return {counts,exceptions,violations};
+}
+const sourceReport=sourceAudit(process.cwd());
+console.log('SOURCE_WEIGHT_AUDIT '+JSON.stringify(sourceReport));
+if(sourceReport.violations.length){
+ console.error('Nonstandard explicit font-weights in <=20px text sources: '+sourceReport.violations.length);
+ process.exitCode=1;
+}
 const browser=await chromium.launch({headless:true,channel:'chrome'});
 try{
  const page=await browser.newPage({viewport:{width:1440,height:932}});
@@ -44,4 +83,5 @@ try{
  fs.writeFileSync(out,JSON.stringify(report,null,2)+'\n');
  console.log('WEIGHT_AUDIT '+JSON.stringify({rows:report.rows,weight_counts:counts,
   exception_count:exceptions.length,exceptions:exceptions.slice(0,120)}));
+ if(exceptions.length){console.error('Non-standard small text weights in UI Kit: '+exceptions.length);process.exitCode=1;}
 }finally{await browser.close();}
