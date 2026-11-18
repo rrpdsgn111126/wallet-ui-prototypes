@@ -31,6 +31,14 @@ jobs:
         run: node tests/design-system/typography-audit.mjs "$RUNNER_TEMP/ds-baseline" "$GITHUB_WORKSPACE" > "$RUNNER_TEMP/typography-audit.json"
       - name: Compare baseline and verify live tokens
         run: node tests/design-system/qa.mjs "$RUNNER_TEMP/ds-baseline" "$GITHUB_WORKSPACE"
+      - name: Verify typography inspector at 390, 430 and 1440px
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m http.server 8765 --bind 127.0.0.1 > "$RUNNER_TEMP/ds-03-http.log" 2>&1 &
+          PID=$!
+          trap 'kill "$PID" 2>/dev/null || true' EXIT
+          node tests/design-system/ui-kit-typography.mjs http://127.0.0.1:8765/ui-kit/
       - name: Upload before/after and audit
         if: always()
         uses: actions/upload-artifact@v4
@@ -39,4 +47,5 @@ jobs:
           path: |
             ${{ runner.temp }}/ds-02-visual-diff/
             ${{ runner.temp }}/typography-audit.json
+            ${{ runner.temp }}/ds-03-typography/
           if-no-files-found: warn

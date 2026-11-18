@@ -150,3 +150,51 @@ figure.v.d iframe { background: #121211; box-shadow: none; }
   figure.v iframe { width: 100%; max-width: none; border-radius: 0; box-shadow: none; }
   .foot { padding: 8px 16px 40px; }
 }
+
+
+/* Typography inspector in UI Kit: measurements come from rendered specimens. */
+.ds-typography-intro {
+  margin: 14px 0 20px; padding: 12px 16px; background: #e9ecf0;
+  border-radius: 12px; font-size: 14px; line-height: 20px; color: var(--ink-2);
+}
+.ds-typography-intro code { font-size: 12px; }
+.meta .ds-typography {
+  margin-top: 14px; padding: 12px 14px; border-radius: 12px;
+  background: var(--bg); min-width: 0;
+}
+.meta .ds-typo-heading {
+  font-size: 14px; line-height: 20px; font-weight: 600;
+}
+.meta .ds-typo-note {
+  font-size: 12px; line-height: 16px; color: var(--mute);
+  margin-top: 4px; margin-bottom: 8px;
+}
+.ds-typo-list { display: flex; flex-direction: column; min-width: 0; }
+.ds-typo-item { border-top: 1px solid var(--line); padding: 9px 0; min-width: 0; }
+.ds-typo-item:first-child { border-top: 0; padding-top: 4px; }
+.ds-typo-item:last-child { padding-bottom: 2px; }
+.ds-typo-item-head {
+  display: flex; justify-content: space-between; align-items: baseline;
+  flex-wrap: wrap; gap: 2px 12px; min-width: 0;
+}
+.ds-typo-role { font-size: 14px; line-height: 20px; font-weight: 500; }
+.ds-typo-value {
+  display: inline-block; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 12px; line-height: 18px; font-weight: 600; white-space: nowrap;
+  color: var(--ink);
+}
+.ds-typo-usage {
+  display: flex; gap: 3px 8px; flex-wrap: wrap; min-width: 0;
+  font-size: 12px; line-height: 18px; color: var(--mute); margin-top: 4px;
+}
+.ds-typo-usage > span:first-child { overflow-wrap: anywhere; }
+.ds-typo-usage code {
+  font-size: 12px; line-height: 18px; color: var(--mute);
+  background: #fff; border-radius: 4px; padding: 0 3px;
+  max-width: 100%; overflow-wrap: anywhere;
+}
+.ds-typo-usage .ds-typo-token { color: #215d41; }
+.meta .ds-typo-empty { font-size: 12px; line-height: 18px; color: var(--mute); margin: 0; }
+@media (max-width: 860px) {
+  .ds-typography-intro { margin-left: 16px; margin-right: 16px; }
+}
