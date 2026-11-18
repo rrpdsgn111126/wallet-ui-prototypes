@@ -43,7 +43,7 @@ async function capture(browser,dir,file,width,theme){
  return {page,errors,styles,png:PNG.sync.read(await page.screenshot({animations:'disabled'}))};
 }
 (async()=>{
- const browser=await chromium.launch({headless:true});
+ const browser=await chromium.launch({headless:true,channel:'chrome'});
  let failures=0;
  try{
   for(const [file,width,theme] of cases){

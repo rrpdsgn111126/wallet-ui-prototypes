@@ -23,7 +23,6 @@ jobs:
       - name: Install Playwright, PNG comparison utilities
         run: |
           npm install --no-save playwright@1.56.1 pngjs@7.0.0 pixelmatch@5.3.0
-          npx playwright install --with-deps chromium
       - name: Verify Python build syntax
         run: python -m py_compile build/build.py
       - name: Checkout unchanged main baseline
