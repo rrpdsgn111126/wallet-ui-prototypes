@@ -8,6 +8,13 @@
 - [Тестовые сценарии и переключение результатов](https://rrpdsgn111126.github.io/wallet-ui-prototypes/transfi-remittance/?qa=1)
 - [UI Kit — библиотека компонентов](https://rrpdsgn111126.github.io/wallet-ui-prototypes/ui-kit/)
 
+- [Предпросмотр новой дизайн-системы](https://rrpdsgn111126.github.io/wallet-ui-prototypes/preview/design-system/)
+- [Отдельный тестовый прототип с новой дизайн-системой](https://rrpdsgn111126.github.io/wallet-ui-prototypes/preview/design-system/transfi-remittance/)
+- [UI Kit новой дизайн-системы](https://rrpdsgn111126.github.io/wallet-ui-prototypes/preview/design-system/ui-kit/)
+
+Рабочие ветки: [`work/prototype`](https://github.com/rrpdsgn111126/wallet-ui-prototypes/tree/work/prototype) — изменения прототипа, [`work/design-system`](https://github.com/rrpdsgn111126/wallet-ui-prototypes/tree/work/design-system) — независимые изменения типографики, цветов и компонентов. Публикация содержимого `work/design-system` в `preview/design-system/` — только статическая сборка для просмотра, не перенос изменений в рабочую версию.
+
+
 ## Структура
 
 - `transfi-remittance/` — **единственный действующий прототип** (`index.html`, банковские сценарии в `legacy.html`).
