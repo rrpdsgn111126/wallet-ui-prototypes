@@ -2,7 +2,7 @@ name: Prototype Playwright Regression
 
 on:
   push:
-    branches: [main]
+    branches: [main, work/prototype]
     paths:
       - 'transfi-remittance/**'
       - 'css/transfi-bank-altvu.css'
