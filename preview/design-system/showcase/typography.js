@@ -128,7 +128,7 @@
     for (const frame of frames) {
       try {
         const doc = frame.contentDocument;
-        if (!doc || doc.readyState === 'loading' || !doc.body) continue;
+        if (!doc || doc.readyState === 'loading' || !doc.body || !doc.querySelector('.phone, .ds-ph')) continue;
         loaded++;
         for (const child of doc.querySelectorAll('.ds-ph iframe')) {
           try {
