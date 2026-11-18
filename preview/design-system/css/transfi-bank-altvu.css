@@ -181,10 +181,10 @@
   flex:0 1 auto;max-width:58%;min-width:0;
   text-align:right;display:block;font-weight:500;white-space:normal;overflow-wrap:anywhere;
 }
-.phone.tf-phone .tf-review-row .rt{min-width:0;flex:1 1 auto;font-size:15px;font-weight:400}
+.phone.tf-phone .tf-review-row .rt{min-width:0;flex:1 1 auto;font-size:16px;font-weight:400}
 .phone.tf-phone .tf-review-row .rv{
   min-width:0;max-width:60%;flex:0 1 auto;
-  font-size:15px;line-height:20px;font-weight:500;
+  font-size:14px;line-height:20px;font-weight:500;
   white-space:normal;text-align:right;overflow-wrap:anywhere;
   color:var(--n900);
 }
@@ -283,7 +283,7 @@
 .phone.tf-phone .tf-hero .okc{background:var(--brand);color:var(--brand-ink)}
 .phone.tf-phone .tf-mark svg,.phone.tf-phone .okc svg{width:36px;height:36px}
 .phone.tf-phone .timeline{margin:5px 0 14px;padding:0 10px}
-.phone.tf-phone .timeline .track{display:flex;gap:12px;min-height:69px;font-size:13px}
+.phone.tf-phone .timeline .track{display:flex;gap:12px;min-height:69px;font-size:14px}
 .phone.tf-phone .timeline .track .dot{
   position:static;inset:auto;top:auto;right:auto;bottom:auto;left:auto;
   width:24px;height:24px;flex:0 0 24px;
