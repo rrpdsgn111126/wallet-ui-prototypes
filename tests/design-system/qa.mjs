@@ -61,6 +61,7 @@ async function capture(browser,dir,file,width,theme){
     const count=pixelmatch(a.png.data,b.png.data,null,a.png.width,a.png.height,{threshold:.05,includeAA:false});
     const ratio=count/(a.png.width*a.png.height);
     console.log(id+' diff='+(ratio*100).toFixed(3)+'% ('+count+' pixels)');
+    if(JSON.stringify(b.styles)!==JSON.stringify(a.styles))console.log('Style delta baseline -> branch: '+JSON.stringify({baseline:a.styles,branch:b.styles}).slice(0,3200));
     assert.ok(ratio<=(file.includes('index.html')?.008:.004),'Unexpected screenshot change');
     assert.deepEqual(b.styles,a.styles,'Computed styles changed');
     assert.deepEqual(b.errors.filter(e=>!a.errors.includes(e)),[],'New JS errors');
