@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// DS-01 Playwright: main-vs-branch screenshot parity and runtime token tests.
+// DS-02 Playwright: deliberate typography diffs against frozen work/design-system baseline, no new JS errors.
 import fs from 'node:fs';
 import path from 'node:path';
 import assert from 'node:assert/strict';
@@ -9,6 +9,8 @@ import pngjs from 'pngjs';
 import pixelmatch from 'pixelmatch';
 const {chromium}=playwright, {PNG}=pngjs;
 const [baseline,current]=process.argv.slice(2);
+const outDir=path.join(process.env.RUNNER_TEMP||current,'ds-02-visual-diff');
+fs.mkdirSync(outDir,{recursive:true});
 assert.ok(baseline&&current,'Usage: qa.mjs <baseline-dir> <current-dir>');
 const css=fs.readFileSync(path.join(current,'tokens/tokens.css'),'utf8');
 const data=JSON.parse(fs.readFileSync(path.join(current,'tokens/tokens.json'),'utf8'));
@@ -58,12 +60,25 @@ async function capture(browser,dir,file,width,theme){
    try{
     assert.equal(a.png.width,b.png.width);
     assert.equal(a.png.height,b.png.height);
-    const count=pixelmatch(a.png.data,b.png.data,null,a.png.width,a.png.height,{threshold:.05,includeAA:false});
+    const pixelDelta = new PNG({width:a.png.width,height:a.png.height});
+    const count=pixelmatch(a.png.data,b.png.data,pixelDelta.data,a.png.width,a.png.height,{threshold:.05,includeAA:false});
+    const shotName=id.replace(/[^a-zA-Z0-9-]/g,'_');
+    fs.writeFileSync(path.join(outDir,shotName+'_before.png'),PNG.sync.write(a.png));
+    fs.writeFileSync(path.join(outDir,shotName+'_after.png'),PNG.sync.write(b.png));
+    fs.writeFileSync(path.join(outDir,shotName+'_diff.png'),PNG.sync.write(pixelDelta));
     const ratio=count/(a.png.width*a.png.height);
     console.log(id+' diff='+(ratio*100).toFixed(3)+'% ('+count+' pixels)');
     if(JSON.stringify(b.styles)!==JSON.stringify(a.styles))console.log('Style delta baseline -> branch: '+JSON.stringify({baseline:a.styles,branch:b.styles}).slice(0,3200));
-    assert.ok(ratio<=(file.includes('index.html')?.008:.004),'Unexpected screenshot change');
-    assert.deepEqual(b.styles,a.styles,'Computed styles changed');
+    // Typography is intentionally changed in DS-02: log pixel diffs for review.
+    // A large diff indicates collateral geometry or color changes and blocks the PR.
+    assert.ok(ratio<=.18,'Unexpectedly large visual diff (>18%)');
+    for(const [selector,style] of Object.entries(b.styles)) {
+      if(a.styles[selector])assert.equal(style[3],a.styles[selector][3],'Text color changed: '+selector);
+      const size=parseFloat(style[0]);
+      if(size<20&&size%2!==0)assert.fail('Non-grid computed font-size: '+selector+' = '+style[0]);
+    }
+    const expected = {'.phone .lead':'16px','.phone .note':'14px','.phone .fl b':'16px','.phone .fl i':'12px'};
+    for(const [selector,size] of Object.entries(expected))if(b.styles[selector])assert.equal(b.styles[selector][0],size,'Unexpected typography role: '+selector);
     assert.deepEqual(b.errors.filter(e=>!a.errors.includes(e)),[],'New JS errors');
     if(file==='components/type.html'&&theme==='light'){
      const x=await b.page.evaluate(()=>{
@@ -80,5 +95,5 @@ async function capture(browser,dir,file,width,theme){
    finally{await a.page.close();await b.page.close();}
   }
  }finally{await browser.close();}
- if(failures)process.exitCode=1;else console.log('DS-01 Playwright passed');
+ if(failures)process.exitCode=1;else console.log('DS-02 Playwright: typography, colors, runtime tokens, JS and visual diff checks passed');
 })().catch(e=>{console.error(e);process.exitCode=1});

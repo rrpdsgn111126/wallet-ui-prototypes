@@ -864,11 +864,11 @@ BUILT = datetime.datetime.fromtimestamp(SN["source"]["www_index_mtime"]).strftim
 
 def write(path, text):
     p = ROOT / path
-    # Canonical tokens and customized specimen pages are versioned source files.
+    # Approved DS tokens, specimens and normalized reference CSS are versioned source files.
     # A routine reference rebuild MUST NOT overwrite design-system decisions.
-    protected = path.startswith(("tokens/", "components/", "ui-kit/"))
+    protected = path.startswith(("tokens/", "components/", "ui-kit/")) or path == "css/alt-vu-wallet.css"
     if protected and p.exists() and os.environ.get("ALT_REFRESH_LIBRARY") != "1":
-        WARN.append(f"preserved canonical library file: {path} (ALT_REFRESH_LIBRARY=1 to regenerate)")
+        WARN.append(f"preserved canonical design-system file: {path} (ALT_REFRESH_LIBRARY=1 to regenerate)")
         return
     p.parent.mkdir(parents=True, exist_ok=True)
     p.write_text(text)
