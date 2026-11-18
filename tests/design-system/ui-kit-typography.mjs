@@ -71,6 +71,22 @@ try {
       assert.deepEqual(measurements.field, ['16px','22px','400'], 'Field input weight mismatch');
       assert.deepEqual(measurements.amount, ['16px','22px','400'], 'Amount input weight mismatch');
 
+      // Active filter chips retain the strong weight; inactive chips are regular.
+      for (const id of ['chips']) {
+        const frames = page.locator('#' + id + ' figure.v:not(.d) iframe');
+        for (let k = 0; k < await frames.count(); k++) await frames.nth(k).scrollIntoViewIfNeeded();
+      }
+      const chipWeights = await page.locator('#chips figure.v:not(.d) iframe').first().evaluate(node => {
+        const doc = node.contentDocument;
+        const active = doc.querySelector('.chip.on');
+        const inactive = doc.querySelector('.chip:not(.on)');
+        if (!active || !inactive) return null;
+        return [doc.defaultView.getComputedStyle(active).fontWeight,
+          doc.defaultView.getComputedStyle(inactive).fontWeight];
+      });
+      assert.deepEqual(chipWeights, ['600','400'], 'Filter chip active/inactive weights mismatch');
+
+
       assert.ok(find('bnv')?.text.includes('12 px'), 'Navigation typography missing');
       assert.ok(find('amount')?.text.includes('12 px'), 'Amount field caption missing');
       assert.ok(find('type')?.count >= 6, 'Typography scale specimen incomplete');
