@@ -583,7 +583,7 @@ button.row{width:100%;border:0;background:none;text-align:left;font:inherit;
 .prlc.lv2{background:#fdf3dc}
 .prlc.lv3{background:var(--ghost)}
 .prlh{display:flex;align-items:flex-start;gap:10px;min-height:38px}
-.prln{font-size:20px;font-weight:700;line-height:24px;flex:1 1 auto;min-width:0}
+.prln{font-size:20px;font-weight:600;line-height:24px;flex:1 1 auto;min-width:0}
 .prln i{display:block;font-style:normal;font-size:14px;font-weight:400;
   line-height:18px;color:var(--n500);margin-top:2px}
 .prbdg{display:none;flex:0 0 auto;background:var(--pr-ink,#161514);color:var(--brand);
@@ -610,7 +610,7 @@ button.row{width:100%;border:0;background:none;text-align:left;font:inherit;
 .pr-go{position:absolute;top:50%;right:12px;width:20px;height:20px;margin-top:-10px;
   color:var(--n500);pointer-events:none}
 
-.prcols b{display:block;font-size:var(--pr-b,18px);font-weight:700;line-height:22px;
+.prcols b{display:block;font-size:var(--pr-b,18px);font-weight:600;line-height:22px;
   font-variant-numeric:tabular-nums;white-space:nowrap}
 .prcols i{display:block;font-style:normal;font-size:12px;line-height:15px;
   color:var(--n500);margin-top:2px;white-space:nowrap}
@@ -632,7 +632,7 @@ button.row{width:100%;border:0;background:none;text-align:left;font:inherit;
 .prtiles .box{flex:1 1 0;min-width:0;margin:0;padding:12px 12px 14px}
 .prtiles i{display:block;font-style:normal;font-size:12px;line-height:15px;
   color:var(--n500);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.prtiles b{display:block;font-size:18px;font-weight:700;line-height:22px;margin-top:6px;
+.prtiles b{display:block;font-size:18px;font-weight:600;line-height:22px;margin-top:6px;
   font-variant-numeric:tabular-nums;white-space:nowrap}
 
 .prtiles em{display:block;font-style:normal;font-size:12px;line-height:15px;color:var(--n500);margin-top:2px}
@@ -2302,7 +2302,7 @@ html.kbd #v-dep-sbp .foot > .note{display:none}
 .sbp-calc .rl span{color:var(--n500);font-size:14px}
 .sbp-calc .rl b{font-size:14px;font-weight:500}
 .sbp-calc .rl.tot span{color:var(--n900);font-size:16px;font-weight:600}
-.sbp-calc .rl.tot b{font-size:18px;font-weight:700}
+.sbp-calc .rl.tot b{font-size:18px;font-weight:600}
 .sbp-qr .qb .cn{width:44px;height:44px}
 .sbp-calc .rl b{font-variant-numeric:tabular-nums}
 .sbp-live{display:flex;align-items:center;justify-content:center;gap:8px;margin:2px 0 12px;font-size:14px;line-height:18px;

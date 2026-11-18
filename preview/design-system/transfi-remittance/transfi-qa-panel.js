@@ -9,7 +9,7 @@ style.textContent=[
 '#tf-qa-panel *{box-sizing:border-box}',
 '#tf-qa-panel > header{padding-bottom:14px;border-bottom:1px solid #edf0f2;margin-bottom:12px}',
 '#tf-qa-panel .tfqa-eyebrow{color:#737775;font-size:12px;line-height:16px;font-weight:600;letter-spacing:.08em;text-transform:uppercase}',
-'#tf-qa-panel h2{font:650 19px/24px Inter,system-ui,sans-serif;color:#211e1d;margin:6px 0 4px}',
+'#tf-qa-panel h2{font:600 19px/24px Inter,system-ui,sans-serif;color:#211e1d;margin:6px 0 4px}',
 '#tf-qa-panel p{font-size:12px;line-height:18px;color:#6b6767;margin:0}',
 '#tf-qa-panel .tfqa-field{display:block;margin:0 0 15px}',
 '#tf-qa-panel .tfqa-field span{display:block;font:600 12px/16px Inter,system-ui,sans-serif;margin:0 0 7px;color:#484b49}',
