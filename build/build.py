@@ -897,7 +897,7 @@ HEAD_CSS = (f"/* CSS кошелька alt.vu — как уезжает на alt.
 # Reference CSS is generated, but its consumer always loads the canonical
 # design-system bridge. No approved library tokens are embedded into this file.
 write("css/alt-vu-wallet.css", HEAD_CSS +
-      '@import url("design-system.css");\\n'.replace('\\n','\n') +
+      '@import url("design-system.css");\n' +
       rel_assets(CSS, "../assets/"))
 
 # шрифт Inter для самой витрины — те же @font-face, что у кошелька
