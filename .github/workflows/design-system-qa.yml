@@ -6,6 +6,7 @@ on:
       - 'tokens/**'
       - 'css/**'
       - 'components/**'
+      - 'showcase/**'
       - 'ui-kit/**'
       - 'transfi-remittance/**'
       - 'build/build.py'
