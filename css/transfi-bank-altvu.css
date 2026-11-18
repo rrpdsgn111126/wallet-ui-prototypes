@@ -25,7 +25,7 @@
   align-items:center;gap:12px;background:transparent;
 }
 .phone.tf-phone:not(.is-home)>.head .h1 {
-  min-width:0;font-size:20px;line-height:24px;font-weight:600;
+  min-width:0;font:var(--ds-type-title);
   color:var(--n900);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
 }
 .phone.tf-phone:not(.is-home)>.head .back {
@@ -51,7 +51,7 @@
 .phone.tf-phone:not(.is-home)>.tf-foot .btno {
   box-sizing:border-box;width:100%;height:52px;border:0;border-radius:16px;
   display:flex;align-items:center;justify-content:center;gap:8px;
-  font:600 16px/22px Inter,system-ui,sans-serif;margin:0;
+  font:var(--ds-type-bank-strong);margin:0;
 }
 .phone.tf-phone:not(.is-home)>.tf-foot .btn {
   background:var(--brand);color:var(--brand-ink);
@@ -91,7 +91,7 @@
 .phone.tf-phone .fld.tf-field .fi svg {width:20px;height:20px}
 .phone.tf-phone .fld.tf-field .fl{flex:1 1 auto;min-width:0;display:block}
 .phone.tf-phone .fld.tf-field .fl i{
-  display:block;font:400 12px/16px Inter,system-ui,sans-serif;
+  display:block;font:var(--ds-type-field-label);
   color:var(--n500);font-style:normal;margin:0 0 2px;
 }
 .phone.tf-phone .fld.tf-field .fl b,
@@ -99,24 +99,24 @@
 .phone.tf-phone .fld.tf-field .fl select {
   box-sizing:border-box;display:block;width:100%;max-width:100%;
   border:0;outline:0;background:transparent;margin:0;padding:0;
-  font:500 16px/22px Inter,system-ui,sans-serif;color:var(--n900);
+  font:var(--ds-type-field-value);color:var(--n900);
 }
 .phone.tf-phone .fld.tf-field .fl input::placeholder{color:var(--n300);font-weight:400}
 .phone.tf-phone .fld.tf-field .fl select{cursor:pointer;height:24px}
 .phone.tf-phone .fld.tf-field .addon{display:flex;gap:8px;align-items:center;flex:0 0 auto}
-.phone.tf-phone .fld.tf-field .cur{font:500 16px/22px Inter,system-ui,sans-serif;color:var(--n500)}
+.phone.tf-phone .fld.tf-field .cur{font:var(--ds-type-field-value);color:var(--n500)}
 .phone.tf-phone .fld.tf-field.tf-amount{margin-top:0}
 .phone.tf-phone .tf-label {
-  margin:16px 4px 9px;font:500 13px/18px Inter,system-ui,sans-serif;
+  margin:16px 4px 9px;font:var(--ds-type-note-strong);
   color:var(--n500);
 }
 .phone.tf-phone .tf-label:first-child{margin-top:2px}
 .phone.tf-phone .tf-route {
   margin:4px 4px 15px;display:flex;gap:9px;align-items:center;
-  font:400 14px/20px Inter,system-ui,sans-serif;color:var(--n500);
+  font:var(--ds-type-body-secondary);color:var(--n500);
 }
 .phone.tf-phone .tf-route strong {
-  font:600 11px/16px Inter,system-ui,sans-serif;
+  font:var(--ds-type-label-tiny);
   padding:3px 10px;border-radius:999px;
   background:var(--n100);color:var(--n850);
 }
@@ -128,7 +128,7 @@
   box-sizing:border-box;min-width:0;flex:1 1 0;height:40px;
   border:0;border-radius:12px;padding:0 4px;
   background:transparent;color:var(--n500);
-  font:600 14px/40px Inter,system-ui,sans-serif;
+  font:var(--ds-type-bank-prompt);
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
 }
 .phone.tf-phone .seg.tf-seg button.on{
@@ -149,16 +149,16 @@
 }
 .phone.tf-phone .tf-requisites .row:first-child,
 .phone.tf-phone .tf-review-box .row:first-child{box-shadow:none}
-.phone.tf-phone .tf-copyrow .rt{font:500 16px/22px Inter,system-ui,sans-serif;min-width:0;overflow-wrap:anywhere}
+.phone.tf-phone .tf-copyrow .rt{font:var(--ds-type-field-value);min-width:0;overflow-wrap:anywhere}
 .phone.tf-phone .tf-copyrow .rt i{
-  display:block;font:400 12px/16px Inter,system-ui,sans-serif;
+  display:block;font:var(--ds-type-field-label);
   font-style:normal;color:var(--n500);margin:0 0 2px;
 }
 /* Read-only requisites use the same typography as an editable .fld.tf-field:
    label 12/16 regular n500, value 16/22 medium n900, regardless of rail. */
 .phone.tf-phone .tf-copyrow .tf-copy-value {
   display:block;min-width:0;
-  font:500 16px/22px Inter,system-ui,sans-serif;
+  font:var(--ds-type-field-value);
   color:var(--n900);overflow-wrap:anywhere;
 }
 .phone.tf-phone .tf-copyrow .tf-copy{
@@ -173,7 +173,7 @@
 .phone.tf-phone .tbl .rl{
   display:flex;align-items:center;gap:16px;
   min-height:42px;margin:0;padding:11px 0;
-  border-top:1px solid var(--n100);font:400 15px/20px Inter,system-ui,sans-serif;
+  border-top:1px solid var(--n100);font:var(--ds-type-body-compact);
 }
 .phone.tf-phone .tbl .rl:first-child{border-top:0}
 .phone.tf-phone .tbl .rl span{flex:1 1 0;min-width:0;color:var(--n850)}
@@ -189,16 +189,16 @@
   color:var(--n900);
 }
 .phone.tf-phone .tf-review-amount{
-  font:600 32px/38px Inter,system-ui,sans-serif;
+  font:var(--ds-type-amount-hero);
   letter-spacing:-.5px;text-align:center;margin:8px 0 0;
 }
-.phone.tf-phone .amsub{font:400 14px/20px Inter,system-ui,sans-serif;color:var(--n500);text-align:center;margin:4px 0 20px}
-.phone.tf-phone .gt{font:600 16px/22px Inter,system-ui,sans-serif;margin:12px 4px 10px}
+.phone.tf-phone .amsub{font:var(--ds-type-body-secondary);color:var(--n500);text-align:center;margin:4px 0 20px}
+.phone.tf-phone .gt{font:var(--ds-type-bank-strong);margin:12px 4px 10px}
 /* Original 'note' and 'warn' styles instead of mock-only banners. */
-.phone.tf-phone .tf-notice {font:400 13px/18px Inter,system-ui,sans-serif;
+.phone.tf-phone .tf-notice {font:var(--ds-type-note);
  border-radius:16px;padding:14px 16px;margin:12px 0;background:var(--n100);color:var(--n850)}
 .phone.tf-phone .tf-notice.warn {background:var(--warn-bg,#f2f8dc)}
-.phone.tf-phone .tf-more summary{font:500 14px/20px Inter,system-ui,sans-serif;color:var(--n850)}
+.phone.tf-phone .tf-more summary{font:var(--ds-type-body-secondary-strong);color:var(--n850)}
 .phone.tf-phone .tf-more>.tf-field{margin-left:12px;margin-right:12px;width:calc(100% - 24px)}
 .phone.tf-phone .tf-more .tf-field{box-shadow:none;background:var(--n50)}
 /* SEPA/SWIFT final states mirror the original ALT.VU P2P and SBP
@@ -219,11 +219,11 @@
 .phone.tf-phone .tf-bank-result .okc{background:var(--brand)}
 .phone.tf-phone .tf-bank-result .sbp-ic{background:var(--n100)}
 .phone.tf-phone .tf-bank-result .h2{
-  font:600 24px/30px Inter,system-ui,sans-serif;
+  font:var(--ds-type-status-title);
   margin:24px 0 8px;color:var(--n900);
 }
 .phone.tf-phone .tf-bank-result .p{
-  font:400 15px/21px Inter,system-ui,sans-serif;
+  font:var(--ds-type-lead);
   margin:0 auto;color:var(--n500);max-width:330px;text-wrap:balance;
 }
 .phone.tf-phone.tf-bank-final > .tf-foot .btno{
@@ -245,16 +245,16 @@
   border-radius:999px;background:var(--n100);
 }
 .phone.tf-phone .tf-bank-wait .h2{
-  font:600 24px/30px Inter,system-ui,sans-serif;
+  font:var(--ds-type-status-title);
   margin:24px 0 8px;color:var(--n900);
 }
 .phone.tf-phone .tf-bank-wait .p{
-  font:400 15px/21px Inter,system-ui,sans-serif;
+  font:var(--ds-type-lead);
   max-width:330px;margin:0;color:var(--n500);text-wrap:balance;
 }
 .phone.tf-phone .tf-bank-wait-note{
   margin:0 0 14px;text-align:center;
-  font:400 13px/18px Inter,system-ui,sans-serif;color:var(--n500);
+  font:var(--ds-type-note);color:var(--n500);
 }
 /* Review calculations use the native ALT.VU .row.tot emphasis:
    standard border above the charged amount, no extra heading "Расчёт". */
@@ -270,8 +270,8 @@
 /* Status screens adopt the original hero/okc vocabulary and SVG icons. */
 .phone.tf-phone .tf-hero{margin:22px 0 24px;text-align:center}
 .phone.tf-phone .tf-hero .h2,
-.phone.tf-phone .tf-status-title{font:600 27px/33px Inter,system-ui,sans-serif;margin:17px 0 8px;color:var(--n900)}
-.phone.tf-phone .tf-hero p{font:400 15px/21px Inter,system-ui,sans-serif;color:var(--n500);margin:0 auto 16px;max-width:340px;text-wrap:balance}
+.phone.tf-phone .tf-status-title{font:var(--ds-type-status-prominent);margin:17px 0 8px;color:var(--n900)}
+.phone.tf-phone .tf-hero p{font:var(--ds-type-lead);color:var(--n500);margin:0 auto 16px;max-width:340px;text-wrap:balance}
 .phone.tf-phone .tf-mark,.phone.tf-phone .tf-hero .okc{
   box-sizing:border-box;display:grid;place-items:center;
   width:88px;height:88px;border-radius:50%;margin:0 auto 14px;color:var(--n850);
@@ -291,8 +291,8 @@
   border-radius:50%;background:var(--n100);color:var(--n850);
 }
 .phone.tf-phone .timeline .track.done .dot{background:var(--brand);color:var(--brand-ink)}
-.phone.tf-phone .timeline .track small{display:block;font:400 12px/16px Inter,system-ui,sans-serif;color:var(--n500);margin-top:4px}
-.phone.tf-phone .timeline .track b{font:500 14px/20px Inter,system-ui,sans-serif}
+.phone.tf-phone .timeline .track small{display:block;font:var(--ds-type-field-label);color:var(--n500);margin-top:4px}
+.phone.tf-phone .timeline .track b{font:var(--ds-type-body-secondary-strong)}
 /* iframe mode: source app owns navigation; bank page owns only its content/CTA. */
 html.tf-embedded,html.tf-embedded body{width:100%;height:100%;overflow:hidden;margin:0;background:var(--n50)}
 html.tf-capture.tf-embedded .phone.tf-phone{position:relative;width:100%!important;height:100%!important;min-height:0!important;max-width:none!important;transform:none;border:0;border-radius:0;box-shadow:none}
@@ -336,7 +336,7 @@ html.tf-embedded .proto-shell,html.tf-embedded .workspace{height:100%;width:100%
   .phone.tf-phone:not(.is-home)>.head{gap:8px;padding-left:12px;padding-right:12px}
   .phone.tf-phone:not(.is-home)>.head .tf-head-actions{gap:6px}
   .phone.tf-phone:not(.is-home)>.head .tf-head-action{flex-basis:36px;width:36px;height:36px}
-  .phone.tf-phone:not(.is-home)>.head .h1{font-size:20px}
+  .phone.tf-phone:not(.is-home)>.head .h1{font-size:var(--ds-font-size-20)}
 }
 
 /* UX: an unavailable action can still be tapped to explain the missing fields.
@@ -351,7 +351,7 @@ html.tf-embedded .proto-shell,html.tf-embedded .workspace{height:100%;width:100%
   pointer-events:auto;
 }
 .phone.tf-phone .tf-submit-error{
-  font:400 12px/18px Inter,system-ui,sans-serif;
+  font:var(--ds-type-caption);
   color:var(--err,#bd340e);
   padding:7px 3px 0;
 }
@@ -377,7 +377,7 @@ html.tf-embedded .proto-shell,html.tf-embedded .workspace{height:100%;width:100%
   box-sizing:border-box;display:flex;align-items:center;justify-content:space-between;
   width:100%;min-height:44px;gap:12px;margin:0;padding:8px 0 12px;
   list-style:none;background:transparent;border:0;box-shadow:none;
-  color:var(--n900);font:600 16px/24px Inter,system-ui,sans-serif;cursor:pointer;
+  color:var(--n900);font:var(--ds-type-label-strong);cursor:pointer;
 }
 .phone.tf-phone .tf-more.tf-recipient-extra summary::-webkit-details-marker{display:none}
 .phone.tf-phone .tf-more.tf-recipient-extra summary::after{
@@ -447,7 +447,7 @@ html.tf-embedded .proto-shell,html.tf-embedded .workspace{height:100%;width:100%
 }
 .phone.tf-phone .tf-picker-sheet .sh2{
   flex:none;margin:0 0 14px;padding:0;
-  font:600 20px/24px Inter,system-ui,sans-serif;color:var(--n900);
+  font:var(--ds-type-title);color:var(--n900);
 }
 .phone.tf-phone .tf-picker-box{
   box-sizing:border-box;min-height:0;overflow-x:hidden;overflow-y:auto;
@@ -476,7 +476,7 @@ html.tf-embedded .proto-shell,html.tf-embedded .workspace{height:100%;width:100%
 }
 .phone.tf-phone .tf-picker-row .rt{
   flex:1 1 auto;min-width:0;
-  font:500 16px/22px Inter,system-ui,sans-serif;
+  font:var(--ds-type-field-value);
 }
 .phone.tf-phone .tf-picker-row .rd{
   flex:0 0 24px;width:24px;height:24px;
@@ -518,7 +518,7 @@ html.tf-embedded .proto-shell,html.tf-embedded .workspace{height:100%;width:100%
 .phone.tf-phone .fld.tf-amount .fl b{display:block;width:100%;min-width:0}
 .phone.tf-phone .fld.tf-amount .fl b input{
  box-sizing:border-box;width:100%;min-width:0;max-width:100%;
- font:600 16px/22px Inter,system-ui,sans-serif;color:var(--n900);
+ font:var(--ds-type-bank-strong);color:var(--n900);
 }
 .phone.tf-phone .fld.tf-amount .fl b input::placeholder{
  color:var(--n300);font-weight:500;opacity:1;
@@ -550,15 +550,15 @@ html.tf-embedded .proto-shell,html.tf-embedded .workspace{height:100%;width:100%
   font-weight:600;min-height:64px;
 }
 .phone.tf-phone .box.tf-quote .rt{
-  flex:1 1 45%;min-width:0;font:500 15px/20px Inter,system-ui,sans-serif;color:var(--n900);
+  flex:1 1 45%;min-width:0;font:var(--ds-type-body-compact-strong);color:var(--n900);
 }
 .phone.tf-phone .box.tf-quote .rt i{
-  display:block;margin-top:3px;font:400 12px/16px Inter,system-ui,sans-serif;
+  display:block;margin-top:3px;font:var(--ds-type-field-label);
   font-style:normal;color:var(--n500);
 }
 .phone.tf-phone .box.tf-quote .rv{
   flex:1 1 55%;min-width:0;max-width:60%;text-align:right;
-  font:400 15px/21px Inter,system-ui,sans-serif;color:var(--n500);
+  font:var(--ds-type-lead);color:var(--n500);
   overflow-wrap:anywhere;
 }
 .phone.tf-phone .box.tf-quote .row.tot .rt,
