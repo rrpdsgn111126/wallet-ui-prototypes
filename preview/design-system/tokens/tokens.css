@@ -159,15 +159,14 @@
   --ds-font-size-24: 24px;
   --ds-font-size-27: 27px;
   --ds-font-weight-400: 400;
-  --ds-font-weight-500: 500;
   --ds-font-weight-600: 600;
   --ds-font-weight-700: 700;
 
   --ds-type-bank-strong: var(--ds-font-weight-600) var(--ds-font-size-16)/22px var(--ds-font); /* Усиленное значение банковской формы */
   --ds-type-body-secondary: var(--ds-font-weight-400) var(--ds-font-size-14)/20px var(--ds-font); /* Вторичный текст */
-  --ds-type-body-secondary-strong: var(--ds-font-weight-500) var(--ds-font-size-14)/20px var(--ds-font); /* Вторичный текст с акцентом */
-  --ds-type-note-strong: var(--ds-font-weight-500) var(--ds-font-size-14)/20px var(--ds-font); /* Акцентированная заметка */
-  --ds-type-body-compact-strong: var(--ds-font-weight-500) var(--ds-font-size-16)/22px var(--ds-font); /* Плотный текст с акцентом */
+  --ds-type-body-secondary-strong: var(--ds-font-weight-400) var(--ds-font-size-14)/20px var(--ds-font); /* Вторичный текст с акцентом */
+  --ds-type-note-strong: var(--ds-font-weight-400) var(--ds-font-size-14)/20px var(--ds-font); /* Акцентированная заметка */
+  --ds-type-body-compact-strong: var(--ds-font-weight-400) var(--ds-font-size-16)/22px var(--ds-font); /* Плотный текст с акцентом */
   --ds-type-body-compact: var(--ds-font-weight-400) var(--ds-font-size-16)/22px var(--ds-font); /* Плотный текст */
   --ds-type-status-title: var(--ds-font-weight-600) var(--ds-font-size-24)/30px var(--ds-font); /* Заголовок результата операции */
   --ds-type-status-prominent: var(--ds-font-weight-600) var(--ds-font-size-27)/33px var(--ds-font); /* Крупный заголовок результата */
@@ -183,15 +182,15 @@
   --ds-type-sheet-title: var(--ds-font-weight-600) var(--ds-font-size-20)/24px var(--ds-font);  /* Заголовок шторки (.sh2) */
   --ds-type-section: var(--ds-font-weight-600) var(--ds-font-size-20)/24px var(--ds-font);  /* Заголовок раздела (.hh h2) */
   --ds-type-button: var(--ds-font-weight-600) var(--ds-font-size-16)/normal var(--ds-font);  /* Кнопка (.btn,.btno) */
-  --ds-type-row: var(--ds-font-weight-500) var(--ds-font-size-16)/22px var(--ds-font);  /* Строка в плите (.row .rt) */
-  --ds-type-field-value: var(--ds-font-weight-500) var(--ds-font-size-16)/22px var(--ds-font);  /* Значение поля (.fl b) */
+  --ds-type-row: var(--ds-font-weight-400) var(--ds-font-size-16)/22px var(--ds-font);  /* Строка в плите (.row .rt) */
+  --ds-type-field-value: var(--ds-font-weight-400) var(--ds-font-size-16)/22px var(--ds-font);  /* Значение поля (.fl b) */
   --ds-type-field-label: var(--ds-font-weight-400) var(--ds-font-size-12)/16px var(--ds-font);  /* Подпись поля (.fl i) */
   --ds-type-lead: var(--ds-font-weight-400) var(--ds-font-size-16)/22px var(--ds-font);  /* Вводный абзац (.lead) */
   --ds-type-note: var(--ds-font-weight-400) var(--ds-font-size-14)/20px var(--ds-font);  /* Заметка (.note) */
   --ds-type-hint: var(--ds-font-weight-400) var(--ds-font-size-12)/16px var(--ds-font);  /* Подсказка (.hint) */
-  --ds-type-link: var(--ds-font-weight-500) var(--ds-font-size-14)/normal var(--ds-font);  /* Ссылка действия (.lnk) */
-  --ds-type-action-label: var(--ds-font-weight-500) var(--ds-font-size-12)/16px var(--ds-font);  /* Подпись быстрого действия (.act span) */
-  --ds-type-nav-label: var(--ds-font-weight-500) var(--ds-font-size-12)/16px var(--ds-font);  /* Подпись нижнего меню (.bnv-i) */
+  --ds-type-link: var(--ds-font-weight-400) var(--ds-font-size-14)/normal var(--ds-font);  /* Ссылка действия (.lnk) */
+  --ds-type-action-label: var(--ds-font-weight-400) var(--ds-font-size-12)/16px var(--ds-font);  /* Подпись быстрого действия (.act span) */
+  --ds-type-nav-label: var(--ds-font-weight-400) var(--ds-font-size-12)/16px var(--ds-font);  /* Подпись нижнего меню (.bnv-i) */
 }
 
 /* Тёмная тема: класс dark на <html>, как в кошельке. Его ставит скрипт в <head>
