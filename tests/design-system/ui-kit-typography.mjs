@@ -42,6 +42,25 @@ try {
       assert.ok(find('bnv')?.text.includes('12 px'), 'Navigation typography missing');
       assert.ok(find('amount')?.text.includes('12 px'), 'Amount field caption missing');
       assert.ok(find('type')?.count >= 6, 'Typography scale specimen incomplete');
+      if (find('bankfields')?.count === 0) {
+        const debug = await page.evaluate(() => {
+          const outer = document.querySelector('#bankfields figure.v:not(.d) iframe');
+          const doc = outer?.contentDocument;
+          const nested = doc?.querySelector('iframe');
+          const inner = nested?.contentDocument;
+          const phone = inner?.querySelector('.phone');
+          const candidates = phone ? [...phone.querySelectorAll('h1,h2,p,span,b,i,button,div,input')].filter(el=>(el.textContent || el.getAttribute('placeholder') || '').trim()).slice(0,15).map(el=>({
+            tag:el.tagName, cls:el.className?.toString().slice(0,60), text:el.textContent.slice(0,50),
+            style:inner.defaultView.getComputedStyle(el).fontSize, rects:el.getClientRects().length,
+            visible:inner.defaultView.getComputedStyle(el).display
+          })) : [];
+          return {outerSrc:outer?.src,outerReady:doc?.readyState,outerURL:doc?.URL,
+            innerSrc:nested?.src,innerReady:inner?.readyState,innerURL:inner?.URL,
+            innerBody:inner?.body?.className,phoneClass:phone?.className,phoneText:phone?.innerText?.slice(0,200),
+            candidates};
+        });
+        console.error('BANK DEBUG', JSON.stringify(debug));
+      }
       assert.ok(find('bankfields')?.count > 0,
         'Nested bank specimen was not inspected: ' + JSON.stringify(find('bankfields')));
       assert.ok(find('recipientfields')?.count > 0,
