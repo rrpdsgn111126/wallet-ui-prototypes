@@ -1,7 +1,7 @@
 name: Design system normalization QA
 on:
   push:
-    branches: [design-system-normalization, main]
+    branches: [design-system-normalization, work/design-system, main]
     paths:
       - 'tokens/**'
       - 'css/**'
