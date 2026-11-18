@@ -123,6 +123,15 @@
   --ds-color-n700: #3d3a39;
 
 
+  /* Semantic color aliases: keep foundation values and dark-mode overrides unchanged. */
+  --ds-sem-text-primary: var(--ds-color-n850); /* Основной текст и иконки; граница с n900 сохраняется без изменений */
+  --ds-sem-text-secondary: var(--ds-color-n500); /* Вторичные подписи и текст */
+  --ds-sem-text-placeholder: var(--ds-color-n500); /* Плейсхолдер в форме; повышенный контраст относительно n300 */
+  --ds-sem-surface: var(--ds-color-surface); /* Поверхности полей и карточек */
+  --ds-sem-border: var(--ds-color-line); /* Обводки и разделители с контекстом border */
+  --ds-sem-success: var(--ds-color-ok); /* Положительный статус и успешная операция */
+  --ds-sem-error: var(--ds-color-err); /* Ошибки формы и операции */
+
   --ds-font: Inter,"Noto Sans Thai",Thonburi,"Leelawadee UI",system-ui,sans-serif;
   --ds-font-mono: ui-monospace,SFMono-Regular,Menlo, Consolas,monospace;
   --ds-step: 12px;  /* вертикальный шаг между блоками */
