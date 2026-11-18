@@ -179,12 +179,12 @@
 .phone.tf-phone .tbl .rl span{flex:1 1 0;min-width:0;color:var(--n850)}
 .phone.tf-phone .tbl .rl b{
   flex:0 1 auto;max-width:58%;min-width:0;
-  text-align:right;display:block;font-weight:500;white-space:normal;overflow-wrap:anywhere;
+  text-align:right;display:block;font-weight:400;white-space:normal;overflow-wrap:anywhere;
 }
 .phone.tf-phone .tf-review-row .rt{min-width:0;flex:1 1 auto;font-size:16px;font-weight:400}
 .phone.tf-phone .tf-review-row .rv{
   min-width:0;max-width:60%;flex:0 1 auto;
-  font-size:14px;line-height:20px;font-weight:500;
+  font-size:14px;line-height:20px;font-weight:400;
   white-space:normal;text-align:right;overflow-wrap:anywhere;
   color:var(--n900);
 }
@@ -412,7 +412,7 @@ html.tf-embedded .proto-shell,html.tf-embedded .workspace{height:100%;width:100%
   text-align:left;cursor:pointer;color:var(--n900);border:0;font:inherit;
 }
 .phone.tf-phone .fld.tf-picker-trigger .fl i{font-weight:400}
-.phone.tf-phone .fld.tf-picker-trigger .fl b{font-weight:500}
+.phone.tf-phone .fld.tf-picker-trigger .fl b{font-weight:400}
 .phone.tf-phone .tf-picker-chevron{
   flex:0 0 20px;margin-left:auto;color:var(--n400);display:grid;place-items:center;
 }
@@ -521,7 +521,7 @@ html.tf-embedded .proto-shell,html.tf-embedded .workspace{height:100%;width:100%
  font:var(--ds-type-bank-strong);color:var(--n900);
 }
 .phone.tf-phone .fld.tf-amount .fl b input::placeholder{
- color:var(--n300);font-weight:500;opacity:1;
+ color:var(--n300);font-weight:400;opacity:1;
 }
 /* Override only generic bank field addon gap 8px to the native 12px. */
 /* Both MAX and the dollar use the exact source wallet font stack.

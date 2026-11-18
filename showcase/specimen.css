@@ -47,5 +47,5 @@ body::before { content: none !important; display: none !important; }
   width: 64px; display: flex; flex-direction: column; align-items: center; gap: 6px;
 }
 .ds-cn > span, .ds-cat > span {
-  font-size: 12px; font-weight: 500; line-height: 14px; color: var(--n500); text-align: center;
+  font-size: 12px; font-weight: 400; line-height: 14px; color: var(--n500); text-align: center;
 }

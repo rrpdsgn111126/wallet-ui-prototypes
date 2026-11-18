@@ -49,7 +49,7 @@ a:hover { text-decoration: underline; }
 .toc a {
   display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 12px;
   border-radius: 999px; background: var(--surface); color: var(--ink-2); font-size: 14px;
-  font-weight: 500; box-shadow: 0 1px 2px #1615140a;
+  font-weight: 400; box-shadow: 0 1px 2px #1615140a;
 }
 .toc a:hover { text-decoration: none; background: var(--line); }
 .toc span { display: none; }
@@ -81,7 +81,7 @@ main { max-width: 1360px; margin: 0 auto; padding: 0 24px 40px; }
 }
 .src dt { color: var(--mute); }
 .src dd code { font-size: 12px; overflow-wrap: anywhere; color: var(--ink-2); }
-.open { display: inline-block; margin-top: 12px; font-size: 14px; font-weight: 500; }
+.open { display: inline-block; margin-top: 12px; font-size: 14px; font-weight: 400; }
 
 figure.v { margin: 0; min-width: 0; }
 figure.v figcaption {
@@ -177,7 +177,7 @@ figure.v.d iframe { background: #121211; box-shadow: none; }
   display: flex; justify-content: space-between; align-items: baseline;
   flex-wrap: wrap; gap: 2px 12px; min-width: 0;
 }
-.ds-typo-role { font-size: 14px; line-height: 20px; font-weight: 500; }
+.ds-typo-role { font-size: 14px; line-height: 20px; font-weight: 400; }
 .ds-typo-value {
   display: inline-block; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   font-size: 12px; line-height: 18px; font-weight: 600; white-space: nowrap;

@@ -27,14 +27,21 @@ function sourceAudit(root){
     const m=short[1].match(/(?:^|\s)(\d{3})\s+([\d.]+)px(?:\/|\s)/);
     if(m){sizes.push(Number(m[2]));directWeights.push(Number(m[1]));}
    }
-   if(!sizes.length || !directWeights.length)continue;
+   if(!directWeights.length)continue;
+   // A 500 declaration without its own font size may inherit small UI text size.
+   // For other weights, only measured or declared font-size <=20px is in scope.
+   if(!sizes.length){
+    for(const weight of directWeights)if(weight===500)
+     violations.push({file,selector,weight,sizes,reason:'inherited font size'});
+    continue;
+   }
    if(!sizes.some(x=>x<=20))continue;
    for(const weight of directWeights){
     const item={file,selector,weight,sizes};
     counts[weight]=(counts[weight]||0)+1;
     const isGraphic=/\.mark \.m\b|\.tf-method-icon\b|\.tf-currency-check\b/.test(selector);
     if(isGraphic){exceptions.push(item);continue;}
-    if(![400,500,600].includes(weight))violations.push(item);
+    if(![400,600].includes(weight))violations.push(item);
    }
   }
  }
@@ -45,6 +52,13 @@ console.log('SOURCE_WEIGHT_AUDIT '+JSON.stringify(sourceReport));
 if(sourceReport.violations.length){
  console.error('Nonstandard explicit font-weights in <=20px text sources: '+sourceReport.violations.length);
  process.exitCode=1;
+}
+// Design tokens must not silently reintroduce the intermediate weight.
+const tokens=JSON.parse(fs.readFileSync(path.join(process.cwd(),'tokens/tokens.json'),'utf8'));
+const tokenOffenders=(tokens.type||[]).filter(x=>parseFloat(x.size)<=20&&x.weight==='500');
+if(tokenOffenders.length){console.error('500 weight remains in type tokens: '+tokenOffenders.map(x=>x.key));process.exitCode=1;}
+if(fs.readFileSync(path.join(process.cwd(),'tokens/tokens.css'),'utf8').includes('--ds-font-weight-500')){
+ console.error('Redundant --ds-font-weight-500 token is still defined or referenced');process.exitCode=1;
 }
 const browser=await chromium.launch({headless:true,channel:'chrome'});
 try{
@@ -76,7 +90,7 @@ try{
   }return records;
  });
  const counts={};for(const r of data)counts[r.weight]=(counts[r.weight]||0)+1;
- const exceptions=data.filter(r=>![400,500,600].includes(r.weight));
+ const exceptions=data.filter(r=>![400,600].includes(r.weight));
  const report={source:'UI Kit / computed styles',scope:'type styles 20px or less, distinct per component',
    components:42,rows:data.length,weight_counts:counts,nonstandard:exceptions};
  fs.mkdirSync(path.dirname(out),{recursive:true});
