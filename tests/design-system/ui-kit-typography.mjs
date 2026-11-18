@@ -42,8 +42,10 @@ try {
       assert.ok(find('bnv')?.text.includes('12 px'), 'Navigation typography missing');
       assert.ok(find('amount')?.text.includes('12 px'), 'Amount field caption missing');
       assert.ok(find('type')?.count >= 6, 'Typography scale specimen incomplete');
-      assert.ok(find('bankfields')?.count > 0, 'Nested bank specimen was not inspected');
-      assert.ok(find('recipientfields')?.count > 0, 'Nested recipient specimen was not inspected');
+      assert.ok(find('bankfields')?.count > 0,
+        'Nested bank specimen was not inspected: ' + JSON.stringify(find('bankfields')));
+      assert.ok(find('recipientfields')?.count > 0,
+        'Nested recipient specimen was not inspected: ' + JSON.stringify(find('recipientfields')));
 
       // Changing a real CSS variable changes the rendered value after remeasurement.
       if (width === 1440) {
