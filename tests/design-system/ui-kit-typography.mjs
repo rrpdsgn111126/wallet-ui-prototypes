@@ -45,6 +45,32 @@ try {
       assert.ok(find('btn')?.text.includes('16 px'), 'Button text has no computed 16px size');
       assert.ok(find('btn')?.text.includes('--ds-type-button'), 'Button token name missing');
       assert.ok(find('head')?.text.includes('20 px'), 'Screen title typography missing');
+      // DS-06: header text shares the screen title metrics; input values are regular.
+      for (const id of ['hdr','head','fld','amount']) {
+        const frames = page.locator('#' + id + ' figure.v:not(.d) iframe');
+        for (let k = 0; k < await frames.count(); k++) await frames.nth(k).scrollIntoViewIfNeeded();
+        await page.waitForFunction(id => document.querySelector('#' + id +
+          ' .ds-typography')?.dataset.ready === '1', id, { timeout: 30000 });
+      }
+      const measurements = await page.evaluate(() => {
+        const get = (id, selector) => {
+          const doc = document.querySelector('#' + id + ' figure.v:not(.d) iframe')?.contentDocument;
+          const el = doc?.querySelector(selector);
+          if (!el) return null;
+          const c = doc.defaultView.getComputedStyle(el);
+          return [c.fontSize, c.lineHeight, c.fontWeight];
+        };
+        return {
+          home: get('hdr', '.who .uname'), title: get('head', '.h1'),
+          field: get('fld', '.fld.w:not(.off) .fl input'),
+          amount: get('amount', '.fld.w .fl .wd-amt')
+        };
+      });
+      assert.deepEqual(measurements.home, measurements.title, 'Home header and screen title differ');
+      assert.deepEqual(measurements.title, ['20px','24px','600'], 'Wrong heading font metrics');
+      assert.deepEqual(measurements.field, ['16px','22px','400'], 'Field input weight mismatch');
+      assert.deepEqual(measurements.amount, ['16px','22px','400'], 'Amount input weight mismatch');
+
       assert.ok(find('bnv')?.text.includes('12 px'), 'Navigation typography missing');
       assert.ok(find('amount')?.text.includes('12 px'), 'Amount field caption missing');
       assert.ok(find('type')?.count >= 6, 'Typography scale specimen incomplete');

@@ -45,7 +45,7 @@ body{font-family:Inter,"Noto Sans Thai",Thonburi,"Leelawadee UI",system-ui,sans-
 
 .hdr{position:relative;z-index:1;padding:52px 16px 18px}
 .hrow{display:flex;align-items:center;justify-content:space-between;height:44px}
-.who{display:flex;align-items:center;gap:6px;font-size:18px;font-weight:600}
+.who{display:flex;align-items:center;gap:6px}
 .hacts{display:flex;gap:8px}
 .head.hic .hacts > .ha{flex:0 0 40px;min-width:40px;min-height:40px;box-sizing:border-box}
 
@@ -61,7 +61,7 @@ body{font-family:Inter,"Noto Sans Thai",Thonburi,"Leelawadee UI",system-ui,sans-
 .back{flex:0 0 40px;width:40px;height:40px;border-radius:999px;background:var(--glass,#ffffffe6);
   box-shadow:0 1px 3px var(--sh-2,#1615141a),inset 0 0 0 1px var(--sh-1,#16151410);
   display:flex;align-items:center;justify-content:center;color:var(--n850)}
-.h1{font-size:20px;font-weight:600;line-height:24px}
+.who,.h1{font-size:20px;font-weight:600;line-height:24px}
 
 
 .wrap{position:relative;z-index:1;padding:20px 16px 0}
@@ -765,7 +765,7 @@ body{position:fixed;top:0;left:0;width:100%}
 
 
 .phone{--gap:20px}
-.who{line-height:22px}
+
 
 
 .hdr{padding:calc(var(--gap) - 8px + env(safe-area-inset-top)) 16px calc(var(--gap) - 3px)}
@@ -1366,7 +1366,7 @@ html.kbd #v-vphone > .wrap{padding-top:4px !important}
 #v-details #d-scan[hidden] + #d-receipt{margin-top:0}
 
 .fld input{flex:1;min-width:0;border:0;outline:0;background:transparent;
-  font:600 16px/22px Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  font:400 16px/22px Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
   color:var(--n900);letter-spacing:0;padding:0}
 .fld input::placeholder{color:var(--n300);font-weight:400}
 .fld.err{box-shadow:inset 0 0 0 1.5px var(--err)}
