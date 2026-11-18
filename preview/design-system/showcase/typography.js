@@ -124,11 +124,18 @@
     if (!frames.length) frames.push(...card.querySelectorAll('figure.v iframe'));
     const rows = new Map();
     let loaded = 0;
+    let waitingForNested = false;
     for (const frame of frames) {
       try {
         const doc = frame.contentDocument;
         if (!doc || doc.readyState === 'loading' || !doc.body) continue;
         loaded++;
+        for (const child of doc.querySelectorAll('.ds-ph iframe')) {
+          try {
+            const inner = child.contentDocument;
+            if (!inner || inner.readyState === 'loading') waitingForNested = true;
+          } catch (e) { waitingForNested = true; }
+        }
         const state = new URL(frame.src, location.href).searchParams.get('mode') || '';
         collectDocument(doc, rows, state.toUpperCase(), new Set(), 0);
       } catch (e) { /* Same-origin assumption can be false in a standalone file:// view. */ }
@@ -164,7 +171,7 @@
       line.appendChild(usage);
       list.appendChild(line);
     }
-    area.dataset.ready = '1';
+    area.dataset.ready = waitingForNested ? '0' : '1';
   }
   function schedule(card) {
     if (waiting.has(card)) return;
