@@ -4,16 +4,15 @@
 
 ## Ссылки
 
-- [Действующий прототип](https://rrpdsgn111126.github.io/wallet-ui-prototypes/transfi-remittance/)
-- [Тестовые сценарии и переключение результатов](https://rrpdsgn111126.github.io/wallet-ui-prototypes/transfi-remittance/?qa=1)
-- [UI Kit — библиотека компонентов](https://rrpdsgn111126.github.io/wallet-ui-prototypes/ui-kit/)
+| Версия | Интерактивный прототип | UI Kit | GitHub |
+|---|---|---|---|
+| **Основная опубликованная** `main` | [Открыть](https://rrpdsgn111126.github.io/wallet-ui-prototypes/transfi-remittance/) | [Открыть](https://rrpdsgn111126.github.io/wallet-ui-prototypes/ui-kit/) | [`main`](https://github.com/rrpdsgn111126/wallet-ui-prototypes/tree/main) |
+| **Разработка прототипа** `work/prototype` | [Открыть](https://rrpdsgn111126.github.io/wallet-ui-prototypes/preview/prototype/transfi-remittance/) | [Открыть](https://rrpdsgn111126.github.io/wallet-ui-prototypes/preview/prototype/ui-kit/) | [`work/prototype`](https://github.com/rrpdsgn111126/wallet-ui-prototypes/tree/work/prototype) |
+| **Новая дизайн-система** `work/design-system` | [Открыть](https://rrpdsgn111126.github.io/wallet-ui-prototypes/preview/design-system/transfi-remittance/) | [Открыть](https://rrpdsgn111126.github.io/wallet-ui-prototypes/preview/design-system/ui-kit/) | [`work/design-system`](https://github.com/rrpdsgn111126/wallet-ui-prototypes/tree/work/design-system) |
 
-- [Предпросмотр новой дизайн-системы](https://rrpdsgn111126.github.io/wallet-ui-prototypes/preview/design-system/)
-- [Отдельный тестовый прототип с новой дизайн-системой](https://rrpdsgn111126.github.io/wallet-ui-prototypes/preview/design-system/transfi-remittance/)
-- [UI Kit новой дизайн-системы](https://rrpdsgn111126.github.io/wallet-ui-prototypes/preview/design-system/ui-kit/)
+Дополнительные страницы: [QA основного прототипа](https://rrpdsgn111126.github.io/wallet-ui-prototypes/transfi-remittance/?qa=1), [проектная сборка прототипа](https://rrpdsgn111126.github.io/wallet-ui-prototypes/preview/prototype/), [сборка новой дизайн-системы](https://rrpdsgn111126.github.io/wallet-ui-prototypes/preview/design-system/).
 
-Рабочие ветки: [`work/prototype`](https://github.com/rrpdsgn111126/wallet-ui-prototypes/tree/work/prototype) — изменения прототипа, [`work/design-system`](https://github.com/rrpdsgn111126/wallet-ui-prototypes/tree/work/design-system) — независимые изменения типографики, цветов и компонентов. Публикация содержимого `work/design-system` в `preview/design-system/` — только статическая сборка для просмотра, не перенос изменений в рабочую версию.
-
+Рабочие ветки публикуются автоматически как независимые статические копии в `preview/`; исходники `main` не заменяются. Правила выбора веток и согласования слияния — в [`AGENTS.md`](./AGENTS.md).
 
 ## Структура
 
