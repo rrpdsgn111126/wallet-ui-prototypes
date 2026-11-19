@@ -89,3 +89,8 @@ body[data-ds="type"] .phone.ds-ph { padding: 0 0 2px; }
   .ds-type-style-row { grid-template-columns: minmax(0, 1fr); gap: 6px; }
   .ds-type-style-metric { text-align: left; }
 }
+
+/* DS-08: specimen-only captions share real font foundations. */
+.phone.ds-ph .ds-cn > span,
+.phone.ds-ph .ds-cat > span { font: var(--ds-type-meta-caption); }
+.phone.ds-ph .tf-screen-note { font: var(--ds-text-caption-relaxed); }

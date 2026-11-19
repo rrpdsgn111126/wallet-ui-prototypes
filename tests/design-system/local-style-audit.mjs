@@ -51,9 +51,33 @@ try {
     }).filter(x=>x.rows.length);
     return {status:document.querySelector('#ds-type-catalog-status')?.textContent,groups,cards};
   });
+  if (process.argv.includes('--assert-clean')) {
+    const local = Object.entries(report.groups).find(([label]) =>
+      label.startsWith('Локальные комбинации без общего стиля'))?.[1] || [];
+    const remaining = report.cards.flatMap(card => card.rows.map(row => ({
+      card: card.id, sample:row.text, selector:row.selector,
+      status:row.status, metrics:row.metrics
+    })));
+    console.log('DESIGN_SYSTEM_LOCAL_STYLE_AUDIT',JSON.stringify({
+      status:report.status, localCombos:local.length,
+      unresolvedElements:remaining.length,
+      unresolvedByCard:remaining.reduce((map,item)=>{
+        map[item.card]=(map[item.card]||0)+1;return map;
+      },{})
+    }));
+    if (local.length || remaining.length || errors.length) {
+      console.error('STYLES_NOT_NORMALIZED',JSON.stringify({
+        locals:local.map(x=>({label:x.label,metrics:x.metrics,selectors:x.selectors,components:x.components})),
+        unbound:remaining,errors
+      }));
+      process.exitCode=1;
+    }
+    await page.close();
+  } else {
   console.log('LOCAL_AUDIT_BEGIN');
   console.log(JSON.stringify(report,null,2));
   console.log('LOCAL_AUDIT_END');
   console.log('BROWSER_ERRORS',JSON.stringify(errors));
   await page.close();
+  }
 }finally{if(browser)await browser.close();proc.kill();}

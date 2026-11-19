@@ -3,7 +3,14 @@ on:
   workflow_dispatch:
   push:
     branches: [work/design-system]
-    paths: ['tests/design-system/local-style-audit.mjs','.github/workflows/local-style-audit.yml']
+    paths:
+      - 'css/**'
+      - 'tokens/**'
+      - 'showcase/**'
+      - 'components/**'
+      - 'ui-kit/**'
+      - 'tests/design-system/local-style-audit.mjs'
+      - '.github/workflows/local-style-audit.yml'
 jobs:
   inventory:
     runs-on: ubuntu-latest
@@ -11,4 +18,5 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: npm install --no-save playwright@1.56.1
-      - run: node tests/design-system/local-style-audit.mjs
+      - name: Assert no local or unbound typography in UI Kit
+        run: node tests/design-system/local-style-audit.mjs --assert-clean

@@ -139,8 +139,9 @@ try {
       assert.ok(avatar?.text.includes('Использует токен') &&
         avatar.text.includes('--ds-type-avatar-initials') &&
         avatar.text.includes('--ds-text-label-strong'), 'Avatar initials must use the shared 16/24/600 token');
-      assert.ok(badge?.text.includes('Локальный стиль') &&
-        !badge.text.includes('--ds-text-'), 'A local badge must not falsely claim a shared foundation');
+      assert.ok(badge?.text.includes('Использует токен') &&
+        badge.text.includes('--ds-type-notification-caption') &&
+        badge.text.includes('--ds-text-caption-strong'), 'Header notification must use the shared caption token');
 
       const headRows = await page.locator('#head .ds-typo-item').evaluateAll(nodes =>
         nodes.map(el => el.textContent));
@@ -195,6 +196,12 @@ try {
       assert.ok(find('bnv')?.text.includes('--ds-text-caption'), 'Shared navigation foundation absent');
 
       assert.ok(find('amount')?.text.includes('12 px'), 'Amount field caption missing');
+      const summaryText = await page.locator('#ds-type-catalog').innerText();
+      assert.ok(!summaryText.includes('Локальные комбинации без общего стиля · '),
+        'The typography catalog still contains local combinations');
+      assert.ok(!summaryText.includes('Совпадение, без привязки'),
+        'UI Kit still contains unbound metric matches');
+
       // The foundation is a pair of actual styles instead of metadata + two samples.
       assert.equal(await page.locator('#type .meta, #type .ds-typography').count(), 0,
         'Third typography metadata column must not exist');

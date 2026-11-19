@@ -177,3 +177,83 @@ html body .phone.tf-phone {
 
 /* Книжка адресов: название записи — основной текст 16/22/400. */
 .phone .ab .t b { font: var(--ds-text-body-m); }
+
+/* DS-08: converge real component text on semantic roles, not isolated font declarations.
+   Keep colors, letter-spacing, box geometry and interactions in their owning CSS. */
+
+/* Header, OTP and PIN */
+.phone .hdr .hacts .ha .dot { font: var(--ds-type-notification-caption); }
+.phone .sheet .kb .key:not(.q) { font: var(--ds-type-keypad-digit); }
+.phone .otp .cl { font: var(--ds-type-otp-dot); }
+
+/* Cards, banners and states */
+.phone .cstat .mc-nm .mc-nmt,
+.phone .bnr > b { font: var(--ds-type-compact-heading); }
+.phone .cstat .bdg { font: var(--ds-type-notification-caption); }
+.phone .card .cblock .ccap { font: var(--ds-type-meta-caption); }
+.phone .card .cbot .cnum { font: var(--ds-type-field-value); }
+.phone .card .cbot .cexp { font: var(--ds-type-support-copy); }
+.phone .bnr i,
+.phone .empty i,
+.phone .hero .p { font: var(--ds-type-support-copy); }
+.phone .bnr .go { font: var(--ds-type-button); }
+.phone .empty b { font: var(--ds-type-strong-value); }
+.phone #v-home .sbn .pt b { font: var(--ds-type-strong-value); }
+.phone #v-home .sbn .pt i { font: var(--ds-type-meta-caption); }
+
+/* Interactive values and labels */
+.phone .ptabs .ptab,
+.phone .seg div,
+.phone .row:not(.tot) .rv,
+.phone .fld .addon .cur,
+.phone .row .ve-flag { font: var(--ds-type-control-regular); }
+.phone .ptabs .ptab.on,
+.phone .seg .on { font: var(--ds-type-button); }
+.phone .fld .fl input,
+.phone .fld .fl .wd-amt,
+.phone .fld.ve-search input { font: var(--ds-type-field-value); }
+.phone .row.tot .rt,
+.phone .row.tot .rv { font: var(--ds-type-strong-value); }
+.phone .urow .ut b,
+.phone .ut b .wd-addr,
+.phone .sheet .m .mt b { font: var(--ds-type-field-value); }
+.phone .urow .ut i,
+.phone .sheet .m .mt i,
+.phone .row .rt i,
+.phone .row.lang-row .rt i { font: var(--ds-type-meta-caption); }
+.phone .uzones .uzone span,
+.phone .box.ve-list .ve-empty { font: var(--ds-type-link); }
+
+/* Profile tabs, chips, MAX and status badges */
+.phone .chip { font: var(--ds-type-link); }
+.phone .chip.on,
+.phone .fld .addon .mx,
+.phone .box .ab .bdg,
+.phone .bdg,
+.phone .warn p b { font: var(--ds-type-small-emphasis); }
+.phone .cstat .bdg { font: var(--ds-type-notification-caption); }
+
+/* History, lists and tables */
+.phone .d,
+.phone .err-note,
+.phone .agree p,
+.phone .agree p a,
+.phone .warn p,
+.phone .toast .tt { font: var(--ds-type-support-copy); }
+.phone .warn p b { font: var(--ds-type-small-emphasis); }
+.phone .op .ot b,
+.phone .tbl .rl span,
+.phone .tbl .rl b,
+.phone .steps .step div:not(.n) b { font: var(--ds-type-control-regular); }
+.phone .op .ot i,
+.phone .op .ot i span,
+.phone .op .ot i .bad,
+.phone .op .oa i,
+.phone .steps .step div:not(.n) i,
+.phone .ab .t i { font: var(--ds-type-meta-caption); }
+.phone .op .oa b,
+.phone .op .oa .in { font: var(--ds-type-strong-value); }
+.phone .steps .step .n { font: var(--ds-type-step-counter); }
+
+/* Keep a real body-text role for previously anonymous full-field containers. */
+.phone .fld.tf-field .fl { font: var(--ds-type-control-regular); }
