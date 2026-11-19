@@ -44,21 +44,92 @@ style.textContent=[
 '#tf-qa-panel .tfqa-dot{width:7px;height:7px;border-radius:50%;background:#7c8580}',
 '#tf-qa-panel .tfqa-dot.approved{background:#1f8948}',
 '#tf-qa-panel .tfqa-dot.pending{background:#d39227}',
-'@media(max-width:1023px),(max-height:679px){#tf-qa-panel{display:none!important}}',
-'@media(min-width:1024px) and (max-width:1119px){#tf-qa-panel{left:calc(50% + 184px);width:calc(50vw - 198px);padding:15px}}'
+"#tf-qa-panel{position:fixed;z-index:112;top:68px;right:16px;left:auto;transform:none;width:min(344px,calc(100vw - 32px));max-height:calc(100dvh - 84px);display:block;overflow-y:auto;overscroll-behavior:contain}",
+"#tf-qa-panel[hidden],#tf-qa-backdrop[hidden]{display:none!important}",
+"#tf-qa-panel > header{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}",
+"#tf-qa-panel .tfqa-title-block{min-width:0}",
+"#tf-qa-panel .tfqa-close{display:inline-flex;flex:0 0 38px;width:38px;min-height:38px;align-items:center;justify-content:center;margin:-5px -6px 0 0;padding:0;border:0;border-radius:10px;background:#f1f3f4;color:#333;font-size:24px;font-weight:400;line-height:1}",
+"#tf-qa-toggle{position:fixed;z-index:110;top:16px;right:16px;display:inline-flex;align-items:center;justify-content:center;gap:8px;min-width:132px;min-height:44px;padding:10px 16px;border:1px solid #dde2e1;border-radius:14px;background:#fff;box-shadow:0 4px 16px #1615141c;color:#211e1d;font:600 14px/20px Inter,system-ui,sans-serif;cursor:pointer}",
+"#tf-qa-toggle[aria-expanded=\"true\"]{background:#cbf14a;border-color:#cbf14a}",
+"#tf-qa-toggle:focus-visible{outline:3px solid #8baa21;outline-offset:2px}",
+"#tf-qa-backdrop{display:none}",
+"@media(max-width:767px){html.tfqa-enabled,html.tfqa-enabled body{height:auto!important;min-height:100dvh!important;overflow-x:hidden!important;overflow-y:auto!important;overscroll-behavior-y:auto!important}html.tfqa-enabled body{position:relative!important;top:auto!important;left:auto!important}html.tfqa-enabled .phone{height:var(--vh,100dvh);margin:0 auto}#tf-qa-toggle{position:relative;top:auto;right:auto;left:auto;display:flex;width:min(448px,calc(100% - 32px));margin:16px auto 24px;padding:13px 18px;min-height:52px}#tf-qa-backdrop:not([hidden]){position:fixed;z-index:111;inset:0;display:block;background:#16151499}#tf-qa-panel{position:fixed;z-index:112;top:50%;left:50%;right:auto;transform:translate(-50%,-50%);width:min(420px,calc(100vw - 24px));max-height:min(86dvh,760px);border-radius:20px;padding:20px}html.tfqa-dialog-open,html.tfqa-dialog-open body{overflow:hidden!important}}",
+"@media(min-width:768px) and (max-height:500px){#tf-qa-panel{top:60px;max-height:calc(100dvh - 70px)}}",
+"@media(prefers-reduced-motion:reduce){#tf-qa-panel,#tf-qa-backdrop{scroll-behavior:auto}}"
 ].join('\n');
 document.head.appendChild(style);
 const aside=document.createElement('aside');
 aside.id='tf-qa-panel';
 aside.setAttribute('aria-label','Управление тестовыми состояниями TransFi');
-aside.innerHTML='<header><div class="tfqa-eyebrow">alt.vu · QA</div><h2>Тестирование</h2><p>Выберите сценарий или имитируйте событие</p></header>'+
+aside.setAttribute('role','dialog');
+aside.setAttribute('aria-labelledby','tfqa-title');
+aside.setAttribute('aria-modal','false');
+aside.hidden=true;
+aside.innerHTML='<header><div class="tfqa-title-block"><div class="tfqa-eyebrow">alt.vu · QA</div><h2 id="tfqa-title">Тестирование</h2><p>Выберите сценарий или имитируйте событие</p></div><button type="button" id="tfqa-close" class="tfqa-close" aria-label="Закрыть тестирование">×</button></header>'+
 '<div class="tfqa-tabs" role="tablist" aria-label="Тестовые инструменты"><button type="button" role="tab" id="tfqa-tab-scenarios" aria-selected="true" aria-controls="tfqa-scenarios">Сценарии</button><button type="button" role="tab" id="tfqa-tab-events" aria-selected="false" aria-controls="tfqa-events">События</button></div>'+
 '<section id="tfqa-scenarios" class="tfqa-pane" role="tabpanel" aria-labelledby="tfqa-tab-scenarios">'
 +'<label class="tfqa-field" for="tfqa-status"><span>Статус проверки</span><select id="tfqa-status"><option value="idle">Email не подтверждён</option><option value="initiated">Письмо отправлено</option><option value="verified">Проверяем почту</option><option value="approved">Проверка одобрена</option><option value="rejected">Проверка отклонена</option><option value="error">Ошибка проверки</option></select></label>'
 +'<div class="tfqa-note" id="tfqa-help" aria-live="polite"></div><div class="tfqa-actions"><button class="tfqa-primary" type="button" id="tfqa-open">Открыть сценарий</button><button class="tfqa-secondary" type="button" id="tfqa-notify">Получить уведомление</button><button class="tfqa-reset" type="button" id="tfqa-reset">Сбросить проверку</button></div>'
 +'<footer><div class="tfqa-state"><span class="tfqa-dot" id="tfqa-dot"></span><span id="tfqa-summary"></span></div><p>Тестовый режим без платежей и запросов к TransFi</p></footer></section>'+
 '<section id="tfqa-events" class="tfqa-pane" role="tabpanel" aria-labelledby="tfqa-tab-events" hidden></section>';
+document.documentElement.classList.add('tfqa-enabled');
+const toggle=document.createElement('button');
+toggle.id='tf-qa-toggle';
+toggle.type='button';
+toggle.textContent='Тестирование';
+toggle.setAttribute('aria-controls','tf-qa-panel');
+toggle.setAttribute('aria-haspopup','dialog');
+toggle.setAttribute('aria-expanded','false');
+document.body.appendChild(toggle);
+const backdrop=document.createElement('div');
+backdrop.id='tf-qa-backdrop';
+backdrop.hidden=true;
+backdrop.setAttribute('aria-hidden','true');
+document.body.appendChild(backdrop);
 document.body.appendChild(aside);
+const mobileMedia=window.matchMedia('(max-width:767px)');
+function openPanel(){
+  aside.hidden=false;
+  backdrop.hidden=!mobileMedia.matches;
+  aside.setAttribute('aria-modal',String(mobileMedia.matches));
+  toggle.setAttribute('aria-expanded','true');
+  document.documentElement.classList.toggle('tfqa-dialog-open',mobileMedia.matches);
+  aside.querySelector('#tfqa-close').focus();
+}
+function closePanel(){
+  aside.hidden=true;
+  backdrop.hidden=true;
+  toggle.setAttribute('aria-expanded','false');
+  document.documentElement.classList.remove('tfqa-dialog-open');
+  toggle.focus();
+}
+toggle.addEventListener('click',()=>aside.hidden?openPanel():closePanel());
+aside.querySelector('#tfqa-close').addEventListener('click',closePanel);
+backdrop.addEventListener('click',closePanel);
+mobileMedia.addEventListener('change',()=>{
+  if(aside.hidden)return;
+  backdrop.hidden=!mobileMedia.matches;
+  aside.setAttribute('aria-modal',String(mobileMedia.matches));
+  document.documentElement.classList.toggle('tfqa-dialog-open',mobileMedia.matches);
+});
+window.addEventListener('keydown',event=>{
+  if(aside.hidden)return;
+  if(event.key==='Escape'){
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    closePanel();
+  }else if(event.key==='Tab'&&mobileMedia.matches){
+    const focusable=Array.from(aside.querySelectorAll('button:not(:disabled),select:not(:disabled),input:not(:disabled),[tabindex]:not([tabindex="-1"])'))
+      .filter(node=>!node.closest('[hidden]')&&node.getClientRects().length);
+    if(!focusable.length)return;
+    const first=focusable[0],last=focusable[focusable.length-1];
+    if(event.shiftKey&&(document.activeElement===first||!aside.contains(document.activeElement))){
+      event.preventDefault();last.focus();
+    }else if(!event.shiftKey&&(document.activeElement===last||!aside.contains(document.activeElement))){
+      event.preventDefault();first.focus();
+    }
+  }
+},true);
 const el=(id)=>aside.querySelector('#'+id);
 const events=el('tfqa-events');
 const nativeEvents=document.getElementById('pv-qa');
