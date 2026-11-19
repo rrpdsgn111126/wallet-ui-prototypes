@@ -174,6 +174,7 @@ html body .phone.tf-phone {
 
 /* Подпись нижнего меню */
 .phone .bnv-i { font: var(--ds-type-nav-label); }
+.phone .bnv-i.on { font: var(--ds-type-notification-caption); }
 
 /* Книжка адресов: название записи — основной текст 16/22/400. */
 .phone .ab .t b { font: var(--ds-text-body-m); }
@@ -231,6 +232,7 @@ html body .phone.tf-phone {
 .phone .box .ab .bdg,
 .phone .bdg,
 .phone .warn p b { font: var(--ds-type-small-emphasis); }
+.phone .note b { font: var(--ds-type-small-emphasis); }
 .phone .cstat .bdg { font: var(--ds-type-notification-caption); }
 
 /* Section heading action is ordinary 16/22/400 body text, not a private style. */
