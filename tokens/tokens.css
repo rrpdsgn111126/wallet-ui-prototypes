@@ -198,8 +198,8 @@
   --ds-type-note: var(--ds-font-weight-400) var(--ds-font-size-14)/20px var(--ds-font);  /* Заметка (.note) */
   --ds-type-hint: var(--ds-font-weight-400) var(--ds-font-size-12)/16px var(--ds-font);  /* Подсказка (.hint) */
   --ds-type-link: var(--ds-font-weight-400) var(--ds-font-size-14)/normal var(--ds-font);  /* Ссылка действия (.lnk) */
-  --ds-type-action-label: var(--ds-font-weight-400) var(--ds-font-size-10)/16px var(--ds-font);  /* Подпись быстрого действия (.act span) */
-  --ds-type-nav-label: var(--ds-font-weight-400) var(--ds-font-size-10)/16px var(--ds-font);  /* Подпись нижнего меню (.bnv-i) */
+  --ds-type-action-label: var(--ds-font-weight-400) var(--ds-font-size-12)/16px var(--ds-font);  /* Подпись быстрого действия (.act span) */
+  --ds-type-nav-label: var(--ds-font-weight-400) var(--ds-font-size-12)/16px var(--ds-font);  /* Подпись нижнего меню (.bnv-i) */
 }
 
 /* Тёмная тема: класс dark на <html>, как в кошельке. Его ставит скрипт в <head>
