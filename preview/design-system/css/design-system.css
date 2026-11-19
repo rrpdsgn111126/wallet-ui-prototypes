@@ -233,6 +233,9 @@ html body .phone.tf-phone {
 .phone .warn p b { font: var(--ds-type-small-emphasis); }
 .phone .cstat .bdg { font: var(--ds-type-notification-caption); }
 
+/* Section heading action is ordinary 16/22/400 body text, not a private style. */
+.phone .hh a { font: var(--ds-type-control-regular); }
+
 /* History, lists and tables */
 .phone .d,
 .phone .err-note,
