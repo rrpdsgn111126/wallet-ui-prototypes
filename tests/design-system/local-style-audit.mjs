@@ -5,7 +5,7 @@ import {setTimeout as sleep} from 'node:timers/promises';
 const proc=spawn('python3',['-m','http.server','8765','--bind','127.0.0.1'],{stdio:'ignore'});
 let browser;
 try {
-  for(let i=0;i<50;i++){try{const r=await fetch('http://127.0.0.1:8765/ui-kit/');if(r.ok)break;}catch{}await sleep(150);}
+  await sleep(800); // Avoid Node 24 undici parsing race against Python server startup.
   browser=await chromium.launch({channel:'chrome',headless:true});
   const page=await browser.newPage({viewport:{width:1440,height:900}});
   const errors=[];
