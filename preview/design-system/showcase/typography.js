@@ -10,7 +10,6 @@
   let roles = [];
   let foundations = [];
   const waiting = new WeakSet();
-  const rulesByDocument = new WeakMap();
   const dependencyByElement = new WeakMap();
   const measurementsByCard = new Map();
   let catalogPending = false;
@@ -72,66 +71,23 @@
     if (n === 18) return 'Крупный текст';
     return 'Локальный текстовый стиль';
   }
-  // Read the real CSS declarations, including @import and @media rules.
-  // A selector and equal computed metrics alone do not establish a token dependency.
-  function tokenRules(doc) {
-    const found = rulesByDocument.get(doc);
-    if (found && found.sheetCount === doc.styleSheets.length) return found.rules;
-    const output = [];
-    const visited = new Set();
-    const pattern = /var\(\s*(--ds-(?:type|text)-[\w-]+)/g;
-    function scan(sheet) {
-      if (!sheet || visited.has(sheet)) return;
-      visited.add(sheet);
-      let rules;
-      try { rules = sheet.cssRules; } catch (e) { return; }
-      if (!rules) return;
-      for (const rule of rules) {
-        if (rule.styleSheet) scan(rule.styleSheet); // @import
-        scanRule(rule);
-      }
-    }
-    function scanRule(rule) {
-      if (!rule) return;
-      if (rule.cssRules) {
-        for (const nested of rule.cssRules) scanRule(nested);
-      }
-      if (!rule.selectorText || !rule.style) return;
-      const refs = new Set();
-      for (const prop of ['font','font-size','font-weight','line-height','font-family','font-style']) {
-        const value = rule.style.getPropertyValue(prop);
-        if (!value) continue;
-        pattern.lastIndex = 0;
-        let match;
-        while ((match = pattern.exec(value))) refs.add(match[1]);
-      }
-      if (refs.size) output.push({selector:rule.selectorText, refs:Array.from(refs)});
-    }
-    for (const sheet of doc.styleSheets) scan(sheet);
-    rulesByDocument.set(doc, {sheetCount:doc.styleSheets.length, rules:output});
-    return output;
-  }
-  function referencedTokens(el) {
-    const matches = new Set();
-    for (const rule of tokenRules(el.ownerDocument)) {
+  // A selector match is just a candidate; a reversible variable probe below
+  // proves an actual CSS dependency even through @import, inheritance or media rules.
+  function candidateRoles(el, style) {
+    const exact = [], metrics = [];
+    for (const role of roles) {
+      let selectorMatch = false;
       try {
-        if (el.matches(rule.selector) || el.closest(rule.selector)) {
-          rule.refs.forEach(token => matches.add(token));
-        }
-      } catch (e) { /* A pseudo-element selector cannot match a normal DOM node. */ }
-    }
-    // Inline font declarations also count; custom-property definitions alone do not.
-    for (let node = el; node && node.nodeType === 1; node = node.parentElement) {
-      if (node.style) {
-        const text = ['font','font-size','font-weight','line-height','font-family']
-          .map(prop => node.style.getPropertyValue(prop)).join(' ');
-        const re = /var\(\s*(--ds-(?:type|text)-[\w-]+)/g;
-        let match;
-        while ((match = re.exec(text))) matches.add(match[1]);
+        selectorMatch = el.matches(role.selector) || !!el.closest(role.selector);
+      } catch (e) { /* A bank UI role may not have a CSS selector. */ }
+      if (selectorMatch) exact.push(role);
+      else if (formatPx(style.fontSize) === formatPx(role.size) &&
+        style.fontWeight === String(role.weight) &&
+        (!role.line || formatPx(style.lineHeight) === formatPx(role.line))) {
+        metrics.push(role);
       }
-      if (node.classList.contains('phone')) break;
     }
-    return Array.from(matches);
+    return exact.concat(metrics);
   }
   // A synchronous, reversible CSS-variable probe proves that the rendered element
   // actually depends on the alias. It also rejects shadowed/overridden CSS rules.
@@ -158,17 +114,19 @@
     return changed;
   }
   function linkedStyle(el, style) {
-    let directFoundation = null;
-    for (const token of referencedTokens(el)) {
-      if (token.startsWith('--ds-type-')) {
-        const role = roles.find(r => '--ds-type-' + r.key === token);
-        if (role && dependsOn(el, token, style)) return {role, directFoundation:null};
-      } else {
-        const foundation = foundations.find(f => f.token === token);
-        if (foundation && dependsOn(el, token, style)) directFoundation = foundation;
-      }
+    for (const role of candidateRoles(el, style)) {
+      if (dependsOn(el, '--ds-type-' + role.key, style))
+        return {role, directFoundation:null};
     }
-    return {role:null, directFoundation};
+    // A direct --ds-text-* dependency also qualifies even without a named role.
+    // Merely matching size/weight/line without reacting to the token does not.
+    const foundation = foundationFor({
+      role:null, directFoundation:null, size:style.fontSize, line:style.lineHeight,
+      weight:style.fontWeight, family:style.fontFamily, fontStyle:style.fontStyle
+    });
+    if (foundation && dependsOn(el, foundation.token, style))
+      return {role:null, directFoundation:foundation};
+    return {role:null, directFoundation:null};
   }
   function collectDocument(doc, rows, state, visited, depth) {
     if (!doc || !doc.defaultView || visited.has(doc) || depth > 2) return;
