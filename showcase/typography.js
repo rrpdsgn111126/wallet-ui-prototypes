@@ -12,7 +12,7 @@
   const waiting = new WeakSet();
   const measurementsByCard = new Map();
   let catalogPending = false;
-  const ignored = '.ds-lab, .ds-focus, script, style, svg, noscript, [aria-hidden="true"]';
+  const ignored = '.ds-lab, .ds-focus, script, style, svg, noscript, [aria-hidden="true"], .ds-type-table-head, .ds-type-style-details, .ds-type-style-metric, .ds-type-loading';
   const textNodes = 'h1,h2,h3,h4,h5,h6,p,span,b,strong,em,i,small,label,a,button,input,textarea,select,div,li,td,th,code';
   const normalize = s => String(s || '').replace(/\s+/g, ' ').trim();
 
@@ -232,7 +232,9 @@
       row.appendChild(cell);
       body.appendChild(row);
     }
-    const ready = cards.filter(c => c.querySelector('.ds-typography')?.dataset.ready === '1').length;
+    const ready = cards.filter(c => c.id === 'type'
+      ? c.dataset.typographyReady === '1'
+      : c.querySelector('.ds-typography')?.dataset.ready === '1').length;
     status.textContent = 'Уникальные комбинации размера, строки, веса, шрифта и трекинга: ' +
       all.length + ' · общие: ' + linked.length + ', локальные: ' + local.length +
       ' · ' + ready + ' из ' + cards.length + ' образцов загружены.' +
@@ -241,7 +243,7 @@
 
   function render(card) {
     const area = card.querySelector('.ds-typography');
-    if (!area) return;
+    if (!area && card.id !== 'type') return;
     const frames = Array.from(card.querySelectorAll('figure.v:not(.d) iframe'));
     if (!frames.length) frames.push(...card.querySelectorAll('figure.v iframe'));
     const rows = new Map();
@@ -262,22 +264,29 @@
         collectDocument(doc, rows, state.toUpperCase(), new Set(), 0);
       } catch (e) { /* Same-origin assumption can be false in a standalone file:// view. */ }
     }
-    const heading = area.querySelector('.ds-typo-heading');
-    const list = area.querySelector('.ds-typo-list');
-    list.replaceChildren();
+    const heading = area?.querySelector('.ds-typo-heading');
+    const list = area?.querySelector('.ds-typo-list');
+    if (list) list.replaceChildren();
     if (!loaded) {
-      heading.textContent = 'Текстовые стили';
-      list.appendChild(elem('p', 'ds-typo-empty', 'Ожидание образца…'));
-      area.dataset.ready = '0';
+      if (area) {
+        heading.textContent = 'Текстовые стили';
+        list.appendChild(elem('p', 'ds-typo-empty', 'Ожидание образца…'));
+        area.dataset.ready = '0';
+      } else card.dataset.typographyReady = '0';
       measurementsByCard.delete(card.id);
       scheduleCatalog();
       return;
     }
     const all = Array.from(rows.values());
     measurementsByCard.set(card.id, {
-      name: normalize(card.querySelector('.meta h3')?.textContent) || card.id,
+      name: normalize(card.querySelector('.meta h3, .ds-type-dual-title')?.textContent) || card.id,
       rows: all
     });
+    if (!area) {
+      card.dataset.typographyReady = waitingForNested ? '0' : '1';
+      scheduleCatalog();
+      return;
+    }
     heading.textContent = 'Текстовые стили · ' + all.length;
     if (!all.length) {
       list.appendChild(elem('p', 'ds-typo-empty', 'В образце нет текстовых элементов.'));
@@ -315,16 +324,18 @@
   }
   for (const card of cards) {
     const meta = card.querySelector('.meta');
-    if (!meta) continue;
-    const area = elem('section', 'ds-typography');
-    area.setAttribute('aria-label', 'Текстовые стили компонента');
-    area.dataset.ready = '0';
-    area.appendChild(elem('h4', 'ds-typo-heading', 'Текстовые стили'));
-    area.appendChild(elem('p', 'ds-typo-note',
-      'Где используется · размер / line-height · насыщенность. Значения из образца.'));
-    area.appendChild(elem('div', 'ds-typo-list'));
-    const before = meta.querySelector('.src') || meta.querySelector('.open');
-    meta.insertBefore(area, before || null);
+    if (!meta && card.id !== 'type') continue;
+    if (meta) {
+      const area = elem('section', 'ds-typography');
+      area.setAttribute('aria-label', 'Текстовые стили компонента');
+      area.dataset.ready = '0';
+      area.appendChild(elem('h4', 'ds-typo-heading', 'Текстовые стили'));
+      area.appendChild(elem('p', 'ds-typo-note',
+        'Где используется · размер / line-height · насыщенность. Значения из образца.'));
+      area.appendChild(elem('div', 'ds-typo-list'));
+      const before = meta.querySelector('.src') || meta.querySelector('.open');
+      meta.insertBefore(area, before || null);
+    }
     card.querySelectorAll('figure.v iframe').forEach(frame => {
       frame.addEventListener('load', () => {
         try {
