@@ -10,6 +10,29 @@ const url = process.argv[2] || 'http://127.0.0.1:8765/ui-kit/';
 const output = path.join(process.env.RUNNER_TEMP || '/tmp', 'ds-03-typography');
 fs.mkdirSync(output, { recursive: true });
 
+// Every semantic alias must depend on exactly one shared typographic foundation.
+const definitionCss = fs.readFileSync(new URL('../../tokens/tokens.css', import.meta.url), 'utf8');
+const definitionJson = JSON.parse(fs.readFileSync(new URL('../../tokens/tokens.json', import.meta.url), 'utf8'));
+const foundations = new Map(definitionJson.text_styles.map(style => [style.key, style]));
+assert.equal(definitionJson.text_styles.length, foundations.size, 'Duplicate foundation key');
+assert.equal(new Set(definitionJson.text_styles.map(style =>
+  [style.size, style.line ?? 'normal', style.weight].join('|'))).size,
+  foundations.size, 'Equivalent metric combinations must share one foundation');
+for (const role of definitionJson.type) {
+  const base = foundations.get(role.base);
+  assert.ok(base, 'Missing typography foundation for ' + role.key);
+  assert.deepEqual([role.size, role.line, role.weight], [base.size, base.line, base.weight],
+    'Semantic style not equal to foundation: ' + role.key);
+  assert.ok(definitionCss.includes('--ds-type-' + role.key + ': var(--ds-text-' + role.base + ');'),
+    'Semantic style must reference foundation: ' + role.key);
+}
+const sameBody = ['row','field-value','lead','body-compact','body-compact-strong'];
+assert.ok(sameBody.every(key => definitionJson.type.find(r => r.key === key).base === 'body-m'),
+  'Identical 16/22/400 styles must share body-m');
+const sameCaption = ['field-label','hint','action-label','nav-label'];
+assert.ok(sameCaption.every(key => definitionJson.type.find(r => r.key === key).base === 'caption'),
+  'Identical 12/16/400 styles must share caption');
+
 const browser = await chromium.launch({ headless: true, channel: 'chrome' });
 let fail = false;
 try {
@@ -91,24 +114,32 @@ try {
       assert.equal(await page.locator('.tbls').count(), 0, 'Legacy hard-coded tables must be removed');
       assert.equal(await page.locator('#ds-type-catalog').count(), 1, 'Measured typography catalog missing');
       await page.waitForFunction(() => {
-        const tokenNames = [...document.querySelectorAll('#ds-type-catalog .ds-type-catalog-token')]
+        const aliases = [...document.querySelectorAll('#ds-type-catalog .ds-type-catalog-aliases')]
           .map(x => x.textContent);
-        return tokenNames.includes('--ds-type-action-label') && tokenNames.includes('--ds-type-nav-label');
+        return aliases.some(x => x.includes('--ds-type-action-label') && x.includes('--ds-type-nav-label'));
       }, null, { timeout: 30000 });
       const catalog = await page.evaluate(() => {
         const rows = [...document.querySelectorAll('#ds-type-catalog .ds-type-catalog-row')];
-        const metrics = key => {
-          const row = rows.find(r => r.querySelector('.ds-type-catalog-token')?.textContent === key);
-          return row ? [...row.cells].slice(2, 5).map(td => td.textContent.trim()) : null;
+        const captionRows = rows.filter(row => row.querySelector('.ds-type-catalog-aliases')?.textContent.includes('--ds-type-action-label'));
+        const caption = captionRows[0] || null;
+        return {
+          captionRows:captionRows.length,
+          metrics:caption ? [...caption.cells].slice(2, 5).map(td => td.textContent.trim()) : null,
+          aliases:caption?.querySelector('.ds-type-catalog-aliases')?.textContent || '',
+          foundation:caption?.querySelector('.ds-type-catalog-foundation')?.textContent || '',
+          count:rows.length,
+          components:document.querySelector('#ds-type-catalog-status')?.textContent
         };
-        return { action: metrics('--ds-type-action-label'), nav: metrics('--ds-type-nav-label'),
-          count: rows.length, components: document.querySelector('#ds-type-catalog-status')?.textContent };
       });
-      assert.deepEqual(catalog.action, ['12 px','16 px','400'], 'Quick-action label rollback/catalog mismatch');
-      assert.deepEqual(catalog.nav, ['12 px','16 px','400'], 'Bottom navigation label rollback/catalog mismatch');
+      assert.equal(catalog.captionRows, 1, 'Action and navigation must not create separate rows');
+      assert.deepEqual(catalog.metrics, ['12 px','16 px','400'], 'Caption rollback/catalog mismatch');
+      assert.equal(catalog.foundation, '--ds-text-caption', 'Wrong shared caption foundation');
+      assert.ok(catalog.aliases.includes('--ds-type-nav-label'), 'Navigation alias absent from shared row');
       assert.ok(catalog.count >= 10, 'Measured summary unexpectedly empty');
       assert.ok(catalog.components.includes('образцов загружены'), 'Catalog readiness status missing');
       assert.ok(find('bnv')?.text.includes('--ds-type-nav-label'), 'Inherited navigation token was not detected');
+      assert.ok(find('bnv')?.text.includes('--ds-text-caption'), 'Shared navigation foundation absent');
+
       assert.ok(find('amount')?.text.includes('12 px'), 'Amount field caption missing');
       assert.ok(find('type')?.count >= 6, 'Typography scale specimen incomplete');
       if (find('bankfields')?.count === 0) {
