@@ -94,6 +94,30 @@ try {
       assert.deepEqual(measurements.field, ['16px','22px','400'], 'Field input weight mismatch');
       assert.deepEqual(measurements.amount, ['16px','22px','400'], 'Amount input weight mismatch');
 
+      // Three distinct statuses: actual CSS dependency, metrics-only match, local style.
+      // Name and avatar reuse existing foundations, but the badge stays local.
+      const hdrRows = await page.locator('#hdr .ds-typo-item').evaluateAll(nodes => nodes.map(el => ({
+        text:el.textContent,
+        samples:el.querySelector('.ds-typo-usage > span:first-child')?.textContent || ''
+      })));
+      const homeName = hdrRows.find(row => row.samples.includes('«Анна»'));
+      const avatar = hdrRows.find(row => row.samples.includes('«АК»'));
+      const badge = hdrRows.find(row => row.samples.includes('«2»'));
+      assert.ok(homeName?.text.includes('Использует токен') &&
+        homeName.text.includes('--ds-type-home-name') &&
+        homeName.text.includes('--ds-text-heading-m'), 'Home name must use the shared heading token');
+      assert.ok(avatar?.text.includes('Использует токен') &&
+        avatar.text.includes('--ds-type-avatar-initials') &&
+        avatar.text.includes('--ds-text-label-strong'), 'Avatar initials must use the shared 16/24/600 token');
+      assert.ok(badge?.text.includes('Локальный стиль') &&
+        !badge.text.includes('--ds-text-'), 'A local badge must not falsely claim a shared foundation');
+
+      const headRows = await page.locator('#head .ds-typo-item').evaluateAll(nodes =>
+        nodes.map(el => el.textContent));
+      assert.ok(headRows.some(text => text.includes('«Страна»') &&
+        text.includes('Использует токен') && text.includes('--ds-type-title') &&
+        text.includes('--ds-text-heading-m')), 'Screen heading dependency not detected');
+
       // Active filter chips retain the strong weight; inactive chips are regular.
       for (const id of ['chips']) {
         const frames = page.locator('#' + id + ' figure.v:not(.d) iframe');
@@ -211,6 +235,47 @@ try {
         'Nested bank specimen was not inspected: ' + JSON.stringify(find('bankfields')));
       assert.ok(find('recipientfields')?.count > 0,
         'Nested recipient specimen was not inspected: ' + JSON.stringify(find('recipientfields')));
+
+      // A visually identical inline style is NOT linked until CSS references the alias.
+      if (width === 1440) {
+        const headFrame = page.locator('#head figure.v:not(.d) iframe').first();
+        await headFrame.evaluate(frame => {
+          const doc = frame.contentDocument;
+          const target = doc.createElement('span');
+          target.textContent = 'Контроль без алиаса';
+          target.id = 'ds-style-match-probe';
+          target.style.cssText =
+            'display:block;font:600 20px/24px Inter,system-ui,sans-serif';
+          doc.querySelector('.ds-st').append(target);
+          frame.dispatchEvent(new Event('load'));
+        });
+        await page.waitForFunction(() => [...document.querySelectorAll('#head .ds-typo-item')]
+          .some(el => el.textContent.includes('Контроль без алиаса') &&
+            el.textContent.includes('--ds-text-heading-m') &&
+            el.textContent.includes('Совпадение, без привязки')), null, {timeout:10000});
+        const headMatch = await page.locator('#head .ds-typo-item').filter({
+          hasText:'Контроль без алиаса'
+        }).first().innerText();
+        assert.ok(!headMatch.includes('Использует токен') &&
+          !headMatch.includes('--ds-type-title'), 'A matching font without a CSS alias is not linked');
+
+        // Prove the real home-name alias changes the actual header, then restore.
+        const homeFrame = page.locator('#hdr figure.v:not(.d) iframe').first();
+        const homeProbe = await homeFrame.evaluate(frame => {
+          const doc = frame.contentDocument, root = doc.querySelector('.phone');
+          const target = doc.querySelector('.who .uname');
+          const before = doc.defaultView.getComputedStyle(target).fontSize;
+          const old = root.style.getPropertyValue('--ds-type-home-name');
+          root.style.setProperty('--ds-type-home-name', '600 22px/26px Inter,system-ui,sans-serif');
+          const during = doc.defaultView.getComputedStyle(target).fontSize;
+          if (old) root.style.setProperty('--ds-type-home-name', old);
+          else root.style.removeProperty('--ds-type-home-name');
+          const after = doc.defaultView.getComputedStyle(target).fontSize;
+          return {before, during, after};
+        });
+        assert.deepEqual(homeProbe, {before:'20px', during:'22px', after:'20px'},
+          'Home name does not actually react to its semantic alias');
+      }
 
       // Changing a real CSS variable changes the rendered value after remeasurement.
       if (width === 1440) {

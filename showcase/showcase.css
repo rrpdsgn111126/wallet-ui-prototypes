@@ -150,6 +150,7 @@ figure.v.d iframe { background: #121211; box-shadow: none; }
   display: block; margin-top: 4px; color: var(--mute); font-size: 12px; line-height: 18px;
 }
 .ds-type-catalog .ds-type-catalog-unlinked { display: block; color: var(--mute); font-size: 12px; line-height: 18px; margin-top: 3px; }
+.ds-type-catalog .ds-type-catalog-binding { display: block; color: var(--mute); font-size: 12px; line-height: 18px; margin-top: 3px; font-weight: 600; }
 .ds-type-catalog .ds-type-catalog-components a { color: var(--link); text-decoration: underline; text-underline-offset: 2px; }
 .ds-type-catalog .ds-type-catalog-components a + a::before { content: ', '; color: var(--mute); text-decoration: none; }
 
@@ -220,6 +221,11 @@ figure.v.d iframe { background: #121211; box-shadow: none; }
   max-width: 100%; overflow-wrap: anywhere;
 }
 .ds-typo-usage .ds-typo-token { color: #215d41; }
+.ds-typo-usage .ds-typo-match-token { color: var(--mute); }
+.ds-typo-usage .ds-typo-status { font-weight: 600; }
+.ds-typo-usage .ds-typo-linked { color: #215d41; }
+.ds-typo-usage .ds-typo-match, .ds-typo-usage .ds-typo-local { color: var(--mute); }
+
 .meta .ds-typo-empty { font-size: 12px; line-height: 18px; color: var(--mute); margin: 0; }
 @media (max-width: 860px) {
   .ds-typography-intro { margin-left: 16px; margin-right: 16px; }

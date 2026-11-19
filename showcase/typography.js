@@ -10,6 +10,8 @@
   let roles = [];
   let foundations = [];
   const waiting = new WeakSet();
+  const rulesByDocument = new WeakMap();
+  const dependencyByElement = new WeakMap();
   const measurementsByCard = new Map();
   let catalogPending = false;
   const ignored = '.ds-lab, .ds-focus, script, style, svg, noscript, [aria-hidden="true"], .ds-type-table-head, .ds-type-style-details, .ds-type-style-metric, .ds-type-loading';
@@ -57,6 +59,8 @@
   }
   function titleFor(data) {
     if (data.role) return data.role.name;
+    const foundation = foundationFor(data);
+    if (foundation) return foundation.name;
     if (data.el.matches('h1,h2,h3,h4,h5,h6')) return 'Заголовок';
     if (data.el.matches('input,textarea,select')) return 'Ввод текста';
     if (data.el.matches('button')) return 'Кнопка';
@@ -68,18 +72,103 @@
     if (n === 18) return 'Крупный текст';
     return 'Локальный текстовый стиль';
   }
-  function matchingRole(el, style) {
-    for (const r of roles) {
-      try {
-        // The label may inherit the token from its container (e.g. .bnv-i span).
-        if (!el.matches(r.selector) && !el.closest(r.selector)) continue;
-        if (formatPx(style.fontSize) !== formatPx(r.size)) continue;
-        if (String(style.fontWeight) !== String(r.weight)) continue;
-        if (r.line && formatPx(style.lineHeight) !== formatPx(r.line)) continue;
-        return r;
-      } catch (e) { /* A role describes a bank context rather than a selector. */ }
+  // Read the real CSS declarations, including @import and @media rules.
+  // A selector and equal computed metrics alone do not establish a token dependency.
+  function tokenRules(doc) {
+    const found = rulesByDocument.get(doc);
+    if (found && found.sheetCount === doc.styleSheets.length) return found.rules;
+    const output = [];
+    const visited = new Set();
+    const pattern = /var\(\s*(--ds-(?:type|text)-[\w-]+)/g;
+    function scan(sheet) {
+      if (!sheet || visited.has(sheet)) return;
+      visited.add(sheet);
+      let rules;
+      try { rules = sheet.cssRules; } catch (e) { return; }
+      if (!rules) return;
+      for (const rule of rules) {
+        if (rule.styleSheet) scan(rule.styleSheet); // @import
+        scanRule(rule);
+      }
     }
-    return null;
+    function scanRule(rule) {
+      if (!rule) return;
+      if (rule.cssRules) {
+        for (const nested of rule.cssRules) scanRule(nested);
+      }
+      if (!rule.selectorText || !rule.style) return;
+      const refs = new Set();
+      for (const prop of ['font','font-size','font-weight','line-height','font-family','font-style']) {
+        const value = rule.style.getPropertyValue(prop);
+        if (!value) continue;
+        pattern.lastIndex = 0;
+        let match;
+        while ((match = pattern.exec(value))) refs.add(match[1]);
+      }
+      if (refs.size) output.push({selector:rule.selectorText, refs:Array.from(refs)});
+    }
+    for (const sheet of doc.styleSheets) scan(sheet);
+    rulesByDocument.set(doc, {sheetCount:doc.styleSheets.length, rules:output});
+    return output;
+  }
+  function referencedTokens(el) {
+    const matches = new Set();
+    for (const rule of tokenRules(el.ownerDocument)) {
+      try {
+        if (el.matches(rule.selector) || el.closest(rule.selector)) {
+          rule.refs.forEach(token => matches.add(token));
+        }
+      } catch (e) { /* A pseudo-element selector cannot match a normal DOM node. */ }
+    }
+    // Inline font declarations also count; custom-property definitions alone do not.
+    for (let node = el; node && node.nodeType === 1; node = node.parentElement) {
+      if (node.style) {
+        const text = ['font','font-size','font-weight','line-height','font-family']
+          .map(prop => node.style.getPropertyValue(prop)).join(' ');
+        const re = /var\(\s*(--ds-(?:type|text)-[\w-]+)/g;
+        let match;
+        while ((match = re.exec(text))) matches.add(match[1]);
+      }
+      if (node.classList.contains('phone')) break;
+    }
+    return Array.from(matches);
+  }
+  // A synchronous, reversible CSS-variable probe proves that the rendered element
+  // actually depends on the alias. It also rejects shadowed/overridden CSS rules.
+  function dependsOn(el, token, style) {
+    let cache = dependencyByElement.get(el);
+    if (!cache) { cache = new Map(); dependencyByElement.set(el, cache); }
+    const baseline = {size:style.fontSize, weight:style.fontWeight, line:style.lineHeight};
+    const signature = token + '|' + baseline.size + '|' + baseline.weight + '|' + baseline.line;
+    if (cache.has(signature)) return cache.get(signature);
+    const scope = el.closest('.phone') || el.ownerDocument.documentElement;
+    const oldValue = scope.style.getPropertyValue(token);
+    const oldPriority = scope.style.getPropertyPriority(token);
+    let changed = false;
+    try {
+      scope.style.setProperty(token, 'normal 71px/82px Inter,system-ui,sans-serif', 'important');
+      const test = el.ownerDocument.defaultView.getComputedStyle(el);
+      changed = test.fontSize !== baseline.size || test.fontWeight !== baseline.weight ||
+        test.lineHeight !== baseline.line;
+    } finally {
+      if (oldValue) scope.style.setProperty(token, oldValue, oldPriority);
+      else scope.style.removeProperty(token);
+    }
+    cache.set(signature, changed);
+    return changed;
+  }
+  function linkedStyle(el, style) {
+    let directFoundation = null;
+    for (const token of referencedTokens(el)) {
+      if (token.startsWith('--ds-type-')) {
+        const role = roles.find(r => '--ds-type-' + r.key === token);
+        if (role && dependsOn(el, token, style)) return {role, directFoundation:null};
+      } else {
+        const foundation = foundations.find(f => f.token === token);
+        if (foundation && dependsOn(el, token, style)) directFoundation = foundation;
+      }
+    }
+    return {role:null, directFoundation};
   }
   function collectDocument(doc, rows, state, visited, depth) {
     if (!doc || !doc.defaultView || visited.has(doc) || depth > 2) return;
@@ -94,15 +183,16 @@
       if (!text || !isAvailable(el, win)) continue;
       const c = win.getComputedStyle(el);
       if (c.fontSize === '0px') continue;
-      const role = matchingRole(el, c);
-      const selector = role ? role.selector : pathFor(el);
+      const link = linkedStyle(el, c);
+      const role = link.role;
+      const selector = role && role.selector.startsWith('.') ? role.selector : pathFor(el);
       const key = [selector, c.fontSize, c.fontWeight, c.lineHeight, c.fontFamily,
-        c.letterSpacing, c.fontStyle].join('|');
+        c.letterSpacing, c.fontStyle, role?.key || '', link.directFoundation?.key || ''].join('|');
       let data = rows.get(key);
       if (!data) {
         data = {selector, size:c.fontSize, line:c.lineHeight, weight:c.fontWeight,
           family:c.fontFamily, tracking:c.letterSpacing, fontStyle:c.fontStyle,
-          role, el, samples:[], states:[]};
+          role, directFoundation:link.directFoundation, el, samples:[], states:[]};
         rows.set(key, data);
       }
       if (!data.samples.includes(text) && data.samples.length < 2) data.samples.push(text);
@@ -140,10 +230,11 @@
   function foundationFor(item) {
     const roleBase = item.role && foundations.find(f => f.key === item.role.base);
     if (roleBase) return roleBase;
+    if (item.directFoundation) return item.directFoundation;
     if (!/Inter/i.test(item.family) || item.fontStyle !== 'normal') return null;
     return foundations.find(f => formatPx(f.size) === formatPx(item.size) &&
       String(f.weight) === String(item.weight) &&
-      f.line && formatPx(f.line) === formatPx(item.line)) || null;
+      (f.line ? formatPx(f.line) === formatPx(item.line) : item.line === 'normal')) || null;
   }
   function renderCatalog() {
     const body = document.getElementById('ds-type-catalog-body');
@@ -159,12 +250,14 @@
           group = {size:item.size, line:item.line, weight:item.weight,
             family:item.family, tracking:item.tracking, fontStyle:item.fontStyle,
             title:titleFor(item), foundation:null, example:item.samples[0] || '',
-            aliases:new Set(), selectors:new Set(), components:new Map(), localCount:0};
+            aliases:new Set(), selectors:new Set(), components:new Map(), linkedCount:0, matchCount:0, localCount:0};
           groups.set(key, group);
         }
         const foundation = foundationFor(item);
         if (foundation && !group.foundation) group.foundation = foundation;
         if (item.role) group.aliases.add('--ds-type-' + item.role.key);
+        if (item.role || item.directFoundation) group.linkedCount++;
+        else if (foundation) group.matchCount++;
         else group.localCount++;
         group.selectors.add(item.selector);
         group.components.set(cardId, source.name);
@@ -197,6 +290,11 @@
         const usage = elem('td');
         if (item.foundation) usage.appendChild(elem('code', 'ds-type-catalog-foundation',
           item.foundation.token));
+        usage.appendChild(elem('span', 'ds-type-catalog-binding',
+          item.linkedCount ? 'Использует токен · ' + item.linkedCount :
+          item.matchCount ? 'Совпадение, без привязки' : 'Локальный стиль'));
+        if (item.linkedCount && item.matchCount) usage.appendChild(elem('span', 'ds-type-catalog-unlinked',
+          'Совпадение, без привязки · ' + item.matchCount));
         if (item.aliases.size) {
           usage.appendChild(elem('span', 'ds-type-catalog-aliases',
             'Алиасы: ' + Array.from(item.aliases).join(', ')));
@@ -206,7 +304,7 @@
           'Селекторы: ' + selectors.slice(0, 3).join(', ') +
           (selectors.length > 3 ? ' +' + (selectors.length - 3) : '')));
         if (item.localCount) usage.appendChild(elem('span', 'ds-type-catalog-unlinked',
-          'Совпадают по параметрам, без подтверждённого алиаса: ' + item.localCount));
+          'Локальные элементы: ' + item.localCount));
         tr.appendChild(usage);
         tr.appendChild(elem('td', '', formatPx(item.size)));
         tr.appendChild(elem('td', '', formatPx(item.line)));
@@ -301,9 +399,16 @@
       const usage = elem('div', 'ds-typo-usage');
       usage.appendChild(elem('span', '', '«' + item.samples.join('», «') + '»'));
       usage.appendChild(elem('code', 'ds-typo-selector', item.selector));
-      if (item.role) {
-        usage.appendChild(elem('code', 'ds-typo-token', '--ds-type-' + item.role.key));
-        if (item.role.base) usage.appendChild(elem('code', 'ds-typo-token', '--ds-text-' + item.role.base));
+      const foundation = foundationFor(item);
+      if (item.role || item.directFoundation) {
+        usage.appendChild(elem('span', 'ds-typo-status ds-typo-linked', 'Использует токен'));
+        if (item.role) usage.appendChild(elem('code', 'ds-typo-token', '--ds-type-' + item.role.key));
+        if (foundation) usage.appendChild(elem('code', 'ds-typo-token', foundation.token));
+      } else if (foundation) {
+        usage.appendChild(elem('code', 'ds-typo-match-token', foundation.token));
+        usage.appendChild(elem('span', 'ds-typo-status ds-typo-match', 'Совпадение, без привязки'));
+      } else {
+        usage.appendChild(elem('span', 'ds-typo-status ds-typo-local', 'Локальный стиль'));
       }
       if (item.states.length) usage.appendChild(elem('span', 'ds-typo-state', item.states.join(' / ')));
       if (/mono/i.test(item.family) && !/Inter/i.test(item.family))
@@ -367,7 +472,7 @@
     if (!r.ok) throw new Error('Tokens response ' + r.status);
     return r.json();
   }).then(data => {
-    roles = (data.type || []).filter(r => r.selector && r.selector.trim().startsWith('.'));
+    roles = (data.type || []).filter(r => r.key && r.base);
     foundations = data.text_styles || [];
     cards.forEach(schedule);
   }).catch(() => {
