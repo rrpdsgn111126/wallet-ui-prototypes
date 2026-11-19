@@ -26,7 +26,7 @@ a:hover { text-decoration: underline; }
   display: flex; align-items: center; justify-content: center;
 }
 .plate img { display: block; border-radius: 999px; }
-.top h1 { font-size: 28px; line-height: 34px; font-weight: 600; letter-spacing: -.4px; }
+.top h1 { font-size: 30px; line-height: 36px; font-weight: 600; letter-spacing: -.4px; }
 .top p { font-size: 14px; line-height: 20px; color: var(--mute); margin-top: 2px; }
 .stats { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; }
 .stats li {
@@ -56,7 +56,7 @@ a:hover { text-decoration: underline; }
 
 main { max-width: 1360px; margin: 0 auto; padding: 0 24px 40px; }
 .grp { scroll-margin-top: 64px; }
-.grp-h { font-size: 22px; line-height: 28px; font-weight: 600; margin: 44px 4px 16px; letter-spacing: -.2px; }
+.grp-h { font-size: 24px; line-height: 30px; font-weight: 600; margin: 44px 4px 16px; letter-spacing: -.2px; }
 .lead { color: var(--mute); font-size: 14px; line-height: 20px; margin: -6px 4px 16px; max-width: 900px; }
 
 /* карточка компонента: описание · светлая · тёмная */
