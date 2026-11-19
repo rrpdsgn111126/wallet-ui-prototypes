@@ -1,0 +1,23 @@
+name: QA panel responsive Playwright
+
+on:
+  push:
+    branches: [work/prototype]
+    paths:
+      - 'transfi-remittance/transfi-qa-panel.js'
+      - 'transfi-remittance/index.html'
+      - 'transfi-remittance/preview-interactions.js'
+      - 'tests/bank-qa/qa-modal.mjs'
+      - '.github/workflows/qa-panel-responsive.yml'
+  workflow_dispatch:
+
+jobs:
+  responsive-qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Node Playwright library (use system Chrome)
+        run: npm install --no-save playwright@1.56.1
+      - name: Verify desktop toggle and mobile dialog in Chrome
+        run: node tests/bank-qa/qa-modal.mjs
