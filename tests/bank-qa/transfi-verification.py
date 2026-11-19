@@ -242,7 +242,11 @@ async def test_external_qa_panel(browser, origin):
     page.on("pageerror", lambda exc: errors.append(str(exc)))
     await page.goto(origin + "/transfi-remittance/?qa=1")
     panel = page.locator("#tf-qa-panel")
-    await expect(panel).to_be_visible(timeout=30000)
+    toggle = page.locator("#tf-qa-toggle")
+    await expect(toggle).to_be_visible(timeout=30000)
+    await expect(panel).to_be_hidden()
+    await toggle.click()
+    await expect(panel).to_be_visible()
     assert await page.locator("#tfv-qa").count() == 0, "Old QA selector inside wallet must be removed"
     phone_box = await page.locator("body > .phone").bounding_box()
     panel_box = await panel.bounding_box()
@@ -407,7 +411,18 @@ async def test_qa_panel_mobile_hidden(browser, origin):
     for width in (390, 430):
         page = await browser.new_page(viewport={"width": width, "height": 932})
         await page.goto(origin + "/transfi-remittance/?qa=1")
-        await expect(page.locator("#tf-qa-panel")).to_be_hidden()
+        panel = page.locator("#tf-qa-panel")
+        toggle = page.locator("#tf-qa-toggle")
+        await expect(panel).to_be_hidden()
+        await expect(toggle).to_be_visible()
+        phone = await page.locator(".phone").bounding_box()
+        trigger = await toggle.bounding_box()
+        assert phone and trigger and trigger["y"] >= phone["y"] + phone["height"] - 2
+        await toggle.click()
+        await expect(panel).to_be_visible()
+        await expect(page.locator("#tf-qa-backdrop")).to_be_visible()
+        await page.keyboard.press("Escape")
+        await expect(panel).to_be_hidden()
         await page.close()
 
 
