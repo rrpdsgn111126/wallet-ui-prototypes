@@ -162,11 +162,11 @@
   --ds-font-size-16: 16px;
   --ds-font-size-18: 18px;
   --ds-font-size-20: 20px;
-  --ds-font-size-21: 21px;
   --ds-font-size-32: 32px;
   --ds-font-size-36: 36px;
   --ds-font-size-24: 24px;
-  --ds-font-size-27: 27px;
+  --ds-font-size-26: 26px;
+  --ds-font-size-30: 30px;
   --ds-font-weight-400: 400;
   --ds-font-weight-600: 600;
   --ds-font-weight-700: 700;
@@ -174,7 +174,7 @@
   /* DS typography foundations: one font shorthand per unique size/line/weight combination. */
   --ds-text-display-amount: var(--ds-font-weight-600) var(--ds-font-size-32)/38px var(--ds-font); /* Сумма крупная */
   --ds-text-display-balance: var(--ds-font-weight-600) var(--ds-font-size-36)/44px var(--ds-font); /* Баланс */
-  --ds-text-display-cents: var(--ds-font-weight-600) var(--ds-font-size-21)/normal var(--ds-font); /* Центы на карте */
+  --ds-text-display-cents: var(--ds-font-weight-600) var(--ds-font-size-20)/normal var(--ds-font); /* Центы на карте */
   --ds-text-heading-m: var(--ds-font-weight-600) var(--ds-font-size-20)/24px var(--ds-font); /* Заголовок M */
   --ds-text-button-m: var(--ds-font-weight-600) var(--ds-font-size-16)/normal var(--ds-font); /* Кнопка M */
   --ds-text-body-m: var(--ds-font-weight-400) var(--ds-font-size-16)/22px var(--ds-font); /* Основной текст M */
@@ -183,7 +183,8 @@
   --ds-text-link-s: var(--ds-font-weight-400) var(--ds-font-size-14)/normal var(--ds-font); /* Ссылка */
   --ds-text-body-m-strong: var(--ds-font-weight-600) var(--ds-font-size-16)/22px var(--ds-font); /* Акцент M */
   --ds-text-heading-status: var(--ds-font-weight-600) var(--ds-font-size-24)/30px var(--ds-font); /* Заголовок статуса */
-  --ds-text-heading-prominent: var(--ds-font-weight-600) var(--ds-font-size-27)/33px var(--ds-font); /* Крупный заголовок статуса */
+  --ds-text-heading-prominent: var(--ds-font-weight-600) var(--ds-font-size-26)/32px var(--ds-font); /* Крупный заголовок статуса */
+  --ds-text-heading-accent: var(--ds-font-weight-600) var(--ds-font-size-30)/36px var(--ds-font); /* Акцентный заголовок */
   --ds-text-label-strong: var(--ds-font-weight-600) var(--ds-font-size-16)/24px var(--ds-font); /* Акцентная подпись */
   --ds-text-caption-relaxed: var(--ds-font-weight-400) var(--ds-font-size-12)/18px var(--ds-font); /* Подпись с увеличенной строкой */
   --ds-text-caption-strong: var(--ds-font-weight-600) var(--ds-font-size-12)/16px var(--ds-font); /* Акцентная подпись S */
@@ -198,6 +199,7 @@
   --ds-type-body-compact: var(--ds-text-body-m); /* Плотный текст */
   --ds-type-status-title: var(--ds-text-heading-status); /* Заголовок результата операции */
   --ds-type-status-prominent: var(--ds-text-heading-prominent); /* Крупный заголовок результата */
+  --ds-type-hero-title: var(--ds-text-heading-accent); /* Акцентный заголовок экрана */
   --ds-type-label-strong: var(--ds-text-label-strong); /* Усиленная подпись */
   --ds-type-caption: var(--ds-text-caption-relaxed); /* Компактная подпись */
   --ds-type-label-tiny: var(--ds-text-caption-strong); /* Малая подпись */
