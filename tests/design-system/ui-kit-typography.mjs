@@ -66,6 +66,36 @@ try {
       });
       const find = id => report.find(x => x.id === id);
       assert.ok(find('btn')?.text.includes('16 px'), 'Button text has no computed 16px size');
+      if (!find('btn')?.text.includes('--ds-type-button') && width === 390) {
+        const detail = await page.locator('#btn figure.v:not(.d) iframe').first().evaluate(frame => {
+          const doc=frame.contentDocument, btn=doc.querySelector('.btn'), root=doc.querySelector('.phone');
+          const w=doc.defaultView, c=w.getComputedStyle(btn);
+          const before={size:c.fontSize,weight:c.fontWeight,line:c.lineHeight};
+          const seen=[];
+          function scan(sheet) {
+            try {
+              for (const rule of sheet.cssRules) {
+                if (rule.styleSheet) scan(rule.styleSheet);
+                if (rule.selectorText && rule.cssText.includes('--ds-type-button')) seen.push({
+                  selector:rule.selectorText,
+                  font:rule.style.getPropertyValue('font'),
+                  css:rule.cssText.slice(0,190),
+                  matches:btn.matches(rule.selectorText)
+                });
+              }
+            } catch (e) { seen.push({error:String(e)}); }
+          }
+          Array.from(doc.styleSheets).forEach(scan);
+          root.style.setProperty('--ds-type-button','normal 71px/82px Inter,system-ui,sans-serif','important');
+          const changed=w.getComputedStyle(btn);
+          const during={size:changed.fontSize,weight:changed.fontWeight,line:changed.lineHeight};
+          root.style.removeProperty('--ds-type-button');
+          return {before,during,rules:seen,sheets:Array.from(doc.styleSheets).map(x=>x.href)};
+        });
+        console.error('TYPOGRAPHY BINDING DIAGNOSTIC',JSON.stringify({
+          btnText:find('btn')?.text,detail
+        }));
+      }
       assert.ok(find('btn')?.text.includes('--ds-type-button'), 'Button token name missing');
       assert.ok(find('head')?.text.includes('20 px'), 'Screen title typography missing');
       // DS-06: header text shares the screen title metrics; input values are regular.
