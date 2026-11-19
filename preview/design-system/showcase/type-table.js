@@ -93,8 +93,14 @@
       }
       list.replaceChildren(fragment);
       count.textContent = sorted.length + ' общих стилей';
+      function notifyParent() {
+        try { parent.postMessage({dsTypeTableReady:true}, location.origin); }
+        catch (error) { /* Standalone component remains usable. */ }
+      }
       measure();
-      if (document.fonts && document.fonts.ready) document.fonts.ready.then(measure);
+      notifyParent();
+      if (document.fonts && document.fonts.ready)
+        document.fonts.ready.then(() => { measure(); notifyParent(); });
       window.addEventListener('resize', measure);
     })
     .catch(error => {
