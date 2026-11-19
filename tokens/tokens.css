@@ -171,35 +171,53 @@
   --ds-font-weight-600: 600;
   --ds-font-weight-700: 700;
 
-  --ds-type-bank-strong: var(--ds-font-weight-600) var(--ds-font-size-16)/22px var(--ds-font); /* Усиленное значение банковской формы */
-  --ds-type-body-secondary: var(--ds-font-weight-400) var(--ds-font-size-14)/20px var(--ds-font); /* Вторичный текст */
-  --ds-type-body-secondary-strong: var(--ds-font-weight-400) var(--ds-font-size-14)/20px var(--ds-font); /* Вторичный текст с акцентом */
-  --ds-type-note-strong: var(--ds-font-weight-400) var(--ds-font-size-14)/20px var(--ds-font); /* Акцентированная заметка */
-  --ds-type-body-compact-strong: var(--ds-font-weight-400) var(--ds-font-size-16)/22px var(--ds-font); /* Плотный текст с акцентом */
-  --ds-type-body-compact: var(--ds-font-weight-400) var(--ds-font-size-16)/22px var(--ds-font); /* Плотный текст */
-  --ds-type-status-title: var(--ds-font-weight-600) var(--ds-font-size-24)/30px var(--ds-font); /* Заголовок результата операции */
-  --ds-type-status-prominent: var(--ds-font-weight-600) var(--ds-font-size-27)/33px var(--ds-font); /* Крупный заголовок результата */
-  --ds-type-label-strong: var(--ds-font-weight-600) var(--ds-font-size-16)/24px var(--ds-font); /* Усиленная подпись */
-  --ds-type-caption: var(--ds-font-weight-400) var(--ds-font-size-12)/18px var(--ds-font); /* Компактная подпись */
-  --ds-type-label-tiny: var(--ds-font-weight-600) var(--ds-font-size-12)/16px var(--ds-font); /* Малая подпись */
-  --ds-type-bank-prompt: var(--ds-font-weight-600) var(--ds-font-size-14)/40px var(--ds-font); /* Служебная надпись */
-
-  --ds-type-amount-hero: var(--ds-font-weight-600) var(--ds-font-size-32)/38px var(--ds-font);  /* Сумма-герой (детали операции) (.amt) */
-  --ds-type-card-balance: var(--ds-font-weight-600) var(--ds-font-size-36)/44px var(--ds-font);  /* Баланс на карте (.cbal) */
-  --ds-type-card-cents: var(--ds-font-weight-600) var(--ds-font-size-21)/normal var(--ds-font);  /* Центы и знак на карте (.cbal .cnt) */
-  --ds-type-title: var(--ds-font-weight-600) var(--ds-font-size-20)/24px var(--ds-font);  /* Заголовок экрана (.h1) */
-  --ds-type-sheet-title: var(--ds-font-weight-600) var(--ds-font-size-20)/24px var(--ds-font);  /* Заголовок шторки (.sh2) */
-  --ds-type-section: var(--ds-font-weight-600) var(--ds-font-size-20)/24px var(--ds-font);  /* Заголовок раздела (.hh h2) */
-  --ds-type-button: var(--ds-font-weight-600) var(--ds-font-size-16)/normal var(--ds-font);  /* Кнопка (.btn,.btno) */
-  --ds-type-row: var(--ds-font-weight-400) var(--ds-font-size-16)/22px var(--ds-font);  /* Строка в плите (.row .rt) */
-  --ds-type-field-value: var(--ds-font-weight-400) var(--ds-font-size-16)/22px var(--ds-font);  /* Значение поля (.fl b) */
-  --ds-type-field-label: var(--ds-font-weight-400) var(--ds-font-size-12)/16px var(--ds-font);  /* Подпись поля (.fl i) */
-  --ds-type-lead: var(--ds-font-weight-400) var(--ds-font-size-16)/22px var(--ds-font);  /* Вводный абзац (.lead) */
-  --ds-type-note: var(--ds-font-weight-400) var(--ds-font-size-14)/20px var(--ds-font);  /* Заметка (.note) */
-  --ds-type-hint: var(--ds-font-weight-400) var(--ds-font-size-12)/16px var(--ds-font);  /* Подсказка (.hint) */
-  --ds-type-link: var(--ds-font-weight-400) var(--ds-font-size-14)/normal var(--ds-font);  /* Ссылка действия (.lnk) */
-  --ds-type-action-label: var(--ds-font-weight-400) var(--ds-font-size-12)/16px var(--ds-font);  /* Подпись быстрого действия (.act span) */
-  --ds-type-nav-label: var(--ds-font-weight-400) var(--ds-font-size-12)/16px var(--ds-font);  /* Подпись нижнего меню (.bnv-i) */
+  /* DS typography foundations: one font shorthand per unique size/line/weight combination. */
+  --ds-text-display-amount: var(--ds-font-weight-600) var(--ds-font-size-32)/38px var(--ds-font); /* Сумма крупная */
+  --ds-text-display-balance: var(--ds-font-weight-600) var(--ds-font-size-36)/44px var(--ds-font); /* Баланс */
+  --ds-text-display-cents: var(--ds-font-weight-600) var(--ds-font-size-21)/normal var(--ds-font); /* Центы на карте */
+  --ds-text-heading-m: var(--ds-font-weight-600) var(--ds-font-size-20)/24px var(--ds-font); /* Заголовок M */
+  --ds-text-button-m: var(--ds-font-weight-600) var(--ds-font-size-16)/normal var(--ds-font); /* Кнопка M */
+  --ds-text-body-m: var(--ds-font-weight-400) var(--ds-font-size-16)/22px var(--ds-font); /* Основной текст M */
+  --ds-text-caption: var(--ds-font-weight-400) var(--ds-font-size-12)/16px var(--ds-font); /* Подпись */
+  --ds-text-body-s: var(--ds-font-weight-400) var(--ds-font-size-14)/20px var(--ds-font); /* Вторичный текст S */
+  --ds-text-link-s: var(--ds-font-weight-400) var(--ds-font-size-14)/normal var(--ds-font); /* Ссылка */
+  --ds-text-body-m-strong: var(--ds-font-weight-600) var(--ds-font-size-16)/22px var(--ds-font); /* Акцент M */
+  --ds-text-heading-status: var(--ds-font-weight-600) var(--ds-font-size-24)/30px var(--ds-font); /* Заголовок статуса */
+  --ds-text-heading-prominent: var(--ds-font-weight-600) var(--ds-font-size-27)/33px var(--ds-font); /* Крупный заголовок статуса */
+  --ds-text-label-strong: var(--ds-font-weight-600) var(--ds-font-size-16)/24px var(--ds-font); /* Акцентная подпись */
+  --ds-text-caption-relaxed: var(--ds-font-weight-400) var(--ds-font-size-12)/18px var(--ds-font); /* Подпись с увеличенной строкой */
+  --ds-text-caption-strong: var(--ds-font-weight-600) var(--ds-font-size-12)/16px var(--ds-font); /* Акцентная подпись S */
+  --ds-text-bank-prompt: var(--ds-font-weight-600) var(--ds-font-size-14)/40px var(--ds-font); /* Служебная надпись */
+  
+  /* Semantic aliases preserve the component contract, but no longer duplicate metrics. */
+  --ds-type-bank-strong: var(--ds-text-body-m-strong); /* Усиленное значение банковской формы */
+  --ds-type-body-secondary: var(--ds-text-body-s); /* Вторичный текст */
+  --ds-type-body-secondary-strong: var(--ds-text-body-s); /* Вторичный текст с акцентом */
+  --ds-type-note-strong: var(--ds-text-body-s); /* Акцентированная заметка */
+  --ds-type-body-compact-strong: var(--ds-text-body-m); /* Плотный текст с акцентом */
+  --ds-type-body-compact: var(--ds-text-body-m); /* Плотный текст */
+  --ds-type-status-title: var(--ds-text-heading-status); /* Заголовок результата операции */
+  --ds-type-status-prominent: var(--ds-text-heading-prominent); /* Крупный заголовок результата */
+  --ds-type-label-strong: var(--ds-text-label-strong); /* Усиленная подпись */
+  --ds-type-caption: var(--ds-text-caption-relaxed); /* Компактная подпись */
+  --ds-type-label-tiny: var(--ds-text-caption-strong); /* Малая подпись */
+  --ds-type-bank-prompt: var(--ds-text-bank-prompt); /* Служебная надпись */
+  --ds-type-amount-hero: var(--ds-text-display-amount);  /* Сумма-герой (детали операции) (.amt) */
+  --ds-type-card-balance: var(--ds-text-display-balance);  /* Баланс на карте (.cbal) */
+  --ds-type-card-cents: var(--ds-text-display-cents);  /* Центы и знак на карте (.cbal .cnt) */
+  --ds-type-title: var(--ds-text-heading-m);  /* Заголовок экрана (.h1) */
+  --ds-type-sheet-title: var(--ds-text-heading-m);  /* Заголовок шторки (.sh2) */
+  --ds-type-section: var(--ds-text-heading-m);  /* Заголовок раздела (.hh h2) */
+  --ds-type-button: var(--ds-text-button-m);  /* Кнопка (.btn,.btno) */
+  --ds-type-row: var(--ds-text-body-m);  /* Строка в плите (.row .rt) */
+  --ds-type-field-value: var(--ds-text-body-m);  /* Значение поля (.fl b) */
+  --ds-type-field-label: var(--ds-text-caption);  /* Подпись поля (.fl i) */
+  --ds-type-lead: var(--ds-text-body-m);  /* Вводный абзац (.lead) */
+  --ds-type-note: var(--ds-text-body-s);  /* Заметка (.note) */
+  --ds-type-hint: var(--ds-text-caption);  /* Подсказка (.hint) */
+  --ds-type-link: var(--ds-text-link-s);  /* Ссылка действия (.lnk) */
+  --ds-type-action-label: var(--ds-text-caption);  /* Подпись быстрого действия (.act span) */
+  --ds-type-nav-label: var(--ds-text-caption);  /* Подпись нижнего меню (.bnv-i) */
 }
 
 /* Тёмная тема: класс dark на <html>, как в кошельке. Его ставит скрипт в <head>
