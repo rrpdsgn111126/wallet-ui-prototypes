@@ -98,7 +98,7 @@ body{font-family:Inter,"Noto Sans Thai",Thonburi,"Leelawadee UI",system-ui,sans-
 .ccap{font-size:12px;font-weight:400;line-height:16px;color:#211e1dad;margin-bottom:-2px}
 .cbal{font-size:36px;font-weight:600;line-height:44px;letter-spacing:-0.5px}
 
-.cbal .cnt{font-size:21px;font-weight:600;letter-spacing:0}
+.cbal .cnt{font-size:20px;font-weight:600;letter-spacing:0}
 .cbot{display:flex;align-items:flex-end;gap:12px}
 .cnum{font-size:14px;font-weight:400;letter-spacing:.6px;color:#211e1dcf}
 .cexp{font-size:12px;font-weight:400;color:#211e1d9c}
@@ -339,7 +339,7 @@ body{font-family:Inter,"Noto Sans Thai",Thonburi,"Leelawadee UI",system-ui,sans-
 .bempty{text-align:center;padding:56px 24px 0}
 .bempty .c{width:72px;height:72px;border-radius:999px;background:var(--n100);margin:0 auto 18px;
   display:flex;align-items:center;justify-content:center}
-.bempty b{display:block;font-size:19px;font-weight:600;line-height:25px}
+.bempty b{display:block;font-size:20px;font-weight:600;line-height:26px}
 .bempty p{font-size:14px;font-weight:400;line-height:20px;color:var(--n500);margin-top:8px}
 
 
@@ -523,7 +523,7 @@ button.row{width:100%;border:0;background:none;text-align:left;font:inherit;
 
 
 .hero{text-align:center;padding:0 8px}
-.hero .h2{font-size:28px;font-weight:600;line-height:34px;margin:18px 0 8px}
+.hero .h2{font-size:30px;font-weight:600;line-height:36px;margin:18px 0 8px}
 .hero .p{font-size:14px;font-weight:400;line-height:21px;color:var(--n500);
   margin-bottom:22px;text-wrap:balance}
 .otp{display:flex;gap:8px;justify-content:center;margin:6px 0 14px}
@@ -825,7 +825,7 @@ html.dark .ring::before{background:conic-gradient(var(--brand) 0deg 250deg,trans
   padding:32px 28px;background:var(--n50);text-align:center}
 .bank-gate[hidden]{display:none}
 .bank-gate .bg-in{max-width:320px;display:flex;flex-direction:column;gap:12px}
-.bank-gate .bg-t{font-size:22px;line-height:28px;font-weight:600;color:var(--n900)}
+.bank-gate .bg-t{font-size:24px;line-height:30px;font-weight:600;color:var(--n900)}
 .bank-gate .bg-s{font-size:14px;line-height:21px;color:var(--n500)}
 .bank-gate .bg-a{margin-top:20px;font-size:12px;line-height:16px;color:var(--n400);text-decoration:none}
 html.partner [data-act="logout"]{display:none!important}
@@ -1329,7 +1329,7 @@ html.kbd #v-vphone > .wrap{padding-top:4px !important}
   line-height:1;font-weight:600;letter-spacing:-1px;color:var(--n900);
   font-variant-numeric:tabular-nums}
 .ir-num svg{width:40px;height:40px}
-.ir-t{margin:20px 0 0;font-size:19px;line-height:24px;font-weight:600;color:var(--n900)}
+.ir-t{margin:20px 0 0;font-size:20px;line-height:24px;font-weight:600;color:var(--n900)}
 .ir-s{margin:6px auto 0;max-width:300px;text-wrap:balance;font-size:14px;line-height:20px;
   color:var(--n500)}
 .ir-f{text-wrap:balance;margin:18px 0 0;padding:14px 4px 0;border-top:1px solid var(--n100);
@@ -2158,7 +2158,7 @@ html.dark .fl b .ph{color:var(--n400)}
 .pl-a1{position:relative;margin:0 0 12px}
 .pl-a1 .card{margin:0}
 .pl-a1 .pl-onc{position:absolute;left:24px;right:24px;bottom:62px;z-index:3;display:flex;justify-content:space-between;
-  font:600 23px/28px Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-variant-numeric:tabular-nums;
+  font:600 24px/30px Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-variant-numeric:tabular-nums;
   letter-spacing:.5px;color:var(--brand-ink)}
 .pl-a1 .pl-onc .g{display:flex}
 .pl-a1 .pl-onc i{font-style:normal;width:.72em;text-align:center;position:relative}
@@ -2497,7 +2497,7 @@ html.duo2 #v-lock.duo-split > .wrap{position:absolute!important;left:0;top:0;bot
   flex:none;margin:0!important;padding:0 16px!important;box-sizing:border-box;overflow:visible;
   display:flex;flex-direction:column;align-items:center;justify-content:center}
 html.duo2 #v-lock .duo-lk-nm{display:none}
-html.duo2 #v-lock .duo-lk-h{display:block;margin-top:18px;font-size:22px;font-weight:600;line-height:28px;
+html.duo2 #v-lock .duo-lk-h{display:block;margin-top:18px;font-size:24px;font-weight:600;line-height:30px;
   color:var(--n900);text-align:center}
 html.duo2 #v-lock .lock-sub{margin-top:4px!important;font-size:14px!important;line-height:20px;color:var(--n500);text-align:center}
 html.duo2 #v-lock .duo-lk-fid{display:flex;width:280px;margin-top:28px;gap:10px}
@@ -2539,7 +2539,7 @@ html.duo2 #v-profile .duo-pf-pr{display:block;margin:0}
 html.duo2 #v-profile .duo-pf-pr[hidden]{display:none}
 html.duo2 .duo-pf-av{flex:0 0 56px;width:56px;height:56px}
 html.duo2 .duo-pf-av .avaw{width:56px;height:56px;margin:0}
-html.duo2 .duo-pf-av .ava,html.duo2 .duo-pf-av .avaw img{width:56px;height:56px;font-size:21px}
+html.duo2 .duo-pf-av .ava,html.duo2 .duo-pf-av .avaw img{width:56px;height:56px;font-size:20px
 html.duo2 .duo-pf-av .avcam{width:22px;height:22px;box-shadow:0 0 0 2.5px var(--surface,#fff)}
 html.duo2 .duo-pf-av .avcam svg{width:12px;height:12px}
 html.duo2 .duo-pf-t{flex:1;min-width:0}
