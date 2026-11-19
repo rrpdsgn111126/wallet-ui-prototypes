@@ -25,7 +25,7 @@ try {
         'Not every component received a typography panel');
       // Bank component frames are intentionally loading="lazy" in the UI Kit.
       // Scroll the checked specimens into view before expecting their metrics.
-      for (const id of ['btn','head','bnv','amount','type','bankfields','recipientfields']) {
+      for (const id of ['btn','head','bnv','acts','amount','type','bankfields','recipientfields']) {
         const frames = page.locator('#' + id + ' figure.v:not(.d) iframe');
         const n = await frames.count();
         for (let k = 0; k < n; k++) await frames.nth(k).scrollIntoViewIfNeeded();
@@ -88,6 +88,27 @@ try {
 
 
       assert.ok(find('bnv')?.text.includes('12 px'), 'Navigation typography missing');
+      assert.equal(await page.locator('.tbls').count(), 0, 'Legacy hard-coded tables must be removed');
+      assert.equal(await page.locator('#ds-type-catalog').count(), 1, 'Measured typography catalog missing');
+      await page.waitForFunction(() => {
+        const tokenNames = [...document.querySelectorAll('#ds-type-catalog .ds-type-catalog-token')]
+          .map(x => x.textContent);
+        return tokenNames.includes('--ds-type-action-label') && tokenNames.includes('--ds-type-nav-label');
+      }, null, { timeout: 30000 });
+      const catalog = await page.evaluate(() => {
+        const rows = [...document.querySelectorAll('#ds-type-catalog .ds-type-catalog-row')];
+        const metrics = key => {
+          const row = rows.find(r => r.querySelector('.ds-type-catalog-token')?.textContent === key);
+          return row ? [...row.cells].slice(2, 5).map(td => td.textContent.trim()) : null;
+        };
+        return { action: metrics('--ds-type-action-label'), nav: metrics('--ds-type-nav-label'),
+          count: rows.length, components: document.querySelector('#ds-type-catalog-status')?.textContent };
+      });
+      assert.deepEqual(catalog.action, ['12 px','16 px','400'], 'Quick-action label rollback/catalog mismatch');
+      assert.deepEqual(catalog.nav, ['12 px','16 px','400'], 'Bottom navigation label rollback/catalog mismatch');
+      assert.ok(catalog.count >= 10, 'Measured summary unexpectedly empty');
+      assert.ok(catalog.components.includes('образцов загружены'), 'Catalog readiness status missing');
+      assert.ok(find('bnv')?.text.includes('--ds-type-nav-label'), 'Inherited navigation token was not detected');
       assert.ok(find('amount')?.text.includes('12 px'), 'Amount field caption missing');
       assert.ok(find('type')?.count >= 6, 'Typography scale specimen incomplete');
       if (find('bankfields')?.count === 0) {
