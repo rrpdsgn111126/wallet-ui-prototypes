@@ -34,12 +34,28 @@
     return el;
   }
 
+  let styleDefinitions = new Map();
+  let fallbackFamily = 'Inter, system-ui, sans-serif';
   function measure() {
     for (const row of list.querySelectorAll('[data-ds-type-style]')) {
       const sample = row.querySelector('[data-ds-type-sample]');
       const metric = row.querySelector('[data-ds-type-metric]');
       if (!sample || !metric) continue;
-      const c = getComputedStyle(sample);
+      let c = getComputedStyle(sample);
+      const expected = styleDefinitions.get(row.dataset.dsTypeStyle);
+      // CSS remains authoritative. If a renderer fails to resolve the variable
+      // (for example, a stripped stylesheet in an HTML preview), use the JSON
+      // export of that same design token rather than displaying a false 16px.
+      if (expected && (c.fontSize !== expected.size || c.fontWeight !== expected.weight ||
+          (expected.line && c.lineHeight !== expected.line))) {
+        sample.style.font = '';
+        sample.style.fontFamily = fallbackFamily;
+        sample.style.fontSize = expected.size;
+        sample.style.fontWeight = expected.weight;
+        sample.style.lineHeight = expected.line || 'normal';
+        row.dataset.tokenFallback = '1';
+        c = getComputedStyle(sample);
+      }
       const px = value => {
         const n = parseFloat(value);
         return Number.isFinite(n) ? Number(n.toFixed(2)) + ' px' : value;
@@ -58,6 +74,8 @@
       const styles = tokens.text_styles;
       if (!Array.isArray(styles) || !styles.length) throw new Error('No shared typography styles');
       const roles = tokens.type || [];
+      styleDefinitions = new Map(styles.map(style => [style.key, style]));
+      fallbackFamily = tokens.font?.family || fallbackFamily;
       const sorted = [...styles].sort((a,b) =>
         parseFloat(b.size) - parseFloat(a.size) ||
         parseFloat(b.weight) - parseFloat(a.weight) ||
