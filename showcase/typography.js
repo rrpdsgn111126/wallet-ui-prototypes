@@ -8,6 +8,7 @@
 
   const rootUrl = '../tokens/tokens.json';
   let roles = [];
+  let foundations = [];
   const waiting = new WeakSet();
   const measurementsByCard = new Map();
   let catalogPending = false;
@@ -95,11 +96,13 @@
       if (c.fontSize === '0px') continue;
       const role = matchingRole(el, c);
       const selector = role ? role.selector : pathFor(el);
-      const key = [selector, c.fontSize, c.fontWeight, c.lineHeight, c.fontFamily].join('|');
+      const key = [selector, c.fontSize, c.fontWeight, c.lineHeight, c.fontFamily,
+        c.letterSpacing, c.fontStyle].join('|');
       let data = rows.get(key);
       if (!data) {
         data = {selector, size:c.fontSize, line:c.lineHeight, weight:c.fontWeight,
-          family:c.fontFamily, role, el, samples:[], states:[]};
+          family:c.fontFamily, tracking:c.letterSpacing, fontStyle:c.fontStyle,
+          role, el, samples:[], states:[]};
         rows.set(key, data);
       }
       if (!data.samples.includes(text) && data.samples.length < 2) data.samples.push(text);
@@ -129,6 +132,19 @@
       renderCatalog();
     });
   }
+  // Metrics identify a visual style; role aliases identify a confirmed CSS dependency.
+  // A local match is labelled as such, never misreported as a token reference.
+  function normalizedTracking(value) {
+    return value === 'normal' || value === '0px' ? '0' : formatPx(value);
+  }
+  function foundationFor(item) {
+    const roleBase = item.role && foundations.find(f => f.key === item.role.base);
+    if (roleBase) return roleBase;
+    if (!/Inter/i.test(item.family) || item.fontStyle !== 'normal') return null;
+    return foundations.find(f => formatPx(f.size) === formatPx(item.size) &&
+      String(f.weight) === String(item.weight) &&
+      f.line && formatPx(f.line) === formatPx(item.line)) || null;
+  }
   function renderCatalog() {
     const body = document.getElementById('ds-type-catalog-body');
     const status = document.getElementById('ds-type-catalog-status');
@@ -136,45 +152,61 @@
     const groups = new Map();
     for (const [cardId, source] of measurementsByCard) {
       for (const item of source.rows) {
-        const roleKey = item.role ? item.role.key : null;
-        const key = roleKey ? 'token|' + roleKey :
-          ['local', item.selector, item.size, item.line, item.weight, item.family].join('|');
+        const key = [item.size, item.line, item.weight, item.family,
+          normalizedTracking(item.tracking), item.fontStyle].join('|');
         let group = groups.get(key);
         if (!group) {
-          group = {role:item.role, title:titleFor(item), selector:item.selector,
-            size:item.size, line:item.line, weight:item.weight,
-            sample:item.samples[0] || '', components:new Map()};
+          group = {size:item.size, line:item.line, weight:item.weight,
+            family:item.family, tracking:item.tracking, fontStyle:item.fontStyle,
+            title:titleFor(item), foundation:null, example:item.samples[0] || '',
+            aliases:new Set(), selectors:new Set(), components:new Map(), localCount:0};
           groups.set(key, group);
         }
+        const foundation = foundationFor(item);
+        if (foundation && !group.foundation) group.foundation = foundation;
+        if (item.role) group.aliases.add('--ds-type-' + item.role.key);
+        else group.localCount++;
+        group.selectors.add(item.selector);
         group.components.set(cardId, source.name);
       }
     }
-    const items = Array.from(groups.values());
-    const order = new Map(roles.map((role, index) => [role.key, index]));
-    const tokenItems = items.filter(x => x.role).sort((a, b) =>
-      (order.get(a.role.key) ?? 999) - (order.get(b.role.key) ?? 999));
-    const localItems = items.filter(x => !x.role).sort((a, b) =>
+    const all = Array.from(groups.values());
+    const order = new Map(foundations.map((f, index) => [f.key, index]));
+    const linked = all.filter(x => x.foundation).sort((a,b) =>
+      (order.get(a.foundation.key) ?? 999) - (order.get(b.foundation.key) ?? 999) ||
+      Number.parseFloat(a.size) - Number.parseFloat(b.size));
+    const local = all.filter(x => !x.foundation).sort((a,b) =>
       Number.parseFloat(b.size) - Number.parseFloat(a.size) ||
-      a.selector.localeCompare(b.selector) || a.weight.localeCompare(b.weight));
+      a.weight.localeCompare(b.weight) || a.title.localeCompare(b.title));
     body.replaceChildren();
-
     function section(name, entries) {
       if (!entries.length) return;
-      const heading = elem('tr', 'ds-type-catalog-group');
+      const header = elem('tr', 'ds-type-catalog-group');
       const cell = elem('td', '', name + ' · ' + entries.length);
       cell.colSpan = 6;
-      heading.appendChild(cell);
-      body.appendChild(heading);
+      header.appendChild(cell);
+      body.appendChild(header);
       for (const item of entries) {
         const tr = elem('tr', 'ds-type-catalog-row');
         const label = elem('td');
         label.appendChild(elem('span', 'ds-type-catalog-role',
-          item.role ? item.role.name : 'Локальный · ' + item.title));
-        if (item.sample) label.appendChild(elem('span', 'ds-type-catalog-example', '«' + item.sample + '»'));
+          item.foundation ? item.foundation.name : 'Локальный стиль'));
+        if (item.example) label.appendChild(elem('span', 'ds-type-catalog-example',
+          '«' + item.example + '»'));
         tr.appendChild(label);
         const usage = elem('td');
-        usage.appendChild(elem('code', '', item.selector));
-        if (item.role) usage.appendChild(elem('code', 'ds-type-catalog-token', '--ds-type-' + item.role.key));
+        if (item.foundation) usage.appendChild(elem('code', 'ds-type-catalog-foundation',
+          item.foundation.token));
+        if (item.aliases.size) {
+          usage.appendChild(elem('span', 'ds-type-catalog-aliases',
+            'Алиасы: ' + Array.from(item.aliases).join(', ')));
+        }
+        const selectors = Array.from(item.selectors);
+        usage.appendChild(elem('span', 'ds-type-catalog-selectors',
+          'Селекторы: ' + selectors.slice(0, 3).join(', ') +
+          (selectors.length > 3 ? ' +' + (selectors.length - 3) : '')));
+        if (item.localCount) usage.appendChild(elem('span', 'ds-type-catalog-unlinked',
+          'Совпадают по параметрам, без подтверждённого алиаса: ' + item.localCount));
         tr.appendChild(usage);
         tr.appendChild(elem('td', '', formatPx(item.size)));
         tr.appendChild(elem('td', '', formatPx(item.line)));
@@ -191,9 +223,9 @@
         body.appendChild(tr);
       }
     }
-    section('Стили с токенами', tokenItems);
-    section('Стили без совпадающего токена', localItems);
-    if (!items.length) {
+    section('Общие типографические стили', linked);
+    section('Локальные комбинации без общего стиля', local);
+    if (!all.length) {
       const row = elem('tr');
       const cell = elem('td', '', 'Образцы пока не загружены.');
       cell.colSpan = 6;
@@ -201,10 +233,9 @@
       body.appendChild(row);
     }
     const ready = cards.filter(c => c.querySelector('.ds-typography')?.dataset.ready === '1').length;
-    status.textContent = 'Фактические computed styles из компонентов · ' +
-      ready + ' из ' + cards.length + ' образцов загружены · ' +
-      tokenItems.length + ' стилей с токенами, ' + localItems.length +
-      ' локальных. Несовпадения с токенами показаны отдельно.' +
+    status.textContent = 'Уникальные комбинации размера, строки, веса, шрифта и трекинга: ' +
+      all.length + ' · общие: ' + linked.length + ', локальные: ' + local.length +
+      ' · ' + ready + ' из ' + cards.length + ' образцов загружены.' +
       (ready < cards.length ? ' Таблица дополняется по мере загрузки.' : '');
   }
 
@@ -261,7 +292,10 @@
       const usage = elem('div', 'ds-typo-usage');
       usage.appendChild(elem('span', '', '«' + item.samples.join('», «') + '»'));
       usage.appendChild(elem('code', 'ds-typo-selector', item.selector));
-      if (item.role) usage.appendChild(elem('code', 'ds-typo-token', '--ds-type-' + item.role.key));
+      if (item.role) {
+        usage.appendChild(elem('code', 'ds-typo-token', '--ds-type-' + item.role.key));
+        if (item.role.base) usage.appendChild(elem('code', 'ds-typo-token', '--ds-text-' + item.role.base));
+      }
       if (item.states.length) usage.appendChild(elem('span', 'ds-typo-state', item.states.join(' / ')));
       if (/mono/i.test(item.family) && !/Inter/i.test(item.family))
         usage.appendChild(elem('span', 'ds-typo-state', 'моноширинный'));
@@ -317,6 +351,7 @@
     return r.json();
   }).then(data => {
     roles = (data.type || []).filter(r => r.selector && r.selector.trim().startsWith('.'));
+    foundations = data.text_styles || [];
     cards.forEach(schedule);
   }).catch(() => {
     // On file:// previews the fetch can be blocked. Computed values still work
