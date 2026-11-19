@@ -120,7 +120,7 @@ figure.v.d iframe { background: #121211; box-shadow: none; }
   background: var(--surface); border-radius: 20px; box-shadow: 0 1px 2px #1615140a;
 }
 .ds-type-catalog h3 { margin: 0; padding: 18px 20px 6px; font-size: 18px; line-height: 24px; font-weight: 600; }
-.ds-type-catalog-status { margin: 0; padding: 0 20px 14px; color: var(--mute); font-size: 13px; line-height: 18px; }
+.ds-type-catalog-status { margin: 0; padding: 0 20px 14px; color: var(--mute); font-size: 14px; line-height: 18px; }
 .ds-type-catalog-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
 .ds-type-catalog table { width: 100%; min-width: 780px; border-collapse: collapse; font-size: 14px; line-height: 20px; }
 .ds-type-catalog th, .ds-type-catalog td { padding: 10px 14px; text-align: left; vertical-align: top; overflow-wrap: anywhere; }
