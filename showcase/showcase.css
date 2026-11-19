@@ -137,7 +137,6 @@ figure.v.d iframe { background: #121211; box-shadow: none; }
   display: block; margin-top: 4px; color: var(--mute); font-size: 12px; line-height: 18px;
 }
 .ds-type-catalog .ds-type-catalog-unlinked { display: block; color: var(--mute); font-size: 12px; line-height: 18px; margin-top: 3px; }
-.ds-type-catalog .ds-type-catalog-token { display: block; color: #215d41; }
 .ds-type-catalog .ds-type-catalog-components a { color: var(--link); text-decoration: underline; text-underline-offset: 2px; }
 .ds-type-catalog .ds-type-catalog-components a + a::before { content: ', '; color: var(--mute); text-decoration: none; }
 
