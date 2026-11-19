@@ -130,7 +130,13 @@ figure.v.d iframe { background: #121211; box-shadow: none; }
 .ds-type-catalog .ds-type-catalog-group td { padding: 12px 14px 6px; color: var(--mute); font-weight: 600; background: var(--bg); }
 .ds-type-catalog .ds-type-catalog-role { display: block; font-weight: 600; }
 .ds-type-catalog .ds-type-catalog-example { display: block; margin-top: 2px; color: var(--mute); font-size: 12px; line-height: 16px; }
+.ds-type-catalog-info { padding: 0 20px 16px; color: var(--mute); font-size: 12px; line-height: 18px; }
 .ds-type-catalog code { font-size: 12px; line-height: 18px; }
+.ds-type-catalog .ds-type-catalog-foundation { display: block; font-weight: 600; color: #215d41; }
+.ds-type-catalog .ds-type-catalog-aliases, .ds-type-catalog .ds-type-catalog-selectors {
+  display: block; margin-top: 4px; color: var(--mute); font-size: 12px; line-height: 18px;
+}
+.ds-type-catalog .ds-type-catalog-unlinked { display: block; color: var(--mute); font-size: 12px; line-height: 18px; margin-top: 3px; }
 .ds-type-catalog .ds-type-catalog-token { display: block; color: #215d41; }
 .ds-type-catalog .ds-type-catalog-components a { color: var(--link); text-decoration: underline; text-underline-offset: 2px; }
 .ds-type-catalog .ds-type-catalog-components a + a::before { content: ', '; color: var(--mute); text-decoration: none; }
