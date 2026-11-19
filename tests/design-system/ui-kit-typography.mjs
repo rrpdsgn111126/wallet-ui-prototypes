@@ -44,11 +44,11 @@ try {
       await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 30000 });
       const cards = page.locator('article.cmp');
       assert.equal(await cards.count(), 42, 'Unexpected component gallery count');
-      assert.equal(await page.locator('article.cmp .ds-typography').count(), 42,
-        'Not every component received a typography panel');
+      assert.equal(await page.locator('article.cmp .ds-typography').count(), 41,
+        'Typography component must use only its two theme tables');
       // Bank component frames are intentionally loading="lazy" in the UI Kit.
       // Scroll the checked specimens into view before expecting their metrics.
-      for (const id of ['btn','head','bnv','acts','amount','type','bankfields','recipientfields']) {
+      for (const id of ['btn','head','bnv','acts','amount','bankfields','recipientfields']) {
         const frames = page.locator('#' + id + ' figure.v:not(.d) iframe');
         const n = await frames.count();
         for (let k = 0; k < n; k++) await frames.nth(k).scrollIntoViewIfNeeded();
@@ -61,7 +61,7 @@ try {
         return cards.map(card => ({
           id: card.id,
           count: card.querySelectorAll('.ds-typo-item').length,
-          text: card.querySelector('.ds-typography').innerText
+          text: card.querySelector('.ds-typography')?.innerText || ''
         }));
       });
       const find = id => report.find(x => x.id === id);
@@ -141,7 +141,53 @@ try {
       assert.ok(find('bnv')?.text.includes('--ds-text-caption'), 'Shared navigation foundation absent');
 
       assert.ok(find('amount')?.text.includes('12 px'), 'Amount field caption missing');
-      assert.ok(find('type')?.count >= 6, 'Typography scale specimen incomplete');
+      // The foundation is a pair of actual styles instead of metadata + two samples.
+      assert.equal(await page.locator('#type .meta, #type .ds-typography').count(), 0,
+        'Third typography metadata column must not exist');
+      const frames = page.locator('#type figure.v iframe');
+      assert.equal(await frames.count(), 2, 'Exactly two themed typography tables required');
+      await page.waitForFunction(expected => [...document.querySelectorAll('#type figure.v iframe')]
+        .every(frame => frame.contentDocument?.querySelectorAll('[data-ds-type-style]').length === expected),
+        definitionJson.text_styles.length, { timeout: 30000 });
+      const themed = await page.evaluate(() => {
+        const frames = [...document.querySelectorAll('#type figure.v iframe')];
+        return frames.map(frame => {
+          const doc = frame.contentDocument;
+          const rows = [...doc.querySelectorAll('[data-ds-type-style]')];
+          return {
+            dark:doc.documentElement.classList.contains('dark'),
+            count:rows.length, width:frame.getBoundingClientRect().width,
+            rect:frame.getBoundingClientRect().toJSON(),
+            items:rows.map(row => {
+              const target = row.querySelector('[data-ds-type-sample]');
+              const cs = doc.defaultView.getComputedStyle(target);
+              return {
+                key:row.dataset.dsTypeStyle, metrics:row.querySelector('[data-ds-type-metric]').textContent,
+                size:cs.fontSize, line:cs.lineHeight, weight:cs.fontWeight,
+                font:target.style.font
+              };
+            })
+          };
+        });
+      });
+      assert.deepEqual(themed.map(item => item.dark), [false,true], 'Theme variants mismatch');
+      for (const view of themed) {
+        assert.equal(view.count, definitionJson.text_styles.length, 'Incomplete live typography table');
+        for (const item of view.items) {
+          const style = foundations.get(item.key);
+          assert.ok(style, 'Unknown style in table: ' + item.key);
+          assert.equal(item.size, style.size, 'Rendered size mismatch for ' + item.key);
+          assert.equal(item.weight, style.weight, 'Rendered weight mismatch for ' + item.key);
+          if (style.line) assert.equal(item.line, style.line, 'Rendered line-height mismatch for ' + item.key);
+          assert.ok(item.metrics.includes(item.size.replace('px',' px')), 'Computed metrics absent for ' + item.key);
+          assert.ok(item.font.includes(style.token), 'Sample must use canonical shared style ' + item.key);
+        }
+      }
+      if (width === 1440) assert.ok(themed[1].rect.left > themed[0].rect.right,
+        'Desktop theme tables should be side by side');
+      else assert.ok(themed[1].rect.top > themed[0].rect.top,
+        'Mobile theme tables should be stacked');
+
       if (find('bankfields')?.count === 0) {
         const debug = await page.evaluate(() => {
           const outer = document.querySelector('#bankfields figure.v:not(.d) iframe');
@@ -183,7 +229,7 @@ try {
       }
 
       await page.locator('#btn .meta').screenshot({ path: path.join(output, 'button-typography-' + width + '.png') });
-      await page.locator('#type .meta').screenshot({ path: path.join(output, 'type-typography-' + width + '.png') });
+      await page.locator('#type figure.v').first().screenshot({ path: path.join(output, 'type-light-' + width + '.png') });
       assert.deepEqual(errors, [], 'UI Kit page errors: ' + errors.join(' | '));
       console.log('UI Kit ' + width + 'px: ' + report.length + ' cards, ' +
         report.filter(x => x.count > 0).length + ' cards with text, measured values OK');
