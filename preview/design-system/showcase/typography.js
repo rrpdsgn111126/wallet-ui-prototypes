@@ -74,20 +74,20 @@
   // A selector match is just a candidate; a reversible variable probe below
   // proves an actual CSS dependency even through @import, inheritance or media rules.
   function candidateRoles(el, style) {
-    const exact = [], metrics = [];
+    const direct = [], inherited = [], metricOnly = [];
     for (const role of roles) {
-      let selectorMatch = false;
-      try {
-        selectorMatch = el.matches(role.selector) || !!el.closest(role.selector);
-      } catch (e) { /* A bank UI role may not have a CSS selector. */ }
-      if (selectorMatch) exact.push(role);
-      else if (formatPx(style.fontSize) === formatPx(role.size) &&
+      const metricsMatch = formatPx(style.fontSize) === formatPx(role.size) &&
         style.fontWeight === String(role.weight) &&
-        (!role.line || formatPx(style.lineHeight) === formatPx(role.line))) {
-        metrics.push(role);
-      }
+        (!role.line || formatPx(style.lineHeight) === formatPx(role.line));
+      if (!metricsMatch) continue;
+      try {
+        if (el.matches(role.selector)) direct.push(role);
+        else if (el.closest(role.selector)) inherited.push(role);
+        else metricOnly.push(role);
+      } catch (e) { metricOnly.push(role); }
     }
-    return exact.concat(metrics);
+    // Direct alias wins over an inherited parent alias (e.g. .cbal .cnt).
+    return direct.concat(inherited, metricOnly);
   }
   // A synchronous, reversible CSS-variable probe proves that the rendered element
   // actually depends on the alias. It also rejects shadowed/overridden CSS rules.
@@ -187,7 +187,9 @@
   }
   function foundationFor(item) {
     const roleBase = item.role && foundations.find(f => f.key === item.role.base);
-    if (roleBase) return roleBase;
+    if (roleBase && formatPx(roleBase.size) === formatPx(item.size) &&
+        String(roleBase.weight) === String(item.weight) &&
+        (!roleBase.line || formatPx(roleBase.line) === formatPx(item.line))) return roleBase;
     if (item.directFoundation) return item.directFoundation;
     if (!/Inter/i.test(item.family) || item.fontStyle !== 'normal') return null;
     return foundations.find(f => formatPx(f.size) === formatPx(item.size) &&
