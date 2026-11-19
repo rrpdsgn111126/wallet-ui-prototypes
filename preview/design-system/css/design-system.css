@@ -128,6 +128,12 @@ html body .phone.tf-phone {
 /* Заголовок экрана */
 .phone .h1 { font: var(--ds-type-title); }
 
+/* Same foundation as the screen heading, without a duplicate text style. */
+.phone .hdr .who .uname { font: var(--ds-type-home-name); }
+
+/* Avatar initials reuse the existing 16/24/600 foundation. */
+.phone .hdr .who .uav { font: var(--ds-type-avatar-initials); }
+
 /* Заголовок шторки */
 .phone .sh2 { font: var(--ds-type-sheet-title); }
 

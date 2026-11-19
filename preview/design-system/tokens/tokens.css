@@ -208,6 +208,8 @@
   --ds-type-card-balance: var(--ds-text-display-balance);  /* Баланс на карте (.cbal) */
   --ds-type-card-cents: var(--ds-text-display-cents);  /* Центы и знак на карте (.cbal .cnt) */
   --ds-type-title: var(--ds-text-heading-m);  /* Заголовок экрана (.h1) */
+  --ds-type-home-name: var(--ds-text-heading-m);  /* Имя в шапке главной (.who .uname) */
+  --ds-type-avatar-initials: var(--ds-text-label-strong);  /* Инициалы аватара (.who .uav) */
   --ds-type-sheet-title: var(--ds-text-heading-m);  /* Заголовок шторки (.sh2) */
   --ds-type-section: var(--ds-text-heading-m);  /* Заголовок раздела (.hh h2) */
   --ds-type-button: var(--ds-text-button-m);  /* Кнопка (.btn,.btno) */
