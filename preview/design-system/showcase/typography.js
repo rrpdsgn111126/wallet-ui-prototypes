@@ -357,6 +357,12 @@
     });
     schedule(card);
   }
+  window.addEventListener('message', event => {
+    const type = document.getElementById('type');
+    if (!type || !event.data?.dsTypeTableReady) return;
+    if (![...type.querySelectorAll('iframe')].some(frame => frame.contentWindow === event.source)) return;
+    schedule(type);
+  });
   fetch(rootUrl).then(r => {
     if (!r.ok) throw new Error('Tokens response ' + r.status);
     return r.json();
