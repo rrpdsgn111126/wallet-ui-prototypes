@@ -1,0 +1,39 @@
+name: Design-system typography binding QA
+
+on:
+  push:
+    branches: [work/design-system]
+    paths:
+      - 'showcase/typography.js'
+      - 'showcase/showcase.css'
+      - 'ui-kit/**'
+      - 'components/**'
+      - 'css/**'
+      - 'tokens/**'
+      - 'tests/design-system/ui-kit-typography.mjs'
+      - '.github/workflows/design-system-typography-binding.yml'
+  workflow_dispatch:
+
+jobs:
+  binding:
+    runs-on: ubuntu-latest
+    timeout-minutes: 16
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Playwright (use system Chrome)
+        run: npm install --no-save playwright@1.56.1
+      - name: Verify shared text tokens and CSS dependencies at 390 / 430 / 1440
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m http.server 8765 --bind 127.0.0.1 > "$RUNNER_TEMP/typography-http.log" 2>&1 &
+          PID=$!
+          trap 'kill "$PID" 2>/dev/null || true' EXIT
+          node tests/design-system/ui-kit-typography.mjs http://127.0.0.1:8765/ui-kit/
+      - name: Upload UI Kit screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ds-token-binding-ui-kit
+          path: ${{ runner.temp }}/ds-03-typography/
+          if-no-files-found: warn
