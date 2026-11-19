@@ -188,6 +188,7 @@
   --ds-text-label-strong: var(--ds-font-weight-600) var(--ds-font-size-16)/24px var(--ds-font); /* Акцентная подпись */
   --ds-text-caption-relaxed: var(--ds-font-weight-400) var(--ds-font-size-12)/18px var(--ds-font); /* Подпись с увеличенной строкой */
   --ds-text-caption-strong: var(--ds-font-weight-600) var(--ds-font-size-12)/16px var(--ds-font); /* Акцентная подпись S */
+  --ds-text-label-s-strong: var(--ds-font-weight-600) var(--ds-font-size-14)/18px var(--ds-font); /* Малый акцент: MAX, чипы, бейджи */
   --ds-text-bank-prompt: var(--ds-font-weight-600) var(--ds-font-size-14)/40px var(--ds-font); /* Служебная надпись */
   
   /* Semantic aliases preserve the component contract, but no longer duplicate metrics. */
@@ -222,6 +223,16 @@
   --ds-type-link: var(--ds-text-link-s);  /* Ссылка действия (.lnk) */
   --ds-type-action-label: var(--ds-text-caption);  /* Подпись быстрого действия (.act span) */
   --ds-type-nav-label: var(--ds-text-caption);  /* Подпись нижнего меню (.bnv-i) */
+  --ds-type-keypad-digit: var(--ds-text-heading-status);  /* Цифра клавиатуры PIN */
+  --ds-type-otp-dot: var(--ds-text-heading-m);  /* Символ одноразового кода */
+  --ds-type-compact-heading: var(--ds-text-heading-m);  /* Заголовок карточки и баннера */
+  --ds-type-control-regular: var(--ds-text-body-m);  /* Текст переключателей, строк и полей */
+  --ds-type-support-copy: var(--ds-text-body-s);  /* Текст пояснения, ошибки и сообщений */
+  --ds-type-meta-caption: var(--ds-text-caption);  /* Краткая дополнительная подпись */
+  --ds-type-strong-value: var(--ds-text-body-m-strong);  /* Акцентное значение строки и текста */
+  --ds-type-small-emphasis: var(--ds-text-label-s-strong);  /* Акцент MAX, чипов и бейджей */
+  --ds-type-step-counter: var(--ds-text-label-strong);  /* Номер шага */
+  --ds-type-notification-caption: var(--ds-text-caption-strong);  /* Счётчик и компактный статус */
 }
 
 /* Тёмная тема: класс dark на <html>, как в кошельке. Его ставит скрипт в <head>

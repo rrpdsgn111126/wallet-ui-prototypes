@@ -629,3 +629,11 @@ html.tf-component-only .phone.tf-phone .tf-scroll > .fld.tf-picker-trigger{
     animation:none!important;
   }
 }
+
+/* DS-08: bank-specific selectors must have priority over this file's legacy rules.
+   All font shorthands reference the canonical shared design-system foundations. */
+.phone.tf-phone .fld.tf-field .fl { font: var(--ds-type-control-regular); }
+.phone.tf-phone .fld.tf-field .addon .mx,
+.phone.tf-phone .fld.tf-field.tf-amount .addon .mx.wd-max { font: var(--ds-type-small-emphasis); }
+.phone.tf-phone .row.tot .rt,
+.phone.tf-phone .row.tot .rv { font: var(--ds-type-strong-value); }
