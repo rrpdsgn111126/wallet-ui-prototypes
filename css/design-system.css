@@ -134,6 +134,11 @@ html body .phone.tf-phone {
 /* Заголовок раздела */
 .phone .hh h2 { font: var(--ds-type-section); }
 
+/* Заголовки результатов и акцентных экранов */
+.phone .ve-done h3, .phone .sbp-wait .h2, .phone .sbp-out .h2 { font: var(--ds-type-status-title); }
+.phone .ve-h { font: var(--ds-type-status-prominent); }
+.phone .hero .h2 { font: var(--ds-type-hero-title); }
+
 /* Кнопка */
 .phone .btn, .phone .btno { font: var(--ds-type-button); line-height: inherit; }
 
