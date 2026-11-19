@@ -49,3 +49,43 @@ body::before { content: none !important; display: none !important; }
 .ds-cn > span, .ds-cat > span {
   font-size: 12px; font-weight: 400; line-height: 14px; color: var(--n500); text-align: center;
 }
+
+/* The Typography foundation is a live table, not a third metadata column.
+   All sample font values come directly from tokens/tokens.css. */
+body[data-ds="type"] .phone.ds-ph { padding: 0 0 2px; }
+.ds-type-live-table { padding: 10px 16px 20px; }
+.ds-type-table-head {
+  display: flex; justify-content: space-between; align-items: baseline;
+  flex-wrap: wrap; gap: 6px 14px; padding: 0 0 12px;
+  border-bottom: 1px solid var(--n100);
+  color: var(--n500); font-size: 12px; line-height: 16px;
+}
+.ds-type-table-head strong { color: var(--n850); font-size: 14px; font-weight: 600; line-height: 20px; }
+.ds-type-table-count { font-size: 12px; line-height: 16px; }
+.ds-type-style-row {
+  display: grid; grid-template-columns: minmax(0, 1fr) auto;
+  align-items: start; gap: 8px 14px; padding: 18px 0;
+  border-bottom: 1px solid var(--n100);
+}
+.ds-type-style-row:last-child { border-bottom: 0; padding-bottom: 0; }
+.ds-type-style-body { min-width: 0; overflow-wrap: anywhere; }
+.ds-type-style-sample {
+  display: block; min-width: 0; max-width: 100%; white-space: normal;
+  color: var(--n900); overflow-wrap: anywhere;
+}
+.ds-type-style-details { display: flex; flex-wrap: wrap; align-items: baseline;
+  gap: 4px 9px; margin-top: 8px; color: var(--n500); }
+.ds-type-style-token {
+  font-family: var(--ds-font-mono); font-size: 11px; line-height: 16px;
+  color: var(--n500); white-space: normal; overflow-wrap: anywhere;
+}
+.ds-type-style-usage { font-size: 12px; line-height: 16px; color: var(--n500); }
+.ds-type-style-metric {
+  font-family: var(--ds-font-mono); font-size: 11px; font-weight: 400;
+  line-height: 16px; color: var(--n500); white-space: nowrap; text-align: right;
+}
+.ds-type-loading { font-size: 14px; line-height: 20px; color: var(--n500); margin: 12px 0; }
+@media (max-width: 420px) {
+  .ds-type-style-row { grid-template-columns: minmax(0, 1fr); gap: 6px; }
+  .ds-type-style-metric { text-align: left; }
+}
