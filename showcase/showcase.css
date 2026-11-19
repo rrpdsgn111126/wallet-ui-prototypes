@@ -94,6 +94,19 @@ figure.v iframe {
 }
 figure.v.d iframe { background: #121211; box-shadow: none; }
 
+/* Typography: just two themed tables, each example carries its own style. */
+#type.cmp { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+#type .ds-type-dual-title {
+  grid-column: 1 / -1; font-size: 18px; line-height: 24px;
+  font-weight: 600; margin: 0;
+}
+#type figure.v iframe { display: block; width: 100%; max-width: none; }
+@media (max-width: 860px) {
+  #type.cmp { grid-template-columns: minmax(0, 1fr); }
+  #type .ds-type-dual-title { padding: 0 16px; }
+}
+
+
 /* токены */
 .tgs { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 420px), 1fr)); gap: 12px; }
 .tg { background: var(--surface); border-radius: 20px; padding: 16px; box-shadow: 0 1px 2px #1615140a; min-width: 0; }
