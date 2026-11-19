@@ -174,3 +174,6 @@ html body .phone.tf-phone {
 
 /* Подпись нижнего меню */
 .phone .bnv-i { font: var(--ds-type-nav-label); }
+
+/* Книжка адресов: название записи — основной текст 16/22/400. */
+.phone .ab .t b { font: var(--ds-text-body-m); }
