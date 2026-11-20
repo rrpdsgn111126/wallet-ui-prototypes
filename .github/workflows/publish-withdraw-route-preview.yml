@@ -12,6 +12,7 @@ on:
       - 'tokens/**'
       - 'transfi-remittance/**'
       - 'ui-kit/**'
+      - 'tests/withdraw-route-smoke.py'
       - '.github/workflows/publish-withdraw-route-preview.yml'
   workflow_dispatch:
 
@@ -25,13 +26,30 @@ concurrency:
 jobs:
   publish:
     runs-on: ubuntu-latest
-    timeout-minutes: 12
+    timeout-minutes: 25
     steps:
       - name: Checkout withdrawal experiment branch
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
           persist-credentials: true
+      - name: Prepare Python for Playwright
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install Chromium test dependencies
+        run: |
+          python -m pip install --disable-pip-version-check playwright==1.56.0
+          python -m playwright install --with-deps chromium
+      - name: Validate experimental withdrawals (390/430/1440)
+        run: python tests/withdraw-route-smoke.py
+      - name: Save browser screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: route-experiment-screenshots
+          path: artifacts/withdraw-route/*.png
+          if-no-files-found: ignore
       - name: Publish an isolated Pages snapshot, not a source merge
         shell: bash
         run: |
