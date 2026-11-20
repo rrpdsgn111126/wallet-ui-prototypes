@@ -263,3 +263,33 @@ html body .phone.tf-phone {
 
 /* Keep a real body-text role for previously anonymous full-field containers. */
 .phone .fld.tf-field .fl { font: var(--ds-type-control-regular); }
+
+/* Selector-layout method sheets: .box > .row > .ri + .rt, chevron instead of radio.
+   The original .m class stays for event, availability and dual-pane behavior. */
+.phone .sheet .method-list { margin-bottom:12px; }
+.phone .sheet .method-list .m.row.method-option {
+  box-sizing:border-box;display:flex;align-items:center;gap:12px;
+  min-height:60px;height:auto;width:100%;margin:0;padding:10px 16px;
+  border:0;border-radius:0;background:transparent;
+  box-shadow:inset 0 1px 0 var(--n50);color:var(--n900);text-align:left;cursor:pointer;
+}
+.phone .sheet .method-list .m.row.method-option:first-child { box-shadow:none; }
+/* Hidden SBP must not leave a divider above the first visible method. */
+.phone .sheet .method-list .m.row.method-option[hidden] + .m.row.method-option { box-shadow:none; }
+.phone .sheet .method-list .m.row.method-option[hidden] { display:none!important; }
+.phone .sheet .method-list .m.row.method-option:active { background:var(--n100); }
+.phone .sheet .method-list .m.row.method-option:focus-visible { outline:2px solid var(--n850);outline-offset:-2px; }
+.phone .sheet .method-list .m.row.method-option .ic.ri {
+  flex:0 0 32px;width:32px;height:32px;border-radius:999px;background:var(--n50);
+}
+.phone .sheet .method-list .m.row.method-option .ic.ri .cn,
+.phone .sheet .method-list .m.row.method-option .ic.ri .cn.tf-bank-icon {
+  box-sizing:border-box;width:32px;height:32px;min-width:32px;
+  display:flex;align-items:center;justify-content:center;border-radius:999px;
+}
+.phone .sheet .method-list .m.row.method-option .mt.rt { flex:1 1 auto;min-width:0; }
+.phone .sheet .method-list .m.row.method-option .mt.rt b { font:var(--ds-type-row); }
+.phone .sheet .method-list .m.row.method-option .mt.rt i { font:var(--ds-type-meta-caption);color:var(--n500); }
+.phone .sheet .method-list .m.row.method-option .method-chevron {
+  display:block;flex:0 0 18px;width:18px;height:18px;margin-left:auto;color:var(--n400);
+}
