@@ -53,3 +53,125 @@ html.exp-route-specimen #v-exp-route > .wrap{
   padding:18px 12px 0!important
 }
 html.exp-route-specimen #v-exp-route .exp-route-card{margin:0}
+
+
+/* SEPA/SWIFT withdrawal experiment: same two-leg composition as the crypto
+   route card, using the bank's existing flag picker and SBP's native .sbp-cv. */
+.phone.tf-phone .tf-bank-route-card{
+  padding:4px 16px 0;margin:0 0 12px;overflow:hidden;
+}
+.phone.tf-phone .tf-bank-route-card .tf-bank-leg{
+  display:flex;align-items:flex-start;gap:14px;padding:16px 0;
+}
+.phone.tf-phone .tf-bank-route-card .tf-bank-leg .fi{
+  display:flex;align-items:center;justify-content:center;
+  flex:0 0 40px;width:40px;height:40px;border-radius:50%;
+  background:var(--n50);
+}
+.phone.tf-phone .tf-bank-route-card .tf-bank-leg .cn{
+  display:grid;place-items:center;width:40px;height:40px;
+}
+.phone.tf-phone .tf-bank-route-card .tf-bank-leg .fl{
+  display:block;flex:1 1 auto;min-width:0;text-align:left;
+}
+.phone.tf-phone .tf-bank-route-card .tf-bank-leg .fl i{
+  display:block;font:var(--ds-type-field-label);
+  color:var(--n500);font-style:normal;margin-bottom:4px;
+}
+.phone.tf-phone .tf-bank-route-card .tf-bank-leg .fl b{
+  display:block;font:var(--ds-type-field-value);color:var(--n900);
+  white-space:normal;overflow-wrap:anywhere;
+}
+.phone.tf-phone .tf-bank-arrow-line{
+  display:flex;align-items:center;gap:12px;padding-left:10px;
+}
+.phone.tf-phone .tf-bank-arrow{
+  display:grid;place-items:center;flex:0 0 22px;width:22px;height:22px;
+  border-radius:50%;background:var(--n100);
+}
+.phone.tf-phone .tf-bank-arrow svg{width:14px;height:14px}
+.phone.tf-phone .tf-bank-arrow-line::after{
+  content:"";height:1px;flex:1;background:var(--n100);
+}
+.phone.tf-phone button.tf-bank-destination{
+  width:100%;border:0;background:none;color:var(--n900);
+  cursor:pointer;text-align:left;font:inherit;
+}
+.phone.tf-phone .tf-bank-destination .fi .tf-flag-circle{
+  display:flex;align-items:center;justify-content:center;
+}
+.phone.tf-phone .tf-bank-destination .tf-picker-chevron{
+  flex:0 0 auto;align-self:center;color:var(--n500);
+}
+.phone.tf-phone .tf-bank-destination:focus-visible{
+  outline:2px solid var(--brand-600);outline-offset:-2px;border-radius:12px;
+}
+.phone.tf-phone .tf-bank-sbp{
+  background:var(--surface);border-radius:20px;
+  box-shadow:0 1px 2px var(--sh-1);margin:0 0 4px;overflow:visible;
+}
+.phone.tf-phone .tf-bank-sbp .h{
+  display:flex;align-items:flex-end;gap:12px;padding:16px 18px 24px;
+}
+.phone.tf-phone .tf-bank-sbp .h + .mid + .h{padding:24px 18px 16px}
+.phone.tf-phone .tf-bank-sbp .t{flex:1 1 auto;min-width:0}
+.phone.tf-phone .tf-bank-sbp .t label,
+.phone.tf-phone .tf-bank-sbp .tf-bank-receive-label{
+  display:block;font:var(--ds-type-body-secondary);
+  color:var(--n500);margin-bottom:2px;
+}
+.phone.tf-phone .tf-bank-sbp .t input,
+.phone.tf-phone .tf-bank-sbp #tf-bank-receive{
+  box-sizing:border-box;display:block;width:100%;min-width:0;
+  margin:0;border:0;padding:0;outline:0;background:transparent;
+  font:var(--ds-type-amount-hero);
+  letter-spacing:-.5px;font-variant-numeric:tabular-nums;
+  color:var(--n900);white-space:nowrap;
+}
+.phone.tf-phone .tf-bank-sbp .t input::placeholder,
+.phone.tf-phone .tf-bank-sbp #tf-bank-receive.tf-bank-placeholder{
+  color:var(--n300);opacity:1;
+}
+.phone.tf-phone .tf-bank-sbp .u{
+  flex:0 0 auto;font:var(--ds-type-control-regular);
+  line-height:38px;color:var(--n500);
+}
+.phone.tf-phone .tf-bank-sbp .mid{position:relative;height:0}
+.phone.tf-phone .tf-bank-sbp .mid::before{
+  content:"";position:absolute;left:18px;right:18px;top:0;
+  height:1px;background:var(--n100);
+}
+.phone.tf-phone .tf-bank-sbp .sbp-rate{
+  position:absolute;top:0;left:50%;transform:translate(-50%,-50%);
+  display:flex;align-items:center;justify-content:center;
+  height:32px;padding:0 12px;border-radius:999px;
+  background:var(--surface);box-shadow:inset 0 0 0 1px var(--n100);
+  color:var(--n850);font:var(--ds-type-body-secondary);
+  white-space:nowrap;font-variant-numeric:tabular-nums;
+}
+.phone.tf-phone .tf-bank-sbp button.tf-bank-currency-switch{
+  display:inline-flex;align-items:center;justify-content:center;
+  flex:0 0 auto;align-self:flex-end;height:36px;
+  padding:0 12px;border:0;border-radius:999px;
+  background:var(--n100);color:var(--n850);
+  font:var(--ds-type-small-emphasis);cursor:pointer;
+}
+.phone.tf-phone .tf-bank-sbp .tf-bank-currency-switch:focus-visible{
+  outline:2px solid var(--brand-600);outline-offset:2px;
+}
+.phone.tf-phone .tf-bank-use-all-wrap{padding:0 4px;margin-bottom:8px}
+.phone.tf-phone .tf-bank-use-all{
+  display:inline-flex;align-items:center;gap:4px;flex-wrap:wrap;
+  min-height:44px;max-width:100%;padding:9px 0;border:0;
+  background:transparent;color:var(--n500);cursor:pointer;
+  font:var(--ds-type-body-secondary);text-align:left;
+}
+.phone.tf-phone .tf-bank-use-all span{font-weight:600;color:var(--n850)}
+.phone.tf-phone .tf-bank-use-all:focus-visible{
+  outline:2px solid var(--brand-600);outline-offset:2px;border-radius:4px;
+}
+.phone.tf-phone .tf-bank-use-all:disabled{opacity:.55;cursor:default}
+.phone.tf-phone .tf-bank-config-quote{margin-bottom:12px}
+.phone.tf-phone .tf-bank-config-quote .row.tot{
+  border-top:1px solid var(--n100);
+}
