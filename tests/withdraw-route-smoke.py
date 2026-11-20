@@ -221,6 +221,37 @@ def run():
                     re.compile(r"\bon\b"), timeout=30000
                 )
                 context.close()
+            # Catalog specimen is the REAL source/recipient card only, not a
+            # cropped full-screen screenshot or a second hand-built component.
+            for specimen_width in (390, 423):
+                context = browser.new_context(
+                    viewport={"width": specimen_width, "height": 302},
+                    reduced_motion="reduce",
+                )
+                page = context.new_page()
+                page.on("pageerror", lambda exc: errors.append(str(exc)))
+                page.goto(HOST + "usdt&component=route-card", wait_until="domcontentloaded")
+                expect(page.locator("#v-exp-route")).to_have_class(
+                    re.compile(r"\\bon\\b"), timeout=30000
+                )
+                expect(page.locator("html")).to_have_class(
+                    re.compile("exp-route-specimen")
+                )
+                expect(page.locator("#v-exp-route .exp-route-card")).to_be_visible()
+                expect(page.locator("#v-exp-route > .head")).to_be_hidden()
+                expect(page.locator("#v-exp-route > .foot")).to_be_hidden()
+                expect(page.locator("#exp-network-slot")).to_be_hidden()
+                expect(page.locator("#v-exp-route .exp-amount-field")).to_be_hidden()
+                expect(page.locator("#exp-balance")).to_contain_text("$")
+                expect(page.locator("#exp-dest-label")).to_have_text("Куда → USDT")
+                expect(page.locator("#exp-paste")).to_be_visible()
+                expect(page.locator("#exp-scan")).to_be_visible()
+                card = page.locator("#v-exp-route .exp-route-card").bounding_box()
+                assert card and card["y"] >= 0 and card["y"] + card["height"] <= 304, (
+                    f"Component not fully visible in catalog at {specimen_width}px: {card}"
+                )
+                page.screenshot(path=str(OUT / f"component-route-{specimen_width}.png"))
+                context.close()
             browser.close()
         assert not errors, f"Uncaught JS errors: {errors}"
         print("PASS: USDT/USDC/ALT.VU, native reviews, network sheet, MAX, validation, back, 390/430/1440")
