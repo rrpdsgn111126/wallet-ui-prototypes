@@ -65,18 +65,49 @@ def run():
                 expect(page.locator("#v-exp-route .exp-actions .uzone")).to_have_count(2)
                 expect(page.locator("#exp-paste")).to_contain_text("Вставить")
                 expect(page.locator("#exp-scan")).to_contain_text("Сканировать")
-                expect(page.locator("#exp-net-toggle")).to_have_class(re.compile("fld w net-pick"))
+                expect(page.locator("#exp-net-toggle")).to_have_class("fld w net-pick")
+                expect(page.locator("#exp-net-toggle")).to_have_attribute("role", "button")
+                expect(page.locator("#exp-net-toggle")).not_to_have_attribute("data-act", "netpick")
+                # Exact deposit selector DOM/CSS, apart from experimental IDs.
+                parity = page.evaluate("""() => {
+                    const source=document.querySelector('#v-dep-usdt-tron .fld.w.net-pick');
+                    const target=document.querySelector('#exp-net-toggle');
+                    const clone=target.cloneNode(true);
+                    clone.querySelector('#exp-net-icon').removeAttribute('id');
+                    clone.querySelector('#exp-net-value').removeAttribute('id');
+                    return {sameMarkup: source.innerHTML===clone.innerHTML,
+                            sourceHeight:getComputedStyle(source).height,
+                            targetHeight:getComputedStyle(target).height,
+                            sourceRadius:getComputedStyle(source).borderRadius,
+                            targetRadius:getComputedStyle(target).borderRadius};
+                }""")
+                assert parity["sameMarkup"], f"Network field differs from deposit: {parity}"
+                assert parity["sourceHeight"] == parity["targetHeight"]
+                assert parity["sourceRadius"] == parity["targetRadius"]
                 expect(page.locator("#exp-net-toggle .fl i")).to_have_text("Сеть")
                 expect(page.locator("#exp-net-value")).to_have_text("TRC20")
                 expect(page.locator("#exp-net-icon")).to_have_class(re.compile("nlg tron"))
                 expect(page.locator("#exp-net-toggle")).to_have_attribute("aria-expanded", "false")
                 page.screenshot(path=str(OUT / f"usdt-{width}.png"))
                 page.locator("#exp-net-toggle").click()
-                expect(page.locator("#exp-network-sheet")).to_be_visible()
+                expect(page.locator(".phone > .ns-sheet")).to_be_visible()
+                expect(page.locator("#v-exp-route > .sheet")).to_have_count(0)
+                expect(page.locator(".phone > .ns-sheet .sh2")).to_have_text("Сеть")
+                expect(page.locator(".phone > .ns-sheet .ns-note")).to_be_visible()
+                expect(page.locator(".phone > .ns-sheet .ns-box .row .ri .nlg")).not_to_have_count(0)
+                expect(page.locator(".phone > .ns-sheet .ns-box .row .rt i")).not_to_have_count(0)
+                expect(page.locator(".phone > .ns-sheet .ns-box .row .rd")).not_to_have_count(0)
+                page.screenshot(path=str(OUT / f"network-sheet-{width}.png"))
                 expect(page.locator("#exp-net-toggle")).to_have_attribute("aria-expanded", "true")
                 page.keyboard.press("Escape")
-                expect(page.locator("#exp-network-sheet")).to_be_hidden()
+                expect(page.locator(".phone > .ns-sheet")).to_be_hidden()
                 expect(page.locator("#exp-net-toggle")).to_have_attribute("aria-expanded", "false")
+                # Clicking the native dim closes without navigating away.
+                page.locator("#exp-net-toggle").click()
+                expect(page.locator(".phone > .ns-sheet")).to_be_visible()
+                page.locator(".phone > .ns-dim").click(position={"x": 12, "y": 110})
+                expect(page.locator(".phone > .ns-sheet")).to_be_hidden()
+                expect(page.locator("#v-exp-route")).to_have_class(re.compile(r"\bon\b"))
                 # Clipboard is stubbed, but the real Paste button handler is exercised.
                 page.evaluate("""Object.defineProperty(navigator, 'clipboard', {
                     configurable: true, value: {readText: async () => '0x' + 'a'.repeat(40)}
@@ -96,9 +127,9 @@ def run():
                 # An in-app network change must clear the previous address.
                 page.locator("#exp-recipient").fill("T" + "1" * 33)
                 page.locator("#exp-net-toggle").click()
-                options = page.locator("[data-exp-net]")
+                options = page.locator(".phone > .ns-sheet .ns-box [data-ns]")
                 if options.count() > 1:
-                    chosen = options.nth(1).get_attribute("data-exp-net")
+                    chosen = options.nth(1).get_attribute("data-ns")
                     options.nth(1).click()
                     expect(page.locator("#exp-recipient")).to_have_value("")
                     expect(page.locator("#exp-net-icon")).to_have_class(re.compile("nlg " + chosen))
@@ -137,6 +168,7 @@ def run():
                 if mode == "altvu":
                     expect(page.locator("#exp-recipient")).to_have_attribute("placeholder", "Почта или телефон")
                     expect(page.locator("#exp-net-toggle")).to_be_hidden()
+                    expect(page.locator(".phone > .ns-sheet")).to_be_hidden()
                     page.evaluate("""Object.defineProperty(navigator, 'clipboard', {
                         configurable:true, value:{readText:async () => 'demo.receiver@example.invalid'}
                     })""")
@@ -149,6 +181,12 @@ def run():
                     page.locator("#exp-recipient").fill("demo.receiver@example.invalid")
                 else:
                     expect(page.locator("#exp-net-toggle .fi .nlg")).to_have_count(1)
+                    expect(page.locator("#exp-net-toggle .fl i")).to_have_text("Сеть")
+                    page.locator("#exp-net-toggle").click()
+                    expect(page.locator(".phone > .ns-sheet")).to_be_visible()
+                    expect(page.locator(".phone > .ns-sheet .ns-box [data-ns]")).not_to_have_count(0)
+                    page.keyboard.press("Escape")
+                    expect(page.locator(".phone > .ns-sheet")).to_be_hidden()
                     page.locator("#exp-recipient").fill("0x" + "1" * 40)
                 page.locator("#exp-amount").fill("10.00")
                 page.screenshot(path=str(OUT / f"{mode}-390.png"))
