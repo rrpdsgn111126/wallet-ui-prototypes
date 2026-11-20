@@ -13,6 +13,16 @@
 #v-exp-route #exp-net-toggle{cursor:pointer}
 #v-exp-route #exp-net-toggle[hidden]{display:none}
 #v-exp-route .exp-amount-field{margin-bottom:10px}
+/* All three experimental methods share this native amount field.
+   Large numeric entry reuses the existing 32/38/600 monetary text token;
+   the label, currency and MAX retain their canonical component styling. */
+#v-exp-route .exp-amount-field .fl b input.wd-amt{
+  font:var(--ds-type-amount-hero);
+  letter-spacing:-.5px;
+}
+#v-exp-route .exp-amount-field .fl b input.wd-amt::placeholder{
+  font-weight:600;
+}
 #v-exp-route .exp-limit{color:var(--n500);font-size:13px;line-height:20px;padding:0 4px}
 #v-exp-route .exp-limit b{color:var(--n850);font-weight:600}
 #v-exp-route .exp-note{margin:20px 4px 0;color:var(--n500);font-size:13px;line-height:19px}
