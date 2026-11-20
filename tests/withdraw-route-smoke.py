@@ -49,8 +49,16 @@ def run():
                 expect(page.locator("#v-exp-route")).to_have_class(
                     re.compile(r"\bon\b"), timeout=30000
                 )
-                expect(page.locator("#exp-dest-title")).to_have_text("Кошелёк USDT")
-                expect(page.locator("#exp-balance")).to_contain_text("Доступно")
+                expect(page.locator("#exp-dest-title")).to_have_text("USDT")
+                expect(page.locator("#v-exp-route .exp-leg").first.locator(".exp-leg-label")).to_have_text("Откуда")
+                expect(page.locator("#v-exp-route .exp-leg").first.locator(".exp-leg-title")).to_have_text("ALT.VU")
+                expect(page.locator("#v-exp-route .exp-leg").nth(1).locator(".exp-leg-label")).to_have_text("Куда")
+                expect(page.locator("#v-exp-route .exp-amount-caption")).to_have_count(0)
+                expect(page.locator("#v-exp-route .exp-amount-field .fl i")).to_have_text("Сумма перевода")
+                expect(page.locator("#v-exp-route .exp-amount-field .fi svg ellipse")).to_have_count(1)
+                expect(page.locator("#v-exp-route .exp-amount-field img")).to_have_count(0)
+                expect(page.locator("#v-exp-route .exp-amount-field .addon .cur")).to_have_text("$")
+                expect(page.locator("#v-exp-route .exp-amount-field .addon .mx")).to_have_text("MAX")
                 expect(page.locator("#exp-amount")).to_be_visible()
                 page.screenshot(path=str(OUT / f"usdt-{width}.png"))
                 page.locator("#exp-net-toggle").click()
@@ -82,8 +90,8 @@ def run():
                 context.close()
 
             for mode, target, destination in [
-                ("usdc", "Кошелёк USDC", "#v-withdraw-check"),
-                ("altvu", "Пользователь ALT.VU", "#v-transfer-check"),
+                ("usdc", "USDC", "#v-withdraw-check"),
+                ("altvu", "ALT.VU", "#v-transfer-check"),
             ]:
                 context = browser.new_context(viewport={"width": 390, "height": 844})
                 page = context.new_page()
@@ -93,6 +101,10 @@ def run():
                     re.compile(r"\bon\b"), timeout=30000
                 )
                 expect(page.locator("#exp-dest-title")).to_have_text(target)
+                expect(page.locator("#v-exp-route .exp-leg").first.locator(".exp-leg-title")).to_have_text("ALT.VU")
+                expect(page.locator("#v-exp-route .exp-amount-caption")).to_have_count(0)
+                expect(page.locator("#v-exp-route .exp-amount-field .fl i")).to_have_text("Сумма перевода")
+                expect(page.locator("#v-exp-route .exp-amount-field .fi svg ellipse")).to_have_count(1)
                 if mode == "altvu":
                     expect(page.locator("#exp-net-toggle")).to_be_hidden()
                     page.locator("#exp-recipient").fill("demo.receiver@example.invalid")
