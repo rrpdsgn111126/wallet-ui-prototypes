@@ -2,12 +2,34 @@
    The native scroller still handles wheel, touch, keyboard and inertia. */
 (() => {
   'use strict';
-  const selector = '.phone .view.on > .wrap, .phone.tf-phone .tf-scroll, .phone [data-overlay-scroll]';
+  const selector = [
+    // Some screens (profile/settings/language/partner) scroll on .view.on itself.
+    '.phone .view.on',
+    '.phone .view.on > .wrap',
+    '.phone .view.duo-l > .wrap',
+    '.phone .view.duo-r > .wrap',
+    '.phone .feed',
+    '.phone .bk-pg:not([hidden]) > .wrap',
+    '.phone .prt-sheet',
+    '.phone .sbp-qsh',
+    '.phone .sheet',
+    '.phone .duo-pg > .box',
+    '.phone .duo-rc',
+    '.phone.tf-phone .tf-scroll',
+    '.phone.tf-phone .tf-method-sheet',
+    '.phone [data-overlay-scroll]'
+  ].join(', ');
+
+  function isVerticalScroller(el) {
+    if (!el.isConnected || el.clientHeight < 10 || !el.getClientRects().length) return false;
+    const overflow = getComputedStyle(el).overflowY;
+    return overflow === 'auto' || overflow === 'scroll';
+  }
   const instances = new Map();
   let scanQueued = false;
 
   function create(scroller) {
-    if (instances.has(scroller) || !scroller.parentElement) return;
+    if (instances.has(scroller) || !scroller.parentElement || !isVerticalScroller(scroller)) return;
     const host = scroller.parentElement;
     const hostStyle = getComputedStyle(host);
     if (hostStyle.position === 'static') host.style.position = 'relative';
@@ -23,6 +45,8 @@
     let initialTop = 0;
     let thumbTravel = 0;
     let scrollRange = 0;
+    let lastUserInput = -Infinity;
+    function markIntent() { lastUserInput = performance.now(); }
 
     function hideLater() {
       clearTimeout(timeout);
@@ -50,8 +74,12 @@
     function onScroll() {
       update();
       if (!scrollRange) return;
-      thumb.classList.add('is-visible');
-      hideLater();
+      // Resetting scrollTop on screen changes should not flash a scrollbar.
+      // Wheel/touch/pointer/keyboard scrolling (and inertia) counts as user input.
+      if (dragging || performance.now() - lastUserInput < 2500) {
+        thumb.classList.add('is-visible');
+        hideLater();
+      }
     }
     function startDrag(event) {
       if (event.button !== 0 || !scrollRange) return;
@@ -76,6 +104,10 @@
       hideLater();
     }
     scroller.addEventListener('scroll', onScroll, {passive:true});
+    scroller.addEventListener('wheel', markIntent, {passive:true});
+    scroller.addEventListener('touchstart', markIntent, {passive:true});
+    scroller.addEventListener('pointerdown', markIntent, {passive:true});
+    scroller.addEventListener('keydown', markIntent);
     thumb.addEventListener('pointerdown', startDrag);
     thumb.addEventListener('pointermove', moveDrag);
     thumb.addEventListener('pointerup', stopDrag);
@@ -84,6 +116,10 @@
     instances.set(scroller, {thumb, update, dispose() {
       clearTimeout(timeout);
       scroller.removeEventListener('scroll', onScroll);
+      scroller.removeEventListener('wheel', markIntent);
+      scroller.removeEventListener('touchstart', markIntent);
+      scroller.removeEventListener('pointerdown', markIntent);
+      scroller.removeEventListener('keydown', markIntent);
       thumb.removeEventListener('pointerdown', startDrag);
       thumb.removeEventListener('pointermove', moveDrag);
       thumb.removeEventListener('pointerup', stopDrag);
@@ -98,7 +134,7 @@
   function scan() {
     scanQueued = false;
     for (const [node, instance] of instances) {
-      if (!node.isConnected || !node.matches(selector)) {
+      if (!node.isConnected || !node.matches(selector) || !isVerticalScroller(node)) {
         instance.dispose();
         instances.delete(node);
       }
