@@ -98,6 +98,14 @@ try{
    await page.locator('#v-dep-usdt-tron.on').waitFor({state:'visible',timeout:12000});
    await page.evaluate(()=>{
      show('topup',false);
+     window.__bankMessages=[];
+     window.addEventListener('message',e=>window.__bankMessages.push({data:e.data,origin:e.origin}),true);
+     const frame=document.querySelector('#tf-bank-overlay iframe');
+     const originalRemove=frame.removeAttribute.bind(frame);
+     frame.removeAttribute=function(name){
+       if(name==='src')window.__bankCloseStack=(new Error('removed iframe src')).stack;
+       return originalRemove(name);
+     };
      const orig=window.tfOpenBank;
      window.tfOpenBank=function(...args){window.__methodSheetBankArgs=args;return orig.apply(this,args);};
    });
@@ -110,7 +118,8 @@ try{
        visibility:el&&getComputedStyle(el).visibility,
        iframe:el?.querySelector('iframe')?.src,
        topup:document.getElementById('v-topup')?.className,
-       current:[...document.querySelectorAll('.view.on')].map(x=>x.id)};
+       current:[...document.querySelectorAll('.view.on')].map(x=>x.id),
+       closeStack:window.__bankCloseStack||null,messages:window.__bankMessages||[]};
    })));
    await page.locator('#tf-bank-overlay').waitFor({state:'visible',timeout:12000});
    assert.deepEqual(errors,[]);
