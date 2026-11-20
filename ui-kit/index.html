@@ -16,6 +16,14 @@
 .prototype-gallery-grid figcaption{font-size:14px;font-weight:600;margin-bottom:12px;color:#26342c}
 .prototype-gallery-grid iframe{width:min(100%,390px);height:690px;border:1px solid #ccd3cc;border-radius:20px;background:#fff}
 </style>
+<style id="experimental-components-gallery">
+#g-experiments .exp-components{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:18px 0 24px}
+#g-experiments .exp-component{padding:16px 18px;border-radius:12px;border:1px solid #d5ded8;background:#f9fbfa}
+#g-experiments .exp-component h3{font-size:16px;line-height:22px;margin:0 0 7px;color:#211e1d}
+#g-experiments .exp-component p{font-size:13px;line-height:19px;margin:4px 0;color:#555}
+#g-experiments .exp-component code{font-size:12px;white-space:normal}
+@media(max-width:860px){#g-experiments .exp-components{grid-template-columns:1fr}}
+</style>
 <style id="canonical-selector-gallery">
 /* Three interactive selector fields share one unified canonical component.
    This gallery-only layout does not modify application-level selectors. */
@@ -38,7 +46,7 @@
   <div><h1>Компоненты alt.vu</h1><p>Рабочая библиотека <code>work/design-system</code> · стили считываются из реальных компонентов</p></div></div>
   <ul class="stats"><li><b>42</b>компонента</li><li><b>91</b>состояние</li><li><b>57</b>цветовых токенов</li><li><b>2</b>темы</li></ul>
 </header>
-<nav class="toc"><ol><li><a href="#prototype-reference">Актуальный прототип</a><span>5</span></li><li><a href="#tokens">Токены</a><span>57</span></li><li><a href="#g-base">Основа</a><span>1</span></li><li><a href="#g-frame">Каркас экрана</a><span>4</span></li><li><a href="#g-buttons">Кнопки</a><span>4</span></li><li><a href="#g-fields">Поля ввода</a><span>8</span></li><li><a href="#g-choice">Выбор</a><span>6</span></li><li><a href="#g-sheets">Шторки и списки</a><span>6</span></li><li><a href="#g-marks">Монеты, сети, категории</a><span>2</span></li><li><a href="#g-card">Карта и баннеры</a><span>3</span></li><li><a href="#g-status">Статусы и сообщения</a><span>8</span></li></ol></nav>
+<nav class="toc"><ol><li><a href="#prototype-reference">Актуальный прототип</a><span>5</span></li><li><a href="#g-experiments">Экспериментальные компоненты</a><span>4</span></li><li><a href="#tokens">Токены</a><span>57</span></li><li><a href="#g-base">Основа</a><span>1</span></li><li><a href="#g-frame">Каркас экрана</a><span>4</span></li><li><a href="#g-buttons">Кнопки</a><span>4</span></li><li><a href="#g-fields">Поля ввода</a><span>8</span></li><li><a href="#g-choice">Выбор</a><span>6</span></li><li><a href="#g-sheets">Шторки и списки</a><span>6</span></li><li><a href="#g-marks">Монеты, сети, категории</a><span>2</span></li><li><a href="#g-card">Карта и баннеры</a><span>3</span></li><li><a href="#g-status">Статусы и сообщения</a><span>8</span></li></ol></nav>
 <main>
 <section class="grp" id="prototype-reference">
 <h2 class="grp-h">Эталон — актуальный TransFi Remittance</h2>
@@ -55,6 +63,28 @@
 </section>
 
 <p class="ds-typography-intro"><strong>Текстовые стили в компонентах:</strong> в сводной таблице ниже каждая типографическая комбинация показана один раз, с перечнем использующих её компонентов и семантических алиасов; в карточках показаны место применения и фактические значения <code>размер / line-height · насыщенность</code>. Данные считываются из отображаемого образца. «Использует токен» означает проверенную CSS-зависимость; «Совпадение, без привязки» — совпадение параметров без доказанной зависимости; «Локальный стиль» — отсутствие подходящего общего стиля. Для банковских образцов учитываются реальные поля из вложенного экрана.</p>
+<section class="grp" id="g-experiments" data-status="experimental">
+<h2 class="grp-h">Экспериментальные компоненты · Вывод</h2>
+<p class="prototype-gallery-note"><strong>Статус: эксперимент, не часть утверждённого UI Kit.</strong> Единственный источник дизайн-токенов и стилей — <code>work/design-system/css/alt-vu-wallet.css</code>, подключающий <code>css/design-system.css</code> и <code>tokens/tokens.css</code>. Приведённые ниже компоненты используются в рабочем сценарии <code>experiment/withdraw-route/transfi-remittance/</code>. Они показываются через живые экраны прототипа, без создания второго набора CSS, токенов или копий компонентов в библиотеке.</p>
+<div class="prototype-gallery-links">
+<a href="https://rrpdsgn111126.github.io/wallet-ui-prototypes/preview/withdraw-route/transfi-remittance/?experiment=withdraw&amp;mode=usdt" target="_blank" rel="noopener">Открыть USDT</a>
+<a href="https://rrpdsgn111126.github.io/wallet-ui-prototypes/preview/withdraw-route/transfi-remittance/?experiment=withdraw&amp;mode=usdc" target="_blank" rel="noopener">Открыть USDC</a>
+<a href="https://rrpdsgn111126.github.io/wallet-ui-prototypes/preview/withdraw-route/transfi-remittance/?experiment=withdraw&amp;mode=altvu" target="_blank" rel="noopener">Открыть ALT.VU</a>
+<a href="https://github.com/rrpdsgn111126/wallet-ui-prototypes/tree/experiment/withdraw-route/transfi-remittance" target="_blank" rel="noopener">Исходники экспериментального прототипа</a>
+</div>
+<div class="exp-components">
+<article class="exp-component"><h3>01. Маршрут перевода</h3><p><code>.exp-route-card</code> · <code>.exp-leg</code> · <code>.fl</code></p><p>Две части «Откуда → ALT.VU» и «Куда → USDT / USDC / ALT.VU», с балансом, адресом или получателем. Экспериментальная композиция; значения и подписи используют токены полей.</p></article>
+<article class="exp-component"><h3>02. Действия получателя</h3><p><code>.uzones</code> · <code>.uzone</code></p><p>Вставка и сканирование QR из существующих компонентов. Доступны для адреса USDT/USDC и внутреннего получателя ALT.VU.</p></article>
+<article class="exp-component"><h3>03. Выбор сети</h3><p><code>.fld.w.net-pick</code> · <code>.ns-sheet</code> · <code>.ns-box .row</code></p><p>Тот же сетевой селектор, иконки и общая шторка, что в пополнении USDT/USDC. Выбор сети обновляет адресат и сбрасывает прежний адрес.</p></article>
+<article class="exp-component"><h3>04. Сумма перевода</h3><p><code>.fld.w</code> · <code>.wd-amt</code> · <code>.mx.wd-max</code></p><p>Каноническое поле суммы, SVG-иконка, доллар и MAX. В эксперименте не создаётся отдельный вариант этого компонента.</p></article>
+</div>
+<div class="prototype-gallery-grid">
+<figure><figcaption>USDT · адрес, сеть, сумма</figcaption><iframe loading="lazy" src="https://rrpdsgn111126.github.io/wallet-ui-prototypes/preview/withdraw-route/transfi-remittance/?experiment=withdraw&amp;mode=usdt" title="Эксперимент — вывод USDT"></iframe></figure>
+<figure><figcaption>USDC · адрес, сеть, сумма</figcaption><iframe loading="lazy" src="https://rrpdsgn111126.github.io/wallet-ui-prototypes/preview/withdraw-route/transfi-remittance/?experiment=withdraw&amp;mode=usdc" title="Эксперимент — вывод USDC"></iframe></figure>
+<figure><figcaption>ALT.VU · получатель, сумма</figcaption><iframe loading="lazy" src="https://rrpdsgn111126.github.io/wallet-ui-prototypes/preview/withdraw-route/transfi-remittance/?experiment=withdraw&amp;mode=altvu" title="Эксперимент — перевод ALT.VU"></iframe></figure>
+</div>
+<p class="prototype-gallery-note">Экспериментальные компоненты согласовываются отдельно. После утверждения их можно перенести в канонические компоненты и оставить один прототип; до этого ветки не объединяются. Старый экспериментальный UI Kit больше не поддерживается.</p>
+</section>
 <section class="grp" id="tokens"><h2 class="grp-h">Токены</h2>
 <p class="lead">Цвета — переменные со <code>.phone</code> (светлая) и <code>html.dark</code> (тёмная) из живого CSS.
 Слева в паре — светлая, справа — тёмная. <code>*</code> — в светлой значение не объявлено и стоит запасным в <code>var(--x, …)</code>.
