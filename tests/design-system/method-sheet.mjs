@@ -96,32 +96,23 @@ try{
    await page.evaluate(()=>show('topup',false));
    await page.locator('#v-topup .method-list [data-go="dep-usdt-tron"]').click();
    await page.locator('#v-dep-usdt-tron.on').waitFor({state:'visible',timeout:12000});
+   // Unverified users must reach the existing email-verification flow.
+   await page.evaluate(()=>show('topup',false));
+   await page.locator('#v-topup .method-list [data-tf-bank="SEPA"]').click();
+   await page.locator('#tfv-page').waitFor({state:'visible',timeout:12000});
+   assert.ok(await page.evaluate(() =>
+     window.tfVerificationQA?.getState().context.rail === 'SEPA'),
+     'SEPA selection must retain its verification context');
+
+   // With a verified mock state, the very same method row opens the bank flow.
    await page.evaluate(()=>{
+     window.tfVerificationQA.setScenarioStatus('approved');
      show('topup',false);
-     window.__bankMessages=[];
-     window.addEventListener('message',e=>window.__bankMessages.push({data:e.data,origin:e.origin}),true);
-     const frame=document.querySelector('#tf-bank-overlay iframe');
-     const originalRemove=frame.removeAttribute.bind(frame);
-     frame.removeAttribute=function(name){
-       if(name==='src')window.__bankCloseStack=(new Error('removed iframe src')).stack;
-       return originalRemove(name);
-     };
-     const orig=window.tfOpenBank;
-     window.tfOpenBank=function(...args){window.__methodSheetBankArgs=args;return orig.apply(this,args);};
    });
    await page.locator('#v-topup .method-list [data-tf-bank="SEPA"]').click();
-   await page.waitForTimeout(300);
-   console.log('BANK_CLICK_DEBUG',JSON.stringify(await page.evaluate(()=>{
-     const el=document.querySelector('#tf-bank-overlay');
-     return {called:window.__methodSheetBankArgs||null,exists:!!el,
-       hidden:el?.hidden,display:el&&getComputedStyle(el).display,
-       visibility:el&&getComputedStyle(el).visibility,
-       iframe:el?.querySelector('iframe')?.src,
-       topup:document.getElementById('v-topup')?.className,
-       current:[...document.querySelectorAll('.view.on')].map(x=>x.id),
-       closeStack:window.__bankCloseStack||null,messages:window.__bankMessages||[]};
-   })));
    await page.locator('#tf-bank-overlay').waitFor({state:'visible',timeout:12000});
+   assert.ok((await page.locator('#tf-bank-overlay iframe').getAttribute('src'))?.includes('rail=SEPA'),
+     'Approved SEPA must open the native bank UI');
    assert.deepEqual(errors,[]);
    console.log('PASS live methods and bank handler '+width+'px');
   }finally{await page.close();}
