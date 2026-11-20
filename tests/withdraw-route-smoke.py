@@ -49,6 +49,32 @@ def run():
                 expect(page.locator("#v-exp-route")).to_have_class(
                     re.compile(r"\bon\b"), timeout=30000
                 )
+                # Design system is NOT copied into the experiment. The real
+                # external CSS and its imported tokens must actually load.
+                expect(page.locator("#exp-canonical-design-system")).to_have_attribute(
+                    "href", "../../design-system/css/alt-vu-wallet.css"
+                )
+                page.wait_for_function("""() => {
+                    const sheet=[...document.styleSheets].find(s => s.href &&
+                        s.href.endsWith('/design-system/css/alt-vu-wallet.css'));
+                    const token=getComputedStyle(document.documentElement)
+                        .getPropertyValue('--ds-type-field-value').trim();
+                    return Boolean(sheet && token);
+                }""", timeout=20000)
+                # Prove dependency: changing the semantic type token must
+                # change the *rendered* experiment field, not only the URL.
+                token_link = page.evaluate("""() => {
+                    const root=document.documentElement;
+                    const node=document.querySelector('#exp-balance');
+                    const before=getComputedStyle(node).fontSize;
+                    const backup=root.style.getPropertyValue('--ds-type-field-value');
+                    root.style.setProperty('--ds-type-field-value','28px/32px Inter');
+                    const after=getComputedStyle(node).fontSize;
+                    if(backup)root.style.setProperty('--ds-type-field-value',backup);
+                    else root.style.removeProperty('--ds-type-field-value');
+                    return {before, after};
+                }""")
+                assert token_link["after"] == "28px", f"Design token not bound: {token_link}"
                 expect(page.locator("#exp-dest-label")).to_have_text("Куда → USDT")
                 expect(page.locator("#v-exp-route .exp-leg").first.locator(".fl i")).to_have_text("Откуда → ALT.VU")
                 expect(page.locator("#exp-balance")).to_have_text(re.compile(r"[\d\s\u00a0.,]+\s*\$"))
