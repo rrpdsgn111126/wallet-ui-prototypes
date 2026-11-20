@@ -466,4 +466,8 @@
     };
   }
   qa();
+  // Branch-local route experiment mounted inside the canonical prototype.
+  const routeScript=document.createElement('script');
+  routeScript.src='./withdraw-route-experiment.js?v=20261120';
+  document.head.appendChild(routeScript);
 })();
