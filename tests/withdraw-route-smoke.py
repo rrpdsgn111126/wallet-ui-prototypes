@@ -338,7 +338,7 @@ def run():
                     expect(page.locator(".tf-bank-sbp .tf-bank-currency-switch")).to_have_count(
                         0 if rail == "SEPA" else 1
                     )
-                    expect(page.locator(".tf-bank-sbp .u")).to_contain_text("$")
+                    expect(page.locator(".tf-bank-sbp .h").first.locator(".u")).to_have_text("$")
                     expect(page.locator("#tf-bank-use-all")).to_be_visible()
                     expect(page.locator("#tf-bank-use-all")).to_contain_text("Использовать всё:")
                     rows = page.locator("#quoteBlock .row")
