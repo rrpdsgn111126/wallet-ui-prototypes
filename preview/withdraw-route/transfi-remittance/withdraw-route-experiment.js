@@ -161,9 +161,13 @@
   }
   to.addEventListener('input',()=>{state.address=to.value;say('');});
   amt.addEventListener('input',()=>{state.amount=amt.value;say('');});
-  E('exp-max').addEventListener('click',fillMax);
+  // The native delegated '.wd-max' handler expects data-avail on its own
+  // crypto view. Prevent that handler from blanking this composite amount.
+  E('exp-max').addEventListener('click',e=>{
+    e.preventDefault();e.stopPropagation();fillMax();
+  });
   E('exp-max').addEventListener('keydown',e=>{
-    if(e.key==='Enter'||e.key===' '){e.preventDefault();fillMax();}
+    if(e.key==='Enter'||e.key===' '){e.preventDefault();e.stopPropagation();fillMax();}
   });
   E('exp-net-toggle').addEventListener('click',pickNetwork);
   E('exp-network-options').addEventListener('click',e=>{
