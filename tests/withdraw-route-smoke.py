@@ -84,7 +84,7 @@ def run():
                 page.locator("#exp-paste").click()
                 expect(page.locator("#exp-recipient")).to_have_value("0x" + "a" * 40)
                 # Real scanner entry point receives a deterministic decoded QR result.
-                page.evaluate("window.scanQR = async opts => {opts.take({kind:'addr', value:'0x' + 'b'.repeat(40)})}")
+                page.evaluate("() => {window.scanQR = async opts => {opts.take({kind:'addr', value:'0x' + 'b'.repeat(40)})}}")
                 page.locator("#exp-scan").click()
                 expect(page.locator("#exp-recipient")).to_have_value("0x" + "b" * 40)
                 page.locator("#exp-recipient").fill("")
@@ -142,7 +142,7 @@ def run():
                     })""")
                     page.locator("#exp-paste").click()
                     expect(page.locator("#exp-recipient")).to_have_value("demo.receiver@example.invalid")
-                    page.evaluate("window.scanQR = async opts => {opts.take({kind:'code', value:'ABCD-EFGH'})}")
+                    page.evaluate("() => {window.scanQR = async opts => {opts.take({kind:'code', value:'ABCD-EFGH'})}}")
                     page.locator("#exp-scan").click()
                     expect(page.locator("#exp-recipient")).to_have_value("ABCD-EFGH")
                     # The original recipient lookup is verified via email on Continue.
