@@ -18,6 +18,22 @@
   const state={method:'usdt',network:'tron',address:'',scannedCode:'',amount:'',balanceMinor:0,busy:false,networkCatalog:null,sheetBusy:false};
   const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const moneyText=cents=>new Intl.NumberFormat('ru-RU',{minimumFractionDigits:2,maximumFractionDigits:2}).format(cents/100);
+  // Display 7 whole digits + 2 decimals like 9 999 999.01; calculations use ungrouped decimals.
+  const MAX_AMOUNT_MINOR=999999999;
+  function cleanAmount(raw){
+    const str=String(raw||'').replace(/[\s\u00a0\u202f]/g,'').replace(/,/g,'.').replace(/[^\d.]/g,'');
+    const dot=str.indexOf('.');
+    let whole=(dot<0?str:str.slice(0,dot)).replace(/^0+(?=\d)/,'').slice(0,7);
+    const decimals=dot<0?'':str.slice(dot+1).replace(/\D/g,'').slice(0,2);
+    if(dot>=0&&!whole)whole='0';
+    return whole+(dot>=0?'.'+decimals:'');
+  }
+  function groupAmount(value){
+    const raw=String(value||'');
+    const dot=raw.indexOf('.');
+    const whole=(dot<0?raw:raw.slice(0,dot)).replace(/\B(?=(\d{3})+(?!\d))/g,' ');
+    return whole+(dot<0?'':raw.slice(dot));
+  }
   const arrow='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--n850)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v15m-6-6 6 6 6-6"/></svg>';
   const link=document.createElement('link');link.rel='stylesheet';link.href='./withdraw-route-experiment.css';document.head.appendChild(link);
 
@@ -48,11 +64,10 @@
     '</div>'+
     '<div id="exp-network-slot"></div>'+
     '<div class="fld w exp-amount-field">'+
-      '<div class="fi"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--n850)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="6.4" rx="7.4" ry="3.1"></ellipse><path d="M4.6 6.4v5.2c0 1.7 3.3 3.1 7.4 3.1s7.4-1.4 7.4-3.1V6.4"></path><path d="M4.6 11.6v5.2c0 1.7 3.3 3.1 7.4 3.1s7.4-1.4 7.4-3.1v-5.2"></path></svg></div>'+
       '<div class="fl"><i>Сумма перевода</i><b><input id="exp-amount" class="wd-amt" inputmode="decimal" placeholder="0.00" aria-label="Сумма перевода в долларах"></b></div>'+
-      '<div class="addon"><span class="cur">$</span><span class="mx wd-max" id="exp-max" role="button" tabindex="0" aria-label="Вся доступная сумма">MAX</span></div>'+
+      '<div class="addon"><span class="cur">$</span></div>'+
     '</div>'+
-    '<div class="exp-limit" id="exp-limit"></div>'+
+    '<div class="exp-limit"><button id="exp-use-all" class="exp-use-all" type="button">Использовать всё: <span id="exp-max-value" aria-live="polite">0.00 $</span></button></div>'+
     '<p class="exp-note" id="exp-note"></p>'+
     '</div>'+
     '<div class="foot"><div class="exp-error" id="exp-error" role="alert"></div><button class="btn" type="button" id="exp-next">Продолжить</button></div>'+
@@ -122,7 +137,7 @@
   }
   function maximum(){
     const available=Math.max(0,state.balanceMinor-networkFee());
-    let lo=0,hi=available;
+    let lo=0,hi=Math.min(MAX_AMOUNT_MINOR,available);
     while(lo<hi){
       const mid=Math.ceil((lo+hi)/2);
       if(mid+serviceFee(mid)<=available)lo=mid;
@@ -132,7 +147,9 @@
   }
   function balancePaint(){
     E('exp-balance').textContent=moneyText(state.balanceMinor)+' $';
-    E('exp-limit').innerHTML='Максимум с учётом комиссии: <b>'+moneyText(maximum())+' $</b>';
+    const max=maximum();
+    E('exp-max-value').textContent=groupAmount((max/100).toFixed(2))+' $';
+    E('exp-use-all').disabled=max===0;
   }
   async function refreshBalance(){
     try{
@@ -153,7 +170,7 @@
     to.setAttribute('aria-label',state.method==='altvu'?'Получатель ALT.VU':'Адрес получателя');
     to.placeholder=state.method==='altvu'?'Почта или телефон':'Адрес кошелька';
     to.inputMode=state.method==='altvu'?'email':'text';
-    to.value=state.address;amt.value=state.amount;
+    to.value=state.address;amt.value=groupAmount(state.amount);
     E('exp-net-toggle').hidden=state.method==='altvu';
     E('exp-net-value').textContent=netName(state.network);
     E('exp-net-icon').className='nlg '+state.network;
@@ -225,7 +242,20 @@
     say('');
   }
   function fillMax(){
-    state.amount=(maximum()/100).toFixed(2);amt.value=state.amount;say('');
+    state.amount=(maximum()/100).toFixed(2);
+    amt.value=groupAmount(state.amount);
+    say('');
+    amt.focus({preventScroll:true});
+    amt.setSelectionRange(amt.value.length,amt.value.length);
+  }
+  function updateAmount(raw,caret){
+    const clean=cleanAmount(raw);
+    const shown=groupAmount(clean);
+    const offset=Math.min(shown.length,groupAmount(cleanAmount(raw.slice(0,caret))).length);
+    amt.value=shown;
+    amt.setSelectionRange(offset,offset);
+    state.amount=clean;
+    say('');
   }
   function setRecipient(value,code){
     to.value=value;
@@ -283,15 +313,23 @@
     else scanRecipient();
   });
   to.addEventListener('input',()=>{state.address=to.value;state.scannedCode='';say('');});
-  amt.addEventListener('input',()=>{state.amount=amt.value;say('');});
-  // The native delegated '.wd-max' handler expects data-avail on its own
-  // crypto view. Prevent that handler from blanking this composite amount.
-  E('exp-max').addEventListener('click',e=>{
-    e.preventDefault();e.stopPropagation();fillMax();
+  amt.addEventListener('input',()=>{
+    updateAmount(amt.value,amt.selectionStart==null?amt.value.length:amt.selectionStart);
   });
-  E('exp-max').addEventListener('keydown',e=>{
-    if(e.key==='Enter'||e.key===' '){e.preventDefault();e.stopPropagation();fillMax();}
+  // Backspace/Delete across a grouping space removes the next digit.
+  amt.addEventListener('beforeinput',e=>{
+    if(amt.selectionStart!==amt.selectionEnd)return;
+    const pos=amt.selectionStart,raw=amt.value;
+    if(e.inputType==='deleteContentBackward'&&pos>1&&raw[pos-1]===' '){
+      e.preventDefault();
+      updateAmount(raw.slice(0,pos-2)+raw.slice(pos),pos-2);
+    }else if(e.inputType==='deleteContentForward'&&raw[pos]===' '&&pos+1<raw.length){
+      e.preventDefault();
+      updateAmount(raw.slice(0,pos)+raw.slice(pos+2),pos);
+    }
   });
+  // Native button prevents the original delegated .wd-max handler from firing.
+  E('exp-use-all').addEventListener('click',fillMax);
   netField.addEventListener('click',pickNetwork);
   netField.addEventListener('keydown',e=>{
     if(e.key==='Enter'||e.key===' '){e.preventDefault();pickNetwork();}
@@ -334,9 +372,9 @@
 
   async function next(){
     if(state.busy)return;
-    const address=to.value.trim(),value=amt.value.trim().replace(',','.');
+    const address=to.value.trim(),value=cleanAmount(amt.value);
     const cents=Math.round(Number(value)*100);
-    if(!/^\d+(?:\.\d{1,2})?$/.test(value)||!Number.isFinite(cents)||cents<=0){
+    if(!/^\d{1,7}(?:\.\d{1,2})?$/.test(value)||!Number.isFinite(cents)||cents<=0||cents>MAX_AMOUNT_MINOR){
       say('Введите сумму больше нуля');return;
     }
     if(!address){say(state.method==='altvu'?'Введите почту или телефон':'Введите адрес кошелька');return;}
