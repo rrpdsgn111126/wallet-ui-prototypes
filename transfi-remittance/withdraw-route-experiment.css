@@ -12,10 +12,14 @@
 #v-exp-route .exp-actions{margin:0 -16px}
 #v-exp-route #exp-net-toggle{cursor:pointer}
 #v-exp-route #exp-net-toggle[hidden]{display:none}
-#v-exp-route .exp-amount-field{margin-bottom:10px}
-/* All three experimental methods share this native amount field.
-   Large numeric entry reuses the existing 32/38/600 monetary text token;
-   the label, currency and MAX retain their canonical component styling. */
+#v-exp-route .fld.w.exp-amount-field{height:104px;padding:0 18px;gap:0;margin-bottom:0}
+#v-exp-route .exp-amount-field .fl{flex:1 1 auto;min-width:0}
+#v-exp-route .exp-amount-field .fl i{margin-bottom:4px}
+#v-exp-route .exp-amount-field .fl b{display:block;min-width:0;overflow:visible;white-space:nowrap}
+#v-exp-route .exp-amount-field .addon{flex:0 0 auto;margin-left:8px}
+#v-exp-route .exp-amount-field .addon .cur{font:var(--ds-type-control-regular);color:var(--n500)}
+/* All three methods share the 32/38/600 monetary text token.
+   Only digits grow; label and currency stay at their original sizes. */
 #v-exp-route .exp-amount-field .fl b input.wd-amt{
   font:var(--ds-type-amount-hero);
   letter-spacing:-.5px;
@@ -23,13 +27,15 @@
 #v-exp-route .exp-amount-field .fl b input.wd-amt::placeholder{
   font-weight:600;
 }
-#v-exp-route .exp-limit{color:var(--n500);font-size:13px;line-height:20px;padding:0 4px}
-#v-exp-route .exp-limit b{color:var(--n850);font-weight:600}
+#v-exp-route .exp-limit{padding:0 4px;margin-top:6px}
+#v-exp-route .exp-use-all{display:inline-flex;align-items:center;flex-wrap:wrap;column-gap:4px;max-width:100%;min-height:44px;padding:9px 0;border:0;background:transparent;color:var(--n500);cursor:pointer;text-align:left;font:var(--ds-type-body-secondary)}
+#v-exp-route .exp-use-all span{font-weight:600;color:var(--n850)}
+#v-exp-route .exp-use-all:focus-visible{outline:2px solid var(--brand-600);outline-offset:2px;border-radius:4px}
+#v-exp-route .exp-use-all:disabled{cursor:default;opacity:.55}
 #v-exp-route .exp-note{margin:20px 4px 0;color:var(--n500);font-size:13px;line-height:19px}
 #v-exp-route .exp-error{min-height:18px;font-size:13px;line-height:18px;color:var(--err);padding:0 3px;margin-bottom:9px}
 #v-exp-route .exp-error:empty{display:none}
 #v-exp-route #exp-net-toggle:focus-visible,#v-exp-route .exp-actions .uzone:focus-visible{outline:2px solid var(--n850);outline-offset:-2px}
-#v-exp-route .exp-amount-field .mx{cursor:pointer}
 @media(max-width:740px){
   #v-exp-route > .head{padding-top:calc(14px + env(safe-area-inset-top))}
   #v-exp-route > .wrap{padding-top:12px}
