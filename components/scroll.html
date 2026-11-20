@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="ru"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>alt.vu · Индикатор прокрутки</title>
+<script>if(location.hash==='#dark')document.documentElement.classList.add('dark')</script>
+<link rel="stylesheet" href="../css/alt-vu-wallet.css">
+<link rel="stylesheet" href="../showcase/states.css">
+<link rel="stylesheet" href="../showcase/specimen.css">
+<style>
+.ds-scroll-demo-frame{position:relative;height:340px;overflow:hidden;border-radius:20px;background:var(--n50)}
+.ds-scroll-demo-content{height:100%;overflow-y:auto;overscroll-behavior:contain;padding:0 16px}
+.ds-scroll-demo-content h3{font-size:20px;line-height:24px;font-weight:600;margin:14px 0}
+.ds-scroll-demo-content p{font-size:16px;line-height:22px;margin:0 0 12px;color:var(--n500)}
+.ds-scroll-demo-panel{border-radius:20px;background:var(--surface,#fff);padding:16px;margin:0 0 12px}
+.ds-scroll-demo-panel b{display:block;font-weight:400;font-size:16px;line-height:22px}
+.ds-scroll-demo-panel span{display:block;font-size:12px;line-height:16px;color:var(--n500);margin-top:3px}
+</style>
+</head><body data-ds="scroll"><div class="phone ds-ph">
+<section class="ds-st">
+<div class="ds-lab">Прокрутите содержимое</div>
+<div class="ds-scroll-demo-frame">
+<div class="ds-scroll-demo-content" data-overlay-scroll tabindex="0" aria-label="Прокручиваемое содержимое">
+<h3>Условия и тарифы</h3>
+<p>Индикатор появляется только при прокрутке и исчезает после остановки. Он располагается поверх содержимого, не уменьшая доступную ширину.</p>
+<div class="ds-scroll-demo-panel"><b>Пополнение</b><span>Комиссия сервиса · 0 %</span></div>
+<div class="ds-scroll-demo-panel"><b>Банковский перевод</b><span>Срок зачисления · от 1 до 3 дней</span></div>
+<div class="ds-scroll-demo-panel"><b>Как проходит пополнение</b><span>Выберите банк и подтвердите перевод</span></div>
+<p>Прокрутите ниже, чтобы увидеть, как короткий ползунок перемещается вдоль края.</p>
+<div class="ds-scroll-demo-panel"><b>USDT и USDC</b><span>Курс зачисления · 1 : 1</span></div>
+<div class="ds-scroll-demo-panel"><b>Лимиты</b><span>Условия зависят от выбранного метода</span></div>
+<div class="ds-scroll-demo-panel"><b>Дополнительные условия</b><span>Служебные сведения о переводе</span></div>
+<p>Конец списка. Ползунок автоматически исчезнет после остановки прокрутки.</p>
+</div>
+</div>
+</section></div>
+<script src="../showcase/specimen.js"></script>
+<script src="../js/overlay-scroll.js"></script>
+</body></html>
