@@ -10,7 +10,7 @@
 
 ## Экспериментальная ветка: вывод «Откуда → Куда»
 
-Исходники живут в [`experiment/withdraw-route`](https://github.com/rrpdsgn111126/wallet-ui-prototypes/tree/experiment/withdraw-route), созданной от `work/prototype`. Ветка изолирована от `main` и `work/prototype`. В ней один интерактивный прототип, но **нет отдельного UI Kit**: компоненты и стили заимствуются в браузере из опубликованной ветки `work/design-system` через `../../design-system/css/alt-vu-wallet.css` (она импортирует `css/design-system.css` и `tokens/tokens.css`). Источником компонентов остаётся единая библиотека `work/design-system/ui-kit/`; исходники веток не сливаются.
+Исходники живут в [`experiment/withdraw-route`](https://github.com/rrpdsgn111126/wallet-ui-prototypes/tree/experiment/withdraw-route), созданной от `work/prototype`. Ветка изолирована от `main` и `work/prototype`. В ней один интерактивный прототип, но **нет отдельного UI Kit**: компоненты и стили заимствуются в браузере из опубликованной ветки `work/design-system` через `../../design-system/css/alt-vu-wallet.css` (она импортирует `css/design-system.css` и `tokens/tokens.css`). Для общих списков методов DOM должен соответствовать этой же ветке; синхронизация проверяется в CI сравнением структуры и Playwright, поскольку подключение одного CSS не заменяет HTML-разметку. Источником компонентов остаётся единая библиотека `work/design-system/ui-kit/`; исходники веток не сливаются.
 
 - [Экспериментальный прототип](https://rrpdsgn111126.github.io/wallet-ui-prototypes/preview/withdraw-route/transfi-remittance/)
 - [Вывод USDT](https://rrpdsgn111126.github.io/wallet-ui-prototypes/preview/withdraw-route/transfi-remittance/?experiment=withdraw&mode=usdt)
