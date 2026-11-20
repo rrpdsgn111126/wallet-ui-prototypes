@@ -29,8 +29,7 @@
         '<div class="fi"><div class="cn" style="width:40px;height:40px"><img src="../assets/img-27f3d8cf.png" width="24" height="24" alt="alt.vu" style="border-radius:999px"></div></div>'+
         '<div class="exp-leg-main">'+
           '<span class="exp-leg-label">Откуда</span>'+
-          '<strong class="exp-leg-title">Кошелёк ALT.VU</strong>'+
-          '<span class="exp-leg-detail" id="exp-balance">Доступно —</span>'+
+          '<strong class="exp-leg-title">ALT.VU</strong>'+
         '</div>'+
       '</div>'+
       '<div class="exp-arrow-line"><span class="exp-arrow">'+arrow+'</span></div>'+
@@ -38,19 +37,17 @@
         '<div class="fi"><div class="cn" style="width:40px;height:40px"><img id="exp-dest-logo" src="../assets/img-df9900c4.png" width="24" height="24" alt="" style="border-radius:999px"></div></div>'+
         '<div class="exp-leg-main">'+
           '<span class="exp-leg-label">Куда</span>'+
-          '<strong class="exp-leg-title" id="exp-dest-title">Кошелёк USDT</strong>'+
-          '<label for="exp-recipient" class="exp-leg-label" id="exp-recipient-label">Адрес получателя</label>'+
-          '<input id="exp-recipient" class="exp-recipient" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Адрес кошелька">'+
+          '<strong class="exp-leg-title" id="exp-dest-title">USDT</strong>'+
+          '<input id="exp-recipient" class="exp-recipient" aria-label="Адрес получателя" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Адрес кошелька">'+
         '</div>'+
       '</div>'+
       '<button type="button" class="exp-net-toggle" id="exp-net-toggle" aria-haspopup="dialog" aria-controls="exp-network-sheet">'+
         '<span class="exp-net-label">Сеть</span><strong class="exp-net-value" id="exp-net-value">TRC20</strong>'+chevron+
       '</button>'+
     '</div>'+
-    '<div class="exp-amount-caption">Сумма перевода</div>'+
     '<div class="fld w exp-amount-field">'+
-      '<div class="fi"><div class="cn" style="width:40px;height:40px"><img id="exp-amount-logo" src="../assets/img-df9900c4.png" width="24" height="24" alt="" style="border-radius:999px"></div></div>'+
-      '<div class="fl"><i>В долларах</i><b><input id="exp-amount" class="wd-amt" inputmode="decimal" placeholder="0.00" aria-label="Сумма перевода в долларах"></b></div>'+
+      '<div class="fi"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--n850)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="6.4" rx="7.4" ry="3.1"></ellipse><path d="M4.6 6.4v5.2c0 1.7 3.3 3.1 7.4 3.1s7.4-1.4 7.4-3.1V6.4"></path><path d="M4.6 11.6v5.2c0 1.7 3.3 3.1 7.4 3.1s7.4-1.4 7.4-3.1v-5.2"></path></svg></div>'+
+      '<div class="fl"><i>Сумма перевода</i><b><input id="exp-amount" class="wd-amt" inputmode="decimal" placeholder="0.00" aria-label="Сумма перевода в долларах"></b></div>'+
       '<div class="addon"><span class="cur">$</span><span class="mx wd-max" id="exp-max" role="button" tabindex="0" aria-label="Вся доступная сумма">MAX</span></div>'+
     '</div>'+
     '<div class="exp-limit" id="exp-limit"></div>'+
@@ -97,7 +94,6 @@
     return lo;
   }
   function balancePaint(){
-    E('exp-balance').textContent='Доступно '+moneyText(state.balanceMinor)+' $';
     E('exp-limit').innerHTML='Максимум с учётом комиссии: <b>'+moneyText(maximum())+' $</b>';
   }
   async function refreshBalance(){
@@ -114,11 +110,9 @@
   function paint(){
     const m=methods[state.method];
     screen.querySelector('.h1').textContent=m.title;
-    for(const id of ['exp-dest-logo','exp-amount-logo']){
-      const image=E(id);image.src=m.logo;image.alt=m.coin;
-    }
-    E('exp-dest-title').textContent=state.method==='altvu'?'Пользователь ALT.VU':'Кошелёк '+m.coin;
-    E('exp-recipient-label').textContent=state.method==='altvu'?'Получатель':'Адрес получателя';
+    const icon=E('exp-dest-logo');icon.src=m.logo;icon.alt=m.coin;
+    E('exp-dest-title').textContent=m.coin;
+    to.setAttribute('aria-label',state.method==='altvu'?'Получатель ALT.VU':'Адрес получателя');
     to.placeholder=state.method==='altvu'?'Почта или телефон':'Адрес кошелька';
     to.inputMode=state.method==='altvu'?'email':'text';
     to.value=state.address;amt.value=state.amount;
