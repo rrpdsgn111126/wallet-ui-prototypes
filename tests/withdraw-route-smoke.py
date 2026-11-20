@@ -232,7 +232,7 @@ def run():
                 page.on("pageerror", lambda exc: errors.append(str(exc)))
                 page.goto(HOST + "usdt&component=route-card", wait_until="domcontentloaded")
                 expect(page.locator("#v-exp-route")).to_have_class(
-                    re.compile(r"\\bon\\b"), timeout=30000
+                    re.compile(r"\bon\b"), timeout=30000
                 )
                 expect(page.locator("html")).to_have_class(
                     re.compile("exp-route-specimen")
