@@ -76,7 +76,9 @@ try{
    await page.waitForFunction(()=>typeof show==='function',{timeout:25000});
    for(const [view,count] of [['topup',6],['withdraw',5]]){
     await page.evaluate(view=>show(view,false),view);
-    await page.locator('#v-'+view+'.on .sheet .method-list').first().waitFor({state:'visible',timeout:12000});
+    // Bottom-navigation mode mounts these sheets as .ovl above the active page,
+    // rather than switching the view to .on.
+    await page.locator('#v-'+view+' .sheet .method-list').first().waitFor({state:'visible',timeout:12000});
     const section=page.locator('#v-'+view+' .sheet');
     assert.equal(await section.locator('.method-list').count(),2,'Separate crypto/ALT.VU and bank plates');
     assert.equal(await section.locator('.method-list > button.row.method-option').count(),count);
