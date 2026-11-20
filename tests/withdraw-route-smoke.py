@@ -327,12 +327,34 @@ def run():
                     expect(route).to_be_visible()
                     expect(route.locator(".tf-bank-leg")).to_have_count(2)
                     expect(route.locator(".tf-bank-leg").first).to_contain_text("Откуда → ALT.VU")
-                    expect(route.locator(".tf-bank-destination")).to_contain_text("Германия")
+                    expect(route.locator(".tf-bank-destination")).to_contain_text("Куда → Страна")
+                    expect(route.locator(".tf-bank-destination .fl i")).to_have_text("Куда → Страна")
+                    expect(route.locator(".tf-bank-destination .fl b")).to_have_text("Германия")
                     expect(route.locator(".tf-bank-destination svg.tf-country-flag")).to_have_count(1)
                     expect(page.locator(".tf-bank-sbp")).to_be_visible()
                     expect(page.locator(".tf-bank-sbp .h")).to_have_count(2)
                     expect(page.locator(".tf-bank-sbp .h").first).to_contain_text("Заплатить")
                     expect(page.locator(".tf-bank-sbp .h").last).to_contain_text("Зачислим")
+                    # The two amount captions must use exactly the same computed
+                    # typography as the source/destination labels.
+                    styles = page.evaluate("""() => {
+                        const props=['fontFamily','fontSize','fontWeight','lineHeight',
+                            'fontStyle','letterSpacing','color','marginBottom'];
+                        const read=selector => {
+                            const el=document.querySelector(selector);
+                            const css=getComputedStyle(el);
+                            return Object.fromEntries(props.map(prop => [prop,css[prop]]));
+                        };
+                        return {
+                            from:read('.tf-bank-route-card .tf-bank-leg:first-child .fl i'),
+                            to:read('.tf-bank-destination .fl i'),
+                            pay:read('.tf-bank-sbp .t label'),
+                            receive:read('.tf-bank-sbp .tf-bank-receive-label')
+                        };
+                    }""")
+                    assert styles["pay"] == styles["from"] == styles["to"] == styles["receive"], (
+                        f"Bank amount captions must match route label, {rail}, {width}px: {styles}"
+                    )
                     expect(page.locator("#tf-bank-rate")).to_contain_text("1 $")
                     expect(page.locator("#tf-bank-rate")).to_contain_text(expected_currency)
                     expect(page.locator(".tf-bank-sbp .tf-bank-currency-switch")).to_have_count(
