@@ -96,8 +96,22 @@ try{
    await page.evaluate(()=>show('topup',false));
    await page.locator('#v-topup .method-list [data-go="dep-usdt-tron"]').click();
    await page.locator('#v-dep-usdt-tron.on').waitFor({state:'visible',timeout:12000});
-   await page.evaluate(()=>show('topup',false));
+   await page.evaluate(()=>{
+     show('topup',false);
+     const orig=window.tfOpenBank;
+     window.tfOpenBank=function(...args){window.__methodSheetBankArgs=args;return orig.apply(this,args);};
+   });
    await page.locator('#v-topup .method-list [data-tf-bank="SEPA"]').click();
+   await page.waitForTimeout(300);
+   console.log('BANK_CLICK_DEBUG',JSON.stringify(await page.evaluate(()=>{
+     const el=document.querySelector('#tf-bank-overlay');
+     return {called:window.__methodSheetBankArgs||null,exists:!!el,
+       hidden:el?.hidden,display:el&&getComputedStyle(el).display,
+       visibility:el&&getComputedStyle(el).visibility,
+       iframe:el?.querySelector('iframe')?.src,
+       topup:document.getElementById('v-topup')?.className,
+       current:[...document.querySelectorAll('.view.on')].map(x=>x.id)};
+   })));
    await page.locator('#tf-bank-overlay').waitFor({state:'visible',timeout:12000});
    assert.deepEqual(errors,[]);
    console.log('PASS live methods and bank handler '+width+'px');
