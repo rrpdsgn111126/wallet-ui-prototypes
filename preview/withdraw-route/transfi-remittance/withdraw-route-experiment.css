@@ -117,8 +117,9 @@ html.exp-route-specimen #v-exp-route .exp-route-card{margin:0}
 .phone.tf-phone .tf-bank-sbp .t{flex:1 1 auto;min-width:0}
 .phone.tf-phone .tf-bank-sbp .t label,
 .phone.tf-phone .tf-bank-sbp .tf-bank-receive-label{
-  display:block;font:var(--ds-type-body-secondary);
-  color:var(--n500);margin-bottom:2px;
+  /* Same semantic type role and vertical gap as the route labels. */
+  display:block;font:var(--ds-type-field-label);
+  color:var(--n500);font-style:normal;margin-bottom:4px;
 }
 .phone.tf-phone .tf-bank-sbp .t input,
 .phone.tf-phone .tf-bank-sbp #tf-bank-receive{
