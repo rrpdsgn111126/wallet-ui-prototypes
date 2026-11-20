@@ -62,11 +62,32 @@ def run():
                 expect(page.locator("#exp-recipient")).to_have_attribute("placeholder", "Адрес кошелька")
                 expect(page.locator("#v-exp-route .exp-leg").nth(1).locator(".fl b")).to_have_count(0)
                 expect(page.locator("#exp-amount")).to_be_visible()
+                expect(page.locator("#v-exp-route .exp-actions .uzone")).to_have_count(2)
+                expect(page.locator("#exp-paste")).to_contain_text("Вставить")
+                expect(page.locator("#exp-scan")).to_contain_text("Сканировать")
+                expect(page.locator("#exp-net-toggle")).to_have_class(re.compile("fld w net-pick"))
+                expect(page.locator("#exp-net-toggle .fl i")).to_have_text("Сеть")
+                expect(page.locator("#exp-net-value")).to_have_text("TRC20")
+                expect(page.locator("#exp-net-icon")).to_have_class(re.compile("nlg tron"))
+                expect(page.locator("#exp-net-toggle")).to_have_attribute("aria-expanded", "false")
                 page.screenshot(path=str(OUT / f"usdt-{width}.png"))
                 page.locator("#exp-net-toggle").click()
                 expect(page.locator("#exp-network-sheet")).to_be_visible()
+                expect(page.locator("#exp-net-toggle")).to_have_attribute("aria-expanded", "true")
                 page.keyboard.press("Escape")
                 expect(page.locator("#exp-network-sheet")).to_be_hidden()
+                expect(page.locator("#exp-net-toggle")).to_have_attribute("aria-expanded", "false")
+                # Clipboard is stubbed, but the real Paste button handler is exercised.
+                page.evaluate("""Object.defineProperty(navigator, 'clipboard', {
+                    configurable: true, value: {readText: async () => '0x' + 'a'.repeat(40)}
+                })""")
+                page.locator("#exp-paste").click()
+                expect(page.locator("#exp-recipient")).to_have_value("0x" + "a" * 40)
+                # Real scanner entry point receives a deterministic decoded QR result.
+                page.evaluate("window.scanQR = async opts => {opts.take({kind:'addr', value:'0x' + 'b'.repeat(40)})}")
+                page.locator("#exp-scan").click()
+                expect(page.locator("#exp-recipient")).to_have_value("0x" + "b" * 40)
+                page.locator("#exp-recipient").fill("")
                 page.locator("#exp-max").click()
                 assert float(page.locator("#exp-amount").input_value()) > 0
                 page.locator("#exp-amount").fill("10.00")
@@ -77,8 +98,11 @@ def run():
                 page.locator("#exp-net-toggle").click()
                 options = page.locator("[data-exp-net]")
                 if options.count() > 1:
+                    chosen = options.nth(1).get_attribute("data-exp-net")
                     options.nth(1).click()
                     expect(page.locator("#exp-recipient")).to_have_value("")
+                    expect(page.locator("#exp-net-icon")).to_have_class(re.compile("nlg " + chosen))
+                    expect(page.locator("#exp-net-toggle")).to_have_attribute("aria-expanded", "false")
                 else:
                     page.keyboard.press("Escape")
                 page.locator("#exp-recipient").fill("0x" + "1" * 40)
@@ -107,11 +131,24 @@ def run():
                 expect(page.locator("#v-exp-route .exp-amount-caption")).to_have_count(0)
                 expect(page.locator("#v-exp-route .exp-amount-field .fl i")).to_have_text("Сумма перевода")
                 expect(page.locator("#v-exp-route .exp-amount-field .fi svg ellipse")).to_have_count(1)
+                expect(page.locator("#exp-paste")).to_contain_text("Вставить")
+                expect(page.locator("#exp-scan")).to_contain_text("Сканировать")
+                expect(page.locator("#v-exp-route .exp-actions .uzone")).to_have_count(2)
                 if mode == "altvu":
                     expect(page.locator("#exp-recipient")).to_have_attribute("placeholder", "Почта или телефон")
                     expect(page.locator("#exp-net-toggle")).to_be_hidden()
+                    page.evaluate("""Object.defineProperty(navigator, 'clipboard', {
+                        configurable:true, value:{readText:async () => 'demo.receiver@example.invalid'}
+                    })""")
+                    page.locator("#exp-paste").click()
+                    expect(page.locator("#exp-recipient")).to_have_value("demo.receiver@example.invalid")
+                    page.evaluate("window.scanQR = async opts => {opts.take({kind:'code', value:'ABCD-EFGH'})}")
+                    page.locator("#exp-scan").click()
+                    expect(page.locator("#exp-recipient")).to_have_value("ABCD-EFGH")
+                    # The original recipient lookup is verified via email on Continue.
                     page.locator("#exp-recipient").fill("demo.receiver@example.invalid")
                 else:
+                    expect(page.locator("#exp-net-toggle .fi .nlg")).to_have_count(1)
                     page.locator("#exp-recipient").fill("0x" + "1" * 40)
                 page.locator("#exp-amount").fill("10.00")
                 page.screenshot(path=str(OUT / f"{mode}-390.png"))
