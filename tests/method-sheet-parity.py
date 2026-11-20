@@ -124,14 +124,14 @@ def validate_browser():
                                       rowHeight:parseFloat(getComputedStyle(row).height),
                                       iconWidth:getComputedStyle(icon).width,
                                       titleSize:getComputedStyle(text.querySelector('b')).fontSize,
-                                      chevron:chevron.getBoundingClientRect().width};
+                                      chevron:getComputedStyle(chevron).width};
                                 }""")
                                 assert computed["radius"] == "20px", (view, computed)
                                 assert computed["background"] != "rgba(0, 0, 0, 0)", (view, computed)
                                 assert computed["rowHeight"] >= 60, (view, computed)
                                 assert computed["iconWidth"] == "32px", (view, computed)
                                 assert computed["titleSize"] == "16px", (view, computed)
-                                assert computed["chevron"] == 18, (view, computed)
+                                assert computed["chevron"] == "18px", (view, computed)
                                 page.screenshot(path=str(OUT / f"method-{view}-{'dark' if dark else 'light'}-{width}.png"))
                                 print(f"PASS real method UI {view} {'dark' if dark else 'light'} {width}px")
                         page.evaluate("document.documentElement.classList.remove('dark')")
