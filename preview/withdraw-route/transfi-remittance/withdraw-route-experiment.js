@@ -27,17 +27,17 @@
     '<div class="box exp-route-card" data-experiment="route-card">'+
       '<div class="exp-leg">'+
         '<div class="fi"><div class="cn" style="width:40px;height:40px"><img src="../assets/img-27f3d8cf.png" width="24" height="24" alt="alt.vu" style="border-radius:999px"></div></div>'+
-        '<div class="exp-leg-main">'+
-          '<span class="exp-leg-label">Откуда</span>'+
-          '<strong class="exp-leg-title">ALT.VU</strong>'+
+        '<div class="exp-leg-main fl">'+
+          '<i>Откуда</i>'+
+          '<b>ALT.VU</b>'+
         '</div>'+
       '</div>'+
       '<div class="exp-arrow-line"><span class="exp-arrow">'+arrow+'</span></div>'+
       '<div class="exp-leg">'+
         '<div class="fi"><div class="cn" style="width:40px;height:40px"><img id="exp-dest-logo" src="../assets/img-df9900c4.png" width="24" height="24" alt="" style="border-radius:999px"></div></div>'+
-        '<div class="exp-leg-main">'+
-          '<span class="exp-leg-label">Куда</span>'+
-          '<strong class="exp-leg-title" id="exp-dest-title">USDT</strong>'+
+        '<div class="exp-leg-main fl">'+
+          '<i>Куда</i>'+
+          '<b id="exp-dest-title">USDT</b>'+
           '<input id="exp-recipient" class="exp-recipient" aria-label="Адрес получателя" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Адрес кошелька">'+
         '</div>'+
       '</div>'+
