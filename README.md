@@ -8,6 +8,18 @@
 - [Тестовые сценарии и переключение результатов](https://rrpdsgn111126.github.io/wallet-ui-prototypes/transfi-remittance/?qa=1)
 - [UI Kit — библиотека компонентов](https://rrpdsgn111126.github.io/wallet-ui-prototypes/ui-kit/)
 
+## Экспериментальная ветка: вывод «Откуда → Куда»
+
+Исходники живут в [`experiment/withdraw-route`](https://github.com/rrpdsgn111126/wallet-ui-prototypes/tree/experiment/withdraw-route), созданной от `work/prototype`. Ветка изолирована от `main`, `work/prototype` и `work/design-system`. В ней один интерактивный прототип и собственная библиотека UI Kit, опубликованные через независимую копию статических файлов (без merge исходников).
+
+- [Экспериментальный прототип](https://rrpdsgn111126.github.io/wallet-ui-prototypes/preview/withdraw-route/transfi-remittance/)
+- [Вывод USDT](https://rrpdsgn111126.github.io/wallet-ui-prototypes/preview/withdraw-route/transfi-remittance/?experiment=withdraw&mode=usdt)
+- [Вывод USDC](https://rrpdsgn111126.github.io/wallet-ui-prototypes/preview/withdraw-route/transfi-remittance/?experiment=withdraw&mode=usdc)
+- [Перевод ALT.VU](https://rrpdsgn111126.github.io/wallet-ui-prototypes/preview/withdraw-route/transfi-remittance/?experiment=withdraw&mode=altvu)
+- [UI Kit экспериментальной ветки](https://rrpdsgn111126.github.io/wallet-ui-prototypes/preview/withdraw-route/ui-kit/#withdraw-route-experiment)
+
+Изменены только входные экраны USDT, USDC и ALT.VU. Нативные экраны подтверждения, PIN, детали и локальные mock-операции сохранены. **Прототип не отправляет деньги и не подключается к банковскому или блокчейн API.**
+
 ## Структура
 
 - `transfi-remittance/` — **единственный действующий прототип** (`index.html`, банковские сценарии в `legacy.html`).
