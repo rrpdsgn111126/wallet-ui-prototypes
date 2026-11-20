@@ -81,10 +81,14 @@ def run():
                 expect(page.locator("#v-exp-route .exp-leg").nth(1).locator(".fl i")).to_have_text("Куда → USDT")
                 expect(page.locator("#v-exp-route .exp-amount-caption")).to_have_count(0)
                 expect(page.locator("#v-exp-route .exp-amount-field .fl i")).to_have_text("Сумма перевода")
-                expect(page.locator("#v-exp-route .exp-amount-field .fi svg ellipse")).to_have_count(1)
+                expect(page.locator("#v-exp-route .exp-amount-field .fi")).to_have_count(0)
                 expect(page.locator("#v-exp-route .exp-amount-field img")).to_have_count(0)
                 expect(page.locator("#v-exp-route .exp-amount-field .addon .cur")).to_have_text("$")
-                expect(page.locator("#v-exp-route .exp-amount-field .addon .mx")).to_have_text("MAX")
+                expect(page.locator("#v-exp-route .exp-amount-field .addon .mx")).to_have_count(0)
+                expect(page.locator("#v-exp-route .exp-amount-field")).to_have_css("height", "104px")
+                expect(page.locator("#exp-use-all")).to_be_visible()
+                expect(page.locator("#exp-use-all")).to_contain_text("Использовать всё:")
+                expect(page.locator("#exp-max")).to_have_count(0)
                 expect(page.locator("#exp-recipient")).to_have_attribute("placeholder", "Адрес кошелька")
                 expect(page.locator("#v-exp-route .exp-leg").nth(1).locator(".fl b")).to_have_count(0)
                 expect(page.locator("#exp-amount")).to_be_visible()
@@ -97,8 +101,18 @@ def run():
                 expect(amount_input).to_have_css("letter-spacing", "-0.5px")
                 expect(page.locator("#v-exp-route .exp-amount-field .fl i")).to_have_css("font-size", "12px")
                 expect(page.locator("#v-exp-route .exp-amount-field .addon .cur")).to_have_css("font-size", "16px")
-                for numeric_example in ("23333", "262.52"):
-                    amount_input.fill(numeric_example)
+                # Grouping, decimals, paste normalization and seven-digit limit.
+                for typed, displayed in [
+                    ("23333", "23 333"),
+                    ("262.52", "262.52"),
+                    ("9999999.01", "9 999 999.01"),
+                    ("99999999.999", "9 999 999.99"),
+                    ("1234567,89", "1 234 567.89"),
+                    ("1000.5", "1 000.5"),
+                    ("0.123", "0.12"),
+                ]:
+                    amount_input.fill(typed)
+                    expect(amount_input).to_have_value(displayed)
                     bounds = amount_input.evaluate("""el => {
                         const input=el.getBoundingClientRect();
                         const addon=el.closest('.fld').querySelector('.addon').getBoundingClientRect();
@@ -106,8 +120,19 @@ def run():
                                 separated:input.right<=addon.left+1};
                     }""")
                     assert bounds["fits"] and bounds["separated"], (
-                        f"Amount overflow at {width}px with {numeric_example}: {bounds}"
+                        f"Amount overflow at {width}px with {typed}: {bounds}"
                     )
+                # Middle insertion preserves caret; deleting a grouping space
+                # removes a digit instead of repeatedly reinserting the space.
+                amount_input.fill("12345")
+                amount_input.evaluate("(el) => el.setSelectionRange(2,2)")
+                amount_input.press("9")
+                expect(amount_input).to_have_value("129 345")
+                assert amount_input.evaluate("el => el.selectionStart") == 3
+                amount_input.fill("12345")
+                amount_input.evaluate("(el) => el.setSelectionRange(3,3)")
+                amount_input.press("Backspace")
+                expect(amount_input).to_have_value("1 345")
                 amount_input.fill("")
                 expect(page.locator("#v-exp-route .exp-actions .uzone")).to_have_count(2)
                 expect(page.locator("#exp-paste")).to_contain_text("Вставить")
@@ -166,8 +191,10 @@ def run():
                 page.locator("#exp-scan").click()
                 expect(page.locator("#exp-recipient")).to_have_value("0x" + "b" * 40)
                 page.locator("#exp-recipient").fill("")
-                page.locator("#exp-max").click()
-                assert float(page.locator("#exp-amount").input_value()) > 0
+                max_label = page.locator("#exp-max-value").inner_text()
+                page.locator("#exp-use-all").click()
+                assert float(page.locator("#exp-amount").input_value().replace(" ", "")) > 0
+                expect(page.locator("#exp-amount")).to_have_value(max_label.removesuffix(" $"))
                 page.locator("#exp-amount").fill("10.00")
                 page.locator("#exp-next").click()
                 expect(page.locator("#exp-error")).to_contain_text("адрес")
@@ -208,7 +235,7 @@ def run():
                 expect(page.locator("#exp-balance")).to_have_text(re.compile(r"[\d\s\u00a0.,]+\s*\$"))
                 expect(page.locator("#v-exp-route .exp-amount-caption")).to_have_count(0)
                 expect(page.locator("#v-exp-route .exp-amount-field .fl i")).to_have_text("Сумма перевода")
-                expect(page.locator("#v-exp-route .exp-amount-field .fi svg ellipse")).to_have_count(1)
+                expect(page.locator("#v-exp-route .exp-amount-field .fi")).to_have_count(0)
                 expect(page.locator("#exp-paste")).to_contain_text("Вставить")
                 expect(page.locator("#exp-scan")).to_contain_text("Сканировать")
                 expect(page.locator("#v-exp-route .exp-actions .uzone")).to_have_count(2)
@@ -239,6 +266,8 @@ def run():
                 expect(amount_input).to_have_css("font-size", "32px")
                 expect(amount_input).to_have_css("line-height", "38px")
                 expect(amount_input).to_have_css("font-weight", "600")
+                expect(page.locator("#v-exp-route .exp-amount-field .fi")).to_have_count(0)
+                expect(page.locator("#exp-use-all")).to_contain_text("Использовать всё:")
                 amount_input.fill("10.00")
                 page.screenshot(path=str(OUT / f"{mode}-390.png"))
                 page.locator("#exp-next").click()
@@ -279,7 +308,7 @@ def run():
                 context.close()
             browser.close()
         assert not errors, f"Uncaught JS errors: {errors}"
-        print("PASS: USDT/USDC/ALT.VU, native reviews, network sheet, MAX, validation, back, 390/430/1440")
+        print("PASS: USDT/USDC/ALT.VU, native reviews, network sheet, fee-aware use-all, grouped amount, validation, back, 390/430/1440")
     finally:
         server.terminate()
         with contextlib.suppress(Exception):
