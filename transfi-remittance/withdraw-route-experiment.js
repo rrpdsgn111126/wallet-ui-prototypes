@@ -28,16 +28,15 @@
       '<div class="exp-leg">'+
         '<div class="fi"><div class="cn" style="width:40px;height:40px"><img src="../assets/img-27f3d8cf.png" width="24" height="24" alt="alt.vu" style="border-radius:999px"></div></div>'+
         '<div class="exp-leg-main fl">'+
-          '<i>Откуда</i>'+
-          '<b>ALT.VU</b>'+
+          '<i>Откуда → ALT.VU</i>'+
+          '<b id="exp-balance" aria-live="polite">—</b>'+
         '</div>'+
       '</div>'+
       '<div class="exp-arrow-line"><span class="exp-arrow">'+arrow+'</span></div>'+
       '<div class="exp-leg">'+
         '<div class="fi"><div class="cn" style="width:40px;height:40px"><img id="exp-dest-logo" src="../assets/img-df9900c4.png" width="24" height="24" alt="" style="border-radius:999px"></div></div>'+
         '<div class="exp-leg-main fl">'+
-          '<i>Куда</i>'+
-          '<b id="exp-dest-title">USDT</b>'+
+          '<i id="exp-dest-label">Куда → USDT</i>'+
           '<input id="exp-recipient" class="exp-recipient" aria-label="Адрес получателя" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Адрес кошелька">'+
         '</div>'+
       '</div>'+
@@ -94,6 +93,7 @@
     return lo;
   }
   function balancePaint(){
+    E('exp-balance').textContent=moneyText(state.balanceMinor)+' $';
     E('exp-limit').innerHTML='Максимум с учётом комиссии: <b>'+moneyText(maximum())+' $</b>';
   }
   async function refreshBalance(){
@@ -111,7 +111,7 @@
     const m=methods[state.method];
     screen.querySelector('.h1').textContent=m.title;
     const icon=E('exp-dest-logo');icon.src=m.logo;icon.alt=m.coin;
-    E('exp-dest-title').textContent=m.coin;
+    E('exp-dest-label').textContent='Куда → '+m.coin;
     to.setAttribute('aria-label',state.method==='altvu'?'Получатель ALT.VU':'Адрес получателя');
     to.placeholder=state.method==='altvu'?'Почта или телефон':'Адрес кошелька';
     to.inputMode=state.method==='altvu'?'email':'text';
