@@ -3,6 +3,11 @@
 (function(){
   'use strict';
   if(!window.altPreview || !window.PV || !document.querySelector('.phone'))return;
+  // The UI Kit embeds only the live from/to component, without a full screen.
+  // It is still the same DOM and handlers as the working experiment.
+  if(new URLSearchParams(location.search).get('component')==='route-card'){
+    document.documentElement.classList.add('exp-route-specimen');
+  }
   const E=id=>document.getElementById(id);
   const methods={
     usdt:{coin:'USDT',title:'Вывод USDT',logo:'../assets/img-df9900c4.png',network:'tron'},
