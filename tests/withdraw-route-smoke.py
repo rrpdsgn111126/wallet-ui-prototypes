@@ -50,9 +50,9 @@ def run():
                     re.compile(r"\bon\b"), timeout=30000
                 )
                 expect(page.locator("#exp-dest-title")).to_have_text("USDT")
-                expect(page.locator("#v-exp-route .exp-leg").first.locator(".exp-leg-label")).to_have_text("Откуда")
-                expect(page.locator("#v-exp-route .exp-leg").first.locator(".exp-leg-title")).to_have_text("ALT.VU")
-                expect(page.locator("#v-exp-route .exp-leg").nth(1).locator(".exp-leg-label")).to_have_text("Куда")
+                expect(page.locator("#v-exp-route .exp-leg").first.locator(".fl i")).to_have_text("Откуда")
+                expect(page.locator("#v-exp-route .exp-leg").first.locator(".fl b")).to_have_text("ALT.VU")
+                expect(page.locator("#v-exp-route .exp-leg").nth(1).locator(".fl i")).to_have_text("Куда")
                 expect(page.locator("#v-exp-route .exp-amount-caption")).to_have_count(0)
                 expect(page.locator("#v-exp-route .exp-amount-field .fl i")).to_have_text("Сумма перевода")
                 expect(page.locator("#v-exp-route .exp-amount-field .fi svg ellipse")).to_have_count(1)
@@ -101,7 +101,7 @@ def run():
                     re.compile(r"\bon\b"), timeout=30000
                 )
                 expect(page.locator("#exp-dest-title")).to_have_text(target)
-                expect(page.locator("#v-exp-route .exp-leg").first.locator(".exp-leg-title")).to_have_text("ALT.VU")
+                expect(page.locator("#v-exp-route .exp-leg").first.locator(".fl b")).to_have_text("ALT.VU")
                 expect(page.locator("#v-exp-route .exp-amount-caption")).to_have_count(0)
                 expect(page.locator("#v-exp-route .exp-amount-field .fl i")).to_have_text("Сумма перевода")
                 expect(page.locator("#v-exp-route .exp-amount-field .fi svg ellipse")).to_have_count(1)
