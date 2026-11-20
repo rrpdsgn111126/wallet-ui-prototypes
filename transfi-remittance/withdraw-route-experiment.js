@@ -10,11 +10,10 @@
     altvu:{coin:'ALT.VU',title:'Перевод в ALT.VU',logo:'../assets/img-27f3d8cf.png',network:''}
   };
   const names={tron:'TRC20',bnb:'BEP-20',polygon:'Polygon',ton:'TON'};
-  const state={method:'usdt',network:'tron',address:'',scannedCode:'',amount:'',balanceMinor:0,busy:false};
+  const state={method:'usdt',network:'tron',address:'',scannedCode:'',amount:'',balanceMinor:0,busy:false,networkCatalog:null,sheetBusy:false};
   const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const moneyText=cents=>new Intl.NumberFormat('ru-RU',{minimumFractionDigits:2,maximumFractionDigits:2}).format(cents/100);
   const arrow='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--n850)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v15m-6-6 6 6 6-6"/></svg>';
-  const chevron='<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--n500)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m8 5 7 7-7 7"/></svg>';
   const link=document.createElement('link');link.rel='stylesheet';link.href='./withdraw-route-experiment.css';document.head.appendChild(link);
 
   const head=document.querySelector('#v-out-usdt-tron > .head');
@@ -52,26 +51,22 @@
     '<p class="exp-note" id="exp-note"></p>'+
     '</div>'+
     '<div class="foot"><div class="exp-error" id="exp-error" role="alert"></div><button class="btn" type="button" id="exp-next">Продолжить</button></div>'+
-    '<div class="dim exp-dim" id="exp-network-dim" hidden></div>'+
-    '<div class="sheet exp-sheet" id="exp-network-sheet" role="dialog" aria-label="Выбор сети" hidden>'+
-      '<div class="grab"></div><div class="sh2">Сеть перевода</div>'+
-      '<div class="p">Выберите сеть, которой принадлежит адрес получателя.</div>'+
-      '<div class="box" id="exp-network-options"></div>'+
-    '</div>';
+    '';
   document.querySelector('.phone').appendChild(screen);
 
-  // Keep the exact existing network input anatomy, including its real logo
-  // and chevron. The input has button semantics because it opens a sheet.
-  const nativeNet=document.querySelector('#v-out-usdt-tron .fld.w.net-pick');
-  if(!nativeNet)return;
-  const netField=document.createElement('button');
-  netField.type='button';
+  // Clone the exact selector from USDT DEPOSIT, removing only the native
+  // data-act handler that otherwise navigates to a deposit screen.
+  const depositField=document.querySelector('#v-dep-usdt-tron .fld.w.net-pick');
+  const nativeDim=document.querySelector('.phone > .ns-dim');
+  const nativeSheet=document.querySelector('.phone > .ns-sheet');
+  if(!depositField||!nativeDim||!nativeSheet)return;
+  const netField=depositField.cloneNode(true);
+  netField.removeAttribute('data-act');
   netField.id='exp-net-toggle';
-  netField.className='fld w net-pick exp-net-toggle';
+  netField.setAttribute('role','button');
+  netField.setAttribute('tabindex','0');
   netField.setAttribute('aria-haspopup','dialog');
-  netField.setAttribute('aria-controls','exp-network-sheet');
   netField.setAttribute('aria-expanded','false');
-  netField.innerHTML=nativeNet.innerHTML;
   netField.querySelector('.fi .nlg').id='exp-net-icon';
   netField.querySelector('.fl b').id='exp-net-value';
   E('exp-network-slot').replaceChildren(netField);
@@ -98,16 +93,19 @@
 
   const to=E('exp-recipient'),amt=E('exp-amount');
   function say(text){E('exp-error').textContent=text||'';}
-  function networks(){
+  // Deposits use netAll() with "key"; preview fixtures use "network".
+  // Limit the same native catalogue to enabled withdrawal routes.
+  function nativeNetworkRows(){
     const coin=methods[state.method].coin;
-    const all=PV.data['/networks']&&PV.data['/networks'].networks||[];
-    return all.filter(n=>n.coin===coin&&n.enabled!==false&&n.can_withdraw!==false&&
-      !!E('v-out-'+coin.toLowerCase()+'-'+n.network)).map(n=>n.network).filter((n,i,a)=>a.indexOf(n)===i);
+    const fallback=PV.data['/networks']&&PV.data['/networks'].networks||[];
+    const all=state.networkCatalog||fallback;
+    return all.map(n=>({...n,key:n.key||n.network}))
+      .filter(n=>n.coin===coin&&n.enabled!==false&&n.can_withdraw!==false&&
+        !!E('v-out-'+coin.toLowerCase()+'-'+n.key))
+      .sort((a,b)=>netOrder(a.key)-netOrder(b.key));
   }
-  function activeRule(){
-    const all=PV.data['/networks']&&PV.data['/networks'].networks||[];
-    return all.find(n=>n.coin===methods[state.method].coin&&n.network===state.network)||{};
-  }
+  function networks(){return nativeNetworkRows().map(n=>n.key);}
+  function activeRule(){return nativeNetworkRows().find(n=>n.key===state.network)||{};}
   function networkFee(){
     if(state.method==='altvu')return 0;
     const n=Number(activeRule().withdrawal_fee);
@@ -152,9 +150,9 @@
     to.inputMode=state.method==='altvu'?'email':'text';
     to.value=state.address;amt.value=state.amount;
     E('exp-net-toggle').hidden=state.method==='altvu';
-    E('exp-net-value').textContent=names[state.network]||state.network;
+    E('exp-net-value').textContent=netName(state.network);
     E('exp-net-icon').className='nlg '+state.network;
-    E('exp-net-toggle').setAttribute('aria-label','Сеть: '+(names[state.network]||state.network));
+    E('exp-net-toggle').setAttribute('aria-label','Сеть: '+netName(state.network));
     paintRecipientActions();
     E('exp-note').textContent=state.method==='altvu'?
       'Получатель должен иметь счёт ALT.VU. Имя проверим перед подтверждением.':
@@ -169,27 +167,57 @@
       state.network=networks()[0]||state.network;
     paint();show('exp-route');refreshBalance();
   }
-  function closeSheet(){
-    E('exp-network-dim').hidden=true;
-    E('exp-net-toggle').setAttribute('aria-expanded','false');
-    const sheet=E('exp-network-sheet');
-    sheet.hidden=true;sheet.classList.remove('pop','settled','slide');sheet.style.transform='';
+  // The same global .ns-sheet used by native USDT/USDC deposits.
+  function closeSheet(restoreFocus=true){
+    netSheet(false);
+    netField.setAttribute('aria-expanded','false');
+    if(restoreFocus&&screen.classList.contains('on'))netField.focus({preventScroll:true});
   }
-  function pickNetwork(){
-    if(state.method==='altvu')return;
-    const available=networks();
-    if(!available.length){say('Для выбранной валюты нет доступных сетей');return;}
-    E('exp-network-options').innerHTML=available.map(n=>
-      '<button type="button" class="exp-picker-button" data-exp-net="'+esc(n)+'" role="radio" aria-checked="'+String(n===state.network)+'">'+
-      '<div class="ri">'+(typeof netLogo==='function'?netLogo(n):'<i class="nlg '+esc(n)+'"></i>')+'</div>'+
-      '<div class="rt">'+esc(names[n]||n)+'</div>'+
-      '<span class="rd'+(state.network===n?' on':'')+'"></span></button>').join('');
-    if(typeof sheetOpen==='function')sheetOpen(E('exp-network-dim'),E('exp-network-sheet'));
-    else {E('exp-network-dim').hidden=false;E('exp-network-sheet').hidden=false;}
-    E('exp-net-toggle').setAttribute('aria-expanded','true');
-    const chosen=E('exp-network-options').querySelector('[aria-checked="true"]')||
-                 E('exp-network-options').querySelector('button');
-    if(chosen)chosen.focus({preventScroll:true});
+  async function pickNetwork(){
+    if(state.method==='altvu'||state.sheetBusy)return;
+    state.sheetBusy=true;
+    try{
+      state.networkCatalog=await netAll();
+      const list=nativeNetworkRows();
+      const box=nativeSheet.querySelector('.ns-box');
+      const note=nativeSheet.querySelector('.ns-note');
+      if(!list.length){
+        box.innerHTML='<div class="row"><div class="rt">Сети недоступны<i>Попробуйте позже</i></div></div>';
+      }else{
+        // Native netPickOpen() row anatomy, selected radio and second line.
+        box.innerHTML=list.map(n=>{
+          const selected=n.key===state.network;
+          const sub='комиссия сети '+coinAmt(n.withdrawal_fee)+' '+methods[state.method].coin;
+          return '<div class="row" data-ns="'+esc(n.key)+'" role="radio" tabindex="'+
+            (selected?'0':'-1')+'" aria-checked="'+String(selected)+'">'+
+            '<div class="ri">'+netLogo(n.key)+'</div>'+
+            '<div class="rt">'+esc(netName(n.key))+'<i>'+esc(sub)+'</i></div>'+
+            '<div class="rd'+(selected?' on':'')+'"></div></div>';
+        }).join('');
+      }
+      if(note)note.textContent='Адрес получателя должен быть в выбранной сети. Перевод в чужую сеть не вернуть.';
+      netSheet(true);
+      netField.setAttribute('aria-expanded','true');
+      const focused=box.querySelector('[aria-checked="true"]')||box.querySelector('[data-ns]');
+      if(focused)focused.focus({preventScroll:true});
+      say('');
+    }catch(e){
+      say('Не удалось загрузить доступные сети. Попробуйте ещё раз.');
+    }finally{
+      state.sheetBusy=false;
+    }
+  }
+  function selectNetwork(key){
+    if(!networks().includes(key))return;
+    const changed=key!==state.network;
+    state.network=key;
+    if(changed){state.address='';state.scannedCode='';to.value='';}
+    E('exp-net-value').textContent=netName(key);
+    E('exp-net-icon').className='nlg '+key;
+    netField.setAttribute('aria-label','Сеть: '+netName(key));
+    balancePaint();
+    closeSheet();
+    say('');
   }
   function fillMax(){
     state.amount=(maximum()/100).toFixed(2);amt.value=state.amount;say('');
@@ -259,35 +287,42 @@
   E('exp-max').addEventListener('keydown',e=>{
     if(e.key==='Enter'||e.key===' '){e.preventDefault();e.stopPropagation();fillMax();}
   });
-  E('exp-net-toggle').addEventListener('click',pickNetwork);
-  E('exp-network-options').addEventListener('click',e=>{
-    const row=e.target.closest('[data-exp-net]');
-    if(!row)return;
-    state.network=row.dataset.expNet;
-    state.address='';state.scannedCode='';to.value='';
-    E('exp-net-value').textContent=names[state.network]||state.network;
-    E('exp-net-icon').className='nlg '+state.network;
-    E('exp-net-toggle').setAttribute('aria-label','Сеть: '+(names[state.network]||state.network));
-    balancePaint();closeSheet();E('exp-net-toggle').focus({preventScroll:true});say('');
+  netField.addEventListener('click',pickNetwork);
+  netField.addEventListener('keydown',e=>{
+    if(e.key==='Enter'||e.key===' '){e.preventDefault();pickNetwork();}
   });
-  E('exp-network-options').addEventListener('keydown',e=>{
-    if(!['ArrowDown','ArrowUp','Home','End'].includes(e.key))return;
-    const rows=[...E('exp-network-options').querySelectorAll('[data-exp-net]')];
-    const idx=rows.indexOf(document.activeElement);
-    if(!rows.length)return;
-    e.preventDefault();
-    const next=e.key==='Home'?0:e.key==='End'?rows.length-1:
-      (idx+(e.key==='ArrowDown'?1:-1)+rows.length)%rows.length;
-    rows[next].focus();
-  });
-  E('exp-network-dim').addEventListener('click',closeSheet);
-  document.addEventListener('keydown',e=>{
-    if(e.key==='Escape'&&!E('exp-network-sheet').hidden){
+  // The global native dispatcher also owns [data-ns]. Intercept only while
+  // the experiment is visible; all deposit flows remain unchanged.
+  document.addEventListener('click',e=>{
+    if(!screen.classList.contains('on')||nativeSheet.hidden)return;
+    const row=e.target.closest('.ns-sheet .ns-box [data-ns]');
+    if(row){
+      e.preventDefault();e.stopImmediatePropagation();selectNetwork(row.dataset.ns);
+      return;
+    }
+    if(e.target.closest('.ns-dim')){
       e.preventDefault();e.stopImmediatePropagation();closeSheet();
     }
   },true);
+  document.addEventListener('keydown',e=>{
+    if(!screen.classList.contains('on')||nativeSheet.hidden)return;
+    if(e.key==='Escape'){
+      e.preventDefault();e.stopImmediatePropagation();closeSheet();return;
+    }
+    if(!['ArrowUp','ArrowDown','Home','End'].includes(e.key))return;
+    const rows=[...nativeSheet.querySelectorAll('.ns-box [data-ns]')];
+    if(!rows.length)return;
+    const current=rows.indexOf(document.activeElement);
+    if(current<0)return;
+    e.preventDefault();e.stopImmediatePropagation();
+    const next=e.key==='Home'?0:e.key==='End'?rows.length-1:
+      (current+(e.key==='ArrowDown'?1:-1)+rows.length)%rows.length;
+    rows.forEach((row,i)=>row.tabIndex=i===next?0:-1);
+    rows[next].focus({preventScroll:true});
+  },true);
   document.addEventListener('click',e=>{
-    if(e.target.closest('#v-exp-route .back')&&!E('exp-network-sheet').hidden){
+    if(!screen.classList.contains('on')||nativeSheet.hidden)return;
+    if(e.target.closest('#v-exp-route .back')){
       e.preventDefault();e.stopImmediatePropagation();closeSheet();
     }
   },true);
