@@ -1,19 +1,36 @@
-/* Overlay scrollbar: visual thumb only, without native track or layout gutter.
-   Scoped to opted-in scrollports; native scrolling remains intact. */
+/* One phone-wide scrollbar policy. The actual scrolling element may be the
+   screen (#v-profile, #v-earn, ...), not its child .wrap.
+   Suppress native tracks and any reserved gutter from the FIRST paint.
+   Actual scroll/drag mechanics remain native. */
+.phone :is(.view, .wrap, .feed, .bk-pg, .prt-sheet, .sbp-qsh,
+            .sheet, .duo-pg, .duo-rc, .tf-scroll, .tf-method-sheet,
+            [data-overlay-scroll]) {
+  scrollbar-width: none !important;
+  scrollbar-gutter: auto !important;
+  -ms-overflow-style: none;
+}
+.phone :is(.view, .wrap, .feed, .bk-pg, .prt-sheet, .sbp-qsh,
+            .sheet, .duo-pg, .duo-rc, .tf-scroll, .tf-method-sheet,
+            [data-overlay-scroll])::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+/* Runtime marker also supports explicitly opted-in custom scrollports. */
 .phone .ds-overlay-scroll {
   scrollbar-width: none !important;
   scrollbar-gutter: auto !important;
   -ms-overflow-style: none;
 }
 .phone .ds-overlay-scroll::-webkit-scrollbar {
+  display: none !important;
   width: 0 !important;
   height: 0 !important;
-  display: none !important;
 }
 .ds-scroll-thumb {
   position: absolute;
-  right: 4px;
   top: 0;
+  right: 4px;
   width: 4px;
   min-height: 28px;
   box-sizing: border-box;
