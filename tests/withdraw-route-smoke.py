@@ -306,9 +306,97 @@ def run():
                 )
                 page.screenshot(path=str(OUT / f"component-route-{specimen_width}.png"))
                 context.close()
+            # Bank withdrawal experiment: the same live SEPA/SWIFT forms, with
+            # route-card country selector and SBP-like dual amount+FX card.
+            for width, height in [(390, 844), (430, 932), (1440, 900)]:
+                for rail, expected_currency, fx in [
+                    ("SEPA", "EUR", 0.9259), ("SWIFT", "EUR", 0.9259)
+                ]:
+                    context = browser.new_context(
+                        viewport={"width": width, "height": height},
+                        reduced_motion="reduce",
+                    )
+                    page = context.new_page()
+                    page.on("pageerror", lambda exc: errors.append(str(exc)))
+                    page.goto(
+                        f"http://127.0.0.1:{PORT}/transfi-remittance/legacy.html"
+                        f"?embedded=1&flow=out&screen=out-config&rail={rail}",
+                        wait_until="domcontentloaded",
+                    )
+                    route = page.locator(".tf-bank-route-card")
+                    expect(route).to_be_visible()
+                    expect(route.locator(".tf-bank-leg")).to_have_count(2)
+                    expect(route.locator(".tf-bank-leg").first).to_contain_text("Откуда → ALT.VU")
+                    expect(route.locator(".tf-bank-destination")).to_contain_text("Германия")
+                    expect(route.locator(".tf-bank-destination svg.tf-country-flag")).to_have_count(1)
+                    expect(page.locator(".tf-bank-sbp")).to_be_visible()
+                    expect(page.locator(".tf-bank-sbp .h")).to_have_count(2)
+                    expect(page.locator(".tf-bank-sbp .h").first).to_contain_text("Заплатить")
+                    expect(page.locator(".tf-bank-sbp .h").last).to_contain_text("Зачислим")
+                    expect(page.locator("#tf-bank-rate")).to_contain_text("1 $")
+                    expect(page.locator("#tf-bank-rate")).to_contain_text(expected_currency)
+                    expect(page.locator(".tf-bank-sbp .tf-bank-currency-switch")).to_have_count(
+                        0 if rail == "SEPA" else 1
+                    )
+                    expect(page.locator(".tf-bank-sbp .u")).to_contain_text("$")
+                    expect(page.locator("#tf-bank-use-all")).to_be_visible()
+                    expect(page.locator("#tf-bank-use-all")).to_contain_text("Использовать всё:")
+                    rows = page.locator("#quoteBlock .row")
+                    expect(rows).to_have_count(2)
+                    expect(rows.nth(0)).to_contain_text("Комиссия")
+                    expect(rows.nth(1)).to_contain_text("Спишется со счёта")
+                    expect(page.locator("#quoteBlock")).not_to_contain_text("Курс")
+                    expect(page.locator(".tf-source")).to_have_count(0)
+                    amount = page.locator("#tf-out-amount")
+                    expect(amount).to_be_visible()
+                    expect(amount).to_have_css("font-size", "32px")
+                    expect(amount).to_have_css("line-height", "38px")
+                    amount.fill("1234567.89")
+                    expect(amount).to_have_value("1 234 567.89")
+                    bounds = amount.evaluate("""el => {
+                        const box=el.getBoundingClientRect();
+                        const suffix=el.closest('.h').querySelector('.u').getBoundingClientRect();
+                        return {notClipped:el.scrollWidth<=el.clientWidth+1,
+                                notOverlapping:box.right<=suffix.left+1};
+                    }""")
+                    assert all(bounds.values()), f"Bank amount clipping {rail}, {width}px: {bounds}"
+                    amount.fill("99999999.999")
+                    expect(amount).to_have_value("9 999 999.99")
+                    amount.fill("1234.56")
+                    expect(amount).to_have_value("1 234.56")
+                    received = page.locator("#tf-bank-receive").inner_text().replace(" ", "")
+                    assert abs(float(received)-round(1234.56*fx,2))<0.011, (
+                        f"Bank FX mismatch {rail}, {width}px: {received}"
+                    )
+                    page.locator(".tf-bank-destination").click()
+                    expect(page.locator("#pickerLayer")).to_be_visible()
+                    expect(page.locator('#pickerLayer [data-picker-value="FR"]')).to_be_visible()
+                    page.locator('#pickerLayer [data-picker-value="FR"]').click()
+                    expect(page.locator(".tf-bank-destination")).to_contain_text("Франция")
+                    expect(page.locator("#tf-out-amount")).to_have_value("1 234.56")
+                    if rail == "SWIFT":
+                        page.locator(".tf-bank-currency-switch").click()
+                        expect(page.locator("#pickerLayer")).to_be_visible()
+                        page.locator('#pickerLayer [data-picker-value="GBP"]').click()
+                        expect(page.locator(".tf-bank-currency-switch")).to_have_text("GBP")
+                        expect(page.locator("#tf-bank-rate")).to_contain_text("GBP")
+                        expect(page.locator("#tf-out-amount")).to_have_value("1 234.56")
+                    all_amount=page.locator("#tf-bank-max-value").inner_text()
+                    page.locator("#tf-bank-use-all").click()
+                    expect(page.locator("#tf-out-amount")).to_have_value(
+                        all_amount.removesuffix(" $")
+                    )
+                    assert float(page.locator("#tf-out-amount").input_value().replace(" ", ""))>0
+                    page.screenshot(path=str(OUT / f"bank-{rail.lower()}-{width}.png"))
+                    if width == 390:
+                        page.locator("#footer .tf-button").click()
+                        expect(page.locator("#content")).to_contain_text("Имя и фамилия получателя")
+                        page.locator(".phone.tf-phone .back").click()
+                        expect(page.locator(".tf-bank-route-card")).to_be_visible()
+                    context.close()
             browser.close()
         assert not errors, f"Uncaught JS errors: {errors}"
-        print("PASS: USDT/USDC/ALT.VU, native reviews, network sheet, fee-aware use-all, grouped amount, validation, back, 390/430/1440")
+        print("PASS: USDT/USDC/ALT.VU + SEPA/SWIFT route/FX, pickers, fee-aware use-all, navigation, 390/430/1440")
     finally:
         server.terminate()
         with contextlib.suppress(Exception):
