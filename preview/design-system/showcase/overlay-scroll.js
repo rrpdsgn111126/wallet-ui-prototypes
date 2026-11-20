@@ -56,6 +56,8 @@
       if (!scroller.isConnected) return;
       const range = Math.max(0, scroller.scrollHeight - scroller.clientHeight);
       if (!range || scroller.clientHeight < 10) {
+        scrollRange = 0;
+        thumbTravel = 0;
         thumb.classList.remove('is-visible');
         thumb.style.height = '0px';
         return;
