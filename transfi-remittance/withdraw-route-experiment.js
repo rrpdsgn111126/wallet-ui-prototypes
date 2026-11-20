@@ -10,7 +10,7 @@
     altvu:{coin:'ALT.VU',title:'Перевод в ALT.VU',logo:'../assets/img-27f3d8cf.png',network:''}
   };
   const names={tron:'TRC20',bnb:'BEP-20',polygon:'Polygon',ton:'TON'};
-  const state={method:'usdt',network:'tron',address:'',amount:'',balanceMinor:0,busy:false};
+  const state={method:'usdt',network:'tron',address:'',scannedCode:'',amount:'',balanceMinor:0,busy:false};
   const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const moneyText=cents=>new Intl.NumberFormat('ru-RU',{minimumFractionDigits:2,maximumFractionDigits:2}).format(cents/100);
   const arrow='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--n850)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v15m-6-6 6 6 6-6"/></svg>';
@@ -40,10 +40,9 @@
           '<input id="exp-recipient" class="exp-recipient" aria-label="Адрес получателя" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Адрес кошелька">'+
         '</div>'+
       '</div>'+
-      '<button type="button" class="exp-net-toggle" id="exp-net-toggle" aria-haspopup="dialog" aria-controls="exp-network-sheet">'+
-        '<span class="exp-net-label">Сеть</span><strong class="exp-net-value" id="exp-net-value">TRC20</strong>'+chevron+
-      '</button>'+
+      '<div id="exp-actions-slot"></div>'+
     '</div>'+
+    '<div id="exp-network-slot"></div>'+
     '<div class="fld w exp-amount-field">'+
       '<div class="fi"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--n850)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="6.4" rx="7.4" ry="3.1"></ellipse><path d="M4.6 6.4v5.2c0 1.7 3.3 3.1 7.4 3.1s7.4-1.4 7.4-3.1V6.4"></path><path d="M4.6 11.6v5.2c0 1.7 3.3 3.1 7.4 3.1s7.4-1.4 7.4-3.1v-5.2"></path></svg></div>'+
       '<div class="fl"><i>Сумма перевода</i><b><input id="exp-amount" class="wd-amt" inputmode="decimal" placeholder="0.00" aria-label="Сумма перевода в долларах"></b></div>'+
@@ -60,6 +59,42 @@
       '<div class="box" id="exp-network-options"></div>'+
     '</div>';
   document.querySelector('.phone').appendChild(screen);
+
+  // Keep the exact existing network input anatomy, including its real logo
+  // and chevron. The input has button semantics because it opens a sheet.
+  const nativeNet=document.querySelector('#v-out-usdt-tron .fld.w.net-pick');
+  if(!nativeNet)return;
+  const netField=document.createElement('button');
+  netField.type='button';
+  netField.id='exp-net-toggle';
+  netField.className='fld w net-pick exp-net-toggle';
+  netField.setAttribute('aria-haspopup','dialog');
+  netField.setAttribute('aria-controls','exp-network-sheet');
+  netField.setAttribute('aria-expanded','false');
+  netField.innerHTML=nativeNet.innerHTML;
+  netField.querySelector('.fi .nlg').id='exp-net-icon';
+  netField.querySelector('.fl b').id='exp-net-value';
+  E('exp-network-slot').replaceChildren(netField);
+
+  // Copy the native two-action row from the original matching method.
+  // Remove the old data-act hooks: they target invisible source screens.
+  function paintRecipientActions(){
+    const selector=state.method==='altvu'?'#v-transfer #tr-who .uzones':
+                                           '#v-out-usdt-tron .unit .uzones';
+    const original=document.querySelector(selector);
+    if(!original)return;
+    const actions=document.createElement('div');
+    actions.className='uzones exp-actions';
+    [...original.querySelectorAll('.uzone')].slice(0,2).forEach((originalButton,index)=>{
+      const button=originalButton.cloneNode(true);
+      button.removeAttribute('data-act');
+      button.removeAttribute('hidden');
+      button.removeAttribute('id');
+      button.id=index===0?'exp-paste':'exp-scan';
+      actions.appendChild(button);
+    });
+    E('exp-actions-slot').replaceChildren(actions);
+  }
 
   const to=E('exp-recipient'),amt=E('exp-amount');
   function say(text){E('exp-error').textContent=text||'';}
@@ -118,6 +153,9 @@
     to.value=state.address;amt.value=state.amount;
     E('exp-net-toggle').hidden=state.method==='altvu';
     E('exp-net-value').textContent=names[state.network]||state.network;
+    E('exp-net-icon').className='nlg '+state.network;
+    E('exp-net-toggle').setAttribute('aria-label','Сеть: '+(names[state.network]||state.network));
+    paintRecipientActions();
     E('exp-note').textContent=state.method==='altvu'?
       'Получатель должен иметь счёт ALT.VU. Имя проверим перед подтверждением.':
       'Проверьте адрес и сеть. Перевод в криптосети нельзя отменить.';
@@ -125,13 +163,15 @@
   }
   function open(method){
     if(!methods[method])return;
-    state.method=method;state.network=methods[method].network;state.address='';state.amount='';
+    state.method=method;state.network=methods[method].network;
+    state.address='';state.scannedCode='';state.amount='';
     if(method!=='altvu'&&!networks().includes(state.network))
       state.network=networks()[0]||state.network;
     paint();show('exp-route');refreshBalance();
   }
   function closeSheet(){
     E('exp-network-dim').hidden=true;
+    E('exp-net-toggle').setAttribute('aria-expanded','false');
     const sheet=E('exp-network-sheet');
     sheet.hidden=true;sheet.classList.remove('pop','settled','slide');sheet.style.transform='';
   }
@@ -146,6 +186,7 @@
       '<span class="rd'+(state.network===n?' on':'')+'"></span></button>').join('');
     if(typeof sheetOpen==='function')sheetOpen(E('exp-network-dim'),E('exp-network-sheet'));
     else {E('exp-network-dim').hidden=false;E('exp-network-sheet').hidden=false;}
+    E('exp-net-toggle').setAttribute('aria-expanded','true');
     const chosen=E('exp-network-options').querySelector('[aria-checked="true"]')||
                  E('exp-network-options').querySelector('button');
     if(chosen)chosen.focus({preventScroll:true});
@@ -153,7 +194,62 @@
   function fillMax(){
     state.amount=(maximum()/100).toFixed(2);amt.value=state.amount;say('');
   }
-  to.addEventListener('input',()=>{state.address=to.value;say('');});
+  function setRecipient(value,code){
+    to.value=value;
+    state.address=value;
+    state.scannedCode=code ? value : '';
+    say('');
+  }
+  async function pasteRecipient(){
+    let raw='';
+    try{
+      if(!navigator.clipboard || !navigator.clipboard.readText)throw Error('clipboard');
+      raw=String(await navigator.clipboard.readText()||'').trim();
+    }catch(e){
+      say('Не удалось прочитать буфер обмена. Вставьте адрес вручную.');
+      to.focus();return;
+    }
+    if(!raw){say('Буфер обмена пуст');to.focus();return;}
+    const parsed=qrAddress(raw);
+    if(state.method==='altvu'){
+      setRecipient(parsed.kind==='code'?parsed.value:raw,parsed.kind==='code');
+    }else{
+      if(parsed.kind==='code'){
+        say('Это код ALT.VU, а не адрес криптокошелька');return;
+      }
+      setRecipient(parsed.value,false);
+    }
+  }
+  async function scanRecipient(){
+    const inside=state.method==='altvu';
+    await scanQR({
+      hint:inside?'Наведите камеру на код alt.vu':'Наведите камеру на QR-код кошелька',
+      sub:inside?'Код есть у каждого: «Пополнить» → ALT.VU':
+                 'Нужен адрес сети '+netName(state.network),
+      say,
+      take:r=>{
+        if(inside && r.kind!=='code'){
+          say('Это не код ALT.VU. Для перевода по почте или телефону используйте поле ввода.');
+          return false;
+        }
+        if(!inside && r.kind==='code'){
+          say('Это код ALT.VU, а не адрес криптокошелька');
+          return false;
+        }
+        if(!r.value)return false;
+        setRecipient(r.value,inside);
+        return true;
+      }
+    });
+  }
+  E('exp-actions-slot').addEventListener('click',e=>{
+    const action=e.target.closest('#exp-paste, #exp-scan');
+    if(!action)return;
+    e.preventDefault();
+    if(action.id==='exp-paste')pasteRecipient();
+    else scanRecipient();
+  });
+  to.addEventListener('input',()=>{state.address=to.value;state.scannedCode='';say('');});
   amt.addEventListener('input',()=>{state.amount=amt.value;say('');});
   // The native delegated '.wd-max' handler expects data-avail on its own
   // crypto view. Prevent that handler from blanking this composite amount.
@@ -168,9 +264,11 @@
     const row=e.target.closest('[data-exp-net]');
     if(!row)return;
     state.network=row.dataset.expNet;
-    state.address='';to.value='';
+    state.address='';state.scannedCode='';to.value='';
     E('exp-net-value').textContent=names[state.network]||state.network;
-    balancePaint();closeSheet();say('');
+    E('exp-net-icon').className='nlg '+state.network;
+    E('exp-net-toggle').setAttribute('aria-label','Сеть: '+(names[state.network]||state.network));
+    balancePaint();closeSheet();E('exp-net-toggle').focus({preventScroll:true});say('');
   });
   E('exp-network-options').addEventListener('keydown',e=>{
     if(!['ArrowDown','ArrowUp','Home','End'].includes(e.key))return;
@@ -220,7 +318,11 @@
       if(state.method==='altvu'){
         await trOpen(); // Existing lookup/account validation + confirmation.
         E('tr-to').value=address;E('tr-amt').value=(cents/100).toFixed(2);
-        await trLookup();
+        if(state.scannedCode && state.scannedCode===address){
+          await trFind('code',address);
+        }else{
+          await trLookup();
+        }
         if(!trTo){say('Получатель не найден или указан некорректно');return;}
         trCheck();
       }else{
