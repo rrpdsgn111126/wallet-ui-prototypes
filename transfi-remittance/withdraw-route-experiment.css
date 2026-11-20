@@ -24,3 +24,16 @@
   #v-exp-route > .head{padding-top:calc(14px + env(safe-area-inset-top))}
   #v-exp-route > .wrap{padding-top:12px}
 }
+/* Component-only reference inside the canonical UI Kit.
+   Do not duplicate DOM or component styling: crop the actual route-card view. */
+html.exp-route-specimen #v-exp-route > .head,
+html.exp-route-specimen #v-exp-route > .foot,
+html.exp-route-specimen #v-exp-route #exp-network-slot,
+html.exp-route-specimen #v-exp-route .exp-amount-field,
+html.exp-route-specimen #v-exp-route .exp-limit,
+html.exp-route-specimen #v-exp-route .exp-note{display:none!important}
+html.exp-route-specimen #v-exp-route > .wrap{
+  display:block;flex:1 1 auto;overflow:hidden;
+  padding:18px 12px 0!important
+}
+html.exp-route-specimen #v-exp-route .exp-route-card{margin:0}
