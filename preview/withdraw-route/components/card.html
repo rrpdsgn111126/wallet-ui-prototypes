@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>alt.vu · Лицо карты</title>
+<script>/* тема — из адреса: components/card.html#dark */
+if (location.hash === '#dark') document.documentElement.classList.add('dark');</script>
+<link rel="stylesheet" href="../css/alt-vu-wallet.css">
+<link rel="stylesheet" href="../showcase/states.css">
+<link rel="stylesheet" href="../showcase/specimen.css">
+</head>
+<body data-ds="card">
+<div class="phone ds-ph">
+<!-- Лицо карты. Откуда: .card — src/alt.py:170; .card.ghost — src/alt.py:215; виды лиц — src/alt.py:186; в тёмной теме — src/app.py:1474; разметка — src/screens_card.py:126 -->
+<section class="ds-st">
+<div class="ds-lab">Не выпущена</div>
+<!-- состояние: Не выпущена -->
+<div id="v-home"><div class="card ghost">
+      <button class="cissue" type="button" data-act="intro-open" aria-label="Выпустить карту"><svg viewBox="0 0 33 33" width="33" height="33" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M16.5 9.5v14M9.5 16.5h14"></path></svg></button><div class="ctop" data-go="card"><svg width="33" height="33" viewBox="0 0 24 24" fill="none" stroke="#211e1d" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21.37 10.44 L21.37 13.56 L18.72 13.56 L17.85 15.65 L19.73 17.52 L17.52 19.73 L15.65 17.85 L13.56 18.72 L13.56 21.37 L10.44 21.37 L10.44 18.72 L8.35 17.85 L6.48 19.73 L4.27 17.52 L6.15 15.65 L5.28 13.56 L2.63 13.56 L2.63 10.44 L5.28 10.44 L6.15 8.35 L4.27 6.48 L6.48 4.27 L8.35 6.15 L10.44 5.28 L10.44 2.63 L13.56 2.63 L13.56 5.28 L15.65 6.15 L17.52 4.27 L19.73 6.48 L17.85 8.35 L18.72 10.44 Z"></path><circle cx="12" cy="12" r="3.4"></circle></svg></div>
+      <div class="cblock"><div class="ccap">Баланс</div><div class="cbal">1 284<span class="cnt">.60 $</span></div></div>
+    </div></div>
+</section>
+<section class="ds-st">
+<div class="ds-lab">Выпущена — экран «Карта»</div>
+<!-- состояние: Выпущена — экран «Карта» -->
+<div class="card">
+      <div class="ctop"></div><div></div>
+      <div class="cbot"><div class="cnum">•••• 4821</div><div class="cexp">09/29</div></div>
+    </div>
+</section>
+<section class="ds-st">
+<div class="ds-lab">Онлайн</div>
+<!-- состояние: Онлайн -->
+<div class="card fk-online">
+      <div class="ctop"></div><div></div>
+      <div class="cbot"><div class="cnum">•••• 4821</div><div class="cexp">09/29</div></div>
+    </div>
+</section>
+<section class="ds-st">
+<div class="ds-lab">Пластик</div>
+<!-- состояние: Пластик -->
+<div class="card fk-plastic">
+      <div class="ctop"></div><div></div>
+      <div class="cbot"><div class="cnum">•••• 4821</div><div class="cexp">09/29</div></div>
+    </div>
+</section>
+<section class="ds-st">
+<div class="ds-lab">Заморожена</div>
+<!-- состояние: Заморожена -->
+<div class="card fk-frozen">
+      <div class="ctop"></div><div></div>
+      <div class="cbot"><div class="cnum">•••• 4821</div><div class="cexp">09/29</div></div>
+    </div>
+</section>
+<section class="ds-st">
+<div class="ds-lab">Строка под картой</div>
+<!-- состояние: Строка под картой -->
+<div class="cstat"><span class="mc-nm"><b class="mc-nmt" translate="no">Основная</b><button class="mc-pen" type="button" data-act="mc-rename" aria-label="Переименовать карту"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--n500)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L19 9l-4-4L4 16z"></path><path d="m13.5 6.5 4 4"></path></svg></button></span><span class="bdg g">Активна</span></div>
+</section>
+</div>
+<script src="../showcase/specimen.js"></script>
+</body>
+</html>

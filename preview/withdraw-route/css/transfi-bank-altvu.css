@@ -1,0 +1,631 @@
+/* TransFi bank screens: visual parity layer, 13 Nov 2026.
+   Authority: original alt.vu /app/ source loaded in ../transfi-remittance/index.html.
+   Kept intentionally scoped to the embedded .tf-phone, never mutate source app classes.
+   Mappings: head/h1/back; wrap.tight -> tf-scroll; foot -> tf-foot;
+   fld.w/g, seg, box/row, tbl/rl, amt/amsub, gt, btn/btno. */
+.phone.tf-phone {
+  --brand:#cbf14a;--brand-ink:#161514;--brand-600:#12833a;
+  --n50:#f6f7f8;--n100:#e9ecf0;--n300:#b9b7b7;--n400:#8a8686;
+  --n500:#6b6767;--n850:#211e1d;--n900:#161514;
+  --surface:#fff;--glass:#ffffffe6;--sh-1:#1615140a;--sh-2:#1615141a;
+  background:var(--n50);isolation:isolate;
+}
+.phone.tf-phone:not(.is-home)::before {
+  content:"";position:absolute;top:0;left:0;right:0;height:300px;
+  z-index:0;pointer-events:none;opacity:.42;filter:blur(26px);
+  background:
+   radial-gradient(58% 62% at 84% 16%,#cbf14a 0%,transparent 70%),
+   radial-gradient(54% 58% at 6% 2%,#00d18a 0%,transparent 72%);
+  -webkit-mask-image:linear-gradient(180deg,#000 0%,#000 46%,transparent 100%);
+  mask-image:linear-gradient(180deg,#000 0%,#000 46%,transparent 100%);
+}
+.phone.tf-phone:not(.is-home)>.head {
+  display:flex;box-sizing:border-box;position:relative;z-index:2;
+  flex:0 0 auto;min-height:0;padding:52px 16px 14px;
+  align-items:center;gap:12px;background:transparent;
+}
+.phone.tf-phone:not(.is-home)>.head .h1 {
+  min-width:0;font-size:20px;line-height:24px;font-weight:600;
+  color:var(--n900);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.phone.tf-phone:not(.is-home)>.head .back {
+  flex:0 0 40px;width:40px;height:40px;border-radius:50%;
+  background:var(--glass);box-shadow:0 1px 3px #1615141a,inset 0 0 0 1px #16151410;
+  border:0;color:var(--n850);display:grid;place-items:center;
+}
+.phone.tf-phone:not(.is-home)>.head .back svg {width:20px;height:20px}
+.phone.tf-phone:not(.is-home)>.tf-scroll {
+  position:relative;z-index:1;box-sizing:border-box;
+  flex:1 1 auto;min-height:0;overflow-y:auto;overflow-x:hidden;
+  overscroll-behavior:contain;-webkit-overflow-scrolling:touch;
+  padding:8px 16px 22px;scrollbar-width:none;background:transparent;
+}
+.phone.tf-phone:not(.is-home)>.tf-scroll::-webkit-scrollbar {display:none}
+.phone.tf-phone:not(.is-home)>.tf-foot {
+  position:relative;z-index:2;box-sizing:border-box;flex:0 0 auto;
+  padding:16px 16px calc(40px + env(safe-area-inset-bottom));
+  background:var(--n50);
+}
+.phone.tf-phone:not(.is-home)>.tf-foot:empty {display:none}
+.phone.tf-phone:not(.is-home)>.tf-foot .btn,
+.phone.tf-phone:not(.is-home)>.tf-foot .btno {
+  box-sizing:border-box;width:100%;height:52px;border:0;border-radius:16px;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  font:600 16px/22px Inter,system-ui,sans-serif;margin:0;
+}
+.phone.tf-phone:not(.is-home)>.tf-foot .btn {
+  background:var(--brand);color:var(--brand-ink);
+  box-shadow:0 6px 14px #cbf14a5c;
+}
+.phone.tf-phone:not(.is-home)>.tf-foot .btno {
+  background:var(--n100);color:var(--n850);box-shadow:none;
+}
+/* Native method icon: gray 40px plate, purple 24px brand mark, white 16px pictogram.
+   Same hierarchy as the original alt.vu USDT/USDC icon inside .ic > .cn > img. */
+.phone.tf-phone .tf-native-sheet .tf-method-row.m .cn.tf-rail-icon{
+  box-sizing:border-box;width:40px;height:40px;min-width:40px;
+  display:grid;place-items:center;border-radius:999px;
+  background:var(--coin-plate,var(--n100));
+}
+.phone.tf-phone .tf-native-sheet .tf-method-row.m .tf-rail-mark{
+  display:grid;place-items:center;width:24px;height:24px;
+  border-radius:999px;background:#6f4bf2;color:#fff;
+}
+.phone.tf-phone .tf-native-sheet .tf-method-row.m .tf-rail-glyph{
+  display:block;width:16px;height:16px;flex-shrink:0;
+}
+/* Standard alt.vu field, label, icon plate and text input. */
+.phone.tf-phone .fld.tf-field {
+  box-sizing:border-box;width:100%;max-width:100%;min-width:0;
+  display:flex;align-items:center;gap:14px;height:68px;
+  border-radius:16px;padding:0 16px;margin:0 0 12px;
+  background:var(--surface);box-shadow:0 1px 2px var(--sh-1);
+}
+.phone.tf-phone .fld.tf-field.g {
+  background:var(--n100);box-shadow:none;
+}
+.phone.tf-phone .fld.tf-field .fi {
+  flex:0 0 40px;width:40px;height:40px;background:var(--n50);
+  border-radius:50%;display:grid;place-items:center;
+}
+.phone.tf-phone .fld.tf-field .fi svg {width:20px;height:20px}
+.phone.tf-phone .fld.tf-field .fl{flex:1 1 auto;min-width:0;display:block}
+.phone.tf-phone .fld.tf-field .fl i{
+  display:block;font:400 12px/16px Inter,system-ui,sans-serif;
+  color:var(--n500);font-style:normal;margin:0 0 2px;
+}
+.phone.tf-phone .fld.tf-field .fl b,
+.phone.tf-phone .fld.tf-field .fl input,
+.phone.tf-phone .fld.tf-field .fl select {
+  box-sizing:border-box;display:block;width:100%;max-width:100%;
+  border:0;outline:0;background:transparent;margin:0;padding:0;
+  font:500 16px/22px Inter,system-ui,sans-serif;color:var(--n900);
+}
+.phone.tf-phone .fld.tf-field .fl input::placeholder{color:var(--n300);font-weight:400}
+.phone.tf-phone .fld.tf-field .fl select{cursor:pointer;height:24px}
+.phone.tf-phone .fld.tf-field .addon{display:flex;gap:8px;align-items:center;flex:0 0 auto}
+.phone.tf-phone .fld.tf-field .cur{font:500 16px/22px Inter,system-ui,sans-serif;color:var(--n500)}
+.phone.tf-phone .fld.tf-field.tf-amount{margin-top:0}
+.phone.tf-phone .tf-label {
+  margin:16px 4px 9px;font:500 13px/18px Inter,system-ui,sans-serif;
+  color:var(--n500);
+}
+.phone.tf-phone .tf-label:first-child{margin-top:2px}
+.phone.tf-phone .tf-route {
+  margin:4px 4px 15px;display:flex;gap:9px;align-items:center;
+  font:400 14px/20px Inter,system-ui,sans-serif;color:var(--n500);
+}
+.phone.tf-phone .tf-route strong {
+  font:600 11px/16px Inter,system-ui,sans-serif;
+  padding:3px 10px;border-radius:999px;
+  background:var(--n100);color:var(--n850);
+}
+.phone.tf-phone .seg.tf-seg {
+  display:flex;gap:2px;padding:4px;border-radius:15px;
+  background:var(--n100);margin:0 0 12px;
+}
+.phone.tf-phone .seg.tf-seg button {
+  box-sizing:border-box;min-width:0;flex:1 1 0;height:40px;
+  border:0;border-radius:12px;padding:0 4px;
+  background:transparent;color:var(--n500);
+  font:600 14px/40px Inter,system-ui,sans-serif;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.phone.tf-phone .seg.tf-seg button.on{
+  background:var(--surface);color:var(--n900);box-shadow:0 1px 3px var(--sh-2);
+}
+/* Source .box/.row and .tbl/.rl, with tabular data wrapping at narrow widths. */
+.phone.tf-phone .tf-requisites,
+.phone.tf-phone .tf-review-box,
+.phone.tf-phone .tf-more {
+  box-sizing:border-box;width:100%;margin:0 0 12px;
+  border-radius:20px;background:var(--surface);
+  box-shadow:0 1px 2px var(--sh-1);overflow:hidden;
+}
+.phone.tf-phone .tf-requisites .row,
+.phone.tf-phone .tf-review-box .row {
+  display:flex;align-items:center;gap:12px;min-height:60px;
+  padding:10px 16px;border:0;box-shadow:inset 0 1px 0 var(--n50);
+}
+.phone.tf-phone .tf-requisites .row:first-child,
+.phone.tf-phone .tf-review-box .row:first-child{box-shadow:none}
+.phone.tf-phone .tf-copyrow .rt{font:500 16px/22px Inter,system-ui,sans-serif;min-width:0;overflow-wrap:anywhere}
+.phone.tf-phone .tf-copyrow .rt i{
+  display:block;font:400 12px/16px Inter,system-ui,sans-serif;
+  font-style:normal;color:var(--n500);margin:0 0 2px;
+}
+/* Read-only requisites use the same typography as an editable .fld.tf-field:
+   label 12/16 regular n500, value 16/22 medium n900, regardless of rail. */
+.phone.tf-phone .tf-copyrow .tf-copy-value {
+  display:block;min-width:0;
+  font:500 16px/22px Inter,system-ui,sans-serif;
+  color:var(--n900);overflow-wrap:anywhere;
+}
+.phone.tf-phone .tf-copyrow .tf-copy{
+  flex:0 0 36px;width:36px;height:36px;border:0;border-radius:12px;
+  display:grid;place-items:center;background:var(--n50);color:var(--n850);
+}
+.phone.tf-phone .tbl{
+  box-sizing:border-box;width:100%;border-radius:20px;
+  background:var(--surface);padding:8px 16px;margin:0 0 12px;
+  box-shadow:0 1px 2px var(--sh-1);
+}
+.phone.tf-phone .tbl .rl{
+  display:flex;align-items:center;gap:16px;
+  min-height:42px;margin:0;padding:11px 0;
+  border-top:1px solid var(--n100);font:400 15px/20px Inter,system-ui,sans-serif;
+}
+.phone.tf-phone .tbl .rl:first-child{border-top:0}
+.phone.tf-phone .tbl .rl span{flex:1 1 0;min-width:0;color:var(--n850)}
+.phone.tf-phone .tbl .rl b{
+  flex:0 1 auto;max-width:58%;min-width:0;
+  text-align:right;display:block;font-weight:500;white-space:normal;overflow-wrap:anywhere;
+}
+.phone.tf-phone .tf-review-row .rt{min-width:0;flex:1 1 auto;font-size:15px;font-weight:400}
+.phone.tf-phone .tf-review-row .rv{
+  min-width:0;max-width:60%;flex:0 1 auto;
+  font-size:15px;line-height:20px;font-weight:500;
+  white-space:normal;text-align:right;overflow-wrap:anywhere;
+  color:var(--n900);
+}
+.phone.tf-phone .tf-review-amount{
+  font:600 32px/38px Inter,system-ui,sans-serif;
+  letter-spacing:-.5px;text-align:center;margin:8px 0 0;
+}
+.phone.tf-phone .amsub{font:400 14px/20px Inter,system-ui,sans-serif;color:var(--n500);text-align:center;margin:4px 0 20px}
+.phone.tf-phone .gt{font:600 16px/22px Inter,system-ui,sans-serif;margin:12px 4px 10px}
+/* Original 'note' and 'warn' styles instead of mock-only banners. */
+.phone.tf-phone .tf-notice {font:400 13px/18px Inter,system-ui,sans-serif;
+ border-radius:16px;padding:14px 16px;margin:12px 0;background:var(--n100);color:var(--n850)}
+.phone.tf-phone .tf-notice.warn {background:var(--warn-bg,#f2f8dc)}
+.phone.tf-phone .tf-more summary{font:500 14px/20px Inter,system-ui,sans-serif;color:var(--n850)}
+.phone.tf-phone .tf-more>.tf-field{margin-left:12px;margin-right:12px;width:calc(100% - 24px)}
+.phone.tf-phone .tf-more .tf-field{box-shadow:none;background:var(--n50)}
+/* SEPA/SWIFT final states mirror the original ALT.VU P2P and SBP
+   completion screens: no top navbar; lime check/neutral x, centered hero,
+   primary and secondary actions fixed in the native footer. */
+.phone.tf-phone.tf-bank-final > .head{display:none!important}
+.phone.tf-phone.tf-bank-final > .tf-scroll{
+  box-sizing:border-box;padding-top:130px;
+}
+.phone.tf-phone .tf-bank-result{
+  text-align:center;padding:0 8px;margin:0;
+}
+.phone.tf-phone .tf-bank-result .okc,
+.phone.tf-phone .tf-bank-result .sbp-ic{
+  display:grid;place-items:center;width:88px;height:88px;margin:0 auto;
+  border-radius:999px;
+}
+.phone.tf-phone .tf-bank-result .okc{background:var(--brand)}
+.phone.tf-phone .tf-bank-result .sbp-ic{background:var(--n100)}
+.phone.tf-phone .tf-bank-result .h2{
+  font:600 24px/30px Inter,system-ui,sans-serif;
+  margin:24px 0 8px;color:var(--n900);
+}
+.phone.tf-phone .tf-bank-result .p{
+  font:400 15px/21px Inter,system-ui,sans-serif;
+  margin:0 auto;color:var(--n500);max-width:330px;text-wrap:balance;
+}
+.phone.tf-phone.tf-bank-final > .tf-foot .btno{
+  margin-top:12px;
+}
+@media(max-height:600px){
+  .phone.tf-phone.tf-bank-final > .tf-scroll{padding-top:64px}
+}
+/* Waiting matches the original SBP screen, including the circular indicator
+   and absence of timeline or transaction details cards. */
+.phone.tf-phone.tf-bank-waiting .tf-bank-wait{
+  display:flex;align-items:center;flex-direction:column;
+  text-align:center;padding-top:56px;
+}
+.phone.tf-phone .tf-bank-wait .ring{width:108px;height:108px}
+.phone.tf-phone .tf-bank-wait .ring .in{width:94px;height:94px}
+.phone.tf-phone .tf-bank-wait .ring .cn{
+  display:grid;place-items:center;width:64px;height:64px;
+  border-radius:999px;background:var(--n100);
+}
+.phone.tf-phone .tf-bank-wait .h2{
+  font:600 24px/30px Inter,system-ui,sans-serif;
+  margin:24px 0 8px;color:var(--n900);
+}
+.phone.tf-phone .tf-bank-wait .p{
+  font:400 15px/21px Inter,system-ui,sans-serif;
+  max-width:330px;margin:0;color:var(--n500);text-wrap:balance;
+}
+.phone.tf-phone .tf-bank-wait-note{
+  margin:0 0 14px;text-align:center;
+  font:400 13px/18px Inter,system-ui,sans-serif;color:var(--n500);
+}
+/* Review calculations use the native ALT.VU .row.tot emphasis:
+   standard border above the charged amount, no extra heading "Расчёт". */
+.phone.tf-phone .tf-review-quote .row.tot{
+  border-top:2px solid var(--n100);min-height:64px;
+  font-weight:600;
+}
+.phone.tf-phone .tf-review-quote .row.tot .rt,
+.phone.tf-phone .tf-review-quote .row.tot .rv{
+  font-weight:600;
+}
+
+/* Status screens adopt the original hero/okc vocabulary and SVG icons. */
+.phone.tf-phone .tf-hero{margin:22px 0 24px;text-align:center}
+.phone.tf-phone .tf-hero .h2,
+.phone.tf-phone .tf-status-title{font:600 27px/33px Inter,system-ui,sans-serif;margin:17px 0 8px;color:var(--n900)}
+.phone.tf-phone .tf-hero p{font:400 15px/21px Inter,system-ui,sans-serif;color:var(--n500);margin:0 auto 16px;max-width:340px;text-wrap:balance}
+.phone.tf-phone .tf-mark,.phone.tf-phone .tf-hero .okc{
+  box-sizing:border-box;display:grid;place-items:center;
+  width:88px;height:88px;border-radius:50%;margin:0 auto 14px;color:var(--n850);
+  background:var(--n100);
+}
+.phone.tf-phone .tf-mark.pending{background:var(--n100)}
+.phone.tf-phone .tf-mark.held{background:var(--warn-bg,#f2f8dc);color:var(--warn-mark,#5f7314)}
+.phone.tf-phone .tf-mark.failed{background:var(--err-bg,#fbe9e4);color:var(--err,#bd340e)}
+.phone.tf-phone .tf-hero .okc{background:var(--brand);color:var(--brand-ink)}
+.phone.tf-phone .tf-mark svg,.phone.tf-phone .okc svg{width:36px;height:36px}
+.phone.tf-phone .timeline{margin:5px 0 14px;padding:0 10px}
+.phone.tf-phone .timeline .track{display:flex;gap:12px;min-height:69px;font-size:13px}
+.phone.tf-phone .timeline .track .dot{
+  position:static;inset:auto;top:auto;right:auto;bottom:auto;left:auto;
+  width:24px;height:24px;flex:0 0 24px;
+  display:grid;place-items:center;font-weight:600;font-size:12px;line-height:24px;
+  border-radius:50%;background:var(--n100);color:var(--n850);
+}
+.phone.tf-phone .timeline .track.done .dot{background:var(--brand);color:var(--brand-ink)}
+.phone.tf-phone .timeline .track small{display:block;font:400 12px/16px Inter,system-ui,sans-serif;color:var(--n500);margin-top:4px}
+.phone.tf-phone .timeline .track b{font:500 14px/20px Inter,system-ui,sans-serif}
+/* iframe mode: source app owns navigation; bank page owns only its content/CTA. */
+html.tf-embedded,html.tf-embedded body{width:100%;height:100%;overflow:hidden;margin:0;background:var(--n50)}
+html.tf-capture.tf-embedded .phone.tf-phone{position:relative;width:100%!important;height:100%!important;min-height:0!important;max-width:none!important;transform:none;border:0;border-radius:0;box-shadow:none}
+html.tf-embedded .proto-shell,html.tf-embedded .workspace{height:100%;width:100%;min-height:0;margin:0;padding:0}
+@media(max-width:360px){.phone.tf-phone:not(.is-home)>.head .h1{font-size:18px}}
+
+/* Alt.vu select and disclosure final pass: no browser-native mismatched triangles */
+.phone.tf-phone .fld.tf-field .fl:has(select){position:relative;padding-right:24px}
+.phone.tf-phone .fld.tf-field .fl select.tf-select{appearance:none;-webkit-appearance:none;padding:0}
+.phone.tf-phone .fld.tf-field .fl:has(select)::after{
+  content:"";position:absolute;right:4px;top:calc(50% - 5px);
+  width:9px;height:9px;border-right:2px solid var(--n400);
+  border-bottom:2px solid var(--n400);transform:rotate(45deg);pointer-events:none
+}
+.phone.tf-phone .tf-more summary{
+ box-sizing:border-box;display:flex;align-items:center;justify-content:space-between;
+ gap:12px;min-height:56px;padding:14px 16px;list-style:none;cursor:pointer;
+}
+.phone.tf-phone .tf-more summary::-webkit-details-marker{display:none}
+.phone.tf-phone .tf-more summary::after{
+ content:"";width:9px;height:9px;flex:0 0 9px;
+ border-right:2px solid var(--n400);border-bottom:2px solid var(--n400);
+ transform:rotate(45deg);margin-right:4px;margin-top:-5px
+}
+.phone.tf-phone .tf-more[open] summary::after{transform:rotate(225deg);margin-top:5px}
+.phone.tf-phone .tf-more[open] summary{border-bottom:1px solid var(--n100);margin-bottom:12px}
+
+/* Canonical header actions: same 22px stroke icons and circular plates as crypto routes. */
+.phone.tf-phone:not(.is-home)>.head .tf-head-actions {
+  display:flex;flex:0 0 auto;gap:8px;align-items:center;margin-left:auto;
+}
+.phone.tf-phone:not(.is-home)>.head .tf-head-action {
+  box-sizing:border-box;display:grid;place-items:center;flex:0 0 40px;
+  width:40px;height:40px;margin:0;padding:0;cursor:pointer;
+  background:var(--glass);color:var(--n850);border:0;border-radius:50%;
+  box-shadow:0 1px 3px #1615141a,inset 0 0 0 1px #16151410;
+}
+.phone.tf-phone:not(.is-home)>.head .tf-head-action svg{display:block;width:22px;height:22px}
+.phone.tf-phone:not(.is-home)>.head .h1{flex:1 1 auto;min-width:0}
+@media(max-width:390px){
+  .phone.tf-phone:not(.is-home)>.head{gap:8px;padding-left:12px;padding-right:12px}
+  .phone.tf-phone:not(.is-home)>.head .tf-head-actions{gap:6px}
+  .phone.tf-phone:not(.is-home)>.head .tf-head-action{flex-basis:36px;width:36px;height:36px}
+  .phone.tf-phone:not(.is-home)>.head .h1{font-size:20px}
+}
+
+/* UX: an unavailable action can still be tapped to explain the missing fields.
+   Use aria-disabled, never native disabled/pointer-events:none on these CTAs. */
+.phone.tf-phone:not(.is-home) > .tf-foot .btn.tf-inactive,
+.phone.tf-phone:not(.is-home) > .tf-foot .btn[aria-disabled="true"]{
+  background:var(--n100);
+  color:var(--n500);
+  box-shadow:none;
+  opacity:1;
+  cursor:pointer;
+  pointer-events:auto;
+}
+.phone.tf-phone .tf-submit-error{
+  font:400 12px/18px Inter,system-ui,sans-serif;
+  color:var(--err,#bd340e);
+  padding:7px 3px 0;
+}
+.phone.tf-phone .tf-submit-error[hidden]{display:none!important}
+
+/* Canonical icon-free bank recipient form: SEPA/SWIFT out-recipient only.
+   All fields remain native .fld.w; only decorative leading .fi is removed.
+   Currency, country and amount icons on out-config are unaffected. */
+.phone.tf-phone .fld.tf-field.tf-recipient-field{
+  gap:0;
+}
+.phone.tf-phone .fld.tf-field.tf-recipient-field .fl{
+  flex:1 1 auto;min-width:0;
+}
+/* A standalone clickable heading, NOT a surrounding white card. The optional
+   fields each remain their own white native input when expanded. */
+.phone.tf-phone .tf-more.tf-recipient-extra{
+  box-sizing:border-box;display:block;
+  width:100%;margin:16px 0 8px;padding:0;
+  border:0;border-radius:0;background:transparent;box-shadow:none;
+}
+.phone.tf-phone .tf-more.tf-recipient-extra summary{
+  box-sizing:border-box;display:flex;align-items:center;justify-content:space-between;
+  width:100%;min-height:44px;gap:12px;margin:0;padding:8px 0 12px;
+  list-style:none;background:transparent;border:0;box-shadow:none;
+  color:var(--n900);font:600 16px/24px Inter,system-ui,sans-serif;cursor:pointer;
+}
+.phone.tf-phone .tf-more.tf-recipient-extra summary::-webkit-details-marker{display:none}
+.phone.tf-phone .tf-more.tf-recipient-extra summary::after{
+  content:"";flex:0 0 8px;width:8px;height:8px;
+  border-right:2px solid var(--n500);border-bottom:2px solid var(--n500);
+  transform:rotate(45deg);transition:transform .15s ease;
+  margin:0 5px 4px 0;
+}
+.phone.tf-phone .tf-more.tf-recipient-extra[open] summary::after{
+  transform:rotate(225deg);margin-bottom:-4px;
+}
+.phone.tf-phone .tf-more.tf-recipient-extra summary:focus-visible{
+  outline:2px solid var(--brand-600);outline-offset:3px;border-radius:4px;
+}
+.phone.tf-phone .tf-more.tf-recipient-extra .fld.tf-field{
+  margin:0 0 12px;background:var(--surface);
+  box-shadow:0 1px 2px var(--sh-1)!important;
+}
+.phone.tf-phone .tf-more.tf-recipient-extra .fld.tf-field:last-child{
+  margin-bottom:12px;
+}
+@media(prefers-reduced-motion:reduce){
+  .phone.tf-phone .tf-more.tf-recipient-extra summary::after{transition:none}
+}
+
+/* Bank selectors reuse the original USDT network-sheet stacking and rows:
+   parent .view.ovl.on, sibling .dim (z4) + .sheet (z5),
+   one .box with .row, .ri, .rt and original .rd/.rd.on ring.
+   This intentionally overrides the previous separate-card custom selector. */
+.phone.tf-phone .fld.tf-picker-trigger{
+  box-sizing:border-box;appearance:none;-webkit-appearance:none;
+  text-align:left;cursor:pointer;color:var(--n900);border:0;font:inherit;
+}
+.phone.tf-phone .fld.tf-picker-trigger .fl i{font-weight:400}
+.phone.tf-phone .fld.tf-picker-trigger .fl b{font-weight:500}
+.phone.tf-phone .tf-picker-chevron{
+  flex:0 0 20px;margin-left:auto;color:var(--n400);display:grid;place-items:center;
+}
+.phone.tf-phone .tf-picker-chevron svg{display:block}
+.phone.tf-phone .tf-picker-trigger:focus-visible,
+.phone.tf-phone .tf-picker-row:focus-visible,
+.phone.tf-phone .tf-head-action:focus-visible{
+  outline:2px solid var(--brand-600);outline-offset:2px;
+}
+.phone.tf-phone .tf-picker-layer{
+  position:absolute;inset:0;z-index:40;overflow:hidden;
+}
+.phone.tf-phone .tf-picker-layer[hidden]{display:none!important}
+.phone.tf-phone .tf-picker-layer .tf-picker-dim{
+  position:absolute;inset:0;z-index:4;opacity:.4;
+  display:block;width:100%;height:100%;margin:0;
+  border:0;background:#161514;cursor:pointer;
+}
+.phone.tf-phone .tf-picker-layer .tf-picker-sheet{
+  box-sizing:border-box;position:absolute;z-index:5;
+  left:0;right:0;bottom:0;width:100%;
+  max-height:calc(100% - 24px);
+  display:flex;flex-direction:column;
+  margin:0;padding:10px 16px calc(36px + env(safe-area-inset-bottom));
+  background:var(--n50);border-radius:24px 24px 0 0;
+  box-shadow:0 -10px 30px var(--sh-2,#1615141a);
+  overflow:hidden;
+}
+.phone.tf-phone .tf-picker-sheet .grab{
+  flex:none;width:44px;height:5px;margin:0 auto 16px;
+  border-radius:3px;background:var(--n400);
+}
+.phone.tf-phone .tf-picker-sheet .sh2{
+  flex:none;margin:0 0 14px;padding:0;
+  font:600 20px/24px Inter,system-ui,sans-serif;color:var(--n900);
+}
+.phone.tf-phone .tf-picker-box{
+  box-sizing:border-box;min-height:0;overflow-x:hidden;overflow-y:auto;
+  overscroll-behavior:contain;
+  width:100%;padding:0;margin:0 0 12px;
+  border-radius:16px;background:var(--surface);
+  box-shadow:0 1px 2px var(--sh-1,#1615140a);
+}
+.phone.tf-phone .tf-picker-row{
+  box-sizing:border-box;display:flex;align-items:center;gap:12px;
+  min-height:60px;height:auto;width:100%;
+  margin:0;padding:10px 16px;
+  border:0;border-radius:0;background:transparent;color:var(--n900);
+  text-align:left;font:inherit;cursor:pointer;
+  box-shadow:inset 0 1px 0 var(--n50);
+}
+.phone.tf-phone .tf-picker-row:first-child{box-shadow:none}
+.phone.tf-phone .tf-picker-row:active{background:var(--n50)}
+.phone.tf-phone .tf-picker-row .ri{
+  flex:0 0 32px;width:32px;height:32px;
+  border-radius:999px;background:var(--n50);
+  display:flex;align-items:center;justify-content:center;
+}
+.phone.tf-phone .tf-picker-row .ri > svg{
+  display:block;width:20px;height:20px;
+}
+.phone.tf-phone .tf-picker-row .rt{
+  flex:1 1 auto;min-width:0;
+  font:500 16px/22px Inter,system-ui,sans-serif;
+}
+.phone.tf-phone .tf-picker-row .rd{
+  flex:0 0 24px;width:24px;height:24px;
+  margin:0;padding:0;border:0;border-radius:999px;
+  background:transparent;color:transparent;font-size:0;
+  box-shadow:inset 0 0 0 1.5px var(--n400);
+}
+.phone.tf-phone .tf-picker-row .rd.on{
+  background:transparent;
+  box-shadow:inset 0 0 0 7px var(--brand);
+}
+/* Never draw a selected-row outline; the native ring shows selection. */
+.phone.tf-phone .tf-picker-row[aria-checked="true"]{outline-offset:-2px}
+
+/* Canonical currency icons share the visual grid of the amount coin.
+   20px glyph in a 40px field plate, 24-unit viewBox and 1.8 stroke;
+   no font-sized currency symbols that vary by OS. */
+.phone.tf-phone .fld.tf-field .fi svg.tf-currency-icon,
+.phone.tf-phone .tf-picker-row .ri svg.tf-currency-icon{
+  display:block;width:20px;height:20px;min-width:20px;
+  fill:none;stroke:var(--n850);stroke-width:1.8;
+  stroke-linecap:round;stroke-linejoin:round;
+}
+
+/* Source alt.vu adjusts its navigation to the mobile safe area:
+   on <=740px the native .head starts 14px from the safe-area edge.
+   The desktop 52px inset is intentional only on large preview screens.
+   Bank flows must not keep that desktop inset inside mobile iframe views. */
+@media(max-width:740px){
+  .phone.tf-phone:not(.is-home)>.head{
+    padding-top:calc(14px + env(safe-area-inset-top));
+  }
+}
+
+/* Canonical USDT withdrawal amount: original .fld.w + .wd-amt + .addon
+   with .cur and .mx.wd-max. Native .mx from alt-vu-wallet.css owns the
+   MAX pill: padding 10px 14px, radius 999px, gray n100, dark n850,
+   13px/600, letter-spacing .3px. Never substitute a custom .tf-max. */
+.phone.tf-phone .fld.tf-amount .fl b{display:block;width:100%;min-width:0}
+.phone.tf-phone .fld.tf-amount .fl b input{
+ box-sizing:border-box;width:100%;min-width:0;max-width:100%;
+ font:600 16px/22px Inter,system-ui,sans-serif;color:var(--n900);
+}
+.phone.tf-phone .fld.tf-amount .fl b input::placeholder{
+ color:var(--n300);font-weight:500;opacity:1;
+}
+/* Override only generic bank field addon gap 8px to the native 12px. */
+/* Both MAX and the dollar use the exact source wallet font stack.
+   Generic bank .cur otherwise forces Inter,system-ui and breaks parity. */
+.phone.tf-phone .fld.tf-amount .addon{
+ gap:12px;font-family:Inter,"Noto Sans Thai",Thonburi,"Leelawadee UI",system-ui,sans-serif;
+}
+.phone.tf-phone .fld.tf-amount .addon .cur{font-family:inherit}
+.phone.tf-phone .fld.tf-amount .wd-max:focus-visible{
+ outline:2px solid var(--brand-600);outline-offset:2px;
+}
+
+/* Transaction details table: .box > .row > .rt/.rv with .tot for the final row. */
+.phone.tf-phone .box.tf-quote{
+  box-sizing:border-box;width:100%;margin:0 0 12px;padding:0;overflow:hidden;
+  background:var(--surface);border-radius:20px;box-shadow:0 1px 2px var(--sh-1);
+}
+.phone.tf-phone .box.tf-quote .row{
+  box-sizing:border-box;display:flex;align-items:center;justify-content:space-between;
+  gap:16px;min-height:60px;padding:14px 16px;
+  background:transparent;box-shadow:none;border:0;border-bottom:1px solid var(--n100);
+}
+.phone.tf-phone .box.tf-quote .row:last-child{border-bottom:0}
+.phone.tf-phone .box.tf-quote .row.tot{
+  border-top:2px solid var(--n100);border-bottom:0;
+  font-weight:600;min-height:64px;
+}
+.phone.tf-phone .box.tf-quote .rt{
+  flex:1 1 45%;min-width:0;font:500 15px/20px Inter,system-ui,sans-serif;color:var(--n900);
+}
+.phone.tf-phone .box.tf-quote .rt i{
+  display:block;margin-top:3px;font:400 12px/16px Inter,system-ui,sans-serif;
+  font-style:normal;color:var(--n500);
+}
+.phone.tf-phone .box.tf-quote .rv{
+  flex:1 1 55%;min-width:0;max-width:60%;text-align:right;
+  font:400 15px/21px Inter,system-ui,sans-serif;color:var(--n500);
+  overflow-wrap:anywhere;
+}
+.phone.tf-phone .box.tf-quote .row.tot .rt,
+.phone.tf-phone .box.tf-quote .row.tot .rv{
+  color:var(--n900);font-weight:600;
+}
+/* Shared values in BOTH review cards wrap long account numbers/IBANs.
+   Prevent legacy .tf-review-row's white-space rule from differing from
+   calculations on 390/430 px screens. */
+.phone.tf-phone .box.tf-quote .rv{
+  white-space:normal;
+}
+/* Circular flag artwork INSIDE the existing gray icon plate.
+   Flags are vector stripes/marks, never emoji glyphs or country letters. */
+.phone.tf-phone .tf-flag-circle{
+  box-sizing:border-box;display:block;
+  flex:0 0 24px;width:24px;height:24px;min-width:24px;
+  border-radius:50%;overflow:hidden;background:transparent;
+}
+.phone.tf-phone .tf-country-flag{
+  display:block;width:24px;height:24px;max-width:none;
+  border-radius:50%;overflow:hidden;clip-path:circle(50% at 50%);
+}
+.phone.tf-phone .tf-picker-trigger .fi:has(.tf-flag-circle),
+.phone.tf-phone .tf-picker-row .ri:has(.tf-flag-circle){
+  background:var(--n50);
+}
+.phone.tf-phone .tf-picker-row .ri .tf-country-flag{
+  width:24px;height:24px;
+}
+
+/* The canonical selector specimen uses the REAL bank picker DOM/events but
+   shows only one interactive field. No bank navbar, amount, quotes or footer. */
+html.tf-component-only .phone.tf-phone > .head,
+html.tf-component-only .phone.tf-phone > .tf-foot,
+html.tf-component-only .phone.tf-phone > .tf-bottom-nav{
+  display:none!important;
+}
+html.tf-component-only .phone.tf-phone .tf-scroll{
+  /* Lock the dimmed field in a stationary viewport. Opening the picker
+     changes only the absolute overlay, never this content layer. */
+  box-sizing:border-box;position:absolute!important;inset:0!important;
+  padding:16px!important;margin:0;
+  overflow:hidden!important;overscroll-behavior:none;
+  height:100%!important;max-height:100%!important;
+  scroll-behavior:auto!important;
+}
+html.tf-component-only .phone.tf-phone .tf-scroll > .fld.tf-picker-trigger{
+  margin:0;
+}
+html.tf-component-only .phone.tf-phone .tf-picker-layer{
+  z-index:60;
+}
+html.tf-component-only .phone.tf-phone .tf-scroll > .fld.tf-picker-trigger{
+  transform:none!important;transition:none!important;animation:none!important;
+}
+.phone.tf-phone .tf-picker-layer .tf-picker-dim.settled{
+  /* First catalog paint: already dimmed, no fade-in from zero. */
+  animation:none!important;opacity:.4;
+}
+.phone.tf-phone .tf-picker-layer .tf-picker-sheet.settled{
+  /* Source CSS already supports .sheet.settled; make it explicit. */
+  animation:none!important;transform:translateY(0)!important;
+}
+@media(prefers-reduced-motion:reduce){
+  .phone.tf-phone .tf-picker-layer .tf-picker-dim,
+  .phone.tf-phone .tf-picker-layer .tf-picker-sheet{
+    animation:none!important;
+  }
+}

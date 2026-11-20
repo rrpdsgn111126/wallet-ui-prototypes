@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>alt.vu · Быстрые действия</title>
+<script>/* тема — из адреса: components/acts.html#dark */
+if (location.hash === '#dark') document.documentElement.classList.add('dark');</script>
+<link rel="stylesheet" href="../css/alt-vu-wallet.css">
+<link rel="stylesheet" href="../showcase/states.css">
+<link rel="stylesheet" href="../showcase/specimen.css">
+</head>
+<body data-ds="acts">
+<div class="phone ds-ph">
+<!-- Быстрые действия. Откуда: .acts — src/alt.py:286; .act.p — src/alt.py:291; разметка — src/app_views.py:257 -->
+<section class="ds-st">
+<div class="ds-lab">Обычное</div>
+<!-- состояние: Обычное -->
+<div class="acts">
+    <div class="act p" data-go="topup"><div class="c"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#161514" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v13"></path><path d="m6.5 11.5 5.5 5.5 5.5-5.5"></path><path d="M4.5 20h15"></path></svg></div><span>Пополнить</span></div>
+    <div class="act" data-go="withdraw"><div class="c"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--n850)" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V7"></path><path d="m6.5 12.5 5.5-5.5 5.5 5.5"></path><path d="M4.5 4h15"></path></svg></div><span>Вывести</span></div>
+    <div class="act act-card" data-go="card"><div class="c"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--n850)" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5.5" width="18" height="13" rx="2.6"></rect><path d="M3 10h18"></path><path d="M7 14.6h3.5"></path></svg></div><span>Карта</span></div>
+    <div class="act" data-go="earn"><div class="c"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--n850)" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="8.2" r="3.6"></circle><path d="M3.6 19.6c0-3.2 2.9-5.4 6.4-5.4 1.5 0 2.9.4 4 1.1"></path><path d="M18 14.6v5M15.5 17.1h5"></path></svg></div><span>Заработать</span></div>
+  </div>
+</section>
+</div>
+<script src="../showcase/specimen.js"></script>
+</body>
+</html>

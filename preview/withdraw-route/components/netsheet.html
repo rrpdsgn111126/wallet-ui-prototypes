@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>alt.vu · Канонический селектор сети</title>
+<script>if(location.hash==='#dark')document.documentElement.classList.add('dark');</script>
+<link rel="stylesheet" href="../css/alt-vu-wallet.css">
+<link rel="stylesheet" href="../showcase/states.css">
+<link rel="stylesheet" href="../showcase/specimen.css">
+<style>
+/* Interactive specimen of the source ALT.VU network picker:
+   .fld.w.net-pick -> .view.ovl > .dim + .sheet.ns-sheet.
+   No duplicate wallet screen, header or method name. */
+.ns-stage{box-sizing:border-box;height:552px;padding:16px}
+.ns-trigger{
+  box-sizing:border-box;display:flex;align-items:center;width:100%;min-width:0;
+  border:0;text-align:left;font:inherit;color:var(--n900);cursor:pointer;
+}
+.ns-trigger .addon{margin-left:auto;display:grid;place-items:center}
+.ns-trigger:focus-visible,.ns-box .row:focus-visible{
+  outline:2px solid var(--n850);outline-offset:-2px;
+}
+.ns-layer{position:absolute;inset:0;z-index:20}
+.ns-layer[hidden]{display:none!important}
+.ns-layer .dim{border:0;width:100%;height:100%;cursor:pointer}
+.ns-sheet{max-height:calc(100% - 20px);display:flex;flex-direction:column}
+.ns-sheet .ns-box{overflow-y:auto;min-height:0;overscroll-behavior:contain;flex:0 1 auto}
+.ns-box button.row{flex-shrink:0;box-sizing:border-box}
+.ns-box .row[aria-checked="true"] .rd{box-shadow:inset 0 0 0 7px var(--brand)}
+.ns-note{font:400 13px/18px Inter,system-ui,sans-serif;color:var(--n500);margin:6px 0 0}
+/* The original ALT.VU .view.ovl sheet-in/dim-in motion is used on reopen;
+   the catalog first paint is intentionally already settled. */
+.ns-layer .sheet.settled{animation:none!important;transform:translateY(0)!important}
+.ns-layer .dim.settled{animation:none!important;opacity:.4}
+.ns-trigger{transform:none!important;transition:none!important;animation:none!important}
+@media(prefers-reduced-motion:reduce){
+  .ns-layer .sheet,.ns-layer .dim{animation:none!important}
+}
+</style>
+</head>
+<body data-ds="netsheet">
+<div class="phone ds-ph">
+<div class="ds-screen ns-stage" id="network-stage">
+<button type="button" class="fld w net-pick ns-trigger" id="network-trigger"
+  aria-haspopup="dialog" aria-expanded="true" aria-controls="network-layer"
+  aria-label="Сеть: TRC20">
+  <span class="fi"><i class="nlg tron" aria-hidden="true" id="network-icon"></i></span>
+  <span class="fl"><i>Сеть</i><b id="network-value">TRC20</b></span>
+  <span class="addon" aria-hidden="true">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--n500)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 5 7 7-7 7"/></svg>
+  </span>
+</button>
+<div class="view ovl on ns-layer" id="network-layer">
+  <button type="button" class="dim settled" data-close aria-label="Закрыть выбор сети"></button>
+  <section class="sheet ns-sheet settled" role="dialog" aria-modal="true" aria-label="Выбор сети">
+    <div class="grab"></div>
+    <div class="sh2">Сеть</div>
+    <div class="box ns-box" role="radiogroup" aria-label="Сеть">
+      <button type="button" class="row" data-ns="tron" role="radio" aria-checked="true"><span class="ri"><i class="nlg tron"></i></span><span class="rt">TRC20<i>мин. 10 USDT · 20 подтв.</i></span><span class="rd on"></span></button>
+      <button type="button" class="row" data-ns="bnb" role="radio" aria-checked="false"><span class="ri"><i class="nlg bnb"></i></span><span class="rt">BEP-20<i>мин. 10 USDT · 15 подтв.</i></span><span class="rd"></span></button>
+      <button type="button" class="row" data-ns="polygon" role="radio" aria-checked="false"><span class="ri"><i class="nlg polygon"></i></span><span class="rt">POLYGON<i>мин. 10 USDT · 128 подтв.</i></span><span class="rd"></span></button>
+      <button type="button" class="row" data-ns="ton" role="radio" aria-checked="false"><span class="ri"><i class="nlg ton"></i></span><span class="rt">TON<i>мин. 10 USDT · 1 подтв.</i></span><span class="rd"></span></button>
+    </div>
+    <div class="note ns-note">Адрес у каждой сети свой. Отправляйте монеты только в той сети, которая выбрана здесь.</div>
+  </section>
+</div>
+</div>
+</div>
+<script>
+(function(){
+ const options={tron:'TRC20',bnb:'BEP-20',polygon:'POLYGON',ton:'TON'};
+ const trigger=document.querySelector('#network-trigger');
+ const layer=document.querySelector('#network-layer');
+ const rows=[...layer.querySelectorAll('[data-ns]')];
+ const value=document.querySelector('#network-value');
+ const icon=document.querySelector('#network-icon');
+ const sheet=layer.querySelector('.ns-sheet');
+ const dim=layer.querySelector('.dim');
+ let selected='tron';
+ function open({settled=false,focus=true}={}){
+   // Remove .settled BEFORE showing the layer on user reopen, so only
+   // .sheet glides up and .dim fades via original 0.62s ALT.VU animation.
+   sheet.classList.toggle('settled',settled);
+   dim.classList.toggle('settled',settled);
+   layer.hidden=false;
+   trigger.setAttribute('aria-expanded','true');
+   if(focus)(rows.find(row=>row.dataset.ns===selected)||rows[0]).focus({preventScroll:true});
+ }
+ function close(){
+   layer.hidden=true;
+   trigger.setAttribute('aria-expanded','false');
+   trigger.focus({preventScroll:true});
+ }
+ trigger.addEventListener('click',()=>open());
+ layer.addEventListener('click',event=>{
+   if(event.target.closest('[data-close]')){close();return;}
+   const row=event.target.closest('[data-ns]');
+   if(!row)return;
+   selected=row.dataset.ns;
+   value.textContent=options[selected];
+   trigger.setAttribute('aria-label','Сеть: '+options[selected]);
+   icon.className='nlg '+selected;
+   rows.forEach(item=>{
+     const checked=item.dataset.ns===selected;
+     item.setAttribute('aria-checked',String(checked));
+     item.querySelector('.rd').classList.toggle('on',checked);
+   });
+   close();
+ });
+ document.addEventListener('keydown',event=>{
+   if(layer.hidden)return;
+   if(event.key==='Escape'){event.preventDefault();close();return;}
+   if(!['ArrowUp','ArrowDown','Home','End'].includes(event.key))return;
+   const current=rows.indexOf(document.activeElement);
+   if(current<0)return;
+   const next=event.key==='Home'?0:event.key==='End'?rows.length-1:
+      (current+(event.key==='ArrowDown'?1:-1)+rows.length)%rows.length;
+   event.preventDefault();
+   rows[next].focus();
+ });
+})();
+</script>
+<script src="../showcase/specimen.js"></script>
+</body>
+</html>

@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>alt.vu · Канонические поля банковского вывода</title>
+<link rel="stylesheet" href="../css/alt-vu-wallet.css">
+<link rel="stylesheet" href="../showcase/states.css">
+<link rel="stylesheet" href="../showcase/specimen.css">
+<style>
+.bank-field-sample{width:100%;height:610px;border:0;display:block;background:var(--n50)}
+.bank-field-note{margin:0 16px 12px;font:400 12px/18px Inter,system-ui,sans-serif;color:var(--n500)}
+</style>
+</head>
+<body data-ds="bankfields">
+<div class="phone ds-ph">
+<section class="ds-st ds-full">
+<div class="ds-lab" id="sample-label">Канонические банковские поля · SEPA</div>
+<p class="bank-field-note">Живой экран: поле «Со счёта alt.vu» без правого USD, поле суммы с монетой 20×20 и валюты с SVG 20×20 / stroke 1.8. Верхний отступ навбара повторяет исходный мобильный экран.</p>
+<div class="ds-screen" style="height:610px">
+<iframe id="bank-fields" class="bank-field-sample" title="Канонические поля исходного счёта и валюты" loading="eager"></iframe>
+</div>
+</section>
+</div>
+<script>
+(function(){
+ var swift=new URLSearchParams(location.search).get('mode')==='swift';
+ document.getElementById('sample-label').textContent='Канонические банковские поля · '+(swift?'SWIFT':'SEPA');
+ document.getElementById('bank-fields').src='../transfi-remittance/legacy.html?capture=1&embedded=1&flow=out&screen=out-config&rail='+(swift?'SWIFT':'SEPA');
+})();
+</script>
+<script src="../showcase/specimen.js"></script>
+</body>
+</html>

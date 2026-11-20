@@ -1,0 +1,51 @@
+/* Витрина: страница одного компонента (components/<id>.html).
+
+   Кошелёк прибивает страницу (html, body без прокрутки, body position:fixed)
+   и на широком экране превращает .phone в рамку телефона. Для показа куска
+   это мешает, поэтому здесь снимаем только оболочку. Сам компонент берёт
+   стили из css/alt-vu-wallet.css без изменений: токены живут на .phone,
+   тёмная тема — класс dark на <html>, ровно как в кошельке. */
+html, body {
+  height: auto !important; min-height: 0 !important;
+  overflow: visible !important; position: static !important;
+}
+html:not(.dark), html:not(.dark) body { background: #f6f7f8 !important; }
+html.dark, html.dark body { background: #121211 !important; }
+body::before { content: none !important; display: none !important; }
+
+.phone.ds-ph {
+  position: relative !important; left: auto !important; top: auto !important;
+  transform: none !important; width: 100% !important; max-width: none !important;
+  height: auto !important; overflow: visible !important; clip-path: none !important;
+  border-radius: 0 !important; margin: 0 !important; box-shadow: none !important;
+  padding: 4px 0 12px;
+}
+.phone.ds-ph::after { content: none !important; display: none !important; }
+
+/* состояние: подпись и сам кусок с полями экрана 16 */
+.ds-st { position: relative; padding: 16px 16px 20px; }
+.ds-st.ds-full { padding: 16px 0 20px; }
+.ds-st.ds-full > .ds-lab { padding: 0 16px; }
+.ds-lab {
+  font-size: 11px; font-weight: 600; line-height: 14px; letter-spacing: .06em;
+  text-transform: uppercase; color: var(--n500); margin: 0 0 12px;
+}
+/* у первого куска в состоянии не должно быть своего верхнего поля —
+   иначе подписи стоят на разной высоте */
+.ds-st > .ds-lab + * { margin-top: 0; }
+
+/* «мини-экран» для того, что прижато к низу или к верху экрана:
+   шторка, тост, нижнее меню. transform делает его опорой и для fixed. */
+.ds-screen {
+  position: relative; overflow: hidden; transform: translateZ(0);
+  background: var(--n50); box-shadow: inset 0 1px 0 var(--n100), inset 0 -1px 0 var(--n100);
+}
+
+/* ряды знаков с подписями */
+.ds-row { display: flex; flex-wrap: wrap; gap: 16px 8px; }
+.ds-cn, .ds-cat {
+  width: 64px; display: flex; flex-direction: column; align-items: center; gap: 6px;
+}
+.ds-cn > span, .ds-cat > span {
+  font-size: 11px; font-weight: 500; line-height: 14px; color: var(--n500); text-align: center;
+}

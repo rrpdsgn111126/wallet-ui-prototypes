@@ -1,0 +1,42 @@
+/* Transfer-route experiment: layout only. All palette / type uses alt.vu tokens. */
+#v-exp-route .exp-route-card{padding:4px 16px 10px;margin-bottom:24px}
+#v-exp-route .exp-leg{display:flex;gap:14px;align-items:flex-start;padding:16px 0}
+#v-exp-route .exp-leg .fi{flex:0 0 40px;width:40px;height:40px}
+#v-exp-route .exp-leg-main{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+#v-exp-route .exp-leg-label{font-size:13px;font-weight:400;line-height:18px;color:var(--n500)}
+#v-exp-route .exp-leg-title{font-size:16px;font-weight:600;line-height:22px;color:var(--n850)}
+#v-exp-route .exp-leg-detail{font-size:13px;font-weight:400;line-height:19px;color:var(--n500);overflow-wrap:anywhere}
+#v-exp-route .exp-arrow-line{display:flex;align-items:center;gap:12px;padding-left:10px}
+#v-exp-route .exp-arrow-line .exp-arrow{display:flex;align-items:center;justify-content:center;width:22px;height:22px;flex:0 0 22px;border-radius:50%;background:var(--n100)}
+#v-exp-route .exp-arrow-line .exp-arrow svg{width:14px;height:14px}
+#v-exp-route .exp-arrow-line::after{content:"";height:1px;flex:1;background:var(--n100)}
+#v-exp-route .exp-recipient{width:100%;border:0;outline:0;border-radius:0;box-sizing:border-box;padding:3px 0;margin:0;background:transparent;color:var(--n850);font:500 15px/22px Inter,system-ui,sans-serif;min-width:0}
+#v-exp-route .exp-recipient::placeholder{color:var(--n400);font-weight:400}
+#v-exp-route .exp-recipient:focus{box-shadow:0 2px 0 var(--brand-600)}
+#v-exp-route .exp-net-toggle{display:flex;align-items:center;gap:10px;width:100%;border:0;border-top:1px solid var(--n100);padding:12px 0 6px;background:transparent;color:var(--n850);font:inherit;cursor:pointer;text-align:left}
+#v-exp-route .exp-net-toggle .exp-net-label{font-size:13px;color:var(--n500);flex:1}
+#v-exp-route .exp-net-toggle .exp-net-value{font-size:14px;font-weight:600}
+#v-exp-route .exp-net-toggle svg{flex:0 0 20px}
+#v-exp-route .exp-net-toggle[hidden]{display:none}
+#v-exp-route .exp-amount-caption{font-size:16px;font-weight:600;line-height:22px;margin:0 4px 10px;color:var(--n850)}
+#v-exp-route .exp-amount-field{margin-bottom:10px}
+#v-exp-route .exp-amount-field .wd-amt{width:100%;min-width:0}
+#v-exp-route .exp-amount-field .addon{white-space:nowrap}
+#v-exp-route .exp-limit{color:var(--n500);font-size:13px;line-height:20px;padding:0 4px}
+#v-exp-route .exp-limit b{color:var(--n850);font-weight:600}
+#v-exp-route .exp-note{margin:20px 4px 0;color:var(--n500);font-size:13px;line-height:19px}
+#v-exp-route .exp-error{min-height:18px;font-size:13px;line-height:18px;color:var(--err);padding:0 3px;margin-bottom:9px}
+#v-exp-route .exp-error:empty{display:none}
+#v-exp-route .exp-picker-button{display:flex;gap:12px;align-items:center;text-align:left;border:0;border-bottom:1px solid var(--n100);width:100%;background:transparent;color:var(--n850);font:inherit;padding:14px 0;cursor:pointer}
+#v-exp-route .exp-picker-button:last-child{border-bottom:0}
+#v-exp-route .exp-picker-button .ri{flex:0 0 32px}
+#v-exp-route .exp-picker-button .rt{flex:1;min-width:0;font-size:15px;font-weight:500}
+#v-exp-route .exp-picker-button:focus-visible,#v-exp-route .exp-net-toggle:focus-visible{outline:2px solid var(--brand-600);outline-offset:2px}
+#v-exp-route .exp-picker-button .rd{pointer-events:none}
+#v-exp-route .exp-sheet{max-height:75%;overflow-y:auto}
+#v-exp-route .exp-sheet .box{padding:0 16px}
+#v-exp-route .exp-amount-field .mx{cursor:pointer}
+@media(max-width:740px){
+  #v-exp-route > .head{padding-top:calc(14px + env(safe-area-inset-top))}
+  #v-exp-route > .wrap{padding-top:12px}
+}
