@@ -1,5 +1,5 @@
 /* Transfer-route experiment: layout only. All palette / type uses alt.vu tokens. */
-#v-exp-route .exp-route-card{padding:4px 16px 10px;margin-bottom:24px}
+#v-exp-route .exp-route-card{padding:4px 16px 0;margin-bottom:12px}
 #v-exp-route .exp-leg{display:flex;gap:14px;align-items:flex-start;padding:16px 0}
 #v-exp-route .exp-leg .fi{flex:0 0 40px;width:40px;height:40px}
 #v-exp-route .exp-leg-main{flex:1;min-width:0}
@@ -9,10 +9,10 @@
 #v-exp-route .exp-arrow-line::after{content:"";height:1px;flex:1;background:var(--n100)}
 #v-exp-route .exp-recipient{box-sizing:border-box;margin-top:4px;min-width:0}
 #v-exp-route .exp-recipient:focus{box-shadow:0 2px 0 var(--brand-600)}
-#v-exp-route .exp-net-toggle{display:flex;align-items:center;gap:10px;width:100%;border:0;border-top:1px solid var(--n100);padding:12px 0 6px;background:transparent;color:var(--n850);font:inherit;cursor:pointer;text-align:left}
-#v-exp-route .exp-net-toggle .exp-net-label{font-size:13px;color:var(--n500);flex:1}
-#v-exp-route .exp-net-toggle .exp-net-value{font-size:14px;font-weight:600}
-#v-exp-route .exp-net-toggle svg{flex:0 0 20px}
+#v-exp-route .exp-actions{margin:0 -16px}
+#v-exp-route .exp-net-toggle{box-sizing:border-box;display:flex;align-items:center;width:100%;font:inherit;color:inherit;text-align:left;cursor:pointer;-webkit-appearance:none;appearance:none}
+#v-exp-route .exp-net-toggle .fl{text-align:left}
+#v-exp-route .exp-net-toggle .addon{margin-left:auto}
 #v-exp-route .exp-net-toggle[hidden]{display:none}
 #v-exp-route .exp-amount-field{margin-bottom:10px}
 #v-exp-route .exp-limit{color:var(--n500);font-size:13px;line-height:20px;padding:0 4px}
@@ -24,7 +24,7 @@
 #v-exp-route .exp-picker-button:last-child{border-bottom:0}
 #v-exp-route .exp-picker-button .ri{flex:0 0 32px}
 #v-exp-route .exp-picker-button .rt{flex:1;min-width:0;font-size:15px;font-weight:500}
-#v-exp-route .exp-picker-button:focus-visible,#v-exp-route .exp-net-toggle:focus-visible{outline:2px solid var(--brand-600);outline-offset:2px}
+#v-exp-route .exp-picker-button:focus-visible,#v-exp-route .exp-net-toggle:focus-visible,#v-exp-route .exp-actions .uzone:focus-visible{outline:2px solid var(--n850);outline-offset:-2px}
 #v-exp-route .exp-picker-button .rd{pointer-events:none}
 #v-exp-route .exp-sheet{max-height:75%;overflow-y:auto}
 #v-exp-route .exp-sheet .box{padding:0 16px}
