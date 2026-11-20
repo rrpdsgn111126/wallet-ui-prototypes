@@ -88,6 +88,27 @@ def run():
                 expect(page.locator("#exp-recipient")).to_have_attribute("placeholder", "Адрес кошелька")
                 expect(page.locator("#v-exp-route .exp-leg").nth(1).locator(".fl b")).to_have_count(0)
                 expect(page.locator("#exp-amount")).to_be_visible()
+                # Amount digits share the existing 32/38/600 monetary role.
+                # The regular field caption, currency and MAX must not inherit it.
+                amount_input = page.locator("#exp-amount")
+                expect(amount_input).to_have_css("font-size", "32px")
+                expect(amount_input).to_have_css("line-height", "38px")
+                expect(amount_input).to_have_css("font-weight", "600")
+                expect(amount_input).to_have_css("letter-spacing", "-0.5px")
+                expect(page.locator("#v-exp-route .exp-amount-field .fl i")).to_have_css("font-size", "12px")
+                expect(page.locator("#v-exp-route .exp-amount-field .addon .cur")).to_have_css("font-size", "16px")
+                for numeric_example in ("23333", "262.52"):
+                    amount_input.fill(numeric_example)
+                    bounds = amount_input.evaluate("""el => {
+                        const input=el.getBoundingClientRect();
+                        const addon=el.closest('.fld').querySelector('.addon').getBoundingClientRect();
+                        return {fits:el.scrollWidth<=el.clientWidth+1,
+                                separated:input.right<=addon.left+1};
+                    }""")
+                    assert bounds["fits"] and bounds["separated"], (
+                        f"Amount overflow at {width}px with {numeric_example}: {bounds}"
+                    )
+                amount_input.fill("")
                 expect(page.locator("#v-exp-route .exp-actions .uzone")).to_have_count(2)
                 expect(page.locator("#exp-paste")).to_contain_text("Вставить")
                 expect(page.locator("#exp-scan")).to_contain_text("Сканировать")
@@ -214,7 +235,11 @@ def run():
                     page.keyboard.press("Escape")
                     expect(page.locator(".phone > .ns-sheet")).to_be_hidden()
                     page.locator("#exp-recipient").fill("0x" + "1" * 40)
-                page.locator("#exp-amount").fill("10.00")
+                amount_input = page.locator("#exp-amount")
+                expect(amount_input).to_have_css("font-size", "32px")
+                expect(amount_input).to_have_css("line-height", "38px")
+                expect(amount_input).to_have_css("font-weight", "600")
+                amount_input.fill("10.00")
                 page.screenshot(path=str(OUT / f"{mode}-390.png"))
                 page.locator("#exp-next").click()
                 expect(page.locator(destination)).to_have_class(
