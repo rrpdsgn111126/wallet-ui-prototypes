@@ -3,10 +3,21 @@
 #v-exp-route .exp-leg{display:flex;gap:14px;align-items:flex-start;padding:16px 0}
 #v-exp-route .exp-leg .fi{flex:0 0 40px;width:40px;height:40px}
 #v-exp-route .exp-leg-main{flex:1;min-width:0}
-#v-exp-route .exp-arrow-line{display:flex;align-items:center;gap:12px;padding-left:10px}
-#v-exp-route .exp-arrow-line .exp-arrow{display:flex;align-items:center;justify-content:center;width:22px;height:22px;flex:0 0 22px;border-radius:50%;background:var(--n100)}
+/* Full-bleed dividers reach both card edges; arrows float above the line. */
+#v-exp-route .exp-arrow-line{
+  position:relative;display:flex;align-items:center;
+  margin-inline:-16px;padding-left:26px;
+}
+#v-exp-route .exp-arrow-line .exp-arrow{
+  position:relative;z-index:1;display:flex;align-items:center;justify-content:center;
+  width:22px;height:22px;flex:0 0 22px;border-radius:50%;
+  background:var(--n100);box-shadow:0 0 0 8px var(--surface);
+}
 #v-exp-route .exp-arrow-line .exp-arrow svg{width:14px;height:14px}
-#v-exp-route .exp-arrow-line::after{content:"";height:1px;flex:1;background:var(--n100)}
+#v-exp-route .exp-arrow-line::after{
+  content:"";position:absolute;inset-inline:0;top:50%;height:1px;
+  background:var(--ds-sem-divider);transform:translateY(-50%);
+}
 #v-exp-route .exp-recipient{box-sizing:border-box;margin-top:4px;min-width:0}
 #v-exp-route .exp-recipient:focus{box-shadow:0 2px 0 var(--brand-600)}
 #v-exp-route .exp-actions{margin:0 -16px}
@@ -83,15 +94,19 @@ html.exp-route-specimen #v-exp-route .exp-route-card{margin:0}
   white-space:normal;overflow-wrap:anywhere;
 }
 .phone.tf-phone .tf-bank-arrow-line{
-  display:flex;align-items:center;gap:12px;padding-left:10px;
+  position:relative;display:flex;align-items:center;
+  margin-inline:-16px;padding-left:26px;
 }
 .phone.tf-phone .tf-bank-arrow{
-  display:grid;place-items:center;flex:0 0 22px;width:22px;height:22px;
+  position:relative;z-index:1;display:grid;place-items:center;
+  flex:0 0 22px;width:22px;height:22px;
   border-radius:50%;background:var(--n100);
+  box-shadow:0 0 0 8px var(--surface);
 }
 .phone.tf-phone .tf-bank-arrow svg{width:14px;height:14px}
 .phone.tf-phone .tf-bank-arrow-line::after{
-  content:"";height:1px;flex:1;background:var(--n100);
+  content:"";position:absolute;inset-inline:0;top:50%;height:1px;
+  background:var(--ds-sem-divider);transform:translateY(-50%);
 }
 .phone.tf-phone button.tf-bank-destination{
   width:100%;border:0;background:none;color:var(--n900);
@@ -139,14 +154,14 @@ html.exp-route-specimen #v-exp-route .exp-route-card{margin:0}
 }
 .phone.tf-phone .tf-bank-sbp .mid{position:relative;height:0}
 .phone.tf-phone .tf-bank-sbp .mid::before{
-  content:"";position:absolute;left:18px;right:18px;top:0;
-  height:1px;background:var(--n100);
+  content:"";position:absolute;left:0;right:0;top:0;
+  height:1px;background:var(--ds-sem-divider);
 }
 .phone.tf-phone .tf-bank-sbp .sbp-rate{
   position:absolute;top:0;left:50%;transform:translate(-50%,-50%);
   display:flex;align-items:center;justify-content:center;
   height:32px;padding:0 12px;border-radius:999px;
-  background:var(--surface);box-shadow:inset 0 0 0 1px var(--n100);
+  background:var(--surface);box-shadow:inset 0 0 0 1px var(--ds-sem-border);
   color:var(--n850);font:var(--ds-type-body-secondary);
   white-space:nowrap;font-variant-numeric:tabular-nums;
 }
@@ -173,6 +188,11 @@ html.exp-route-specimen #v-exp-route .exp-route-card{margin:0}
 }
 .phone.tf-phone .tf-bank-use-all:disabled{opacity:.55;cursor:default}
 .phone.tf-phone .tf-bank-config-quote{margin-bottom:12px}
-.phone.tf-phone .tf-bank-config-quote .row.tot{
-  border-top:1px solid var(--n100);
+/* The first row owns the sole full-width line; total adds no top border.
+   Specificity exceeds the shared .box.tf-quote .row.tot 2px rule. */
+.phone.tf-phone .box.tf-quote.tf-bank-config-quote .row:not(:last-child){
+  border-bottom:1px solid var(--ds-sem-divider);
+}
+.phone.tf-phone .box.tf-quote.tf-bank-config-quote .row.tot{
+  border-top:0;border-bottom:0;
 }
