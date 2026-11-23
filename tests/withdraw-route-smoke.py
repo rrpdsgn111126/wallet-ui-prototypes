@@ -79,6 +79,24 @@ def run():
                 expect(page.locator("#v-exp-route .exp-leg").first.locator(".fl i")).to_have_text("Откуда → ALT.VU")
                 expect(page.locator("#exp-balance")).to_have_text(re.compile(r"[\d\s\u00a0.,]+\s*\$"))
                 expect(page.locator("#v-exp-route .exp-leg").nth(1).locator(".fl i")).to_have_text("Куда → USDT")
+                # UI Kit previews the same live component; its separator
+                # must span the actual card width and depend on the semantic role.
+                route_geometry = page.evaluate("""() => {
+                    const box=document.querySelector('#v-exp-route .exp-route-card');
+                    const line=box.querySelector('.exp-arrow-line');
+                    const a=box.getBoundingClientRect(),b=line.getBoundingClientRect();
+                    const pseudo=getComputedStyle(line,'::after');
+                    const token=getComputedStyle(line).getPropertyValue('--ds-sem-divider').trim();
+                    return {left:Math.abs(a.left-b.left),right:Math.abs(a.right-b.right),
+                        thickness:pseudo.height, pseudoLeft:pseudo.left, pseudoRight:pseudo.right,
+                        color:pseudo.backgroundColor,token};
+                }""")
+                assert route_geometry["left"]<=1 and route_geometry["right"]<=1, (
+                    f"Crypto route line is not edge to edge {width}px: {route_geometry}"
+                )
+                assert route_geometry["thickness"]=="1px"
+                assert route_geometry["pseudoLeft"]=="0px" and route_geometry["pseudoRight"]=="0px"
+                assert route_geometry["color"]=="rgb(233, 236, 240)",route_geometry
                 expect(page.locator("#v-exp-route .exp-amount-caption")).to_have_count(0)
                 expect(page.locator("#v-exp-route .exp-amount-field .fl i")).to_have_text("Сумма перевода")
                 expect(page.locator("#v-exp-route .exp-amount-field .fi")).to_have_count(0)
@@ -331,6 +349,47 @@ def run():
                     expect(route.locator(".tf-bank-destination .fl i")).to_have_text("Куда → Страна")
                     expect(route.locator(".tf-bank-destination .fl b")).to_have_text("Германия")
                     expect(route.locator(".tf-bank-destination svg.tf-country-flag")).to_have_count(1)
+                    # All three dividers must share a computed semantic color,
+                    # exactly 1px thick and stretch from card edge to card edge.
+                    dividers = page.evaluate("""() => {
+                        const bank=document.querySelector('.tf-bank-route-card');
+                        const fx=document.querySelector('.tf-bank-sbp');
+                        const tbl=document.querySelector('#quoteBlock');
+                        const route=bank.querySelector('.tf-bank-arrow-line');
+                        const mid=fx.querySelector('.mid');
+                        const first=tbl.querySelector('.row');
+                        const total=tbl.querySelector('.row.tot');
+                        const rect=e=>e.getBoundingClientRect();
+                        const bankRect=rect(bank),fxRect=rect(fx),tableRect=rect(tbl);
+                        const routeRect=rect(route),midRect=rect(mid),rowRect=rect(first);
+                        const rs=getComputedStyle(route,'::after');
+                        const ms=getComputedStyle(mid,'::before');
+                        const border=getComputedStyle(first);
+                        const totalCss=getComputedStyle(total);
+                        const capsule=getComputedStyle(fx.querySelector('.sbp-rate'));
+                        return {
+                            route:[Math.abs(bankRect.left-routeRect.left),Math.abs(bankRect.right-routeRect.right)],
+                            mid:[Math.abs(fxRect.left-midRect.left),Math.abs(fxRect.right-midRect.right)],
+                            table:[Math.abs(tableRect.left-rowRect.left),Math.abs(tableRect.right-rowRect.right)],
+                            colors:[rs.backgroundColor,ms.backgroundColor,border.borderBottomColor],
+                            lineSizes:[rs.height,ms.height,border.borderBottomWidth],
+                            inset:[rs.left,rs.right,ms.left,ms.right],
+                            totTop:totalCss.borderTopWidth,
+                            totBottom:totalCss.borderBottomWidth,
+                            semantic:getComputedStyle(bank).getPropertyValue('--ds-sem-divider').trim(),
+                            borderToken:getComputedStyle(bank).getPropertyValue('--ds-sem-border').trim(),
+                            capsuleOutline:capsule.boxShadow
+                        };
+                    }""")
+                    for key in ("route","mid","table"):
+                        assert max(dividers[key])<=1, f"{rail} divider not full-width {width}px: {dividers}"
+                    assert dividers["colors"]==["rgb(233, 236, 240)"]*3, dividers
+                    assert dividers["lineSizes"]==["1px"]*3, dividers
+                    assert dividers["inset"]==["0px"]*4, dividers
+                    assert dividers["totTop"]=="0px" and dividers["totBottom"]=="0px", dividers
+                    assert dividers["semantic"]=="#e9ecf0", dividers
+                    assert "230, 228, 225" in dividers["capsuleOutline"], dividers
+
                     expect(page.locator(".tf-bank-sbp")).to_be_visible()
                     expect(page.locator(".tf-bank-sbp .h")).to_have_count(2)
                     expect(page.locator(".tf-bank-sbp .h").first).to_contain_text("Заплатить")
