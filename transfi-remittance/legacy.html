@@ -664,6 +664,7 @@ if(tfQuery.get('component')==='route-card'){
   if(kind==='country'||kind==='bank'){
     S.flow='out';
     S.screen='out-config';
+    S.outRail=queryRail==='SEPA'?'SEPA':'SWIFT';
     S.modal=null;
     S.componentRouteKind=kind;
     // The isolated specimen sets flow=out after general query parsing;
