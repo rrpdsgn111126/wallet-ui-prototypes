@@ -223,7 +223,7 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid 
 .phone.tf-phone .tf-method-row{background:transparent;border:0;border-top:1px solid var(--n100,#e9ecf0);width:100%;min-height:63px;display:flex;align-items:center;gap:12px;text-align:left;padding:9px 6px;color:var(--n900,#161514)}
 .phone.tf-phone .tf-method-row:first-of-type{border-top:0}
 .phone.tf-phone .tf-method-row:active{background:var(--n50,#f6f7f8)}
-.phone.tf-phone .tf-method-icon{width:41px;height:41px;border-radius:50%;background:var(--n100,#e9ecf0);display:grid;place-items:center;font-size:14px;font-weight:700;flex:none}
+.phone.tf-phone .tf-method-icon{width:var(--ds-icon-frame-size);height:var(--ds-icon-frame-size);border-radius:50%;background:var(--coin-plate);display:grid;place-items:center;font-size:14px;font-weight:700;flex:none}
 .phone.tf-phone .tf-method-details{flex:1;min-width:0}
 .phone.tf-phone .tf-method-details b{font-size:16px;font-weight:400;display:block}
 .phone.tf-phone .tf-method-details small{font-size:12px;line-height:17px;color:var(--n500,#6b6767);display:block;margin-top:3px}
@@ -328,8 +328,8 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid 
   gap:12px;background:#fff;box-shadow:0 1px 2px #0000000b
 }
 .phone.tf-phone .tf-method-row:first-of-type{border:0}
-.phone.tf-phone .tf-method-icon{background:var(--n100);height:40px;width:40px}
-.phone.tf-phone .tf-method-icon img{width:25px;height:25px;object-fit:contain;border-radius:50%}
+.phone.tf-phone .tf-method-icon{background:var(--coin-plate);height:var(--ds-icon-frame-size);width:var(--ds-icon-frame-size)}
+.phone.tf-phone .tf-method-icon img{width:var(--ds-icon-art-size);height:var(--ds-icon-art-size);object-fit:contain;border-radius:50%}
 .phone.tf-phone .tf-method-details b{font-size:16px;font-weight:400}
 .phone.tf-phone .tf-method-details small{font-size:12px;font-weight:400}
 .phone.tf-phone .tf-method-chevron{font-size:26px}
@@ -432,7 +432,7 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid 
 }
 .phone.tf-phone .tf-native-sheet .tf-method-row.m .ic{
   display:flex;align-items:center;justify-content:center;flex:0 0 40px;
-  width:40px;height:40px;border-radius:50%;background:var(--n50)
+  width:var(--ds-icon-frame-size);height:var(--ds-icon-frame-size);border-radius:50%;background:transparent
 }
 .phone.tf-phone .tf-native-sheet .tf-method-row.m .mt{display:block;flex:1;min-width:0}
 .phone.tf-phone .tf-native-sheet .tf-method-row.m .mt b{display:block;font-size:16px;font-weight:400;line-height:22px}
