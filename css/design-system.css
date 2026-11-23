@@ -295,3 +295,64 @@ html body .phone.tf-phone {
 .phone .sheet .method-list .m.row.method-option .method-chevron {
   display:block;flex:0 0 18px;width:18px;height:18px;margin-left:auto;color:var(--n400);
 }
+
+
+/* Shared coin/network icon frame. Existing .cn, .fi, .ri and .nlg are retained;
+   the component class names its role, while context adapters keep historic
+   compiled wallet markup visually consistent without replacing its DOM.
+   Flags, currency pictograms, categories and action buttons are not coins. */
+.phone .ds-icon-frame{
+  box-sizing:border-box;display:flex;align-items:center;justify-content:center;
+  flex:0 0 var(--ds-icon-frame-size);width:var(--ds-icon-frame-size);
+  height:var(--ds-icon-frame-size);min-width:var(--ds-icon-frame-size);
+  border-radius:50%;background:var(--coin-plate,var(--ds-color-coin-plate));
+  overflow:hidden;
+}
+.phone .ds-icon-frame--compact{
+  --ds-icon-frame-size:var(--ds-icon-frame-compact-size);
+  --ds-icon-art-size:var(--ds-icon-art-compact-size);
+}
+.phone .ds-icon-frame--hero{
+  --ds-icon-frame-size:var(--ds-icon-frame-hero-size);
+  --ds-icon-art-size:var(--ds-icon-art-hero-size);
+}
+.phone .ds-icon-frame > img{
+  display:block;flex:0 0 auto;width:var(--ds-icon-art-size);
+  height:var(--ds-icon-art-size);object-fit:contain;border-radius:50%;
+}
+.phone .ds-icon-frame > .nlg{
+  display:block;width:100%;height:100%;
+  background-color:var(--coin-plate,var(--ds-color-coin-plate));
+  background-size:60%;
+}
+.phone .ds-icon-frame.cic,
+.phone .ds-icon-frame.oicoin{background-color:var(--coin-plate,var(--ds-color-coin-plate));background-size:60%}
+/* Banking methods retain their distinctive violet brand mark INSIDE the
+   canonical gray circle, so the colored artwork is 24px and glyph is 16px. */
+.phone .ds-icon-frame.tf-rail-icon .tf-rail-mark{
+  display:grid;place-items:center;width:var(--ds-icon-art-size);
+  height:var(--ds-icon-art-size);border-radius:50%;
+  background:#6f4bf2;color:#fff;
+}
+.phone .ds-icon-frame.tf-rail-icon .tf-rail-glyph{display:block;width:16px;height:16px;flex:none}
+/* Existing compiled source wallet components without explicit class: same
+   backdrop and artwork as their DS specimen. Geometry stays owned by context. */
+.phone .m .ic > .cn,
+.phone .fld .fi > .cn,
+.phone .op .oi > .cn,
+.phone .sbp-bank .cn,
+.phone .sbp-pick .cn{background:var(--coin-plate,var(--ds-color-coin-plate))}
+.phone .m .ic > .cn > img,
+.phone .fld .fi > .cn > img,
+.phone .op .oi > .cn > img,
+.phone .sbp-bank .cn > img,
+.phone .sbp-pick .cn > img{
+  width:var(--ds-icon-art-size);height:var(--ds-icon-art-size);
+  object-fit:contain;border-radius:50%;
+}
+.phone .sheet .method-list .m.row.method-option .ic.ri .cn > img{
+  width:var(--ds-icon-art-compact-size);height:var(--ds-icon-art-compact-size);
+}
+.phone .fld .fi:has(> .nlg),
+.phone .row .ri:has(> .nlg){background:var(--coin-plate,var(--ds-color-coin-plate))}
+.phone .nlg{background-color:var(--coin-plate,var(--ds-color-coin-plate));background-size:60%}
