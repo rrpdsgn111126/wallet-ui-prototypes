@@ -666,6 +666,12 @@ if(tfQuery.get('component')==='route-card'){
     S.screen='out-config';
     S.modal=null;
     S.componentRouteKind=kind;
+    // The isolated specimen sets flow=out after general query parsing;
+    // apply its explicit rail here so SWIFT supports non-SEPA country flags.
+    if(queryRail==='SEPA'||queryRail==='SWIFT'){
+      S.outRail=queryRail;
+      if(queryRail==='SEPA')S.outCurrency='EUR';
+    }
     const selectedCountry=tfQuery.get('country');
     if(COUNTRY[selectedCountry]&&(S.outRail!=='SEPA'||SEPA_COUNTRIES.includes(selectedCountry))){
       S.country=selectedCountry;
