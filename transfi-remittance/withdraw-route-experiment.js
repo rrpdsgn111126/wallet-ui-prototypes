@@ -57,6 +57,7 @@
       destination:{
         iconHtml:'<img id="exp-dest-logo" src="../assets/img-df9900c4.png" width="24" height="24" alt="" style="border-radius:999px">',
         label:'Куда → USDT',
+        labelId:'exp-dest-label',
         contentHtml:'<input id="exp-recipient" class="exp-recipient" aria-label="Адрес получателя" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Адрес кошелька">'
       },
       actionsHtml:'<div id="exp-actions-slot"></div>'
