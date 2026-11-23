@@ -34,7 +34,10 @@
     const whole=(dot<0?raw:raw.slice(0,dot)).replace(/\B(?=(\d{3})+(?!\d))/g,' ');
     return whole+(dot<0?'':raw.slice(dot));
   }
-  const arrow='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--n850)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v15m-6-6 6 6 6-6"/></svg>';
+  if(!window.AltvuRouteCard)throw new Error('Shared route-card module is missing');
+  const routeCss=document.createElement('link');routeCss.rel='stylesheet';
+  routeCss.href='../../design-system/transfi-remittance/route-card.css';
+  document.head.appendChild(routeCss);
   const link=document.createElement('link');link.rel='stylesheet';link.href='./withdraw-route-experiment.css';document.head.appendChild(link);
 
   const head=document.querySelector('#v-out-usdt-tron > .head');
@@ -44,24 +47,20 @@
   screen.style.cssText='--t-op:.42;--t-blur:26px;--t-h:300px;--t-mask:linear-gradient(180deg,#000 0%,#000 46%,transparent 100%)';
   screen.innerHTML='<div class="tint"></div>'+head.outerHTML+
     '<div class="wrap tight">'+
-    '<div class="box exp-route-card" data-experiment="route-card">'+
-      '<div class="exp-leg">'+
-        '<div class="fi"><div class="cn ds-icon-frame"><img src="../assets/img-27f3d8cf.png" width="24" height="24" alt="alt.vu" style="border-radius:999px"></div></div>'+
-        '<div class="exp-leg-main fl">'+
-          '<i>Откуда → ALT.VU</i>'+
-          '<b id="exp-balance" aria-live="polite">—</b>'+
-        '</div>'+
-      '</div>'+
-      '<div class="exp-arrow-line"><span class="exp-arrow">'+arrow+'</span></div>'+
-      '<div class="exp-leg">'+
-        '<div class="fi"><div class="cn ds-icon-frame"><img id="exp-dest-logo" src="../assets/img-df9900c4.png" width="24" height="24" alt="" style="border-radius:999px"></div></div>'+
-        '<div class="exp-leg-main fl">'+
-          '<i id="exp-dest-label">Куда → USDT</i>'+
-          '<input id="exp-recipient" class="exp-recipient" aria-label="Адрес получателя" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Адрес кошелька">'+
-        '</div>'+
-      '</div>'+
-      '<div id="exp-actions-slot"></div>'+
-    '</div>'+
+    window.AltvuRouteCard.render({
+      variant:'crypto',
+      source:{
+        iconHtml:'<img src="../assets/img-27f3d8cf.png" width="24" height="24" alt="alt.vu" style="border-radius:999px">',
+        label:'Откуда → ALT.VU',
+        contentHtml:'<b id="exp-balance" aria-live="polite">—</b>'
+      },
+      destination:{
+        iconHtml:'<img id="exp-dest-logo" src="../assets/img-df9900c4.png" width="24" height="24" alt="" style="border-radius:999px">',
+        label:'Куда → USDT',
+        contentHtml:'<input id="exp-recipient" class="exp-recipient" aria-label="Адрес получателя" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Адрес кошелька">'
+      },
+      actionsHtml:'<div id="exp-actions-slot"></div>'
+    })+
     '<div id="exp-network-slot"></div>'+
     '<div class="fld w exp-amount-field">'+
       '<div class="fl"><i>Сумма перевода</i><b><input id="exp-amount" class="wd-amt" inputmode="decimal" placeholder="0.00" aria-label="Сумма перевода в долларах"></b></div>'+
