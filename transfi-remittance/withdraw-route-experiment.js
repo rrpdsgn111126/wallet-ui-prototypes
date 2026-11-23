@@ -3,6 +3,20 @@
 (function(){
   'use strict';
   if(!window.altPreview || !window.PV || !document.querySelector('.phone'))return;
+  // Experiment-only QR link revision; no change to shared DS preview runtime.
+  const sharedQrPreviewApi = pvApi;
+  let receiveLinkRevision = 1;
+  pvApi = function(path, body) {
+    const p = String(path || '').split('?')[0];
+    if(p === '/profile/qr' || p === '/profile/qr/rotate') {
+      if(p.endsWith('/rotate')) receiveLinkRevision++;
+      return Promise.resolve(sharedQrPreviewApi(path, body)).then(payload =>
+        Object.assign({}, payload, {url: 'https://example.invalid/altvu-receive-' + receiveLinkRevision})
+      );
+    }
+    return sharedQrPreviewApi(path, body);
+  };
+
   // The UI Kit embeds only the live from/to component, without a full screen.
   // It is still the same DOM and handlers as the working experiment.
   if(new URLSearchParams(location.search).get('component')==='route-card'){

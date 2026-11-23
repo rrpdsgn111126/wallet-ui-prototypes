@@ -13,6 +13,7 @@ on:
       - 'transfi-remittance/**'
       - 'ui-kit/**'
       - 'tests/withdraw-route-smoke.py'
+      - 'tests/altvu-receive-smoke.mjs'
       - 'tests/field-clear-smoke.py'
       - 'tests/method-sheet-parity.py'
       - '.github/workflows/publish-withdraw-route-preview.yml'
@@ -60,6 +61,15 @@ jobs:
         run: python tests/withdraw-route-smoke.py
       - name: Validate shared text, amount and FX input clearing
         run: python tests/field-clear-smoke.py
+      - name: Validate isolated ALT.VU QR receive (390/430/1440)
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm install --no-save --no-package-lock playwright@1.56.0
+          python3 -m http.server 8765 --bind 127.0.0.1 >/tmp/altvu-qr-server.log 2>&1 &
+          SERVER_PID=$!
+          trap 'kill "$SERVER_PID" || true' EXIT
+          node tests/altvu-receive-smoke.mjs
       - name: Save browser screenshots
         if: always()
         uses: actions/upload-artifact@v4
