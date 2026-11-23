@@ -29,7 +29,7 @@
 const COUNTRY={DE:'Германия',FR:'Франция',NL:'Нидерланды',GB:'Великобритания',US:'США',ES:'Испания'};
 const SEPA_COUNTRIES=['DE','FR','NL','ES'];
 const CURRENCY=['EUR','USD','GBP'];
-const S={flow:'in',screen:'in-details',inCurrency:'EUR',inRail:'SEPA',outCurrency:'EUR',sourceCurrency:'USD',outRail:'SEPA',country:'DE',amount:'',recipientName:'',bankDemoId:'',iban:'',account:'',bic:'',bank:'',routing:'',bankAddress:'',recipientAddress:'',intermediary:'',purpose:'personal',purposeOther:'',note:'',showError:false};
+const S={flow:'in',screen:'in-details',inCurrency:'EUR',inRail:'SEPA',outCurrency:'EUR',sourceCurrency:'USD',outRail:'SEPA',country:'',amount:'',recipientName:'',bankDemoId:'',iban:'',account:'',bic:'',bank:'',routing:'',bankAddress:'',recipientAddress:'',intermediary:'',purpose:'personal',purposeOther:'',note:'',showError:false};
 const SCREENS={in:[['in-details','Реквизиты'],['in-pending','Поступление ожидается'],['in-success','Зачислено'],['in-held','На проверке']],out:[['out-config','Параметры перевода'],['out-recipient','Реквизиты получателя'],['out-review','Подтверждение'],['out-progress','Обрабатывается'],['out-success','Доставлен'],['out-failed','Ошибка'],['out-held','На проверке'],['out-unavailable','Недоступное направление']]};
 const META={
 'in-details':{title:'Один экран: валюта → метод → реквизиты',desc:'Без хлебных крошек, подзаголовка и повторяющегося названия внутри блока. Реквизиты меняются сразу под переключателями.',apis:['GET /v3/config/payment-methods/iban','POST /v3/iban','GET /v3/iban (список счетов)'],rules:['Реквизиты выводятся из ответа сервера, а не генерируются клиентом.','SEPA показан только для EUR; входящий SWIFT — демонстрационная гипотеза до подтверждения MID.','Если реквизиты не выданы, показывать состояние недоступности, а не фальшивые реквизиты.']},
@@ -98,13 +98,14 @@ function qSummary(includeAmount=true){
 }
 function validConfig(){
  const q=quote();
- return q.valid&&q.amt>q.fee&&q.amt+q.fee<=4812.60;
+ return Boolean(COUNTRY[S.country])&&q.valid&&q.amt>q.fee&&q.amt+q.fee<=4812.60;
 }
 function uxConfigValidation(){
  const q=quote();
  if(!q.valid)return {message:'Укажите сумму перевода',field:'tf-out-amount'};
  if(q.amt<=q.fee)return {message:'Сумма перевода должна быть больше комиссии',field:'tf-out-amount'};
  if(q.amt+q.fee>4812.60)return {message:'Недостаточно средств с учётом комиссии',field:'tf-out-amount'};
+ if(!COUNTRY[S.country])return {message:'Выберите страну',field:'tf-bank-country'};
  return null;
 }
 function uxRecipientValidation(){
@@ -255,8 +256,8 @@ function purposeName(){return {personal:'Перевод собственных �
 
 function uxBankConfigSummary(){
   const q=quote();
-  return '<div class="row tf-bank-total-row"><div class="rt">К списанию <span class="tf-bank-fee">(комиссия '+esc(money(q.fee,'USD'))+')</span></div>'+
-    '<div class="rv">'+esc(money(q.total,'USD'))+'</div></div>';
+  return '<div class="row tf-bank-total-row"><div class="rt">К списанию <span class="tf-bank-fee">(комиссия '+esc(uxBankGroupAmount(q.fee.toFixed(2))+' $')+')</span></div>'+
+    '<div class="rv">'+esc(uxBankGroupAmount(q.total.toFixed(2))+' $')+'</div></div>';
 }
 function uxBankMaxCents(){
   return Math.max(0,Math.min(999999999,Math.floor((4812.60-quote().fee)*100)));
@@ -382,10 +383,8 @@ function uxSelectMethod(rail) {
     S.amount='';
     S.bankDemoId='';
     S.sourceCurrency='USD';
-    if(rail==='SEPA'){
-      S.outCurrency='EUR';
-      if(!SEPA_COUNTRIES.includes(S.country))S.country='DE';
-    }
+    S.country='';
+    if(rail==='SEPA')S.outCurrency='EUR';
     go('out-config');
   }
 }
@@ -444,18 +443,19 @@ function uxSetOutCountry(country){
 /* Experiment uses the same source/recipient composition as USDT; country
    selection is still the native bank bottom sheet with vector country flags. */
 function uxBankRouteCard(){
-  const country=COUNTRY[S.country]||S.country;
+  const hasCountry=Boolean(COUNTRY[S.country]);
+  const country=hasCountry?COUNTRY[S.country]:'Выберите страну';
+  const countryIcon=hasCountry?uxFlagPlate(S.country):tfIconFor('country');
   const arrow='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--n850)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v15m-6-6 6 6 6-6"/></svg>';
   return '<div class="box tf-bank-route-card">'+
     '<div class="tf-bank-leg">'+
       '<div class="fi"><div class="cn"><img src="../assets/img-27f3d8cf.png" width="24" height="24" alt="" style="border-radius:999px"></div></div>'+
-      '<div class="fl"><i>Откуда → ALT.VU</i><b>Доступно 4 812.60 $</b></div>'+
+      '<div class="fl"><i>Откуда → ALT.VU</i><b>4 812.60 $</b></div>'+
     '</div>'+
     '<div class="tf-bank-arrow-line"><span class="tf-bank-arrow">'+arrow+'</span></div>'+
-    '<button type="button" class="tf-bank-leg tf-bank-destination" data-picker="country" aria-haspopup="dialog" aria-label="Страна получателя: '+esc(country)+'">'+
-      '<span class="fi">'+uxFlagPlate(S.country)+'</span>'+
-      '<span class="fl"><i>Куда → Страна</i><b>'+esc(country)+'</b></span>'+
-      '<span class="tf-picker-chevron" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 5 7 7-7 7"/></svg></span>'+
+    '<button type="button" id="tf-bank-country" class="tf-bank-leg tf-bank-destination" data-picker="country" aria-haspopup="dialog" aria-label="Страна получателя: '+esc(country)+'">'+
+      '<span class="fi">'+countryIcon+'</span>'+
+      '<span class="fl"><i>Куда → Страна</i><b'+(hasCountry?'':' class="tf-bank-country-placeholder"')+'>'+esc(country)+'</b></span>'+
     '</button>'+
   '</div>';
 }
@@ -712,7 +712,7 @@ if(queryFlow==='in'||queryFlow==='out')S.flow=queryFlow;
 const queryRail=tfQuery.get('rail');
 if(queryRail==='SEPA'||queryRail==='SWIFT'){
   if(S.flow==='in'){S.inRail=queryRail;if(queryRail==='SEPA')S.inCurrency='EUR'}
-  else {S.outRail=queryRail;if(queryRail==='SEPA'){S.outCurrency='EUR';S.country='DE'}}
+  else {S.outRail=queryRail;if(queryRail==='SEPA')S.outCurrency='EUR'}
 }
 S.cardMode=tfQuery.get('card')==='ghost'?'ghost':'issued';
 S.profileTab='data';
