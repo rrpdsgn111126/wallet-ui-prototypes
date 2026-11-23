@@ -80,7 +80,6 @@
   });
 
   let seq=10;
-  let qrVersion=1; // Monotonically changes on confirmed ALT.VU QR rotation.
   let nextOutcome='success';
   const sbpOrders=new Map();
   const eventId=kind=>'pv-'+kind+'-'+String(++seq);
@@ -131,9 +130,9 @@
       return Promise.resolve({address,qr:previewQr(address)});
     }
     if(p==='/profile/qr'||p==='/profile/qr/rotate'){
-      if(p.endsWith('/rotate'))qrVersion++;
-      const url='https://example.invalid/altvu-preview-'+qrVersion;
-      return Promise.resolve({url,qr:previewQr('ALT.VU OFFLINE PREVIEW - NO REAL TRANSFERS '+url)});
+      const value='ALT.VU OFFLINE PREVIEW - NO REAL TRANSFERS';
+      return Promise.resolve({url:'https://example.invalid/altvu-preview',
+        qr:previewQr(value+(p.endsWith('rotate')?String(++seq):''))});
     }
     if(p==='/transfer/lookup'){
       if(!body||(!body.value&&!body.contact_id))
