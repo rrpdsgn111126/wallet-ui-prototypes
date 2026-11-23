@@ -1189,6 +1189,13 @@ function uxFlag(country){
  const c=String(country||'').toUpperCase();
  const stripe=(color,x,y,w,h)=>'<rect x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" fill="'+color+'"/>';
  const patterns={
+  EU:stripe('#003399',0,0,24,24)+
+    Array.from({length:12},(_,i)=>{
+      const a=i*Math.PI/6-Math.PI/2;
+      const x=(12+7.5*Math.cos(a)).toFixed(2);
+      const y=(12+7.5*Math.sin(a)).toFixed(2);
+      return '<polygon points="0,-1.85 .45,-.57 1.77,-.57 .7,.22 1.1,1.54 0,.77 -1.1,1.54 -.7,.22 -1.77,-.57 -.45,-.57" transform="translate('+x+' '+y+')" fill="#FFCC00"/>';
+    }).join(''),
   DE:stripe('#161616',0,0,24,8)+stripe('#DD0000',0,8,24,8)+stripe('#FFCE00',0,16,24,8),
   FR:stripe('#0055A4',0,0,8,24)+stripe('#FFFFFF',8,0,8,24)+stripe('#EF4135',16,0,8,24),
   NL:stripe('#AE1C28',0,0,24,8)+stripe('#FFFFFF',0,8,24,8)+stripe('#21468B',0,16,24,8),
@@ -1209,6 +1216,12 @@ function uxFlag(country){
 }
 function uxFlagPlate(country){
  return '<span class="tf-flag-circle" aria-hidden="true">'+uxFlag(country)+'</span>';
+}
+// Flags identify the associated currency area, not necessarily one country.
+// Keep unsupported currencies on the existing currency-icon fallback.
+function uxCurrencyPickerIcon(code){
+  const region={EUR:'EU',USD:'US',GBP:'GB'}[code];
+  return region?uxFlagPlate(region):uxCurrencySymbol(code);
 }
 function uxPickerTitle(key){
   // In the design-system specimen the label is generic. The same picker in
@@ -1243,7 +1256,7 @@ function uxPickerField(label,key,icon){
   const selected=uxPickerOptions(key).find(option=>option.value===S[key]);
   return '<button type="button" class="fld w tf-field tf-picker-trigger'+(S.screen==='out-recipient'&&key==='purpose'?' tf-recipient-field':'')+'" data-picker="'+esc(key)+
     '" aria-haspopup="dialog" aria-label="'+esc(label)+': '+esc(selected?selected.label:'Не выбрано')+
-    '">'+(S.screen==='out-recipient'&&key==='purpose'?'':'<span class="fi">'+(key==='country'?uxFlagPlate(S.country):(key==='outCurrency'||key==='inCurrency')?uxCurrencySymbol(S[key]):tfIconFor(icon||key))+'</span>')+'<span class="fl"><i>'+esc(label)+
+    '">'+(S.screen==='out-recipient'&&key==='purpose'?'':'<span class="fi">'+(key==='country'?uxFlagPlate(S.country):(key==='outCurrency'||key==='inCurrency')?uxCurrencyPickerIcon(S[key]):tfIconFor(icon||key))+'</span>')+'<span class="fl"><i>'+esc(label)+
     '</i><b>'+esc(selected?selected.label:'Выбрать')+'</b></span>'+
     '<span class="tf-picker-chevron" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 5 7 7-7 7"/></svg></span></button>';
 }
@@ -1287,7 +1300,7 @@ function uxRenderPicker({settled=false}={}){
  const key=S.picker,choices=uxPickerOptions(key),heading=uxPickerTitle(key);
  const rows=choices.map(option=>{
    const checked=S[key]===option.value;
-   const icon=key==='country'?uxFlagPlate(option.value):(key==='outCurrency'||key==='inCurrency')?uxCurrencySymbol(option.value):tfIconFor(key==='purpose'?'note':'currency');
+   const icon=key==='country'?uxFlagPlate(option.value):(key==='outCurrency'||key==='inCurrency')?uxCurrencyPickerIcon(option.value):tfIconFor(key==='purpose'?'note':'currency');
    return '<button type="button" class="row tf-picker-row" data-picker-value="'+esc(option.value)+
      '" role="radio" aria-checked="'+checked+'"><span class="ri">'+icon+
      '</span><span class="rt">'+esc(option.label)+'</span>'+
