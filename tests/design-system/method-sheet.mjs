@@ -80,7 +80,7 @@ try{
         const el=document.querySelector(selector);const css=getComputedStyle(el);
         return {width:css.width,height:css.height,bg:css.backgroundColor};
       };
-      const coins=[...document.querySelectorAll('.ds-cn > .ds-icon-frame:not(.ds-icon-frame--hero)')];
+      const coins=[...document.querySelectorAll('.ds-cn > .ds-icon-frame')];
       const regular=coins.map(el=>{
         const css=getComputedStyle(el),child=el.querySelector('img,.tf-rail-mark,.nlg');
         return {width:css.width,height:css.height,bg:css.backgroundColor,
@@ -89,21 +89,20 @@ try{
       return {token:getComputedStyle(root).getPropertyValue('--coin-plate').trim(),
         regular,railMark:unit('.tf-rail-icon .tf-rail-mark'),
         railGlyph:unit('.tf-rail-icon .tf-rail-glyph'),
-        history:unit('.ds-cn .cic.usdt.oicoin'),
-        hero:unit('.ds-icon-frame--hero'),heroImage:unit('.ds-icon-frame--hero > img')};
+        history:unit('.ds-cn .cic.usdt.oicoin')};
     });
     const expectedBg=theme==='dark'?'rgb(35, 34, 33)':'rgb(233, 236, 240)';
     assert.equal(values.regular.length,10,'Expected six currencies/rails and four networks');
     for(const item of values.regular){
       assert.deepEqual([item.width,item.height,item.bg,item.childWidth,item.childHeight],
-        ['40px','40px',expectedBg,'24px','24px'],
-        'Coin/network icon frame must use 40/24 and one plate color');
+        ['32px','32px',expectedBg,'20px','20px'],
+        'Coin/network icon frame must use 32/20 and one plate color');
     }
     assert.equal(values.history.bg,expectedBg);
-    assert.deepEqual([values.railMark.width,values.railMark.height],['24px','24px']);
-    assert.deepEqual([values.railGlyph.width,values.railGlyph.height],['16px','16px']);
-    assert.deepEqual([values.hero.width,values.hero.height],['106px','106px']);
-    assert.deepEqual([values.heroImage.width,values.heroImage.height],['64px','64px']);
+    assert.deepEqual([values.railMark.width,values.railMark.height],['20px','20px']);
+    assert.deepEqual([values.railGlyph.width,values.railGlyph.height],['14px','14px']);
+    assert.equal(await page.locator('.ds-icon-frame--hero, .ds-icon-frame--compact').count(),0);
+    assert.deepEqual([values.history.width,values.history.height],['32px','32px']);
     await page.screenshot({path:path.join(output,`coins-${theme}-${width}.png`)});
     await page.goto(root+'/components/sheet.html#'+theme,{waitUntil:'load'});
     for(const icon of await page.locator('.method-list .cn.ds-icon-frame').all()){
@@ -120,10 +119,10 @@ try{
         const a=getComputedStyle(node),nlg=getComputedStyle(node.querySelector('.nlg'));
         return {size:a.width,height:a.height,plate:a.backgroundColor,art:nlg.backgroundSize};
       });
-      assert.equal(metrics.size,'40px');
-      assert.equal(metrics.height,'40px');
+      assert.equal(metrics.size,'32px');
+      assert.equal(metrics.height,'32px');
       assert.equal(metrics.plate,expectedBg);
-      assert.ok(metrics.art.startsWith('100%'),'Nested network image must fill 24px artwork slot');
+      assert.ok(metrics.art.startsWith('100%'),'Nested network image must fill 20px artwork slot');
     }
     console.log('PASS framed icons '+theme+' '+width+'px');
    } finally{await page.close();}
@@ -154,6 +153,32 @@ try{
     })));
     assert.ok(states.every(x=>x.tag==='button'&&x.icon==='32px'));
     assert.deepEqual(states.filter(x=>x.bank).map(x=>x.bank),['SEPA','SWIFT']);
+    // The live compiled bank list contains its own .tf-bank-icon markup.
+    // Assert its computed geometry equals USDT/USDC in BOTH sheets.
+    const bankIcons=await section.locator('.method-list > .tf-bank-method').evaluateAll(nodes=>
+      nodes.map(row=>{
+        const icon=row.querySelector('.tf-bank-icon');
+        const mark=icon.querySelector('.tf-bank-mark');
+        const glyph=mark.querySelector('.tf-bank-glyph');
+        const css=e=>getComputedStyle(e);
+        return {rail:row.dataset.tfBank,
+          frame:[css(icon).width,css(icon).height,css(icon).backgroundColor],
+          mark:[css(mark).width,css(mark).height],
+          glyph:[css(glyph).width,css(glyph).height]};
+      }));
+    assert.equal(bankIcons.length,2);
+    for(const rail of bankIcons){
+      assert.deepEqual(rail.frame.slice(0,2),['32px','32px'],
+        'Bank icon outer frame must be 32px in '+view);
+      assert.deepEqual(rail.mark,['20px','20px'],
+        'SEPA/SWIFT mark must match 20px coin logo in '+view);
+      assert.deepEqual(rail.glyph,['14px','14px'],
+        'SEPA/SWIFT glyph must scale inside 20px mark in '+view);
+    }
+    const coinImages=await section.locator('.method-list > button[data-go] .cn img').evaluateAll(nodes=>
+      nodes.map(el=>[getComputedStyle(el).width,getComputedStyle(el).height]));
+    assert.ok(coinImages.every(size=>size[0]==='20px'&&size[1]==='20px'));
+
    }
    await page.evaluate(()=>show('topup',false));
    await page.locator('#v-topup .method-list [data-go="dep-usdt-tron"]').click();
