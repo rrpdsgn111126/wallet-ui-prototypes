@@ -1,0 +1,91 @@
+/* Shared From/To route-card presentation; sourced from the current SEPA/SWIFT experiment.
+   The bank, country, and cryptocurrency examples consume these same visual rules. */
+/* SEPA/SWIFT withdrawal experiment: same two-leg composition as the crypto
+   route card, using the bank's existing flag picker and SBP's native .sbp-cv. */
+.phone .tf-bank-route-card{
+  padding:4px 16px 0;margin:0 0 12px;overflow:hidden;
+}
+.phone .tf-bank-route-card .tf-bank-leg{
+  display:flex;align-items:flex-start;gap:14px;padding:16px 0;
+}
+.phone .tf-bank-route-card .tf-bank-leg .fi{
+  display:flex;align-items:center;justify-content:center;
+  flex:0 0 40px;width:40px;height:40px;border-radius:50%;
+  background:var(--n50);
+}
+.phone .tf-bank-route-card .tf-bank-leg .cn{
+  display:grid;place-items:center;width:40px;height:40px;
+}
+.phone .tf-bank-route-card .tf-bank-leg .fl{
+  display:block;flex:1 1 auto;min-width:0;text-align:left;
+}
+.phone .tf-bank-route-card .tf-bank-leg .fl i{
+  display:block;font:var(--ds-type-field-label);
+  color:var(--n500);font-style:normal;margin-bottom:4px;
+}
+.phone .tf-bank-route-card .tf-bank-leg .fl b{
+  display:block;font:var(--ds-type-field-value);color:var(--n900);
+  white-space:normal;overflow-wrap:anywhere;
+}
+.phone .tf-bank-arrow-line{
+  position:relative;display:flex;align-items:center;justify-content:center;
+  margin-inline:-16px;
+}
+/* The arrow and FX rate use one capsule geometry and one border/fill contract. */
+.phone .tf-bank-arrow,
+.phone .tf-bank-sbp .sbp-rate{
+  height:32px;border-radius:999px;background:var(--surface);
+  box-shadow:inset 0 0 0 1px var(--ds-sem-border);
+}
+.phone .tf-bank-arrow{
+  position:relative;z-index:1;display:grid;place-items:center;
+  flex:0 0 32px;width:32px;
+}
+.phone .tf-bank-arrow svg{width:14px;height:14px}
+.phone .tf-bank-arrow-line::after{
+  content:"";position:absolute;inset-inline:0;top:50%;height:1px;
+  background:var(--ds-sem-divider);transform:translateY(-50%);
+}
+.phone button.tf-bank-destination{
+  width:100%;border:0;background:none;color:var(--n900);
+  cursor:pointer;text-align:left;font:inherit;
+}
+.phone .tf-bank-destination .fi .tf-flag-circle{
+  display:flex;align-items:center;justify-content:center;
+}
+.phone .tf-bank-route-card .tf-bank-leg .fl b.tf-bank-country-placeholder{
+  color:var(--ds-sem-text-placeholder);
+}
+.phone .tf-bank-destination:focus-visible{
+  outline:2px solid var(--brand-600);outline-offset:-2px;border-radius:12px;
+}
+
+
+/* A catalog frame displays the actual bank route card, not a recreation. */
+html.tf-route-specimen,html.tf-route-specimen body{
+  box-sizing:border-box;width:100%;height:100%;margin:0;overflow:hidden;background:var(--n50);
+}
+html.tf-route-specimen .top,
+html.tf-route-specimen .sidebar,
+html.tf-route-specimen .apiBox,
+html.tf-route-specimen .workspace>.stage,
+html.tf-route-specimen .workspace>.devtools,
+html.tf-route-specimen .phone.tf-phone>.head,
+html.tf-route-specimen .phone.tf-phone>.tf-foot,
+html.tf-route-specimen .phone.tf-phone>.tf-bottom-nav{
+  display:none!important;
+}
+html.tf-route-specimen .proto-shell,
+html.tf-route-specimen .workspace{
+  display:block;width:100%;height:100%;min-height:0;margin:0;padding:0;
+}
+html.tf-route-specimen .phone.tf-phone{
+  width:100%!important;height:100%!important;min-height:0!important;
+  max-width:none!important;transform:none;box-shadow:none;border:0;border-radius:0;
+}
+html.tf-route-specimen .phone.tf-phone>.tf-scroll{
+  box-sizing:border-box;position:absolute!important;inset:0!important;
+  width:100%;height:100%!important;max-height:none!important;
+  padding:18px 12px 0!important;overflow:hidden!important;
+}
+html.tf-route-specimen .phone.tf-phone .tf-bank-route-card{margin:0;}
