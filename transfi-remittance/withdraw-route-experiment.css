@@ -43,8 +43,8 @@
 #v-exp-route .exp-use-all span{font-weight:600;color:var(--n850)}
 #v-exp-route .exp-use-all:focus-visible{outline:2px solid var(--brand-600);outline-offset:2px;border-radius:4px}
 #v-exp-route .exp-use-all:disabled{cursor:default;opacity:.55}
-#v-exp-route .exp-note{margin:20px 4px 0;color:var(--n500);font-size:13px;line-height:19px}
-#v-exp-route .exp-error{min-height:18px;font-size:13px;line-height:18px;color:var(--err);padding:0 3px;margin-bottom:9px}
+#v-exp-route .exp-note{margin:20px 4px 0;color:var(--n500);font:var(--ds-type-body-secondary)}
+#v-exp-route .exp-error{min-height:18px;font:var(--ds-type-body-secondary);color:var(--err);padding:0 3px;margin-bottom:9px}
 #v-exp-route .exp-error:empty{display:none}
 #v-exp-route #exp-net-toggle:focus-visible,#v-exp-route .exp-actions .uzone:focus-visible{outline:2px solid var(--n850);outline-offset:-2px}
 @media(max-width:740px){
