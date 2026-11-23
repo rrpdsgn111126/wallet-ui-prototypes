@@ -610,7 +610,8 @@ html.tf-embedded .proto-shell,html.tf-embedded .workspace{height:100%;width:100%
   flex:0 0 24px;width:24px;height:24px;min-width:24px;
   border-radius:50%;overflow:hidden;background:transparent;
 }
-.phone.tf-phone .tf-country-flag{
+.phone.tf-phone .tf-country-flag,
+.phone.tf-phone .fld.tf-field .fi svg.tf-country-flag{
   display:block;width:24px;height:24px;max-width:none;
   border-radius:50%;overflow:hidden;clip-path:circle(50% at 50%);
 }
