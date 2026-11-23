@@ -669,3 +669,14 @@ html.tf-component-only .phone.tf-phone .tf-scroll > .fld.tf-picker-trigger{
 .phone.tf-phone .fld.tf-field.tf-amount .addon .mx.wd-max { font: var(--ds-type-small-emphasis); }
 .phone.tf-phone .row.tot .rt,
 .phone.tf-phone .row.tot .rv { font: var(--ds-type-strong-value); }
+
+/* Bank ALT.VU source account uses the coin plate, not the 40px currency SVG. */
+.phone.tf-phone .fld.tf-field .fi:has(> .cn.ds-icon-frame){
+  box-sizing:border-box;flex:0 0 var(--ds-icon-frame-size);
+  width:var(--ds-icon-frame-size);height:var(--ds-icon-frame-size);
+  background:transparent;
+}
+.phone.tf-phone .fld.tf-field .fi > .cn.ds-icon-frame{
+  width:var(--ds-icon-frame-size);height:var(--ds-icon-frame-size);
+  min-width:var(--ds-icon-frame-size);background:var(--coin-plate);
+}
