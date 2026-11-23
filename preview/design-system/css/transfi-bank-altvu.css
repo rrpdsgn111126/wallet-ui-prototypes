@@ -496,12 +496,12 @@ html.tf-embedded .proto-shell,html.tf-embedded .workspace{height:100%;width:100%
    Their SVG flags remain distinct artwork, as specified in UI_PATTERNS. */
 .phone.tf-phone .tf-picker-trigger .fi.ds-icon-frame,
 .phone.tf-phone .tf-picker-row .ri.ds-icon-frame{
+  box-sizing:border-box;
+  flex:0 0 var(--ds-icon-frame-size);
+  width:var(--ds-icon-frame-size);
+  height:var(--ds-icon-frame-size);
+  min-width:var(--ds-icon-frame-size);
   background:var(--coin-plate,var(--ds-color-coin-plate));
-}
-.phone.tf-phone .tf-picker-row .ri.ds-icon-frame--compact{
-  flex:0 0 var(--ds-icon-frame-compact-size);
-  width:var(--ds-icon-frame-compact-size);
-  height:var(--ds-icon-frame-compact-size);
 }
 .phone.tf-phone .tf-picker-row .ri > svg{
   display:block;width:20px;height:20px;
