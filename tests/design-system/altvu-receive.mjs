@@ -84,6 +84,8 @@ try{
   const rotated=await page.evaluate(()=>myPay.url);
   assert.notEqual(rotated,initial,'Confirmed rotation changes demo link');
   assert.equal(await v.locator('.qr-rotate-sheet').isVisible(),false);
+  assert.equal(await page.evaluate(()=>document.activeElement?.classList.contains('qr-rotate')),true,
+    'Focus returns to the link after confirmed rotation');
   assert.equal(await v.locator('.qr-share').isDisabled(),false);
   // Existing readonly email field has an independent copy action.
   await page.evaluate(()=>{
