@@ -158,15 +158,19 @@
 <article class="cmp exp-route-component" id="experimental-transfer-route">
 <div class="meta">
 <h3>Откуда / Куда</h3>
-<p>Одна двухпольная карточка с постоянным источником ALT.VU и разными типами назначения. Во всех вариантах одинаковые отступы, размер иконок, типографика и разделитель с центральной стрелкой. Источник визуального паттерна — актуальная карточка вывода SEPA/SWIFT. Ниже показаны реальные карточки из экспериментального прототипа, а не снимки целых экранов.</p>
+<p>Одна двухпольная карточка с постоянным источником ALT.VU и разными типами назначения. Для редактируемого поля получателя добавлены состояния «Пустое» и «Заполнено»: при вводе адреса или выборе страны появляется компактный крестик, который сбрасывает значение. Все варианты используют один рендерер <code>AltvuRouteCard</code>, одинаковые отступы, иконки и разделитель. Показаны живые компоненты, не полные экраны.</p>
 <p class="cls"><code>.tf-bank-route-card · .tf-bank-leg · .tf-bank-arrow-line · .tf-bank-arrow</code></p>
-<p class="sts"><b>Варианты:</b> криптоадрес · страна SEPA · страна SWIFT · банк (демонстрационное состояние, выбор банка на первом шаге не реализован).</p>
+<p class="sts"><b>Состояния:</b> пустое · заполнено с очисткой. <b>Варианты:</b> USDT · SEPA · SWIFT · банк (демонстрационный, без сброса).</p>
 <a class="open" href="https://rrpdsgn111126.github.io/wallet-ui-prototypes/preview/withdraw-route/transfi-remittance/?experiment=withdraw&amp;mode=usdt" target="_blank" rel="noopener">Открыть экспериментальный прототип</a>
 </div>
 <div class="exp-route-variants">
 <figure class="v exp-route-preview">
 <figcaption>Криптовалюта · ALT.VU → USDT</figcaption>
 <iframe loading="lazy" scrolling="no" src="https://rrpdsgn111126.github.io/wallet-ui-prototypes/preview/withdraw-route/transfi-remittance/?experiment=withdraw&amp;mode=usdt&amp;component=route-card" title="Общая карточка: источник ALT.VU, получатель USDT с адресом"></iframe>
+</figure>
+<figure class="v exp-route-preview">
+<figcaption>Криптовалюта · Заполнено</figcaption>
+<iframe loading="lazy" scrolling="no" src="https://rrpdsgn111126.github.io/wallet-ui-prototypes/preview/withdraw-route/transfi-remittance/?experiment=withdraw&amp;mode=usdt&amp;component=route-card&amp;filled=1" title="Та же карточка ALT.VU → USDT с заполненным адресом и кнопкой очистки"></iframe>
 </figure>
 <figure class="v exp-route-preview">
 <figcaption>SEPA · Выбор страны</figcaption>
