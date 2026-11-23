@@ -8,9 +8,16 @@
   script.src=src.href;
   script.async=false;
   script.onload=function(){
-    const route=document.createElement('script');
-    route.src=new URL('./withdraw-route-experiment.js?v=20261120',current.src).href;
-    document.head.appendChild(route);
+    const component=document.createElement('script');
+    component.src=new URL('../../design-system/transfi-remittance/route-card.js',current.src).href;
+    component.async=false;
+    component.onload=function(){
+      const route=document.createElement('script');
+      route.src=new URL('./withdraw-route-experiment.js?v=20261123',current.src).href;
+      document.head.appendChild(route);
+    };
+    component.onerror=function(){console.error('Failed to load canonical route-card.js');};
+    document.head.appendChild(component);
   };
   script.onerror=function(){console.error('Failed to load canonical preview-interactions.js');};
   document.head.appendChild(script);
