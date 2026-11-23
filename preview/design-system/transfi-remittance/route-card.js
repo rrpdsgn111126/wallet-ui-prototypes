@@ -20,7 +20,8 @@ function leg(spec,isCrypto){
   const frameClass=(isCrypto||spec.framedIcon===true)?' ds-icon-frame':'';
   return '<'+tag+attributes+id+' class="tf-bank-leg'+(isCrypto?' exp-leg':'')+extra+'">'+
     '<div class="fi"><div class="cn'+frameClass+'">'+(spec.iconHtml||'')+'</div></div>'+
-    '<div class="fl'+(isCrypto?' exp-leg-main':'')+'"><i>'+escapeText(spec.label)+'</i>'+
+    '<div class="fl'+(isCrypto?' exp-leg-main':'')+'"><i'+
+      (spec.labelId?' id="'+escapeText(spec.labelId)+'"':'')+'>'+escapeText(spec.label)+'</i>'+
       (spec.contentHtml||'')+'</div></'+tag+'>';
 }
 const arrow='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--n850)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v15m-6-6 6 6 6-6"/></svg>';
