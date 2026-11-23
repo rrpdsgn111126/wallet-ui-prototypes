@@ -62,8 +62,7 @@
 .phone.tf-phone:not(.is-home)>.tf-foot .btno {
   background:var(--n100);color:var(--n850);box-shadow:none;
 }
-/* Legacy method icon compatibility: 40px plate, 24px logo.
-   The historical 25px logo in bank-prototype-base is not a new size role. */
+/* Legacy bank method icons now use the shared 32px plate and 20px artwork. */
 .phone.tf-phone .tf-method-icon{
   box-sizing:border-box;width:var(--ds-icon-frame-size);
   height:var(--ds-icon-frame-size);
@@ -74,19 +73,27 @@
   height:var(--ds-icon-art-size);
   object-fit:contain;border-radius:50%;
 }
-/* Native method icon: gray 40px plate, purple 24px brand mark, white 16px pictogram.
-   Same hierarchy as the original alt.vu USDT/USDC icon inside .ic > .cn > img. */
+/* Native SEPA/SWIFT method icons share the 32px/20px component.
+   Remove the 40px .ic plate around the framed coin. */
+.phone.tf-phone .tf-native-sheet .tf-method-row.m .ic{
+  box-sizing:border-box;flex:0 0 var(--ds-icon-frame-size);
+  width:var(--ds-icon-frame-size);height:var(--ds-icon-frame-size);
+  background:transparent;
+}
 .phone.tf-phone .tf-native-sheet .tf-method-row.m .cn.tf-rail-icon{
-  box-sizing:border-box;width:40px;height:40px;min-width:40px;
-  display:grid;place-items:center;border-radius:999px;
-  background:var(--coin-plate,var(--n100));
+  box-sizing:border-box;display:grid;place-items:center;
+  width:var(--ds-icon-frame-size);height:var(--ds-icon-frame-size);
+  min-width:var(--ds-icon-frame-size);border-radius:50%;
+  background:var(--coin-plate);
 }
 .phone.tf-phone .tf-native-sheet .tf-method-row.m .tf-rail-mark{
-  display:grid;place-items:center;width:24px;height:24px;
-  border-radius:999px;background:#6f4bf2;color:#fff;
+  display:grid;place-items:center;
+  width:var(--ds-icon-art-size);height:var(--ds-icon-art-size);
+  border-radius:50%;background:#6f4bf2;color:#fff;
 }
 .phone.tf-phone .tf-native-sheet .tf-method-row.m .tf-rail-glyph{
-  display:block;width:16px;height:16px;flex-shrink:0;
+  display:block;width:var(--ds-icon-glyph-size);
+  height:var(--ds-icon-glyph-size);flex-shrink:0;
 }
 /* Standard alt.vu field, label, icon plate and text input. */
 .phone.tf-phone .fld.tf-field {
