@@ -128,7 +128,7 @@ html.exp-route-specimen #v-exp-route .exp-route-card{margin:0}
 .phone.tf-phone .tf-bank-sbp .h{
   display:flex;align-items:flex-end;gap:12px;padding:16px 18px 24px;
 }
-.phone.tf-phone .tf-bank-sbp .h + .mid + .h{padding:24px 18px 16px}
+.phone.tf-phone .tf-bank-sbp .h + .mid + .h{padding:24px 18px 8px}
 .phone.tf-phone .tf-bank-sbp .t{flex:1 1 auto;min-width:0}
 .phone.tf-phone .tf-bank-sbp .t label,
 .phone.tf-phone .tf-bank-sbp .tf-bank-receive-label{
@@ -175,7 +175,7 @@ html.exp-route-specimen #v-exp-route .exp-route-card{margin:0}
 .phone.tf-phone .tf-bank-sbp .tf-bank-currency-switch:focus-visible{
   outline:2px solid var(--brand-600);outline-offset:2px;
 }
-.phone.tf-phone .tf-bank-use-all-wrap{padding:0 4px;margin-bottom:8px}
+.phone.tf-phone .tf-bank-sbp .tf-bank-use-all-wrap{padding:0 18px 12px;margin:0}
 .phone.tf-phone .tf-bank-use-all{
   display:inline-flex;align-items:center;gap:4px;flex-wrap:wrap;
   min-height:44px;max-width:100%;padding:9px 0;border:0;
@@ -187,12 +187,20 @@ html.exp-route-specimen #v-exp-route .exp-route-card{margin:0}
   outline:2px solid var(--brand-600);outline-offset:2px;border-radius:4px;
 }
 .phone.tf-phone .tf-bank-use-all:disabled{opacity:.55;cursor:default}
-.phone.tf-phone .tf-bank-config-quote{margin-bottom:12px}
-/* The first row owns the sole full-width line; total adds no top border.
-   Specificity exceeds the shared .box.tf-quote .row.tot 2px rule. */
-.phone.tf-phone .box.tf-quote.tf-bank-config-quote .row:not(:last-child){
-  border-bottom:1px solid var(--ds-sem-divider);
+.phone.tf-phone .tf-bank-config-quote{margin:0 0 12px}
+/* Compact debit total is pinned just above the recipient-details CTA.
+   Both columns stay on one line at the 390/430px phone widths. */
+.phone.tf-phone .box.tf-quote.tf-bank-config-quote .tf-bank-total-row{
+  min-height:56px;padding:12px 16px;gap:8px;border:0;
 }
-.phone.tf-phone .box.tf-quote.tf-bank-config-quote .row.tot{
-  border-top:0;border-bottom:0;
+.phone.tf-phone .box.tf-quote.tf-bank-config-quote .tf-bank-total-row .rt{
+  flex:1 1 auto;min-width:0;white-space:nowrap;
+  font:var(--ds-type-body-secondary);color:var(--n900);
+}
+.phone.tf-phone .box.tf-quote.tf-bank-config-quote .tf-bank-fee{
+  font:var(--ds-type-field-label);color:var(--n500);white-space:nowrap;
+}
+.phone.tf-phone .box.tf-quote.tf-bank-config-quote .tf-bank-total-row .rv{
+  flex:0 0 auto;max-width:none;white-space:nowrap;
+  font:var(--ds-type-field-value);color:var(--n900);
 }
