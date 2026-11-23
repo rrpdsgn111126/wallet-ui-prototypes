@@ -8920,16 +8920,18 @@ async function qrRotate(){
   qrRotationBusy = true;
   const yes = $('#v-my-qr .qr-rotate-yes');
   if(yes){yes.disabled=true;yes.textContent='Обновляем…';}
+  let updated=false;
   try{
-    const ok = await loadMyQR(true);
-    if(ok){
-      qrRotateSheet(false);
-      msg('my-qr', 'Ссылка обновлена. Старая больше не работает', true);
-    }
+    updated=await loadMyQR(true);
   }finally{
-    qrRotationBusy = false;
+    qrRotationBusy=false;
     if(yes){yes.disabled=false;yes.textContent='Да, обновить';}
     qrUpdateControls();
+  }
+  if(updated){
+    // Restore focus only after the initiating action becomes enabled again.
+    qrRotateSheet(false);
+    msg('my-qr', 'Ссылка обновлена. Старая больше не работает', true);
   }
 }
 
