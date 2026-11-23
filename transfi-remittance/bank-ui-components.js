@@ -73,13 +73,13 @@ function uxRailIcon(rail){
     SWIFT:'<circle cx="12" cy="12" r="8"/><path d="M4 12h16M12 4c-2.6 2.2-4 4.9-4 8s1.4 5.8 4 8c2.6-2.2 4-4.9 4-8s-1.4-5.8-4-8M6 8.4c1.7.8 3.7 1.2 6 1.2s4.3-.4 6-1.2M6 15.6c1.7-.8 3.7-1.2 6-1.2s4.3.4 6 1.2"/>'
   };
   if(!Object.prototype.hasOwnProperty.call(glyphs,rail))return '';
-  return '<div class="cn tf-rail-icon" data-rail-icon="'+rail+'"><span class="tf-rail-mark"><svg class="tf-rail-glyph" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+glyphs[rail]+'</svg></span></div>';
+  return '<div class="cn ds-icon-frame tf-rail-icon" data-rail-icon="'+rail+'"><span class="tf-rail-mark"><svg class="tf-rail-glyph" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+glyphs[rail]+'</svg></span></div>';
 }
 
 function uxMethodRow(name,description,symbol,handler){
   const logos={USDT:'img-df9900c4.png',USDC:'img-a82008b8.png','ALT.VU':'img-27f3d8cf.png',СБП:'img-61ce324e.png'};
   const img=logos[name]
-    ? `<div class="cn" style="width:40px;height:40px"><img src="../assets/${logos[name]}" alt="" width="24" height="24" style="border-radius:999px"/></div>`
+    ? `<div class="cn ds-icon-frame"><img src="../assets/${logos[name]}" alt="" width="24" height="24" style="border-radius:999px"/></div>`
     : uxRailIcon(name)||`<span aria-hidden="true">${esc(symbol)}</span>`;
   return `<button type="button" class="m tf-method-row" onclick="${handler}"><span class="ic" aria-hidden="true">${img}</span><span class="mt"><b>${esc(name)}</b><i>${esc(description)}</i></span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--n400)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg></button>`;
 }
@@ -146,7 +146,7 @@ function uxCurrencySymbol(code){
 
 function uxSourceAccountField(){
   return '<div class="fld g tf-field tf-source">'+
-    '<div class="fi"><div class="cn" style="width:40px;height:40px"><img width="24" height="24" src="../assets/img-27f3d8cf.png" alt="" style="display:block;border-radius:50%"></div></div>'+
+    '<div class="fi"><div class="cn ds-icon-frame"><img width="24" height="24" src="../assets/img-27f3d8cf.png" alt="" style="display:block;border-radius:50%"></div></div>'+
     '<div class="fl"><i>Со счёта alt.vu</i><b>Доступно 4 812.60 $</b></div></div>';
 }
 
