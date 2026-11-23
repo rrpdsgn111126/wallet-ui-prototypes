@@ -15,8 +15,11 @@ function leg(spec,isCrypto){
     '" aria-haspopup="dialog" aria-label="'+escapeText(spec.ariaLabel||spec.label)+'"':'';
   const id=spec.id?' id="'+escapeText(spec.id)+'"':'';
   const extra=button?' tf-bank-destination':'';
+  // Coin/ALT.VU legs use the canonical 40/24 framed icon. Country flags
+  // and generic bank symbols keep their independent icon treatment.
+  const frameClass=(isCrypto||spec.framedIcon===true)?' ds-icon-frame':'';
   return '<'+tag+attributes+id+' class="tf-bank-leg'+(isCrypto?' exp-leg':'')+extra+'">'+
-    '<div class="fi"><div class="cn">'+(spec.iconHtml||'')+'</div></div>'+
+    '<div class="fi"><div class="cn'+frameClass+'">'+(spec.iconHtml||'')+'</div></div>'+
     '<div class="fl'+(isCrypto?' exp-leg-main':'')+'"><i>'+escapeText(spec.label)+'</i>'+
       (spec.contentHtml||'')+'</div></'+tag+'>';
 }
