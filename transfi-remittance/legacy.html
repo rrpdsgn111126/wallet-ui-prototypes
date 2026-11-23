@@ -122,30 +122,8 @@ function uxRecipientValidation(){
  }
  return null;
 }
-function uxUpdateFlowCTA(){
- const footer=$('footer');
- if(!footer||S.flow!=='out')return;
- const button=footer.querySelector('button.tf-button');
- if(!button||!['out-config','out-recipient'].includes(S.screen))return;
- const invalid=S.screen==='out-config'?uxConfigValidation():uxRecipientValidation();
- const inactive=Boolean(invalid);
- button.classList.toggle('tf-inactive',inactive);
- button.setAttribute('aria-disabled',String(inactive));
- const message=footer.querySelector('.tf-submit-error');
- if(message){message.hidden=true;message.textContent='';}
-}
-function uxFormError(error){
- if(!error)return;
- notify(error.message);
- const footer=$('footer');
- if(footer){
-   let hint=footer.querySelector('.tf-submit-error');
-   if(!hint){hint=document.createElement('div');hint.className='tf-submit-error';hint.setAttribute('role','alert');footer.appendChild(hint);}
-   hint.textContent=error.message;hint.hidden=false;
- }
- const input=$(error.field);
- if(input){input.scrollIntoView({block:'center',behavior:'smooth'});input.focus();}
-}
+
+
 function checkConfig(){
  const invalid=uxConfigValidation();
  if(invalid){uxFormError(invalid);return;}
@@ -342,34 +320,10 @@ function render(){const steps=SCREENS[S.flow];document.querySelectorAll('[data-f
 // Genuine alt.vu component snippets, from build/snippets.json (safe, fictional data).
 const uxIssuedCard="<div class=\"card tf-auth-card tf-visa-card\" aria-label=\"Баланс карты Visa Platinum\">\n  <div class=\"tf-card-tools\">\n    <button type=\"button\" class=\"tf-card-plus\" aria-label=\"Добавить карту\" onclick=\"uxOtherMethod('Добавить карту')\"><svg width=\"25\" height=\"25\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.25\" stroke-linecap=\"round\" aria-hidden=\"true\"><path d=\"M12 4v16M4 12h16\"/></svg></button>\n    <button type=\"button\" class=\"tf-card-gear\" aria-label=\"Настройки карты\" onclick=\"uxGo('wallet-card')\"><svg viewBox=\"0 0 24 24\" width=\"28\" height=\"28\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M21.37 10.44v3.12l-2.63.87-.87 2.09 1.88 1.87-2.23 2.23-1.87-1.88-2.09.87-.87 2.63H9.56l-.87-2.63-2.09-.87-1.87 1.88-2.23-2.23 1.88-1.87-.87-2.09-2.63-.87v-3.12l2.63-.87.87-2.09L2.5 5.61l2.23-2.23L6.6 5.26l2.09-.87.87-2.63h3.12l.87 2.63 2.09.87 1.87-1.88 2.23 2.23-1.88 1.87.87 2.09z\"/><circle cx=\"11.12\" cy=\"12\" r=\"3\"/></svg></button>\n  </div>\n  <div class=\"cblock\">\n    <div class=\"ccap\">Баланс</div>\n    <div class=\"cbal\">4 812<span class=\"cnt\">.60 $</span></div>\n  </div>\n  <div class=\"tf-visa-brand\" aria-label=\"Visa Platinum\"><strong>VISA</strong><small>Platinum</small></div>\n</div>";
 const uxGhostCard="<div class=\"card ghost tf-auth-card\">\n      <button class=\"cissue\" type=\"button\" onclick=\"uxOtherMethod('Выпуск карты')\" aria-label=\"Выпустить карту\"><svg viewBox=\"0 0 33 33\" width=\"33\" height=\"33\" fill=\"none\" stroke=\"#fff\" stroke-width=\"2.2\" stroke-linecap=\"round\" aria-hidden=\"true\"><path d=\"M16.5 9.5v14M9.5 16.5h14\"></path></svg></button><div class=\"ctop\" data-go=\"card\"><svg width=\"33\" height=\"33\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#211e1d\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M21.37 10.44 L21.37 13.56 L18.72 13.56 L17.85 15.65 L19.73 17.52 L17.52 19.73 L15.65 17.85 L13.56 18.72 L13.56 21.37 L10.44 21.37 L10.44 18.72 L8.35 17.85 L6.48 19.73 L4.27 17.52 L6.15 15.65 L5.28 13.56 L2.63 13.56 L2.63 10.44 L5.28 10.44 L6.15 8.35 L4.27 6.48 L6.48 4.27 L8.35 6.15 L10.44 5.28 L10.44 2.63 L13.56 2.63 L13.56 5.28 L15.65 6.15 L17.52 4.27 L19.73 6.48 L17.85 8.35 L18.72 10.44 Z\"></path><circle cx=\"12\" cy=\"12\" r=\"3.4\"></circle></svg></div>\n      <div class=\"cblock\"><div class=\"ccap\">Баланс</div><div class=\"cbal\">4 812<span class=\"cnt\">.60 $</span></div></div>\n    </div>";
-function uxBottomNav(event){
-  const target=event.target.closest('[data-mb]');
-  if(!target)return;
-  event.preventDefault();
-  const key=target.dataset.mb;
-  if(key==='home')uxGo('home');
-  else if(key==='topup')setFlow('in');
-  else if(key==='withdraw')setFlow('out');
-  else if(key==='card')uxGo('wallet-card');
-  else if(key==='profile')uxGo('wallet-profile');
-}
-function uxHomeNav(event){
-  const el=event.target.closest('[data-go]');if(!el)return;
-  const route=el.getAttribute('data-go');
-  if(route==='topup')setFlow('in');
-  else if(route==='withdraw')setFlow('out');
-  else if(route==='history')uxGo('history');
-  else if(route==='card')uxGo('wallet-card');
-  else if(route==='profile')uxGo('wallet-profile');
-  else if(route==='earn')uxGo('wallet-earn');
-  else if(route==='notes')uxGo('wallet-notes');
-  else uxOtherMethod(({card:'Карта',earn:'Партнёрская программа',notes:'Уведомления',support:'Поддержка',profile:'Профиль'})[route]||route);
-}
-function uxHomeNavKey(e){
-  if(e.key!=='Enter'&&e.key!==' ')return;
-  if(e.target.closest('[data-go]')){e.preventDefault();uxHomeNav(e)}
-}
-function uxProfileTab(tab){if(['data','settings','earn'].includes(tab)){S.profileTab=tab;render()}}
+
+
+
+
 function uxSelectMethod(rail) {
   if(!['SEPA','SWIFT'].includes(rail))return;
   if(S.flow==='in'){
@@ -565,40 +519,7 @@ function uxRenderScreen(){
   return old;
 }
 
-function uxRender(){
-  const phone=document.querySelector('.phone.tf-phone');
-  phone.classList.toggle('is-home',S.screen==='home');
-  phone.classList.toggle('tf-bank-final',S.flow==='out'&&['out-success','out-failed'].includes(S.screen));
-  phone.classList.toggle('tf-bank-waiting',S.flow==='out'&&['out-progress','out-held'].includes(S.screen));
-  const tabs=document.querySelector('.tf-bottom-nav');
-  const showTabs=['home','wallet-card','wallet-profile','wallet-earn','wallet-notes'].includes(S.screen);
-  phone.classList.toggle('has-bottom-nav',showTabs);
-  tabs.hidden=!showTabs;
-  for(const tab of tabs.querySelectorAll('[data-mb]')){
-    const key=tab.dataset.mb;
-    const selected=(key==='home'&&S.screen==='home')
-      ||(key==='card'&&S.screen==='wallet-card')
-      ||(key==='profile'&&['wallet-profile','wallet-earn','wallet-notes'].includes(S.screen));
-    tab.classList.toggle('on',selected);
-    if(selected)tab.setAttribute('aria-current','page');
-    else tab.removeAttribute('aria-current');
-  }
 
-  _tfBaseRender();
-  uxUpdateFlowCTA();
-  $('methodLayer').hidden=!S.modal;
-  uxRenderMethods();
-  uxRenderPicker();
-  document.querySelector('.phone.tf-phone .back').hidden=S.screen==='home';
-  const home=$('flow-home');
-  if(home)home.classList.toggle('active',S.screen==='home');
-  if(S.screen==='home'){
-    $('stageLabel').textContent='Главная · Кошелёк alt.vu';
-    $('stageIndex').textContent='Главная';
-  }else{
-    $('stageLabel').textContent=(S.flow==='in'?'Пополнение':'Вывод')+' · '+(S.flow==='in'?S.inRail:S.outRail);
-  }
-}
 const _tfBaseRender=render;
 const _tfBaseRenderScreen=renderScreen;
 S.screen='home';
