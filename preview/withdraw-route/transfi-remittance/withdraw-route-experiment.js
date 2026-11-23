@@ -17,7 +17,7 @@
   const names={tron:'TRC20',bnb:'BEP-20',polygon:'Polygon',ton:'TON'};
   const state={method:'usdt',network:'tron',address:'',scannedCode:'',amount:'',balanceMinor:0,busy:false,networkCatalog:null,sheetBusy:false};
   const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-  const moneyText=cents=>new Intl.NumberFormat('ru-RU',{minimumFractionDigits:2,maximumFractionDigits:2}).format(cents/100);
+  const moneyText=cents=>groupAmount((cents/100).toFixed(2));
   // Display 7 whole digits + 2 decimals like 9 999 999.01; calculations use ungrouped decimals.
   const MAX_AMOUNT_MINOR=999999999;
   function cleanAmount(raw){
@@ -34,7 +34,10 @@
     const whole=(dot<0?raw:raw.slice(0,dot)).replace(/\B(?=(\d{3})+(?!\d))/g,' ');
     return whole+(dot<0?'':raw.slice(dot));
   }
-  const arrow='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--n850)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v15m-6-6 6 6 6-6"/></svg>';
+  if(!window.AltvuRouteCard)throw new Error('Shared route-card module is missing');
+  const routeCss=document.createElement('link');routeCss.rel='stylesheet';
+  routeCss.href='../../design-system/transfi-remittance/route-card.css';
+  document.head.appendChild(routeCss);
   const link=document.createElement('link');link.rel='stylesheet';link.href='./withdraw-route-experiment.css';document.head.appendChild(link);
 
   const head=document.querySelector('#v-out-usdt-tron > .head');
@@ -44,24 +47,21 @@
   screen.style.cssText='--t-op:.42;--t-blur:26px;--t-h:300px;--t-mask:linear-gradient(180deg,#000 0%,#000 46%,transparent 100%)';
   screen.innerHTML='<div class="tint"></div>'+head.outerHTML+
     '<div class="wrap tight">'+
-    '<div class="box exp-route-card" data-experiment="route-card">'+
-      '<div class="exp-leg">'+
-        '<div class="fi"><div class="cn ds-icon-frame"><img src="../assets/img-27f3d8cf.png" width="24" height="24" alt="alt.vu" style="border-radius:999px"></div></div>'+
-        '<div class="exp-leg-main fl">'+
-          '<i>Откуда → ALT.VU</i>'+
-          '<b id="exp-balance" aria-live="polite">—</b>'+
-        '</div>'+
-      '</div>'+
-      '<div class="exp-arrow-line"><span class="exp-arrow">'+arrow+'</span></div>'+
-      '<div class="exp-leg">'+
-        '<div class="fi"><div class="cn ds-icon-frame"><img id="exp-dest-logo" src="../assets/img-df9900c4.png" width="24" height="24" alt="" style="border-radius:999px"></div></div>'+
-        '<div class="exp-leg-main fl">'+
-          '<i id="exp-dest-label">Куда → USDT</i>'+
-          '<input id="exp-recipient" class="exp-recipient" aria-label="Адрес получателя" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Адрес кошелька">'+
-        '</div>'+
-      '</div>'+
-      '<div id="exp-actions-slot"></div>'+
-    '</div>'+
+    window.AltvuRouteCard.render({
+      variant:'crypto',
+      source:{
+        iconHtml:'<img src="../assets/img-27f3d8cf.png" width="24" height="24" alt="alt.vu" style="border-radius:999px">',
+        label:'Откуда → ALT.VU',
+        contentHtml:'<b id="exp-balance" aria-live="polite">—</b>'
+      },
+      destination:{
+        iconHtml:'<img id="exp-dest-logo" src="../assets/img-df9900c4.png" width="24" height="24" alt="" style="border-radius:999px">',
+        label:'Куда → USDT',
+        labelId:'exp-dest-label',
+        contentHtml:'<input id="exp-recipient" class="exp-recipient" aria-label="Адрес получателя" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Адрес кошелька">'
+      },
+      actionsHtml:'<div id="exp-actions-slot"></div>'
+    })+
     '<div id="exp-network-slot"></div>'+
     '<div class="fld w exp-amount-field">'+
       '<div class="fl"><i>Сумма перевода</i><b><input id="exp-amount" class="wd-amt" inputmode="decimal" placeholder="0.00" aria-label="Сумма перевода в долларах"></b></div>'+
@@ -334,6 +334,15 @@
   netField.addEventListener('keydown',e=>{
     if(e.key==='Enter'||e.key===' '){e.preventDefault();pickNetwork();}
   });
+  // The native wallet also has a delegated click handler on the network dim.
+  // Intercept backdrop clicks at window capture, before native handlers can
+  // navigate or mutate the active view. Restrict this to the active experiment.
+  window.addEventListener('click',e=>{
+    if(!screen.classList.contains('on')||nativeDim.hidden)return;
+    if(!e.target.closest('.ns-dim'))return;
+    e.preventDefault();e.stopImmediatePropagation();
+    closeSheet();
+  },true);
   // The global native dispatcher also owns [data-ns]. Intercept only while
   // the experiment is visible; all deposit flows remain unchanged.
   document.addEventListener('click',e=>{
