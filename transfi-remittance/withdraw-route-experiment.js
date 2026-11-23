@@ -50,12 +50,12 @@
     window.AltvuRouteCard.render({
       variant:'crypto',
       source:{
-        iconHtml:'<img src="../assets/img-27f3d8cf.png" width="24" height="24" alt="alt.vu" style="border-radius:999px">',
+        iconHtml:'<img src="../assets/img-27f3d8cf.png" width="20" height="20" alt="alt.vu" style="border-radius:999px">',
         label:'Откуда → ALT.VU',
         contentHtml:'<b id="exp-balance" aria-live="polite">—</b>'
       },
       destination:{
-        iconHtml:'<img id="exp-dest-logo" src="../assets/img-df9900c4.png" width="24" height="24" alt="" style="border-radius:999px">',
+        iconHtml:'<img id="exp-dest-logo" src="../assets/img-df9900c4.png" width="20" height="20" alt="" style="border-radius:999px">',
         label:'Куда → USDT',
         labelId:'exp-dest-label',
         contentHtml:'<input id="exp-recipient" class="exp-recipient" aria-label="Адрес получателя" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Адрес кошелька">'
