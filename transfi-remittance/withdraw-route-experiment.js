@@ -17,7 +17,7 @@
   const names={tron:'TRC20',bnb:'BEP-20',polygon:'Polygon',ton:'TON'};
   const state={method:'usdt',network:'tron',address:'',scannedCode:'',amount:'',balanceMinor:0,busy:false,networkCatalog:null,sheetBusy:false};
   const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-  const moneyText=cents=>new Intl.NumberFormat('ru-RU',{minimumFractionDigits:2,maximumFractionDigits:2}).format(cents/100);
+  const moneyText=cents=>groupAmount((cents/100).toFixed(2));
   // Display 7 whole digits + 2 decimals like 9 999 999.01; calculations use ungrouped decimals.
   const MAX_AMOUNT_MINOR=999999999;
   function cleanAmount(raw){
