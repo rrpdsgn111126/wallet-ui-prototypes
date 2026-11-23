@@ -80,6 +80,32 @@ async def assert_currency_icon(page, selector, currency):
         assert values["amountStroke"] == values["stroke"], values
 
 
+async def assert_picker_flag(page, selector, currency):
+    """Editable bank currency uses an EU/US/GB flag in the shared icon frame."""
+    options={"EUR":"EU","USD":"US","GBP":"GB"}
+    assert currency in options, currency
+    metrics=await page.locator(selector).evaluate("""field => {
+      const frame=field.querySelector('.fi');
+      const flag=field.querySelector('svg.tf-country-flag');
+      const sample=document.createElement('span');
+      sample.className='ds-icon-frame';
+      document.querySelector('.phone.tf-phone').appendChild(sample);
+      const expected=getComputedStyle(sample).backgroundColor;
+      sample.remove();
+      return {
+        frame:!!frame && frame.classList.contains('ds-icon-frame'),
+        size:frame && [getComputedStyle(frame).width,getComputedStyle(frame).height],
+        color:frame&&getComputedStyle(frame).backgroundColor,
+        expected,
+        flag:!!flag,
+        art:flag&&[getComputedStyle(flag).width,getComputedStyle(flag).height]
+      };
+    }""")
+    assert metrics["frame"] and metrics["size"] == ["32px","32px"], metrics
+    assert metrics["color"] == metrics["expected"], metrics
+    assert metrics["flag"] and metrics["art"] == ["20px","20px"], metrics
+
+
 async def assert_native_picker(page, country=False):
     """Verify the bank sheet matches the native USDT network picker markup/stack."""
     sheet=page.locator(".tf-picker-sheet")
@@ -127,10 +153,14 @@ async def assert_native_picker(page, country=False):
     assert geometry["oldCards"] == 0 and not geometry["checkGlyphs"], geometry
     assert abs(geometry["rowWidth"] - geometry["boxWidth"]) < 1, geometry
     assert not geometry["textFlags"], geometry
-    if country:
+    active=await page.evaluate("S.picker")
+    if country or active in ("inCurrency","outCurrency"):
         assert geometry["flags"] == geometry["rowCount"], geometry
         assert geometry["matchingFlags"] == geometry["rowCount"], geometry
-        assert await page.locator('[data-picker="country"] .tf-country-flag').count() == 1
+        flag_field="country" if country else active
+        assert await page.locator('[data-picker="'+flag_field+'"] .tf-country-flag').count() == 1
+        plates=await page.locator('.tf-picker-row .ri.ds-icon-frame').count()
+        assert plates==geometry["rowCount"], (plates,geometry)
     else:
         assert geometry["flags"] == 0, geometry
 
@@ -194,8 +224,7 @@ async def smoke(browser, origin):
             assert "USD" in await page.locator('[data-picker="inCurrency"]').inner_text()
             assert "DEMOUS00" in await page.locator(".tf-requisites").inner_text()
             # The selected USD currency glyph must use the same vector metric.
-            usd=page.locator('[data-picker="inCurrency"] svg.tf-currency-icon')
-            await expect(usd).to_have_attribute('data-currency','USD')
+            await assert_picker_flag(page,'[data-picker="inCurrency"]',"USD")
             await page.locator('[data-picker="inCurrency"]').click()
             await page.keyboard.press("Escape")
             await expect(page.locator(".tf-picker-sheet")).to_have_count(0)
@@ -212,7 +241,7 @@ async def smoke(browser, origin):
         if rail=="SEPA":
             await assert_currency_icon(page,".tf-fixed-currency","EUR")
         else:
-            await assert_currency_icon(page,'[data-picker="outCurrency"]',"EUR")
+            await assert_picker_flag(page,'[data-picker="outCurrency"]',"EUR")
         if rail == "SEPA":
             assert await page.locator('[data-picker="outCurrency"]').count() == 0, "SEPA EUR must be fixed"
         else:
@@ -221,7 +250,7 @@ async def smoke(browser, origin):
             await assert_native_picker(page)
             await page.locator('[data-picker-value="GBP"]').click()
             assert "GBP" in await page.locator('[data-picker="outCurrency"]').inner_text()
-            await assert_currency_icon(page,'[data-picker="outCurrency"]',"GBP")
+            await assert_picker_flag(page,'[data-picker="outCurrency"]',"GBP")
         await page.locator('[data-picker="country"]').click()
         await assert_native_picker(page, country=True)
         # Row must be clickable without force, with the dim BEHIND the sheet.
@@ -419,7 +448,7 @@ async def smoke(browser, origin):
         if mode=="country":
             assert await inner.locator('.tf-picker-row .tf-country-flag').count()>=4
         else:
-            assert await inner.locator('.tf-picker-row .tf-currency-icon').count()==3
+            assert await inner.locator('.tf-picker-row .tf-country-flag').count()==3
         z=await inner.locator('.tf-picker-layer').evaluate("""root => ({
           sheet:Number(getComputedStyle(root.querySelector('.tf-picker-sheet')).zIndex),
           dim:Number(getComputedStyle(root.querySelector('.tf-picker-dim')).zIndex)
@@ -458,8 +487,10 @@ async def smoke(browser, origin):
         assert await inner.locator(".tf-source .fl b").inner_text()=="Доступно 4 812.60 $"
         currency=(inner.locator(".tf-fixed-currency") if rail=="SEPA"
                   else inner.locator('[data-picker="outCurrency"]'))
-        await expect(currency.locator("svg.tf-currency-icon")).to_have_attribute("data-currency",code)
-        assert await inner.locator(".tf-currency-icon").count()>=1
+        if rail=="SEPA":
+            await expect(currency.locator("svg.tf-currency-icon")).to_have_attribute("data-currency",code)
+        else:
+            await expect(currency.locator("svg.tf-country-flag")).to_have_count(1)
         head=inner.locator(".phone.tf-phone:not(.is-home) > .head")
         padding=await head.evaluate("el => parseFloat(getComputedStyle(el).paddingTop)")
         assert padding==14,"Catalog bank header inset: "+str(padding)
