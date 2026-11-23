@@ -597,6 +597,7 @@ html.tf-capture.tf-embedded .phone.tf-phone,html.tf-capture.tf-embedded .phone.t
 <div class="sideLabel">Правила UX</div><ul id="metaRules"></ul><div class="divider"></div>
 <div class="sideLabel">Демо-состояния</div><div class="simBtns" id="simList"></div></aside>
 </div><div class="alert" id="toast" role="status" aria-live="polite"></div>
+<script src="../../design-system/transfi-remittance/bank-selector-flags.js"></script>
 <script>
 const COUNTRY={DE:'Германия',FR:'Франция',NL:'Нидерланды',GB:'Великобритания',US:'США',ES:'Испания'};
 const SEPA_COUNTRIES=['DE','FR','NL','ES'];
@@ -1289,32 +1290,12 @@ function uxPickerOptions(key){
   ];
   return [];
 }
-// Self-contained SVG flags: emoji flags render as two-letter country codes
-// on some Linux/Windows browser font stacks. Flags must always be graphical.
-function uxFlag(country){
- const c=String(country||'').toUpperCase();
- const stripe=(color,x,y,w,h)=>'<rect x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" fill="'+color+'"/>';
- const patterns={
-  DE:stripe('#161616',0,0,24,8)+stripe('#DD0000',0,8,24,8)+stripe('#FFCE00',0,16,24,8),
-  FR:stripe('#0055A4',0,0,8,24)+stripe('#FFFFFF',8,0,8,24)+stripe('#EF4135',16,0,8,24),
-  NL:stripe('#AE1C28',0,0,24,8)+stripe('#FFFFFF',0,8,24,8)+stripe('#21468B',0,16,24,8),
-  ES:stripe('#AA151B',0,0,24,6)+stripe('#F1BF00',0,6,24,12)+stripe('#AA151B',0,18,24,6)+
-    '<rect x="7" y="10" width="2.7" height="5" rx=".5" fill="#C62828"/><rect x="7.5" y="10.2" width="1.7" height="1.2" fill="#FFFFFF"/>',
-  GB:stripe('#012169',0,0,24,24)+
-    '<path d="M-2 -1 26 25M26 -1 -2 25" stroke="#FFFFFF" stroke-width="6"/>'+
-    '<path d="M-2 -1 26 25M26 -1 -2 25" stroke="#C8102E" stroke-width="2.6"/>'+
-    '<path d="M12 0V24M0 12H24" stroke="#FFFFFF" stroke-width="8"/>'+
-    '<path d="M12 0V24M0 12H24" stroke="#C8102E" stroke-width="4"/>',
-  US:stripe('#FFFFFF',0,0,24,24)+
-    Array.from({length:7},(_,i)=>stripe('#B22234',0,(i*48/13).toFixed(3),24,(24/13).toFixed(3))).join('')+
-    stripe('#3C3B6E',0,0,10.7,12.9)+
-    Array.from({length:12},(_,i)=>'<circle cx="'+(1.7+(i%3)*3.4)+'" cy="'+(1.5+Math.floor(i/3)*3.2)+'" r=".7" fill="#FFFFFF"/>').join('')
- };
- return '<svg class="tf-country-flag" width="24" height="24" viewBox="0 0 24 24" focusable="false" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">'+
-   (patterns[c]||stripe('#E9ECF0',0,0,24,24))+'</svg>';
-}
-function uxFlagPlate(country){
- return '<span class="tf-flag-circle" aria-hidden="true">'+uxFlag(country)+'</span>';
+// Currency and country flags are the SAME SVG implementation as the
+// canonical selector in /preview/design-system/; only the experiment layout differs.
+function uxFlag(country){return window.AltvuSelectorFlags.flag(country);}
+function uxFlagPlate(country){return window.AltvuSelectorFlags.plate(country);}
+function uxCurrencyPickerIcon(code){
+  return window.AltvuSelectorFlags.currencyPlate(code) || uxCurrencySymbol(code);
 }
 function uxPickerTitle(key){
   // In the design-system specimen the label is generic. The same picker in
@@ -1349,7 +1330,7 @@ function uxPickerField(label,key,icon){
   const selected=uxPickerOptions(key).find(option=>option.value===S[key]);
   return '<button type="button" class="fld w tf-field tf-picker-trigger'+(S.screen==='out-recipient'&&key==='purpose'?' tf-recipient-field':'')+'" data-picker="'+esc(key)+
     '" aria-haspopup="dialog" aria-label="'+esc(label)+': '+esc(selected?selected.label:'Не выбрано')+
-    '">'+(S.screen==='out-recipient'&&key==='purpose'?'':'<span class="fi">'+(key==='country'?uxFlagPlate(S.country):(key==='outCurrency'||key==='inCurrency')?uxCurrencySymbol(S[key]):tfIconFor(icon||key))+'</span>')+'<span class="fl"><i>'+esc(label)+
+    '">'+(S.screen==='out-recipient'&&key==='purpose'?'':'<span class="fi">'+(key==='country'?uxFlagPlate(S.country):(key==='outCurrency'||key==='inCurrency')?uxCurrencyPickerIcon(S[key]):tfIconFor(icon||key))+'</span>')+'<span class="fl"><i>'+esc(label)+
     '</i><b>'+esc(selected?selected.label:'Выбрать')+'</b></span>'+
     '<span class="tf-picker-chevron" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 5 7 7-7 7"/></svg></span></button>';
 }
@@ -1393,7 +1374,7 @@ function uxRenderPicker({settled=false}={}){
  const key=S.picker,choices=uxPickerOptions(key),heading=uxPickerTitle(key);
  const rows=choices.map(option=>{
    const checked=S[key]===option.value;
-   const icon=key==='country'?uxFlagPlate(option.value):(key==='outCurrency'||key==='inCurrency')?uxCurrencySymbol(option.value):tfIconFor(key==='purpose'?'note':'currency');
+   const icon=key==='country'?uxFlagPlate(option.value):(key==='outCurrency'||key==='inCurrency')?uxCurrencyPickerIcon(option.value):tfIconFor(key==='purpose'?'note':'currency');
    return '<button type="button" class="row tf-picker-row" data-picker-value="'+esc(option.value)+
      '" role="radio" aria-checked="'+checked+'"><span class="ri">'+icon+
      '</span><span class="rt">'+esc(option.label)+'</span>'+
