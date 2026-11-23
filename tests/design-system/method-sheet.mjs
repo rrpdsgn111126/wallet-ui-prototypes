@@ -120,7 +120,10 @@ try{
         const a=getComputedStyle(node),nlg=getComputedStyle(node.querySelector('.nlg'));
         return {size:a.width,height:a.height,plate:a.backgroundColor,art:nlg.backgroundSize};
       });
-      assert.deepEqual(metrics,{size:'40px',height:'40px',plate:expectedBg,art:'60%'});
+      assert.equal(metrics.size,'40px');
+      assert.equal(metrics.height,'40px');
+      assert.equal(metrics.plate,expectedBg);
+      assert.ok(metrics.art.startsWith('100%'),'Nested network image must fill 24px artwork slot');
     }
     console.log('PASS framed icons '+theme+' '+width+'px');
    } finally{await page.close();}
