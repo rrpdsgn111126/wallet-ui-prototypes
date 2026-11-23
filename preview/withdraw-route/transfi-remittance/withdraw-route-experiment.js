@@ -50,15 +50,20 @@
     window.AltvuRouteCard.render({
       variant:'crypto',
       source:{
-        iconHtml:'<img src="../assets/img-27f3d8cf.png" width="24" height="24" alt="alt.vu" style="border-radius:999px">',
+        iconHtml:'<img src="../assets/img-27f3d8cf.png" width="20" height="20" alt="alt.vu" style="border-radius:999px">',
         label:'Откуда → ALT.VU',
         contentHtml:'<b id="exp-balance" aria-live="polite">—</b>'
       },
       destination:{
-        iconHtml:'<img id="exp-dest-logo" src="../assets/img-df9900c4.png" width="24" height="24" alt="" style="border-radius:999px">',
+        iconHtml:'<img id="exp-dest-logo" src="../assets/img-df9900c4.png" width="20" height="20" alt="" style="border-radius:999px">',
         label:'Куда → USDT',
         labelId:'exp-dest-label',
-        contentHtml:'<input id="exp-recipient" class="exp-recipient" aria-label="Адрес получателя" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Адрес кошелька">'
+        contentHtml:'<input id="exp-recipient" class="exp-recipient" aria-label="Адрес получателя" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Адрес кошелька">',
+        clearable:true,
+        clearKey:'recipient',
+        clearId:'exp-recipient-clear',
+        clearLabel:'Очистить получателя',
+        filled:false
       },
       actionsHtml:'<div id="exp-actions-slot"></div>'
     })+
@@ -112,6 +117,18 @@
   }
 
   const to=E('exp-recipient'),amt=E('exp-amount');
+  const card=screen.querySelector('.tf-bank-route-card');
+  function syncRecipientClear(){
+    window.AltvuRouteCard.syncClear(card,'recipient',Boolean(to.value.trim()));
+  }
+  function clearRecipient(){
+    to.value='';state.address='';state.scannedCode='';
+    syncRecipientClear();say('');
+    to.focus({preventScroll:true});
+  }
+  E('exp-recipient-clear').addEventListener('click',e=>{
+    e.preventDefault();e.stopPropagation();clearRecipient();
+  });
   function say(text){E('exp-error').textContent=text||'';}
   // Deposits use netAll() with "key"; preview fixtures use "network".
   // Limit the same native catalogue to enabled withdrawal routes.
@@ -170,7 +187,7 @@
     to.setAttribute('aria-label',state.method==='altvu'?'Получатель ALT.VU':'Адрес получателя');
     to.placeholder=state.method==='altvu'?'Почта или телефон':'Адрес кошелька';
     to.inputMode=state.method==='altvu'?'email':'text';
-    to.value=state.address;amt.value=groupAmount(state.amount);
+    to.value=state.address;syncRecipientClear();amt.value=groupAmount(state.amount);
     E('exp-net-toggle').hidden=state.method==='altvu';
     E('exp-net-value').textContent=netName(state.network);
     E('exp-net-icon').className='nlg '+state.network;
@@ -233,7 +250,7 @@
     if(!networks().includes(key))return;
     const changed=key!==state.network;
     state.network=key;
-    if(changed){state.address='';state.scannedCode='';to.value='';}
+    if(changed){state.address='';state.scannedCode='';to.value='';syncRecipientClear();}
     E('exp-net-value').textContent=netName(key);
     E('exp-net-icon').className='nlg '+key;
     netField.setAttribute('aria-label','Сеть: '+netName(key));
@@ -261,6 +278,7 @@
     to.value=value;
     state.address=value;
     state.scannedCode=code ? value : '';
+    syncRecipientClear();
     say('');
   }
   async function pasteRecipient(){
@@ -312,7 +330,9 @@
     if(action.id==='exp-paste')pasteRecipient();
     else scanRecipient();
   });
-  to.addEventListener('input',()=>{state.address=to.value;state.scannedCode='';say('');});
+  to.addEventListener('input',()=>{
+    state.address=to.value;state.scannedCode='';syncRecipientClear();say('');
+  });
   amt.addEventListener('input',()=>{
     updateAmount(amt.value,amt.selectionStart==null?amt.value.length:amt.selectionStart);
   });
@@ -454,6 +474,13 @@
       if(typeof show!=='function')return;
       show('withdraw',false);
       open(methods[method]?method:'usdt');
+      // Filled state of the same live component for the canonical UI Kit.
+      // Never prefill actual payment flows; this is a fixture only.
+      if(qs.get('component')==='route-card'&&qs.get('filled')==='1'){
+        setRecipient(method==='altvu'?'demo.receiver@example.invalid':
+          method==='usdc'?'0x1234567890abcdef1234567890abcdef12345678':
+          'TDEMOrecipientAddress1234567890ABCDE');
+      }
     },650);
   }
   window.altWithdrawRouteExperiment={open,closeSheet,state};
