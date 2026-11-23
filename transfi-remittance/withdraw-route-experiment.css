@@ -94,14 +94,18 @@ html.exp-route-specimen #v-exp-route .exp-route-card{margin:0}
   white-space:normal;overflow-wrap:anywhere;
 }
 .phone.tf-phone .tf-bank-arrow-line{
-  position:relative;display:flex;align-items:center;
-  margin-inline:-16px;padding-left:26px;
+  position:relative;display:flex;align-items:center;justify-content:center;
+  margin-inline:-16px;
+}
+/* The arrow and FX rate use one capsule geometry and one border/fill contract. */
+.phone.tf-phone .tf-bank-arrow,
+.phone.tf-phone .tf-bank-sbp .sbp-rate{
+  height:32px;border-radius:999px;background:var(--surface);
+  box-shadow:inset 0 0 0 1px var(--ds-sem-border);
 }
 .phone.tf-phone .tf-bank-arrow{
   position:relative;z-index:1;display:grid;place-items:center;
-  flex:0 0 22px;width:22px;height:22px;
-  border-radius:50%;background:var(--n100);
-  box-shadow:0 0 0 8px var(--surface);
+  flex:0 0 32px;width:32px;
 }
 .phone.tf-phone .tf-bank-arrow svg{width:14px;height:14px}
 .phone.tf-phone .tf-bank-arrow-line::after{
@@ -115,8 +119,8 @@ html.exp-route-specimen #v-exp-route .exp-route-card{margin:0}
 .phone.tf-phone .tf-bank-destination .fi .tf-flag-circle{
   display:flex;align-items:center;justify-content:center;
 }
-.phone.tf-phone .tf-bank-destination .tf-picker-chevron{
-  flex:0 0 auto;align-self:center;color:var(--n500);
+.phone.tf-phone .tf-bank-route-card .tf-bank-leg .fl b.tf-bank-country-placeholder{
+  color:var(--ds-sem-text-placeholder);
 }
 .phone.tf-phone .tf-bank-destination:focus-visible{
   outline:2px solid var(--brand-600);outline-offset:-2px;border-radius:12px;
@@ -160,8 +164,7 @@ html.exp-route-specimen #v-exp-route .exp-route-card{margin:0}
 .phone.tf-phone .tf-bank-sbp .sbp-rate{
   position:absolute;top:0;left:50%;transform:translate(-50%,-50%);
   display:flex;align-items:center;justify-content:center;
-  height:32px;padding:0 12px;border-radius:999px;
-  background:var(--surface);box-shadow:inset 0 0 0 1px var(--ds-sem-border);
+  padding:0 12px;
   color:var(--n850);font:var(--ds-type-body-secondary);
   white-space:nowrap;font-variant-numeric:tabular-nums;
 }
@@ -202,5 +205,5 @@ html.exp-route-specimen #v-exp-route .exp-route-card{margin:0}
 }
 .phone.tf-phone .box.tf-quote.tf-bank-config-quote .tf-bank-total-row .rv{
   flex:0 0 auto;max-width:none;white-space:nowrap;
-  font:var(--ds-type-field-value);color:var(--n900);
+  font:var(--ds-type-bank-strong);color:var(--n900);
 }
