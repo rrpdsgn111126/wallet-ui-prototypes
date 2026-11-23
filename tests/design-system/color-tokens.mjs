@@ -14,7 +14,10 @@ assert.equal(data.color['--n850'].light,'#211e1d','--n850 changed without approv
 assert.equal(data.color['--n900'].light,'#161514','--n900 changed without approval');
 assert.match(core,/\.scanbox\{[^}]*background:#000\b/,'Scanner blackout changed');
 assert.match(core,/html\.dark \.dim\{[^}]*background:#000\b/,'Dark modal dim color changed');
-assert.equal(Object.keys(data.semantic_color).length,7,'Unexpected semantic token count');
+assert.equal(Object.keys(data.semantic_color).length,8,'Unexpected semantic token count');
+assert.equal(data.semantic_color['--ds-sem-divider'].reference,'--ds-color-n100');
+assert.equal(data.semantic_color['--ds-sem-divider'].light,'#e9ecf0');
+assert.equal(data.semantic_color['--ds-sem-divider'].dark,'#2b2a28');
 for(const [key,role] of Object.entries(data.semantic_color)){
  assert.ok(tokens.includes(key+': var('+role.reference+');'),key+' CSS alias not found');
 }
