@@ -596,6 +596,50 @@ async def assert_bank_history_bridge(browser,origin):
     await page.close()
 
 
+async def assert_shared_group_caption_token(browser, origin):
+    """Wallet history dates and the SEPA/SWIFT group label use the same live token."""
+    for width, height in [(390, 844), (430, 932), (1440, 900)]:
+        for flow in ("in", "out"):
+            page = await browser.new_page(
+                viewport={"width": width, "height": height}, reduced_motion="reduce"
+            )
+            errors = []
+            page.on("pageerror", lambda err: errors.append(str(err)))
+            await page.goto(
+                origin + "/transfi-remittance/legacy.html?capture=1&embedded=1"
+                + "&flow=" + flow + "&screen=home&modal=" + flow
+            )
+            await expect(page.locator(".tf-source-home .d").first).to_have_text("Сегодня")
+            await expect(page.locator(".tf-source-home .d").last).to_have_text("Вчера")
+            await expect(page.locator("#methodLayer .tf-method-subtitle")).to_have_text(
+                "Международный банковский перевод"
+            )
+            values = await page.evaluate("""() => {
+                const homeDates=[...document.querySelectorAll('.tf-source-home .d')];
+                const caption=document.querySelector('#methodLayer .tf-method-subtitle');
+                const read=el=>{
+                    const x=getComputedStyle(el);
+                    return [x.fontSize,x.lineHeight,x.fontWeight,x.color];
+                };
+                const before=[...homeDates.map(read),read(caption)];
+                const html=document.documentElement;
+                html.style.setProperty('--ds-type-body-secondary',
+                    '600 18px/24px Inter, system-ui, sans-serif');
+                const after=[...homeDates.map(read),read(caption)];
+                html.style.removeProperty('--ds-type-body-secondary');
+                return {before,after};
+            }""")
+            before, after = values["before"], values["after"]
+            assert len(before)==3, (flow, width, values)
+            assert all(v == before[0] for v in before), (flow, width, values)
+            assert before[0][:3] == ["14px", "20px", "400"], (flow, width, values)
+            assert all(v[:3] == ["18px", "24px", "600"] for v in after), (
+                flow, width, "Caption is not truly bound to the token", values
+            )
+            assert not errors, (flow, width, errors)
+            await page.close()
+
+
 async def main():
     server = ThreadingHTTPServer(("127.0.0.1", 0), partial(QuietHandler, directory=str(ROOT)))
     thread = Thread(target=server.serve_forever, daemon=True)
@@ -605,6 +649,7 @@ async def main():
         async with async_playwright() as p:
             browser = await p.chromium.launch(headless=True, args=["--no-sandbox"])
             try:
+                await assert_shared_group_caption_token(browser, origin)
                 await smoke(browser, origin)
                 await assert_bank_review_and_status(browser,origin)
                 await assert_bank_history_bridge(browser,origin)
