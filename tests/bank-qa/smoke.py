@@ -272,6 +272,7 @@ async def smoke(browser, origin):
         name=page.locator('#f-recipientName')
         await expect(name).to_be_visible()
         assert 'Имя и фамилия получателя' in await page.locator('#wrap-recipientName').inner_text()
+        assert await name.get_attribute('placeholder') == 'Например, Alexander Müller'
         cta=page.locator('.tf-foot .btn')
         await expect(cta).to_have_attribute('aria-disabled','true')
         assert await cta.get_attribute('disabled') is None, "Inactive CTA must remain clickable"
@@ -316,6 +317,9 @@ async def smoke(browser, origin):
         await page.locator('[data-picker="purpose"]').click()
         await expect(page.locator(".tf-picker-sheet")).to_be_visible()
         await assert_native_picker(page)
+        assert await page.locator('.tf-picker-sheet .tf-picker-row .ri').count() == 0, 'Purpose options must not show icons'
+        assert await page.locator('.tf-picker-sheet .tf-picker-row .rt').count() == 4
+        assert await page.locator('.tf-picker-sheet .tf-picker-row .rd').count() == 4
         await page.locator('[data-picker-value="other"]').click()
         await expect(page.locator("#wrap-purposeOther")).to_be_visible()
         await expect(page.locator('.tf-foot .btn')).to_have_attribute('aria-disabled','true')
