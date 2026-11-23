@@ -62,6 +62,18 @@
 .phone.tf-phone:not(.is-home)>.tf-foot .btno {
   background:var(--n100);color:var(--n850);box-shadow:none;
 }
+/* Legacy method icon compatibility: 40px plate, 24px logo.
+   The historical 25px logo in bank-prototype-base is not a new size role. */
+.phone.tf-phone .tf-method-icon{
+  box-sizing:border-box;width:var(--ds-icon-frame-size);
+  height:var(--ds-icon-frame-size);
+  background:var(--coin-plate);
+}
+.phone.tf-phone .tf-method-icon > img{
+  display:block;width:var(--ds-icon-art-size);
+  height:var(--ds-icon-art-size);
+  object-fit:contain;border-radius:50%;
+}
 /* Native method icon: gray 40px plate, purple 24px brand mark, white 16px pictogram.
    Same hierarchy as the original alt.vu USDT/USDC icon inside .ic > .cn > img. */
 .phone.tf-phone .tf-native-sheet .tf-method-row.m .cn.tf-rail-icon{
