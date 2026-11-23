@@ -68,6 +68,7 @@ def verify_shared_bank_components():
     assert "root.AltvuRouteCard=Object.freeze" in route_js
     assert "--ds-sem-divider" in route_css and "--ds-sem-border" in route_css
     assert "window.AltvuRouteCard.render({" in crypto
+    assert "labelId:\'exp-dest-label\'" in crypto, "Reactive recipient label ID was lost"
     assert "window.AltvuRouteCard.render({" in experiment
     assert "route-card.js" in (
         ROOT / "transfi-remittance" / "preview-interactions.js"
