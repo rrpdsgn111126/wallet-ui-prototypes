@@ -3,7 +3,7 @@
 /* SEPA/SWIFT withdrawal experiment: same two-leg composition as the crypto
    route card, using the bank's existing flag picker and SBP's native .sbp-cv. */
 .phone .tf-bank-route-card{
-  padding:4px 16px 0;margin:0 0 12px;overflow:hidden;
+  position:relative;padding:4px 16px 0;margin:0 0 12px;overflow:hidden;
 }
 .phone .tf-bank-route-card .tf-bank-leg{
   display:flex;align-items:flex-start;gap:14px;padding:16px 0;
@@ -60,6 +60,34 @@
   outline:2px solid var(--brand-600);outline-offset:-2px;border-radius:12px;
 }
 
+
+/* Filled recipient state. The control and its behavior are rendered by
+   AltvuRouteCard; it never modifies the read-only source balance. */
+.phone .tf-bank-route-card .tf-route-value-row{
+  display:flex;align-items:center;min-width:0;gap:4px;
+}
+.phone .tf-bank-route-card .tf-route-value-row>input{
+  flex:1 1 auto;width:100%;min-width:0;
+}
+.phone .tf-bank-route-card button.tf-route-clear{
+  display:grid;place-items:center;flex:0 0 36px;
+  width:36px;height:36px;margin:0;padding:0;border:0;
+  border-radius:50%;background:transparent;color:var(--n500);
+  cursor:pointer;touch-action:manipulation;
+}
+.phone .tf-bank-route-card button.tf-route-clear:hover{
+  background:var(--n100);
+}
+.phone .tf-bank-route-card button.tf-route-clear:focus-visible{
+  outline:2px solid var(--brand-600);outline-offset:1px;
+}
+.phone .tf-bank-route-card button.tf-route-clear[hidden]{display:none!important}
+/* Country picker remains a native button; clear is a separate sibling,
+   visually aligned with its value rather than nested inside a button. */
+.phone .tf-bank-route-card>button.tf-route-clear{
+  position:absolute;right:14px;bottom:10px;z-index:2;
+}
+.phone .tf-bank-route-card .tf-route-has-clear .fl{padding-right:40px}
 
 /* A catalog frame displays the actual bank route card, not a recreation. */
 html.tf-route-specimen,html.tf-route-specimen body{
