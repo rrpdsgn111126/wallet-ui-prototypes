@@ -357,22 +357,20 @@ def run():
                         const tbl=document.querySelector('#quoteBlock');
                         const route=bank.querySelector('.tf-bank-arrow-line');
                         const mid=fx.querySelector('.mid');
-                        const first=tbl.querySelector('.row');
-                        const total=tbl.querySelector('.row.tot');
+                        const total=tbl.querySelector('.tf-bank-total-row');
                         const rect=e=>e.getBoundingClientRect();
                         const bankRect=rect(bank),fxRect=rect(fx),tableRect=rect(tbl);
-                        const routeRect=rect(route),midRect=rect(mid),rowRect=rect(first);
+                        const routeRect=rect(route),midRect=rect(mid),rowRect=rect(total);
                         const rs=getComputedStyle(route,'::after');
                         const ms=getComputedStyle(mid,'::before');
-                        const border=getComputedStyle(first);
                         const totalCss=getComputedStyle(total);
                         const capsule=getComputedStyle(fx.querySelector('.sbp-rate'));
                         return {
                             route:[Math.abs(bankRect.left-routeRect.left),Math.abs(bankRect.right-routeRect.right)],
                             mid:[Math.abs(fxRect.left-midRect.left),Math.abs(fxRect.right-midRect.right)],
                             table:[Math.abs(tableRect.left-rowRect.left),Math.abs(tableRect.right-rowRect.right)],
-                            colors:[rs.backgroundColor,ms.backgroundColor,border.borderBottomColor],
-                            lineSizes:[rs.height,ms.height,border.borderBottomWidth],
+                            colors:[rs.backgroundColor,ms.backgroundColor],
+                            lineSizes:[rs.height,ms.height],
                             inset:[rs.left,rs.right,ms.left,ms.right],
                             totTop:totalCss.borderTopWidth,
                             totBottom:totalCss.borderBottomWidth,
@@ -383,8 +381,8 @@ def run():
                     }""")
                     for key in ("route","mid","table"):
                         assert max(dividers[key])<=1, f"{rail} divider not full-width {width}px: {dividers}"
-                    assert dividers["colors"]==["rgb(233, 236, 240)"]*3, dividers
-                    assert dividers["lineSizes"]==["1px"]*3, dividers
+                    assert dividers["colors"]==["rgb(233, 236, 240)"]*2, dividers
+                    assert dividers["lineSizes"]==["1px"]*2, dividers
                     assert dividers["inset"]==["0px"]*4, dividers
                     assert dividers["totTop"]=="0px" and dividers["totBottom"]=="0px", dividers
                     assert dividers["semantic"]=="#e9ecf0", dividers
@@ -420,13 +418,31 @@ def run():
                         0 if rail == "SEPA" else 1
                     )
                     expect(page.locator(".tf-bank-sbp .h").first.locator(".u")).to_have_text("$")
-                    expect(page.locator("#tf-bank-use-all")).to_be_visible()
+                    expect(page.locator(".tf-bank-sbp #tf-bank-use-all")).to_be_visible()
                     expect(page.locator("#tf-bank-use-all")).to_contain_text("Использовать всё:")
+                    expect(page.locator("#footer #quoteBlock")).to_be_visible()
                     rows = page.locator("#quoteBlock .row")
-                    expect(rows).to_have_count(2)
-                    expect(rows.nth(0)).to_contain_text("Комиссия")
-                    expect(rows.nth(1)).to_contain_text("Спишется со счёта")
+                    expect(rows).to_have_count(1)
+                    expect(rows.first).to_contain_text("К списанию")
+                    expect(rows.first).to_contain_text("комиссия")
+                    expect(page.locator("#footer .tf-button")).to_have_text("Реквизиты получателя")
                     expect(page.locator("#quoteBlock")).not_to_contain_text("Курс")
+                    # Compact total must stay one line, not overlap and sit next to the CTA.
+                    total_layout = page.evaluate("""() => {
+                        const box=document.querySelector('#quoteBlock');
+                        const label=box.querySelector('.rt').getBoundingClientRect();
+                        const value=box.querySelector('.rv').getBoundingClientRect();
+                        const row=box.querySelector('.row').getBoundingClientRect();
+                        const button=document.querySelector('#footer .tf-button').getBoundingClientRect();
+                        const rect=box.getBoundingClientRect();
+                        return {
+                            oneLine:Math.abs(label.top-value.top)<4,
+                            notOverlapping:label.right<=value.left+1,
+                            contained:label.left>=rect.left&&value.right<=rect.right,
+                            nearButton:button.top-row.bottom>=0&&button.top-row.bottom<=24
+                        };
+                    }""")
+                    assert all(total_layout.values()), f"Compact bank total {rail} {width}px: {total_layout}"
                     expect(page.locator(".tf-source")).to_have_count(0)
                     amount = page.locator("#tf-out-amount")
                     expect(amount).to_be_visible()
