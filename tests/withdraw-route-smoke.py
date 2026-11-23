@@ -647,6 +647,42 @@ def run():
                     '#pickerLayer .tf-picker-row .tf-country-flag'
                 )].map(el => [getComputedStyle(el).width,getComputedStyle(el).height])""")
                 assert flags == [["24px", "24px"]] * 3, flags
+                # The bank selector uses the current Coins & Networks
+                # 32px semantic frame, but preserves the separate 24px flags.
+                def frame_geometry(key):
+                    return page.evaluate("""key => {
+                        const phone=document.querySelector('.phone.tf-phone');
+                        const sample=document.createElement('span');
+                        sample.className='ds-icon-frame';
+                        phone.appendChild(sample);
+                        const expected=getComputedStyle(sample).backgroundColor;
+                        sample.remove();
+                        const nodes=[
+                          document.querySelector('[data-picker="'+key+'"] .fi'),
+                          ...document.querySelectorAll('#pickerLayer .tf-picker-row .ri')
+                        ];
+                        return {expected, frames:nodes.map(el=>{
+                          const style=getComputedStyle(el);
+                          const art=el.querySelector('svg.tf-country-flag');
+                          return {
+                            frame:el.classList.contains('ds-icon-frame'),
+                            size:[style.width,style.height],
+                            color:style.backgroundColor,
+                            art:art?[getComputedStyle(art).width,getComputedStyle(art).height]:null
+                          };
+                        })};
+                    }""", key)
+                light=frame_geometry("outCurrency")
+                assert len(light["frames"]) == 4, light
+                assert all(f["frame"] and f["size"] == ["32px","32px"]
+                           and f["color"] == light["expected"]
+                           and f["art"] == ["24px","24px"]
+                           for f in light["frames"]), light
+                page.evaluate("document.documentElement.classList.add('dark')")
+                dark=frame_geometry("outCurrency")
+                assert all(f["color"] == dark["expected"] for f in dark["frames"]), dark
+                assert dark["expected"] != light["expected"], (light,dark)
+                page.evaluate("document.documentElement.classList.remove('dark')")
                 page.screenshot(path=str(OUT / f"currency-flags-{width}.png"))
                 page.locator('#pickerLayer [data-picker-value="USD"]').click()
                 expect(page.locator('#pickerLayer')).to_be_hidden()
@@ -660,6 +696,37 @@ def run():
                 page.locator('[data-picker="outCurrency"]').click()
                 page.keyboard.press("Escape")
                 expect(page.locator('#pickerLayer')).to_be_hidden()
+                # The same canonical plate is required in the country picker.
+                page.goto(
+                    f"http://127.0.0.1:{PORT}/transfi-remittance/legacy.html"
+                    "?component=picker&kind=country&embedded=1",
+                    wait_until="domcontentloaded"
+                )
+                expect(page.locator('#pickerLayer')).to_be_visible()
+                country=page.evaluate("""() => {
+                    const field=document.querySelector('[data-picker="country"] .fi');
+                    const rows=[...document.querySelectorAll('#pickerLayer .tf-picker-row .ri')];
+                    const sample=document.createElement('span');
+                    sample.className='ds-icon-frame';
+                    document.querySelector('.phone.tf-phone').appendChild(sample);
+                    const expected=getComputedStyle(sample).backgroundColor;
+                    sample.remove();
+                    return [field,...rows].map(el => ({
+                      cls:el.classList.contains('ds-icon-frame'),
+                      w:getComputedStyle(el).width,
+                      h:getComputedStyle(el).height,
+                      bg:getComputedStyle(el).backgroundColor,
+                      flag:!!el.querySelector('svg.tf-country-flag'),
+                      expected
+                    }));
+                }""")
+                assert len(country) >= 5, country
+                assert all(item["cls"] and item["w"] == item["h"] == "32px"
+                           and item["bg"] == item["expected"] and item["flag"]
+                           for item in country), country
+                page.locator('#pickerLayer [data-picker-value="FR"]').click()
+                expect(page.locator('#pickerLayer')).to_be_hidden()
+                expect(page.locator('[data-picker="country"]')).to_contain_text("Франция")
                 context.close()
             # Four states of the SAME interactive route card, rendered by
             # the live crypto/bank screens rather than a static catalog copy.
