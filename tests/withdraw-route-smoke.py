@@ -60,6 +60,26 @@ def verify_shared_bank_components():
     assert "./withdraw-route-experiment.js" in (
         ROOT / "transfi-remittance" / "preview-interactions.js"
     ).read_text(encoding="utf-8")
+    # The same structural renderer is used by the bank and crypto flows.
+    route_js = (canonical_root / "route-card.js").read_text(encoding="utf-8")
+    route_css = (canonical_root / "route-card.css").read_text(encoding="utf-8")
+    crypto = (ROOT / "transfi-remittance" / "withdraw-route-experiment.js").read_text(encoding="utf-8")
+    gallery = (ROOT / "design-system" / "ui-kit" / "index.html").read_text(encoding="utf-8")
+    assert "root.AltvuRouteCard=Object.freeze" in route_js
+    assert "--ds-sem-divider" in route_css and "--ds-sem-border" in route_css
+    assert "window.AltvuRouteCard.render({" in crypto
+    assert "window.AltvuRouteCard.render({" in experiment
+    assert "route-card.js" in (
+        ROOT / "transfi-remittance" / "preview-interactions.js"
+    ).read_text(encoding="utf-8")
+    assert 'src="../../design-system/transfi-remittance/route-card.js"' in experiment
+    assert 'href="../../design-system/transfi-remittance/route-card.css"' in experiment
+    catalog = gallery.split('id="g-experiments"', 1)[1].split("</section>", 1)[0]
+    assert catalog.count('<article class="cmp exp-route-component"') == 1
+    assert catalog.count('class="v exp-route-preview"') == 4
+    for state in ("mode=usdt", "kind=country", "country=GB", "kind=bank"):
+        assert state in catalog, "Missing catalog route variant: " + state
+
 
 
 def run():
@@ -624,6 +644,65 @@ def run():
                 page.keyboard.press("Escape")
                 expect(page.locator('#pickerLayer')).to_be_hidden()
                 context.close()
+            # Four states of the SAME interactive route card, rendered by
+            # the live crypto/bank screens rather than a static catalog copy.
+            for width, height in [(390, 844), (430, 932), (1440, 900)]:
+                for kind, rail, country in [
+                    ("country", "SEPA", ""),
+                    ("country", "SWIFT", "GB"),
+                    ("bank", "SWIFT", ""),
+                ]:
+                    context = browser.new_context(
+                        viewport={"width": width, "height": height},
+                        reduced_motion="reduce",
+                    )
+                    page = context.new_page()
+                    page.on("pageerror", lambda exc: errors.append(str(exc)))
+                    url = (
+                        f"http://127.0.0.1:{PORT}/transfi-remittance/legacy.html"
+                        f"?component=route-card&kind={kind}&rail={rail}&country={country}"
+                    )
+                    page.goto(url, wait_until="domcontentloaded")
+                    route = page.locator(".tf-bank-route-card")
+                    expect(route).to_be_visible()
+                    expect(route.locator(".tf-bank-leg")).to_have_count(2)
+                    expect(route.locator(".tf-bank-leg").first).to_contain_text("Откуда → ALT.VU")
+                    expect(page.locator(".tf-scroll > .tf-bank-route-card")).to_have_count(1)
+                    expect(page.locator(".tf-scroll > .tf-bank-sbp")).to_have_count(0)
+                    assert page.evaluate("!!window.AltvuRouteCard")
+                    geom = route.evaluate("""el => {
+                        const arrow=el.querySelector('.tf-bank-arrow');
+                        const line=el.querySelector('.tf-bank-arrow-line');
+                        const c=el.getBoundingClientRect(),b=line.getBoundingClientRect();
+                        const a=getComputedStyle(arrow),d=getComputedStyle(line,'::after');
+                        return {width:a.width,height:a.height,outline:a.boxShadow,
+                            left:Math.abs(c.left-b.left),right:Math.abs(c.right-b.right),
+                            thickness:d.height,color:d.backgroundColor};
+                    }""")
+                    assert geom["width"] == geom["height"] == "32px", geom
+                    assert "230, 228, 225" in geom["outline"], geom
+                    assert geom["left"] <= 1 and geom["right"] <= 1, geom
+                    assert geom["thickness"] == "1px", geom
+                    assert geom["color"] == "rgb(233, 236, 240)", geom
+                    if kind == "bank":
+                        expect(route).to_have_attribute("data-route-variant", "bank")
+                        expect(route.locator(".tf-bank-leg").last).to_contain_text("Банк-партнёр")
+                        expect(route.locator('[data-picker="country"]')).to_have_count(0)
+                    else:
+                        expect(route).to_have_attribute("data-route-variant", "country")
+                        country_field = route.locator('[data-picker="country"]')
+                        expect(country_field).to_be_visible()
+                        if country:
+                            expect(country_field).to_contain_text("Великобритания")
+                            expect(country_field.locator("svg.tf-country-flag")).to_have_count(1)
+                        else:
+                            expect(country_field).to_contain_text("Выберите страну")
+                        country_field.click()
+                        expect(page.locator("#pickerLayer")).to_be_visible()
+                        page.keyboard.press("Escape")
+                        expect(page.locator("#pickerLayer")).to_be_hidden()
+                    page.screenshot(path=str(OUT / f"route-{kind}-{rail.lower()}-{width}.png"))
+                    context.close()
             browser.close()
         assert not errors, f"Uncaught JS errors: {errors}"
         print("PASS: USDT/USDC/ALT.VU + SEPA/SWIFT route/FX, pickers, fee-aware use-all, navigation, 390/430/1440")
