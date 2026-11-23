@@ -499,6 +499,10 @@ def run():
                     expect(page.locator("#quoteBlock .tf-bank-fee")).to_have_text(
                         f"(комиссия {fee} $)"
                     )
+                    expect(page.locator("#quoteBlock .rt")).to_have_css("font-size","16px")
+                    expect(page.locator("#quoteBlock .rt")).to_have_css("line-height","22px")
+                    expect(page.locator("#quoteBlock .rt")).to_have_css("font-weight","400")
+                    expect(page.locator("#quoteBlock .tf-bank-fee")).to_have_css("font-size","12px")
                     expect(page.locator("#quoteBlock .rv")).to_have_css("font-weight","600")
                     expect(page.locator("#footer .tf-button")).to_have_text("Реквизиты получателя")
                     expect(page.locator("#quoteBlock")).not_to_contain_text("Курс")
