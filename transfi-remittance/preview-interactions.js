@@ -4,6 +4,10 @@
 (function(){
   'use strict';
   if(!window.altPreview || !window.PV || !PV.data)return;
+  // Reuse the same text/amount clear state as the canonical UI Kit.
+  const fieldClear=document.createElement('script');
+  fieldClear.src=new URL('./field-clear.js',document.currentScript.src).href;
+  document.head.appendChild(fieldClear);
   const data=PV.data;
   // The static UX prototype must not inherit the real wallet's idle/tab
   // session lock. This fixes returning from the embedded SEPA/SWIFT screens:
