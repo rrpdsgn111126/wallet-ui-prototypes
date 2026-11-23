@@ -491,6 +491,54 @@ def run():
                         page.locator(".phone.tf-phone .back").click()
                         expect(page.locator(".tf-bank-route-card")).to_be_visible()
                     context.close()
+            # Currency selector must use the SAME published design-system JS
+            # asset as the canonical UI Kit, not a local copy of SVG flag paths.
+            for width, height in [(390, 844), (430, 932), (1440, 900)]:
+                context = browser.new_context(
+                    viewport={"width": width, "height": height},
+                    reduced_motion="reduce",
+                )
+                page = context.new_page()
+                page.on("pageerror", lambda exc: errors.append(str(exc)))
+                page.goto(
+                    f"http://127.0.0.1:{PORT}/transfi-remittance/legacy.html"
+                    "?component=picker&kind=currency&embedded=1",
+                    wait_until="domcontentloaded",
+                )
+                expect(page.locator(
+                    'script[src="../../design-system/transfi-remittance/bank-selector-flags.js"]'
+                )).to_have_count(1)
+                assert page.evaluate(
+                    "() => !!window.AltvuSelectorFlags && "
+                    "typeof window.AltvuSelectorFlags.currencyPlate === 'function'"
+                ), "Canonical flag library failed to load"
+                expect(page.locator('#pickerLayer')).to_be_visible()
+                expect(page.locator('#pickerLayer .tf-picker-row')).to_have_count(3)
+                expect(page.locator('#pickerLayer .tf-picker-row svg.tf-country-flag')).to_have_count(3)
+                expect(page.locator('#pickerLayer svg.tf-currency-icon')).to_have_count(0)
+                expect(page.locator('[data-picker="outCurrency"] svg.tf-country-flag')).to_have_count(1)
+                # EUR is the EU flag (12 vector stars), not a random national flag.
+                expect(page.locator(
+                    '#pickerLayer [data-picker-value="EUR"] svg.tf-country-flag polygon'
+                )).to_have_count(12)
+                flags = page.evaluate("""() => [...document.querySelectorAll(
+                    '#pickerLayer .tf-picker-row .tf-country-flag'
+                )].map(el => [getComputedStyle(el).width,getComputedStyle(el).height])""")
+                assert flags == [["24px", "24px"]] * 3, flags
+                page.screenshot(path=str(OUT / f"currency-flags-{width}.png"))
+                page.locator('#pickerLayer [data-picker-value="USD"]').click()
+                expect(page.locator('#pickerLayer')).to_be_hidden()
+                expect(page.locator('[data-picker="outCurrency"]')).to_contain_text("USD")
+                expect(page.locator('[data-picker="outCurrency"] svg.tf-country-flag')).to_have_count(1)
+                page.locator('[data-picker="outCurrency"]').click()
+                expect(page.locator('#pickerLayer')).to_be_visible()
+                page.locator('#pickerLayer [data-picker-value="GBP"]').click()
+                expect(page.locator('[data-picker="outCurrency"]')).to_contain_text("GBP")
+                expect(page.locator('[data-picker="outCurrency"] svg.tf-country-flag')).to_have_count(1)
+                page.locator('[data-picker="outCurrency"]').click()
+                page.keyboard.press("Escape")
+                expect(page.locator('#pickerLayer')).to_be_hidden()
+                context.close()
             browser.close()
         assert not errors, f"Uncaught JS errors: {errors}"
         print("PASS: USDT/USDC/ALT.VU + SEPA/SWIFT route/FX, pickers, fee-aware use-all, navigation, 390/430/1440")
