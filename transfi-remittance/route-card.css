@@ -64,10 +64,14 @@
 /* Filled recipient state. The control and its behavior are rendered by
    AltvuRouteCard; it never modifies the read-only source balance. */
 .phone .tf-bank-route-card .tf-route-value-row{
-  display:flex;align-items:center;min-width:0;gap:4px;
+  position:relative;min-width:0;
 }
 .phone .tf-bank-route-card .tf-route-value-row>input{
-  flex:1 1 auto;width:100%;min-width:0;
+  box-sizing:border-box;display:block;width:100%;min-width:0;
+  padding-right:40px;
+}
+.phone .tf-bank-route-card .tf-route-value-row>button.tf-route-clear{
+  position:absolute;right:0;top:50%;transform:translateY(-50%);z-index:1;
 }
 .phone .tf-bank-route-card button.tf-route-clear{
   display:grid;place-items:center;flex:0 0 36px;
