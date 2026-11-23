@@ -3,7 +3,7 @@
 <head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
 <title>Международные переводы · alt.vu · source components</title>
 <link rel="stylesheet" href="../../design-system/css/alt-vu-wallet.css">
-<link rel="stylesheet" href="../../design-system/transfi-remittance/bank-prototype-base.css"><link rel="stylesheet" href="../../design-system/css/transfi-bank-altvu.css"><link rel="stylesheet" href="./withdraw-route-experiment.css"></head>
+<link rel="stylesheet" href="../../design-system/transfi-remittance/bank-prototype-base.css"><link rel="stylesheet" href="../../design-system/css/transfi-bank-altvu.css"><link rel="stylesheet" href="./withdraw-route-experiment.css"><link rel="stylesheet" href="../../design-system/transfi-remittance/route-card.css"></head>
 <body>
 <header class="top"><div class="brand">alt.vu <span>/ Международные переводы · прототип</span></div><span class="chip">v8 · компоненты приложения</span></header>
 <div class="proto-shell">
@@ -25,6 +25,7 @@
 </div><div class="alert" id="toast" role="status" aria-live="polite"></div>
 <script src="../../design-system/transfi-remittance/bank-selector-flags.js"></script>
 <script src="../../design-system/transfi-remittance/bank-ui-components.js"></script>
+<script src="../../design-system/transfi-remittance/route-card.js"></script>
 <script>
 const COUNTRY={DE:'Германия',FR:'Франция',NL:'Нидерланды',GB:'Великобритания',US:'США',ES:'Испания'};
 const SEPA_COUNTRIES=['DE','FR','NL','ES'];
@@ -388,22 +389,36 @@ function uxSetOutCountry(country){
 
 /* Experiment uses the same source/recipient composition as USDT; country
    selection is still the native bank bottom sheet with vector country flags. */
+/* Same From/To component as USDT/USDC/ALT.VU; only destination data
+   and picker behavior differ. The bank variant is a catalog-only mock. */
 function uxBankRouteCard(){
+  if(!window.AltvuRouteCard)throw new Error('Shared route-card renderer is missing');
   const hasCountry=Boolean(COUNTRY[S.country]);
   const country=hasCountry?COUNTRY[S.country]:'Выберите страну';
-  const countryIcon=hasCountry?uxFlagPlate(S.country):tfIconFor('country');
-  const arrow='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--n850)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v15m-6-6 6 6 6-6"/></svg>';
-  return '<div class="box tf-bank-route-card">'+
-    '<div class="tf-bank-leg">'+
-      '<div class="fi"><div class="cn ds-icon-frame"><img src="../assets/img-27f3d8cf.png" width="24" height="24" alt="" style="border-radius:999px"></div></div>'+
-      '<div class="fl"><i>Откуда → ALT.VU</i><b>4 812.60 $</b></div>'+
-    '</div>'+
-    '<div class="tf-bank-arrow-line"><span class="tf-bank-arrow">'+arrow+'</span></div>'+
-    '<button type="button" id="tf-bank-country" class="tf-bank-leg tf-bank-destination" data-picker="country" aria-haspopup="dialog" aria-label="Страна получателя: '+esc(country)+'">'+
-      '<span class="fi">'+countryIcon+'</span>'+
-      '<span class="fl"><i>Куда → Страна</i><b'+(hasCountry?'':' class="tf-bank-country-placeholder"')+'>'+esc(country)+'</b></span>'+
-    '</button>'+
-  '</div>';
+  const bankSpecimen=S.componentRouteKind==='bank';
+  const destination=bankSpecimen
+    ? {
+        iconHtml:tfIconFor('bank'),
+        label:'Куда → Банк',
+        contentHtml:'<b>Банк-партнёр</b>'
+      }
+    : {
+        iconHtml:hasCountry?uxFlagPlate(S.country):tfIconFor('country'),
+        label:'Куда → Страна',
+        contentHtml:'<b'+(hasCountry?'':' class="tf-bank-country-placeholder"')+'>'+esc(country)+'</b>',
+        id:'tf-bank-country',
+        picker:'country',
+        ariaLabel:'Страна получателя: '+country
+      };
+  return window.AltvuRouteCard.render({
+    variant:bankSpecimen?'bank':'country',
+    source:{
+      iconHtml:'<img src="../assets/img-27f3d8cf.png" width="24" height="24" alt="" style="border-radius:999px">',
+      label:'Откуда → ALT.VU',
+      contentHtml:'<b>4 812.60 $</b>'
+    },
+    destination:destination
+  });
 }
 function uxBankAmountCard(){
   const q=quote();
@@ -422,6 +437,7 @@ function uxBankAmountCard(){
   '</div>';
 }
 function uxRenderScreen(){
+  if(S.componentRouteKind)return {head:'',p:uxBankRouteCard(),f:''};
   // Design-system specimen: render ONLY the real selector field. Its picker
   // reuses uxPickerField/uxRenderPicker/uxChoosePicker without a second copy.
   if(S.componentPickerKey)return {
@@ -640,6 +656,22 @@ if(tfQuery.get('capture')==='1'&&tfQuery.get('sample')==='1'&&S.flow==='out'){
 const queryScreen=tfQuery.get('screen');
 if(queryScreen==='home'||SCREENS[S.flow].some(([screen])=>screen===queryScreen))S.screen=queryScreen;
 if(S.screen==='home'&&(tfQuery.get('modal')==='in'||tfQuery.get('modal')==='out'))S.modal=tfQuery.get('modal');
+// UI Kit: crop the actual current SEPA/SWIFT route card. Only the bank
+// destination is a visual mock; selecting a bank is not a live route step.
+if(tfQuery.get('component')==='route-card'){
+  const kind=tfQuery.get('kind');
+  if(kind==='country'||kind==='bank'){
+    S.flow='out';
+    S.screen='out-config';
+    S.modal=null;
+    S.componentRouteKind=kind;
+    const selectedCountry=tfQuery.get('country');
+    if(COUNTRY[selectedCountry]&&(S.outRail!=='SEPA'||SEPA_COUNTRIES.includes(selectedCountry))){
+      S.country=selectedCountry;
+    }
+    document.documentElement.classList.add('tf-capture','tf-embedded','tf-route-specimen');
+  }
+}
 // Provider-independent canonical picker specimen. The internal SWIFT rail
 // merely supplies the full demo currency/country options; it is never shown.
 // A picker is a reusable field, not a complete bank transfer screen.
