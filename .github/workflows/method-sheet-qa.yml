@@ -9,6 +9,8 @@ on:
       - 'ui-kit/index.html'
       - 'transfi-remittance/index.html'
       - 'tests/design-system/method-sheet.mjs'
+      - 'tests/design-system/altvu-receive.mjs'
+      - 'transfi-remittance/preview-interactions.js'
       - '.github/workflows/method-sheet-qa.yml'
   workflow_dispatch:
 
@@ -28,10 +30,13 @@ jobs:
           PID=$!
           trap 'kill "$PID" 2>/dev/null || true' EXIT
           node tests/design-system/method-sheet.mjs http://127.0.0.1:8765
+          node tests/design-system/altvu-receive.mjs http://127.0.0.1:8765
       - name: Upload light and dark screenshots
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: method-sheet-light-dark
-          path: ${{ runner.temp }}/method-sheet/
+          path: |
+            ${{ runner.temp }}/method-sheet/
+            ${{ runner.temp }}/altvu-receive/
           if-no-files-found: warn
