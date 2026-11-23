@@ -38,7 +38,9 @@ def verify_shared_bank_components():
     assert len(shared_components) > 10000 and len(shared_css) > 40000
     for name in ("uxRenderMethods", "uxMethodRow", "uxPickerField",
                  "uxRenderPicker", "uxChoosePicker", "uxCurrencySymbol",
-                 "tfBankResult", "tfBankWait", "tfStatusMark", "uxAmountField"):
+                 "tfBankResult", "tfBankWait", "tfStatusMark", "uxAmountField",
+                 "uxBottomNav", "uxHomeNav", "uxHomeNavKey", "uxProfileTab",
+                 "uxUpdateFlowCTA", "uxFormError", "uxRender"):
         assert f"function {name}(" in shared_components, name
         assert f"function {name}(" not in experiment, f"Duplicated experiment UI function: {name}"
         assert f"function {name}(" not in canonical, f"Duplicated canonical UI function: {name}"
