@@ -86,7 +86,7 @@ def validate_browser():
     try:
         wait_for_http()
         with sync_playwright() as playwright:
-            browser = playwright.chromium.launch(headless=True, args=["--no-sandbox"])
+            browser = playwright.chromium.launch(headless=True, channel="chrome", args=["--no-sandbox"])
             try:
                 for width in (390, 430, 1440):
                     page = browser.new_page(viewport={"width": width, "height": 932},
