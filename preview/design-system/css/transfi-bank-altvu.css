@@ -485,6 +485,17 @@ html.tf-embedded .proto-shell,html.tf-embedded .workspace{height:100%;width:100%
   border-radius:999px;background:var(--n50);
   display:flex;align-items:center;justify-content:center;
 }
+/* Country/currency pickers inherit the same semantic frame as Coins & Networks.
+   Their SVG flags remain distinct artwork, as specified in UI_PATTERNS. */
+.phone.tf-phone .tf-picker-trigger .fi.ds-icon-frame,
+.phone.tf-phone .tf-picker-row .ri.ds-icon-frame{
+  background:var(--coin-plate,var(--ds-color-coin-plate));
+}
+.phone.tf-phone .tf-picker-row .ri.ds-icon-frame--compact{
+  flex:0 0 var(--ds-icon-frame-compact-size);
+  width:var(--ds-icon-frame-compact-size);
+  height:var(--ds-icon-frame-compact-size);
+}
 .phone.tf-phone .tf-picker-row .ri > svg{
   display:block;width:20px;height:20px;
 }
@@ -598,7 +609,7 @@ html.tf-embedded .proto-shell,html.tf-embedded .workspace{height:100%;width:100%
 }
 .phone.tf-phone .tf-picker-trigger .fi:has(.tf-flag-circle),
 .phone.tf-phone .tf-picker-row .ri:has(.tf-flag-circle){
-  background:var(--n50);
+  background:var(--coin-plate,var(--ds-color-coin-plate));
 }
 .phone.tf-phone .tf-picker-row .ri .tf-country-flag{
   width:24px;height:24px;
