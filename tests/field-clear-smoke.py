@@ -1,0 +1,130 @@
+#!/usr/bin/env python3
+"""Verify one shared clearable field in UI Kit and working amount flows."""
+from __future__ import annotations
+import contextlib
+from pathlib import Path
+import subprocess
+import sys
+import time
+import urllib.request
+from playwright.sync_api import sync_playwright, expect
+
+ROOT=Path(__file__).resolve().parents[1]
+OUT=ROOT/"artifacts"/"withdraw-route"
+OUT.mkdir(parents=True,exist_ok=True)
+PORT=8766
+BASE=f"http://127.0.0.1:{PORT}/"
+
+def ready():
+    for _ in range(70):
+        try:
+            with urllib.request.urlopen(BASE,timeout=1):return
+        except Exception:time.sleep(.2)
+    raise RuntimeError("Field-clear test server did not start")
+
+def run():
+    assert (ROOT/"design-system"/"transfi-remittance"/"field-clear.js").exists()
+    source=(ROOT/"design-system"/"transfi-remittance"/"route-card.js").read_text()
+    assert "tf-route-clear" not in source and "syncClear" not in source
+    gallery=(ROOT/"design-system"/"ui-kit"/"index.html").read_text()
+    assert 'id="amount-conversion"' in gallery
+    experiment=gallery.split('id="g-experiments"',1)[1].split("</section>",1)[0]
+    assert "filled=1" not in experiment and "tf-route-clear" not in experiment
+
+    server=subprocess.Popen([sys.executable,"-m","http.server",str(PORT),"--bind","127.0.0.1"],
+                            cwd=ROOT,stdout=subprocess.DEVNULL,stderr=subprocess.STDOUT)
+    errors=[]
+    try:
+        ready()
+        with sync_playwright() as p:
+            browser=p.chromium.launch(headless=True,channel="chrome",args=["--no-sandbox"])
+            for width in (390,430,1440):
+                context=browser.new_context(viewport={"width":width,"height":900},reduced_motion="reduce")
+                page=context.new_page()
+                page.on("pageerror",lambda error:errors.append(str(error)))
+                # Ordinary text input: empty, filled and disabled use one controller.
+                page.goto(BASE+"design-system/components/fld.html",wait_until="domcontentloaded")
+                fields=page.locator(".fld.w")
+                empty=fields.nth(0)
+                full=fields.nth(1)
+                expect(empty.locator(".ds-field-clear")).to_be_hidden()
+                expect(full.locator(".ds-field-clear")).to_be_visible()
+                expect(page.locator(".fld.w.off .ds-field-clear")).to_have_count(0)
+                empty.locator("input").fill("Алексей")
+                expect(empty.locator(".ds-field-clear")).to_be_visible()
+                empty.locator(".ds-field-clear").click()
+                expect(empty.locator("input")).to_have_value("")
+                expect(empty.locator("input")).to_be_focused()
+                expect(empty.locator(".ds-field-clear")).to_be_hidden()
+
+                # Original amount specimen: MAX is kept, cross resets digits.
+                page.goto(BASE+"design-system/components/amount.html",wait_until="domcontentloaded")
+                amount=page.locator(".fld.w").nth(1)
+                expect(amount.locator(".ds-field-clear")).to_be_visible()
+                expect(amount.locator(".addon .mx")).to_have_text("MAX")
+                amount.locator(".ds-field-clear").click()
+                expect(amount.locator("input")).to_have_value("")
+                expect(amount.locator(".ds-field-clear")).to_be_hidden()
+                expect(amount.locator(".addon .mx")).to_have_text("MAX")
+
+                # Real USDT amount field reuses the clear controller.
+                page.goto(BASE+"transfi-remittance/?experiment=withdraw&mode=usdt",
+                          wait_until="domcontentloaded")
+                expect(page.locator("#v-exp-route")).to_have_class("view on",timeout=30000)
+                expect(page.locator(".tf-bank-route-card .ds-field-clear")).to_have_count(0)
+                expect(page.locator(".tf-bank-route-card [data-route-clear]")).to_have_count(0)
+                amt=page.locator("#exp-amount")
+                clear=page.locator(".exp-amount-field .ds-field-clear")
+                expect(clear).to_be_hidden()
+                amt.fill("235")
+                expect(clear).to_be_visible()
+                clear.click()
+                expect(amt).to_have_value("")
+                expect(amt).to_be_focused()
+                expect(clear).to_be_hidden()
+                page.locator("#exp-use-all").click()
+                expect(clear).to_be_visible()
+                clear.click()
+                expect(amt).to_have_value("")
+                page.screenshot(path=str(OUT/f"field-amount-{width}.png"))
+
+                # The real conversion card, with existing quote/FX handlers.
+                page.goto(BASE+"transfi-remittance/legacy.html?component=amount-conversion&filled=1",
+                          wait_until="domcontentloaded")
+                conversion=page.locator(".tf-bank-sbp")
+                expect(conversion).to_be_visible()
+                converted=page.locator("#tf-bank-receive")
+                cvinput=page.locator("#tf-out-amount")
+                expect(cvinput).to_have_value("250.00")
+                cvclear=conversion.locator(".ds-field-clear")
+                expect(cvclear).to_be_visible()
+                cvclear.click()
+                expect(cvinput).to_have_value("")
+                expect(cvclear).to_be_hidden()
+                expect(cvinput).to_be_focused()
+                expect(converted).to_have_text("0.00")
+                cvinput.fill("75")
+                expect(cvclear).to_be_visible()
+                cvclear.click()
+                expect(cvinput).to_have_value("")
+                page.screenshot(path=str(OUT/f"field-conversion-{width}.png"))
+
+                # Reusable recipient-field renderer on the live bank form.
+                page.goto(BASE+"transfi-remittance/legacy.html?flow=out&screen=out-recipient&rail=SWIFT",
+                          wait_until="domcontentloaded")
+                recipient=page.locator(".tf-recipient-field input").first
+                expect(recipient).to_be_visible()
+                recipient.fill("Тестовый получатель")
+                recipient_field=recipient.locator("xpath=ancestor::*[contains(@class,'fld')][1]")
+                expect(recipient_field.locator(".ds-field-clear")).to_be_visible()
+                recipient_field.locator(".ds-field-clear").click()
+                expect(recipient).to_have_value("")
+                context.close()
+            browser.close()
+        assert not errors,f"Browser errors: {errors}"
+        print("PASS: text / amount / conversion cleared, MAX and FX preserved, route-card untouched (390/430/1440)")
+    finally:
+        server.terminate()
+        with contextlib.suppress(Exception):server.wait(timeout=5)
+
+if __name__=="__main__":run()
