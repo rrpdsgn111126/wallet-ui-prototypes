@@ -198,7 +198,7 @@ html.exp-route-specimen #v-exp-route .exp-route-card{margin:0}
 }
 .phone.tf-phone .box.tf-quote.tf-bank-config-quote .tf-bank-total-row .rt{
   flex:1 1 auto;min-width:0;white-space:nowrap;
-  font:var(--ds-type-body-secondary);color:var(--n900);
+  font:var(--ds-type-field-value);color:var(--n900);
 }
 .phone.tf-phone .box.tf-quote.tf-bank-config-quote .tf-bank-fee{
   font:var(--ds-type-field-label);color:var(--n500);white-space:nowrap;
