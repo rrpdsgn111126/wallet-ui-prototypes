@@ -856,8 +856,8 @@ function purposeName(){return {personal:'Перевод собственных �
 function timeline(flow){const items=flow==='in'?[['done','Отправлено внешним банком','Ожидаем подтверждение'],['current','Проверка поступления','Сопоставление платежа'],['','Зачислено','После проверок']]:[['done','Перевод создан','initiated'],['current','Обрабатывается','fund_processing'],['','Доставлен','fund_settled']];return `<div class="timeline">${items.map(([s,a,b],i)=>`<div class="track ${s}"><div><div class="dot">${s==='done'?'✓':i+1}</div>${i<2?'<div class="line"></div>':''}</div><div><b>${a}</b><small>${b}</small></div></div>`).join('')}</div>`}
 function uxBankConfigSummary(){
   const q=quote();
-  return '<div class="row"><div class="rt">Комиссия</div><div class="rv">'+esc(money(q.fee,'USD'))+'</div></div>'+
-    '<div class="row tot"><div class="rt">Спишется со счёта</div><div class="rv">'+esc(money(q.total,'USD'))+'</div></div>';
+  return '<div class="row tf-bank-total-row"><div class="rt">К списанию <span class="tf-bank-fee">(комиссия '+esc(money(q.fee,'USD'))+')</span></div>'+
+    '<div class="rv">'+esc(money(q.total,'USD'))+'</div></div>';
 }
 function uxBankMaxCents(){
   return Math.max(0,Math.min(999999999,Math.floor((4812.60-quote().fee)*100)));
@@ -1122,8 +1122,8 @@ function uxBankAmountCard(){
     '<div class="h"><div class="t"><span class="tf-bank-receive-label">Зачислим</span>'+
       '<strong id="tf-bank-receive" class="'+(q.valid?'':'tf-bank-placeholder')+'">'+uxBankGroupAmount(q.valid?q.receive.toFixed(2):'0.00')+'</strong></div>'+
       currency+'</div>'+
-  '</div>'+
-  '<div class="tf-bank-use-all-wrap"><button type="button" class="tf-bank-use-all" id="tf-bank-use-all" onclick="uxBankUseAll()">Использовать всё: <span id="tf-bank-max-value">'+uxBankGroupAmount((uxBankMaxCents()/100).toFixed(2))+' $</span></button></div>';
+    '<div class="tf-bank-use-all-wrap"><button type="button" class="tf-bank-use-all" id="tf-bank-use-all" onclick="uxBankUseAll()">Использовать всё: <span id="tf-bank-max-value">'+uxBankGroupAmount((uxBankMaxCents()/100).toFixed(2))+' $</span></button></div>'+
+  '</div>';
 }
 function uxRenderScreen(){
   // Design-system specimen: render ONLY the real selector field. Its picker
@@ -1204,9 +1204,9 @@ function uxRenderScreen(){
     return{
       head:'Вывод '+S.outRail,
       p:`${uxBankRouteCard()}
-      ${uxBankAmountCard()}
-      <div class="box tf-quote tf-bank-config-quote" id="quoteBlock">${uxBankConfigSummary()}</div>`,
-      f:primary('Продолжить','checkConfig()',!validConfig())
+      ${uxBankAmountCard()}`,
+      f:`<div class="box tf-quote tf-bank-config-quote" id="quoteBlock">${uxBankConfigSummary()}</div>
+      ${primary('Реквизиты получателя','checkConfig()',!validConfig())}`
     };
   }
   const old=_tfBaseRenderScreen();
