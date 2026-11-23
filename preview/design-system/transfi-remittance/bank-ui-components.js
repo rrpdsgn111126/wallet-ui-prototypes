@@ -157,9 +157,10 @@ function uxFixedCurrencyField(label,value){
 
 function uxPickerField(label,key,icon){
   const selected=uxPickerOptions(key).find(option=>option.value===S[key]);
+  const framed=key==='country'||key==='inCurrency'||key==='outCurrency';
   return '<button type="button" class="fld w tf-field tf-picker-trigger'+(S.screen==='out-recipient'&&key==='purpose'?' tf-recipient-field':'')+'" data-picker="'+esc(key)+
     '" aria-haspopup="dialog" aria-label="'+esc(label)+': '+esc(selected?selected.label:'Не выбрано')+
-    '">'+(S.screen==='out-recipient'&&key==='purpose'?'':'<span class="fi">'+(key==='country'?uxFlagPlate(S.country):(key==='outCurrency'||key==='inCurrency')?uxCurrencyPickerIcon(S[key]):tfIconFor(icon||key))+'</span>')+'<span class="fl"><i>'+esc(label)+
+    '">'+(S.screen==='out-recipient'&&key==='purpose'?'':'<span class="fi'+(framed?' ds-icon-frame':'')+'">'+(key==='country'?uxFlagPlate(S.country):(key==='outCurrency'||key==='inCurrency')?uxCurrencyPickerIcon(S[key]):tfIconFor(icon||key))+'</span>')+'<span class="fl"><i>'+esc(label)+
     '</i><b>'+esc(selected?selected.label:'Выбрать')+'</b></span>'+
     '<span class="tf-picker-chevron" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 5 7 7-7 7"/></svg></span></button>';
 }
@@ -207,7 +208,7 @@ function uxRenderPicker({settled=false}={}){
    const checked=S[key]===option.value;
    const icon=key==='country'?uxFlagPlate(option.value):(key==='outCurrency'||key==='inCurrency')?uxCurrencyPickerIcon(option.value):tfIconFor(key==='purpose'?'note':'currency');
    return '<button type="button" class="row tf-picker-row" data-picker-value="'+esc(option.value)+
-     '" role="radio" aria-checked="'+checked+'"><span class="ri">'+icon+
+     '" role="radio" aria-checked="'+checked+'"><span class="ri'+((key==='country'||key==='outCurrency'||key==='inCurrency')?' ds-icon-frame ds-icon-frame--compact':'')+'">'+icon+
      '</span><span class="rt">'+esc(option.label)+'</span>'+
      '<span class="rd'+(checked?' on':'')+'" aria-hidden="true"></span></button>';
  }).join('');
