@@ -321,9 +321,8 @@ html body .phone.tf-phone {
   height:var(--ds-icon-art-size);object-fit:contain;border-radius:50%;
 }
 .phone .ds-icon-frame > .nlg{
-  display:block;width:100%;height:100%;
-  background-color:var(--coin-plate,var(--ds-color-coin-plate));
-  background-size:60%;
+  display:block;width:var(--ds-icon-art-size);height:var(--ds-icon-art-size);
+  border-radius:50%;background-color:transparent;background-size:100%;
 }
 .phone .ds-icon-frame.cic,
 .phone .ds-icon-frame.oicoin{background-color:var(--coin-plate,var(--ds-color-coin-plate));background-size:60%}
