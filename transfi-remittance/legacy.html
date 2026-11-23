@@ -408,11 +408,7 @@ function uxBankRouteCard(){
         contentHtml:'<b'+(hasCountry?'':' class="tf-bank-country-placeholder"')+'>'+esc(country)+'</b>',
         id:'tf-bank-country',
         picker:'country',
-        ariaLabel:'Страна получателя: '+country,
-        clearable:true,
-        clearKey:'country',
-        clearLabel:'Сбросить выбранную страну',
-        filled:hasCountry
+        ariaLabel:'Страна получателя: '+country
       };
   return window.AltvuRouteCard.render({
     variant:bankSpecimen?'bank':'country',
@@ -621,16 +617,6 @@ document.querySelector('.phone.tf-phone').addEventListener('keydown',function(e)
  }
 });
 document.querySelector('.phone.tf-phone').addEventListener('click',function(e){
-  // Clear is a sibling of the picker, rendered by shared AltvuRouteCard.
-  // Reset the country without opening the sheet or changing the source balance.
-  const clear=e.target.closest('[data-route-clear="country"]');
-  if(clear){
-    e.preventDefault();e.stopPropagation();
-    S.country='';render();
-    const destination=document.getElementById('tf-bank-country');
-    if(destination)destination.focus({preventScroll:true});
-    return;
-  }
   const trigger=e.target.closest('[data-picker]');
   if(trigger){uxOpenPicker(trigger.dataset.picker);return;}
   const choice=e.target.closest('[data-picker-value]');
