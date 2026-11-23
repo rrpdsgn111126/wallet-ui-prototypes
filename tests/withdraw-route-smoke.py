@@ -66,9 +66,6 @@ def verify_shared_bank_components():
     crypto = (ROOT / "transfi-remittance" / "withdraw-route-experiment.js").read_text(encoding="utf-8")
     gallery = (ROOT / "design-system" / "ui-kit" / "index.html").read_text(encoding="utf-8")
     assert "root.AltvuRouteCard=Object.freeze" in route_js
-    assert "syncClear:syncClear" in route_js
-    assert "data-route-clear" in route_js
-    assert "button.tf-route-clear" in route_css
     assert "--ds-sem-divider" in route_css and "--ds-sem-border" in route_css
     assert "window.AltvuRouteCard.render({" in crypto
     assert "labelId:\'exp-dest-label\'" in crypto, "Reactive recipient label ID was lost"
@@ -80,8 +77,8 @@ def verify_shared_bank_components():
     assert 'href="../../design-system/transfi-remittance/route-card.css"' in experiment
     catalog = gallery.split('id="g-experiments"', 1)[1].split("</section>", 1)[0]
     assert catalog.count('<article class="cmp exp-route-component"') == 1
-    assert catalog.count('class="v exp-route-preview"') == 5
-    for state in ("mode=usdt", "filled=1", "kind=country", "country=GB", "kind=bank"):
+    assert catalog.count('class="v exp-route-preview"') == 4
+    for state in ("mode=usdt", "kind=country", "country=GB", "kind=bank"):
         assert state in catalog, "Missing catalog route variant: " + state
 
 
@@ -181,35 +178,6 @@ def run():
                 expect(page.locator("#exp-use-all")).to_contain_text("Использовать всё:")
                 expect(page.locator("#exp-max")).to_have_count(0)
                 expect(page.locator("#exp-recipient")).to_have_attribute("placeholder", "Адрес кошелька")
-                clear=page.locator("#exp-recipient-clear")
-                expect(clear).to_have_attribute("data-route-clear", "recipient")
-                expect(clear).to_be_hidden()
-                expect(clear).to_have_attribute("aria-label", "Очистить получателя")
-                empty_height=page.locator("#v-exp-route .exp-route-card").evaluate(
-                    "el => el.getBoundingClientRect().height"
-                )
-                page.locator("#exp-recipient").fill("T" + "1" * 33)
-                expect(clear).to_be_visible()
-                filled_height=page.locator("#v-exp-route .exp-route-card").evaluate(
-                    "el => el.getBoundingClientRect().height"
-                )
-                assert abs(filled_height-empty_height)<1, (
-                    f"Filled field shifted the card: {empty_height} -> {filled_height}"
-                )
-                bounds=page.evaluate("""() => {
-                    const input=document.querySelector('#exp-recipient').getBoundingClientRect();
-                    const clear=document.querySelector('#exp-recipient-clear').getBoundingClientRect();
-                    const card=document.querySelector('#v-exp-route .exp-route-card').getBoundingClientRect();
-                    return {inside:clear.left>=input.left && clear.right<=card.right+1,
-                            center:Math.abs((clear.top+clear.bottom)/2-(input.top+input.bottom)/2)};
-                }""")
-                assert bounds["inside"] and bounds["center"]<3, bounds
-                # The clear button is rendered by the shared component,
-                # with focus returned to the recipient after reset.
-                clear.click()
-                expect(page.locator("#exp-recipient")).to_have_value("")
-                expect(clear).to_be_hidden()
-                expect(page.locator("#exp-recipient")).to_be_focused()
                 expect(page.locator("#v-exp-route .exp-leg").nth(1).locator(".fl b")).to_have_count(0)
                 expect(page.locator("#exp-amount")).to_be_visible()
                 # Amount digits share the existing 32/38/600 monetary role.
@@ -306,14 +274,11 @@ def run():
                 })""")
                 page.locator("#exp-paste").click()
                 expect(page.locator("#exp-recipient")).to_have_value("0x" + "a" * 40)
-                expect(page.locator("#exp-recipient-clear")).to_be_visible()
                 # Real scanner entry point receives a deterministic decoded QR result.
                 page.evaluate("() => {window.scanQR = async opts => {opts.take({kind:'addr', value:'0x' + 'b'.repeat(40)})}}")
                 page.locator("#exp-scan").click()
                 expect(page.locator("#exp-recipient")).to_have_value("0x" + "b" * 40)
-                expect(page.locator("#exp-recipient-clear")).to_be_visible()
                 page.locator("#exp-recipient").fill("")
-                expect(page.locator("#exp-recipient-clear")).to_be_hidden()
                 max_label = page.locator("#exp-max-value").inner_text()
                 page.locator("#exp-use-all").click()
                 assert float(page.locator("#exp-amount").input_value().replace(" ", "")) > 0
@@ -329,7 +294,6 @@ def run():
                     chosen = options.nth(1).get_attribute("data-ns")
                     options.nth(1).click()
                     expect(page.locator("#exp-recipient")).to_have_value("")
-                    expect(page.locator("#exp-recipient-clear")).to_be_hidden()
                     expect(page.locator("#exp-net-icon")).to_have_class(re.compile("nlg " + chosen))
                     expect(page.locator("#exp-net-toggle")).to_have_attribute("aria-expanded", "false")
                 else:
@@ -372,25 +336,12 @@ def run():
                     })""")
                     page.locator("#exp-paste").click()
                     expect(page.locator("#exp-recipient")).to_have_value("demo.receiver@example.invalid")
-                    expect(page.locator("#exp-recipient-clear")).to_be_visible()
-                    page.locator("#exp-recipient-clear").click()
-                    expect(page.locator("#exp-recipient")).to_have_value("")
-                    expect(page.locator("#exp-recipient-clear")).to_be_hidden()
-                    expect(page.locator("#exp-recipient")).to_be_focused()
-                    page.locator("#exp-paste").click()
-                    expect(page.locator("#exp-recipient-clear")).to_be_visible()
                     page.evaluate("() => {window.scanQR = async opts => {opts.take({kind:'code', value:'ABCD-EFGH'})}}")
                     page.locator("#exp-scan").click()
                     expect(page.locator("#exp-recipient")).to_have_value("ABCD-EFGH")
-                    expect(page.locator("#exp-recipient-clear")).to_be_visible()
                     # The original recipient lookup is verified via email on Continue.
                     page.locator("#exp-recipient").fill("demo.receiver@example.invalid")
                 else:
-                    expect(page.locator("#exp-recipient-clear")).to_be_hidden()
-                    page.locator("#exp-recipient").fill("0x" + "c"*40)
-                    expect(page.locator("#exp-recipient-clear")).to_be_visible()
-                    page.locator("#exp-recipient-clear").click()
-                    expect(page.locator("#exp-recipient")).to_have_value("")
                     expect(page.locator("#exp-net-toggle .fi .nlg")).to_have_count(1)
                     expect(page.locator("#exp-net-toggle .fl i")).to_have_text("Сеть")
                     page.locator("#exp-net-toggle").click()
@@ -412,47 +363,37 @@ def run():
                     re.compile(r"\bon\b"), timeout=30000
                 )
                 context.close()
-            # Catalog specimen uses the SAME renderer for empty and filled.
+            # Catalog specimen is the REAL source/recipient card only, not a
+            # cropped full-screen screenshot or a second hand-built component.
             for specimen_width in (390, 423):
-                for filled in (False, True):
-                    context = browser.new_context(
-                        viewport={"width": specimen_width, "height": 302},
-                        reduced_motion="reduce",
-                    )
-                    page = context.new_page()
-                    page.on("pageerror", lambda exc: errors.append(str(exc)))
-                    page.goto(HOST + "usdt&component=route-card" +
-                        ("&filled=1" if filled else ""), wait_until="domcontentloaded")
-                    expect(page.locator("#v-exp-route")).to_have_class(
-                        re.compile(r"\bon\b"), timeout=30000
-                    )
-                    expect(page.locator("html")).to_have_class(
-                        re.compile("exp-route-specimen")
-                    )
-                    expect(page.locator("#v-exp-route .exp-route-card")).to_be_visible()
-                    expect(page.locator("#v-exp-route > .head")).to_be_hidden()
-                    expect(page.locator("#v-exp-route > .foot")).to_be_hidden()
-                    expect(page.locator("#exp-network-slot")).to_be_hidden()
-                    expect(page.locator("#v-exp-route .exp-amount-field")).to_be_hidden()
-                    expect(page.locator("#exp-balance")).to_contain_text("$")
-                    expect(page.locator("#exp-dest-label")).to_have_text("Куда → USDT")
-                    expect(page.locator("#exp-paste")).to_be_visible()
-                    expect(page.locator("#exp-scan")).to_be_visible()
-                    if filled:
-                        expect(page.locator("#exp-recipient-clear")).to_be_visible()
-                        expect(page.locator("#exp-recipient")).not_to_have_value("")
-                        page.screenshot(path=str(OUT / f"component-filled-{specimen_width}.png"))
-                        page.locator("#exp-recipient-clear").click()
-                        expect(page.locator("#exp-recipient")).to_have_value("")
-                        expect(page.locator("#exp-recipient-clear")).to_be_hidden()
-                    else:
-                        expect(page.locator("#exp-recipient-clear")).to_be_hidden()
-                    card = page.locator("#v-exp-route .exp-route-card").bounding_box()
-                    assert card and card["y"] >= 0 and card["y"] + card["height"] <= 304, (
-                        f"Component not fully visible in catalog at {specimen_width}px: {card}"
-                    )
-                    page.screenshot(path=str(OUT / f"component-route-{specimen_width}.png"))
-                    context.close()
+                context = browser.new_context(
+                    viewport={"width": specimen_width, "height": 302},
+                    reduced_motion="reduce",
+                )
+                page = context.new_page()
+                page.on("pageerror", lambda exc: errors.append(str(exc)))
+                page.goto(HOST + "usdt&component=route-card", wait_until="domcontentloaded")
+                expect(page.locator("#v-exp-route")).to_have_class(
+                    re.compile(r"\bon\b"), timeout=30000
+                )
+                expect(page.locator("html")).to_have_class(
+                    re.compile("exp-route-specimen")
+                )
+                expect(page.locator("#v-exp-route .exp-route-card")).to_be_visible()
+                expect(page.locator("#v-exp-route > .head")).to_be_hidden()
+                expect(page.locator("#v-exp-route > .foot")).to_be_hidden()
+                expect(page.locator("#exp-network-slot")).to_be_hidden()
+                expect(page.locator("#v-exp-route .exp-amount-field")).to_be_hidden()
+                expect(page.locator("#exp-balance")).to_contain_text("$")
+                expect(page.locator("#exp-dest-label")).to_have_text("Куда → USDT")
+                expect(page.locator("#exp-paste")).to_be_visible()
+                expect(page.locator("#exp-scan")).to_be_visible()
+                card = page.locator("#v-exp-route .exp-route-card").bounding_box()
+                assert card and card["y"] >= 0 and card["y"] + card["height"] <= 304, (
+                    f"Component not fully visible in catalog at {specimen_width}px: {card}"
+                )
+                page.screenshot(path=str(OUT / f"component-route-{specimen_width}.png"))
+                context.close()
             # Bank withdrawal experiment: the same live SEPA/SWIFT forms, with
             # route-card country selector and SBP-like dual amount+FX card.
             for width, height in [(390, 844), (430, 932), (1440, 900)]:
@@ -828,7 +769,6 @@ def run():
                     assert geom["thickness"] == "1px", geom
                     assert geom["color"] == "rgb(233, 236, 240)", geom
                     if kind == "bank":
-                        expect(route.locator('[data-route-clear]')).to_have_count(0)
                         expect(route).to_have_attribute("data-route-variant", "bank")
                         expect(route.locator(".tf-bank-leg").last).to_contain_text("Банк-партнёр")
                         expect(route.locator('[data-picker="country"]')).to_have_count(0)
@@ -836,30 +776,13 @@ def run():
                         expect(route).to_have_attribute("data-route-variant", "country")
                         country_field = route.locator('[data-picker="country"]')
                         expect(country_field).to_be_visible()
-                        clear=route.locator('[data-route-clear="country"]')
-                        expect(clear).to_have_count(1)
                         if country:
                             expect(country_field).to_contain_text("Великобритания")
                             expect(country_field.locator("svg.tf-country-flag")).to_have_count(1)
-                            expect(clear).to_be_visible()
-                            # A dedicated sibling action cannot open the picker.
-                            clear.click()
-                            expect(clear).to_be_hidden()
-                            expect(page.locator("#pickerLayer")).to_be_hidden()
-                            expect(country_field).to_contain_text("Выберите страну")
                         else:
                             expect(country_field).to_contain_text("Выберите страну")
-                            expect(clear).to_be_hidden()
                         country_field.click()
                         expect(page.locator("#pickerLayer")).to_be_visible()
-                        page.locator('#pickerLayer [data-picker-value="FR"]').click()
-                        expect(page.locator("#pickerLayer")).to_be_hidden()
-                        expect(route.locator('[data-route-clear="country"]')).to_be_visible()
-                        expect(country_field).to_contain_text("Франция")
-                        page.locator('[data-route-clear="country"]').click()
-                        expect(route.locator('[data-route-clear="country"]')).to_be_hidden()
-                        expect(country_field).to_contain_text("Выберите страну")
-                        country_field.click()
                         page.keyboard.press("Escape")
                         expect(page.locator("#pickerLayer")).to_be_hidden()
                     page.screenshot(path=str(OUT / f"route-{kind}-{rail.lower()}-{width}.png"))
