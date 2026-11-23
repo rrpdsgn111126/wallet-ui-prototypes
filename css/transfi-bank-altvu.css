@@ -607,12 +607,13 @@ html.tf-embedded .proto-shell,html.tf-embedded .workspace{height:100%;width:100%
    Flags are vector stripes/marks, never emoji glyphs or country letters. */
 .phone.tf-phone .tf-flag-circle{
   box-sizing:border-box;display:block;
-  flex:0 0 24px;width:24px;height:24px;min-width:24px;
+  flex:0 0 var(--ds-icon-art-size);width:var(--ds-icon-art-size);
+  height:var(--ds-icon-art-size);min-width:var(--ds-icon-art-size);
   border-radius:50%;overflow:hidden;background:transparent;
 }
 .phone.tf-phone .tf-country-flag,
 .phone.tf-phone .fld.tf-field .fi svg.tf-country-flag{
-  display:block;width:24px;height:24px;max-width:none;
+  display:block;width:var(--ds-icon-art-size);height:var(--ds-icon-art-size);max-width:none;
   border-radius:50%;overflow:hidden;clip-path:circle(50% at 50%);
 }
 .phone.tf-phone .tf-picker-trigger .fi:has(.tf-flag-circle),
@@ -620,7 +621,7 @@ html.tf-embedded .proto-shell,html.tf-embedded .workspace{height:100%;width:100%
   background:var(--coin-plate,var(--ds-color-coin-plate));
 }
 .phone.tf-phone .tf-picker-row .ri .tf-country-flag{
-  width:24px;height:24px;
+  width:var(--ds-icon-art-size);height:var(--ds-icon-art-size);
 }
 
 /* The canonical selector specimen uses the REAL bank picker DOM/events but
