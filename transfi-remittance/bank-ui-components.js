@@ -313,3 +313,20 @@ function uxRender(){
     $('stageLabel').textContent=(S.flow==='in'?'Пополнение':'Вывод')+' · '+(S.flow==='in'?S.inRail:S.outRail);
   }
 }
+
+/* Common toast, segmentation and quote-label rendering. */
+function notify(t){const n=$('toast');n.textContent=t;n.classList.add('visible');clearTimeout(window._to);window._to=setTimeout(()=>n.classList.remove('visible'),2300)}
+
+function segment(options,selected,fn){return `<div class="seg tf-seg" role="group">${options.map(o=>`<button type="button" class="${o.v===selected?'on':''}" ${o.disabled?'disabled title="Недоступно для выбранных параметров"':''} aria-pressed="${o.v===selected}" onclick="${fn}('${esc(o.v)}')">${esc(o.label??o.v)}</button>`).join('')}</div>`}
+
+function qSummary(includeAmount=true){
+ const q=quote();
+ const row=(label,value,total=false)=>'<div class="row'+(total?' tot':'')+'"><div class="rt">'+esc(label)+'</div><div class="rv">'+esc(value)+'</div></div>';
+ const from=S.sourceCurrency==='USD'?'$':S.sourceCurrency;
+ return (includeAmount?row('Сумма перевода',money(q.receive,S.outCurrency)):'')+
+   row('Курс','1 '+from+' ≈ '+q.fx.toFixed(4)+' '+S.outCurrency)+
+   row('Комиссия',money(q.fee,S.sourceCurrency))+
+   row('Спишется со счёта',money(q.total,S.sourceCurrency),true);
+}
+
+function purposeName(){return {personal:'Перевод собственных средств',family:'Перевод родственникам',education:'Обучение',other:S.purposeOther||'Другое'}[S.purpose]}
