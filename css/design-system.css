@@ -114,6 +114,8 @@ html.dark body .phone:not(.tf-phone) {
 html body .phone.tf-phone {
   --brand: var(--ds-color-brand);
   --brand-ink: var(--ds-color-brand-ink);
+  /* The bank shell is light-only; semantic divider follows its own --n100. */
+  --ds-sem-divider: var(--n100);
 }
 
 /* Higher specificity than original wallet rules; same baseline values. */
