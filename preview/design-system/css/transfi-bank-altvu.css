@@ -8,6 +8,8 @@
   --n50:#f6f7f8;--n100:#e9ecf0;--n300:#b9b7b7;--n400:#8a8686;
   --n500:#6b6767;--n850:#211e1d;--n900:#161514;
   --surface:#fff;--glass:#ffffffe6;--sh-1:#1615140a;--sh-2:#1615141a;
+  /* Coin/network plates use the same semantic color as the wallet UI Kit. */
+  --coin-plate:var(--ds-color-coin-plate);
   background:var(--n50);isolation:isolate;
 }
 .phone.tf-phone:not(.is-home)::before {
