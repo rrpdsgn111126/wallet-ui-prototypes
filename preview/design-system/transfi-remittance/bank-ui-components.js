@@ -218,3 +218,98 @@ function uxRenderPicker({settled=false}={}){
    '</section>';
  layer.hidden=false;
 }
+
+
+/* Canonical navigation and form-feedback controls. */
+function uxBottomNav(event){
+  const target=event.target.closest('[data-mb]');
+  if(!target)return;
+  event.preventDefault();
+  const key=target.dataset.mb;
+  if(key==='home')uxGo('home');
+  else if(key==='topup')setFlow('in');
+  else if(key==='withdraw')setFlow('out');
+  else if(key==='card')uxGo('wallet-card');
+  else if(key==='profile')uxGo('wallet-profile');
+}
+
+function uxHomeNav(event){
+  const el=event.target.closest('[data-go]');if(!el)return;
+  const route=el.getAttribute('data-go');
+  if(route==='topup')setFlow('in');
+  else if(route==='withdraw')setFlow('out');
+  else if(route==='history')uxGo('history');
+  else if(route==='card')uxGo('wallet-card');
+  else if(route==='profile')uxGo('wallet-profile');
+  else if(route==='earn')uxGo('wallet-earn');
+  else if(route==='notes')uxGo('wallet-notes');
+  else uxOtherMethod(({card:'Карта',earn:'Партнёрская программа',notes:'Уведомления',support:'Поддержка',profile:'Профиль'})[route]||route);
+}
+
+function uxHomeNavKey(e){
+  if(e.key!=='Enter'&&e.key!==' ')return;
+  if(e.target.closest('[data-go]')){e.preventDefault();uxHomeNav(e)}
+}
+
+function uxProfileTab(tab){if(['data','settings','earn'].includes(tab)){S.profileTab=tab;render()}}
+
+function uxUpdateFlowCTA(){
+ const footer=$('footer');
+ if(!footer||S.flow!=='out')return;
+ const button=footer.querySelector('button.tf-button');
+ if(!button||!['out-config','out-recipient'].includes(S.screen))return;
+ const invalid=S.screen==='out-config'?uxConfigValidation():uxRecipientValidation();
+ const inactive=Boolean(invalid);
+ button.classList.toggle('tf-inactive',inactive);
+ button.setAttribute('aria-disabled',String(inactive));
+ const message=footer.querySelector('.tf-submit-error');
+ if(message){message.hidden=true;message.textContent='';}
+}
+
+function uxFormError(error){
+ if(!error)return;
+ notify(error.message);
+ const footer=$('footer');
+ if(footer){
+   let hint=footer.querySelector('.tf-submit-error');
+   if(!hint){hint=document.createElement('div');hint.className='tf-submit-error';hint.setAttribute('role','alert');footer.appendChild(hint);}
+   hint.textContent=error.message;hint.hidden=false;
+ }
+ const input=$(error.field);
+ if(input){input.scrollIntoView({block:'center',behavior:'smooth'});input.focus();}
+}
+
+function uxRender(){
+  const phone=document.querySelector('.phone.tf-phone');
+  phone.classList.toggle('is-home',S.screen==='home');
+  phone.classList.toggle('tf-bank-final',S.flow==='out'&&['out-success','out-failed'].includes(S.screen));
+  phone.classList.toggle('tf-bank-waiting',S.flow==='out'&&['out-progress','out-held'].includes(S.screen));
+  const tabs=document.querySelector('.tf-bottom-nav');
+  const showTabs=['home','wallet-card','wallet-profile','wallet-earn','wallet-notes'].includes(S.screen);
+  phone.classList.toggle('has-bottom-nav',showTabs);
+  tabs.hidden=!showTabs;
+  for(const tab of tabs.querySelectorAll('[data-mb]')){
+    const key=tab.dataset.mb;
+    const selected=(key==='home'&&S.screen==='home')
+      ||(key==='card'&&S.screen==='wallet-card')
+      ||(key==='profile'&&['wallet-profile','wallet-earn','wallet-notes'].includes(S.screen));
+    tab.classList.toggle('on',selected);
+    if(selected)tab.setAttribute('aria-current','page');
+    else tab.removeAttribute('aria-current');
+  }
+
+  _tfBaseRender();
+  uxUpdateFlowCTA();
+  $('methodLayer').hidden=!S.modal;
+  uxRenderMethods();
+  uxRenderPicker();
+  document.querySelector('.phone.tf-phone .back').hidden=S.screen==='home';
+  const home=$('flow-home');
+  if(home)home.classList.toggle('active',S.screen==='home');
+  if(S.screen==='home'){
+    $('stageLabel').textContent='Главная · Кошелёк alt.vu';
+    $('stageIndex').textContent='Главная';
+  }else{
+    $('stageLabel').textContent=(S.flow==='in'?'Пополнение':'Вывод')+' · '+(S.flow==='in'?S.inRail:S.outRail);
+  }
+}
