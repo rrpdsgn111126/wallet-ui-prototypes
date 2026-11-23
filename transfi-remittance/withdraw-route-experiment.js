@@ -334,6 +334,15 @@
   netField.addEventListener('keydown',e=>{
     if(e.key==='Enter'||e.key===' '){e.preventDefault();pickNetwork();}
   });
+  // The native wallet also has a delegated click handler on the network dim.
+  // Intercept backdrop clicks at window capture, before native handlers can
+  // navigate or mutate the active view. Restrict this to the active experiment.
+  window.addEventListener('click',e=>{
+    if(!screen.classList.contains('on')||nativeDim.hidden)return;
+    if(!e.target.closest('.ns-dim'))return;
+    e.preventDefault();e.stopImmediatePropagation();
+    closeSheet();
+  },true);
   // The global native dispatcher also owns [data-ns]. Intercept only while
   // the experiment is visible; all deposit flows remain unchanged.
   document.addEventListener('click',e=>{
