@@ -47,6 +47,16 @@ def verify_shared_bank_components():
     assert 'href="../../design-system/transfi-remittance/bank-prototype-base.css"' in experiment
     assert 'src="./bank-ui-components.js"' in canonical
     assert 'href="./bank-prototype-base.css"' in canonical
+    # Shared native preview runtime and QA panel must not fork on this branch.
+    for name in ("preview-interactions.js", "transfi-qa-panel.js"):
+        local = (ROOT / "transfi-remittance" / name).read_text(encoding="utf-8")
+        canonical_file = (canonical_root / name).read_text(encoding="utf-8")
+        assert len(local) < 1500, f"Duplicated runtime/UI returned: {name}"
+        assert len(canonical_file) > 10000, f"Missing canonical source: {name}"
+        assert "../../design-system/transfi-remittance/" + name in local
+    assert "./withdraw-route-experiment.js" in (
+        ROOT / "transfi-remittance" / "preview-interactions.js"
+    ).read_text(encoding="utf-8")
 
 
 def run():
@@ -68,6 +78,12 @@ def run():
                 page = context.new_page()
                 page.on("pageerror", lambda exc: errors.append(str(exc)))
                 page.goto(HOST + "usdt", wait_until="domcontentloaded")
+                # A shared native runtime must load before the isolated route
+                # experiment mounts its own two-leg composition.
+                page.wait_for_function("""() =>
+                    [...document.scripts].some(script =>
+                        script.src.includes('/design-system/transfi-remittance/preview-interactions.js'))
+                """, timeout=20000)
                 expect(page.locator("#v-exp-route")).to_have_class(
                     re.compile(r"\bon\b"), timeout=30000
                 )
