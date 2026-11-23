@@ -128,7 +128,8 @@
   --ds-sem-text-secondary: var(--ds-color-n500); /* Вторичные подписи и текст */
   --ds-sem-text-placeholder: var(--ds-color-n500); /* Плейсхолдер в форме; повышенный контраст относительно n300 */
   --ds-sem-surface: var(--ds-color-surface); /* Поверхности полей и карточек */
-  --ds-sem-border: var(--ds-color-line); /* Обводки и разделители с контекстом border */
+  --ds-sem-border: var(--ds-color-line); /* Обводки и контуры интерактивных элементов */
+  --ds-sem-divider: var(--ds-color-n100); /* Внутренние разделители карточек и строк, 1px */
   --ds-sem-success: var(--ds-color-ok); /* Положительный статус и успешная операция */
   --ds-sem-error: var(--ds-color-err); /* Ошибки формы и операции */
 
