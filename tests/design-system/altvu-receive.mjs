@@ -26,7 +26,18 @@ try{
   // Navigate with the actual wallet router (not a copied specimen).
   await page.evaluate(()=>show('my-qr',false));
   await page.locator('#v-my-qr.on').waitFor({timeout:15000});
-  await page.waitForFunction(()=>typeof myPay!=='undefined'&&!!myPay?.url,{timeout:15000});
+  // The route is rendered synchronously; loadMyQR is an async screen hook.
+  // Invoke it explicitly so this isolated UX test does not depend on
+  // application bootstrap timing or a prior authenticated navigation.
+  const loaded=await page.evaluate(async()=>loadMyQR(false));
+  if(!loaded){
+    const detail=await page.evaluate(()=>({
+      screen:view,preview:altPreview,
+      api:typeof pvApi,pay:myPay,message:document.querySelector('#toast .tt')?.textContent
+    }));
+    throw new Error('ALT.VU QR fixture did not load: '+JSON.stringify(detail));
+  }
+  await page.waitForFunction(()=>typeof myPay!=='undefined'&&!!myPay?.url);
   const v=page.locator('#v-my-qr');
   assert.equal(await v.locator('.h1').innerText(),'Пополнение ALT.VU');
   assert.match(await v.locator('.qr-intro').innerText(),/другому пользователю ALT\.VU/);
