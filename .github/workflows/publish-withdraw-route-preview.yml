@@ -22,7 +22,7 @@ permissions:
 
 concurrency:
   group: withdraw-route-static-preview
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   publish:
@@ -41,7 +41,9 @@ jobs:
       - name: Install Chromium test dependencies
         run: |
           python -m pip install --disable-pip-version-check playwright==1.56.0
-          python -m playwright install --with-deps chromium
+          # Chrome is preinstalled on the Ubuntu GitHub runner; avoid the large
+          # Chromium download that can stall or queue preview publications.
+          google-chrome --version
       - name: Stage canonical design-system branch for local browser verification
         shell: bash
         run: |
