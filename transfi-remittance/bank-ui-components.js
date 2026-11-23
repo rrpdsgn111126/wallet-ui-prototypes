@@ -208,7 +208,7 @@ function uxRenderPicker({settled=false}={}){
    const checked=S[key]===option.value;
    const icon=key==='country'?uxFlagPlate(option.value):(key==='outCurrency'||key==='inCurrency')?uxCurrencyPickerIcon(option.value):tfIconFor(key==='purpose'?'note':'currency');
    return '<button type="button" class="row tf-picker-row" data-picker-value="'+esc(option.value)+
-     '" role="radio" aria-checked="'+checked+'"><span class="ri'+((key==='country'||key==='outCurrency'||key==='inCurrency')?' ds-icon-frame ds-icon-frame--compact':'')+'">'+icon+
+     '" role="radio" aria-checked="'+checked+'"><span class="ri'+((key==='country'||key==='outCurrency'||key==='inCurrency')?' ds-icon-frame':'')+'">'+icon+
      '</span><span class="rt">'+esc(option.label)+'</span>'+
      '<span class="rd'+(checked?' on':'')+'" aria-hidden="true"></span></button>';
  }).join('');
