@@ -28,7 +28,29 @@ def ready():
     raise RuntimeError("Static preview server was not ready")
 
 
+def verify_shared_bank_components():
+    """Fail CI if a shared UI component is copied back into either host."""
+    experiment = (ROOT / "transfi-remittance" / "legacy.html").read_text(encoding="utf-8")
+    canonical_root = ROOT / "design-system" / "transfi-remittance"
+    canonical = (canonical_root / "legacy.html").read_text(encoding="utf-8")
+    shared_components = (canonical_root / "bank-ui-components.js").read_text(encoding="utf-8")
+    shared_css = (canonical_root / "bank-prototype-base.css").read_text(encoding="utf-8")
+    assert len(shared_components) > 10000 and len(shared_css) > 40000
+    for name in ("uxRenderMethods", "uxMethodRow", "uxPickerField",
+                 "uxRenderPicker", "uxChoosePicker", "uxCurrencySymbol",
+                 "tfBankResult", "tfBankWait", "tfStatusMark", "uxAmountField"):
+        assert f"function {name}(" in shared_components, name
+        assert f"function {name}(" not in experiment, f"Duplicated experiment UI function: {name}"
+        assert f"function {name}(" not in canonical, f"Duplicated canonical UI function: {name}"
+    assert '<style>' not in experiment and '<style>' not in canonical
+    assert 'src="../../design-system/transfi-remittance/bank-ui-components.js"' in experiment
+    assert 'href="../../design-system/transfi-remittance/bank-prototype-base.css"' in experiment
+    assert 'src="./bank-ui-components.js"' in canonical
+    assert 'href="./bank-prototype-base.css"' in canonical
+
+
 def run():
+    verify_shared_bank_components()
     server = subprocess.Popen(
         [sys.executable, "-m", "http.server", str(PORT), "--bind", "127.0.0.1"],
         cwd=ROOT, stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT,
@@ -341,6 +363,20 @@ def run():
                         f"?embedded=1&flow=out&screen=out-config&rail={rail}",
                         wait_until="domcontentloaded",
                     )
+                    # The displayed bank UI must load the shared canonical
+                    # renderers and base CSS, not rely on branch-local copies.
+                    expect(page.locator(
+                        'script[src="../../design-system/transfi-remittance/bank-ui-components.js"]'
+                    )).to_have_count(1)
+                    expect(page.locator(
+                        'link[href="../../design-system/transfi-remittance/bank-prototype-base.css"]'
+                    )).to_have_count(1)
+                    page.wait_for_function("""() => {
+                        const hrefs=[...document.styleSheets].map(s => s.href||'');
+                        return hrefs.some(h => h.includes('/design-system/transfi-remittance/bank-prototype-base.css'))
+                            && typeof uxRenderPicker==='function'
+                            && typeof uxRenderMethods==='function';
+                    }""", timeout=20000)
                     route = page.locator(".tf-bank-route-card")
                     expect(route).to_be_visible()
                     expect(route.locator(".tf-bank-leg")).to_have_count(2)
