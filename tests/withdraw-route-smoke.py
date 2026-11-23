@@ -185,8 +185,25 @@ def run():
                 expect(clear).to_have_attribute("data-route-clear", "recipient")
                 expect(clear).to_be_hidden()
                 expect(clear).to_have_attribute("aria-label", "Очистить получателя")
+                empty_height=page.locator("#v-exp-route .exp-route-card").evaluate(
+                    "el => el.getBoundingClientRect().height"
+                )
                 page.locator("#exp-recipient").fill("T" + "1" * 33)
                 expect(clear).to_be_visible()
+                filled_height=page.locator("#v-exp-route .exp-route-card").evaluate(
+                    "el => el.getBoundingClientRect().height"
+                )
+                assert abs(filled_height-empty_height)<1, (
+                    f"Filled field shifted the card: {empty_height} -> {filled_height}"
+                )
+                bounds=page.evaluate("""() => {
+                    const input=document.querySelector('#exp-recipient').getBoundingClientRect();
+                    const clear=document.querySelector('#exp-recipient-clear').getBoundingClientRect();
+                    const card=document.querySelector('#v-exp-route .exp-route-card').getBoundingClientRect();
+                    return {inside:clear.left>=input.left && clear.right<=card.right+1,
+                            center:Math.abs((clear.top+clear.bottom)/2-(input.top+input.bottom)/2)};
+                }""")
+                assert bounds["inside"] and bounds["center"]<3, bounds
                 # The clear button is rendered by the shared component,
                 # with focus returned to the recipient after reset.
                 clear.click()
