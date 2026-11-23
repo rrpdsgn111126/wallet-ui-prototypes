@@ -189,7 +189,7 @@ case'out-config':p=`
 ${uxAmountField()}
 <div class="box tf-quote" id="quoteBlock">${qSummary()}</div>`;
 f=primary('Продолжить','checkConfig()',!validConfig());break;
-case'out-recipient':p=`${field('Имя и фамилия получателя','recipientName','Имя и фамилия получателя')}
+case'out-recipient':p=`${field('Имя и фамилия получателя','recipientName','Например, Alexander Müller')}
 ${S.outRail==='SEPA'?field('IBAN получателя','iban','DE00 0000 0000 0000 0000 00'):
 `${field('Номер счёта / IBAN','account','Номер счёта')}${field('SWIFT / BIC','bic','XXXXXXXXXXX')}${field('Наименование банка','bank','Банк получателя')}`}
 ${selectField('Назначение перевода','purpose',[['personal','Перевод собственных средств'],['family','Перевод родственникам'],['education','Обучение'],['other','Другое']])}
