@@ -128,6 +128,13 @@
   --ds-sem-text-secondary: var(--ds-color-n500); /* Вторичные подписи и текст */
   --ds-sem-text-placeholder: var(--ds-color-n500); /* Плейсхолдер в форме; повышенный контраст относительно n300 */
   --ds-sem-surface: var(--ds-color-surface); /* Поверхности полей и карточек */
+  /* Coin/network framed icon contract: 40/24, compact lists 32/20, hero 106/64. */
+  --ds-icon-frame-size: 40px;
+  --ds-icon-art-size: 24px;
+  --ds-icon-frame-compact-size: 32px;
+  --ds-icon-art-compact-size: 20px;
+  --ds-icon-frame-hero-size: 106px;
+  --ds-icon-art-hero-size: 64px;
   --ds-sem-border: var(--ds-color-line); /* Обводки и контуры интерактивных элементов */
   --ds-sem-divider: var(--ds-color-n100); /* Внутренние разделители карточек и строк, 1px */
   --ds-sem-success: var(--ds-color-ok); /* Положительный статус и успешная операция */
