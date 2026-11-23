@@ -48,7 +48,7 @@ const META={
 };
 const $=id=>document.getElementById(id);
 const esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-function notify(t){const n=$('toast');n.textContent=t;n.classList.add('visible');clearTimeout(window._to);window._to=setTimeout(()=>n.classList.remove('visible'),2300)}
+
 function money(x,c){const n=Number(x);return Number.isFinite(n)?new Intl.NumberFormat('ru-RU',{minimumFractionDigits:2,maximumFractionDigits:2}).format(n)+' '+(c==='USD'?'$':c):'—'}
 function isSepa(){return S.outCurrency==='EUR'&&SEPA_COUNTRIES.includes(S.country)}
 function configRail(){if(!isSepa()&&S.outRail==='SEPA')S.outRail='SWIFT'}
@@ -62,7 +62,7 @@ function setOutCountry(v){S.country=v;configRail();render()}
 function setOutRail(v){if(v==='SEPA'&&!isSepa())return;S.outRail=v;render()}
 function setSourceCurrency(v){S.sourceCurrency=v;render()}
 function store(k,v){S[k]=v;uxUpdateFlowCTA()}
-function segment(options,selected,fn){return `<div class="seg tf-seg" role="group">${options.map(o=>`<button type="button" class="${o.v===selected?'on':''}" ${o.disabled?'disabled title="Недоступно для выбранных параметров"':''} aria-pressed="${o.v===selected}" onclick="${fn}('${esc(o.v)}')">${esc(o.label??o.v)}</button>`).join('')}</div>`}
+
 // SVG icon primitives follow the original alt.vu style (24px viewBox, 1.8–2.2px strokes).
 
 
@@ -88,15 +88,7 @@ function numAmount(){return Number(String(S.amount).replace(',','.'))}
 function quote(){const amt=numAmount();const valid=Number.isFinite(amt)&&amt>0;const fx=S.sourceCurrency===S.outCurrency?1:({'EURUSD':1.08,'USDEUR':.9259,'EURGBP':.84,'GBPEUR':1.1905,'USDGBP':.7778,'GBPUSD':1.2857})[S.sourceCurrency+S.outCurrency]||1;const fee=S.outRail==='SEPA'?2.5:18;return {valid,amt,fx,fee,total:amt+fee,receive:Math.max(0,amt*fx),min:fee+.01}}
 // Conversion amount is received in EUR (or chosen currency).
 // Fee is charged in USD on top of the USD debit. .row.tot matches native review.
-function qSummary(includeAmount=true){
- const q=quote();
- const row=(label,value,total=false)=>'<div class="row'+(total?' tot':'')+'"><div class="rt">'+esc(label)+'</div><div class="rv">'+esc(value)+'</div></div>';
- const from=S.sourceCurrency==='USD'?'$':S.sourceCurrency;
- return (includeAmount?row('Сумма перевода',money(q.receive,S.outCurrency)):'')+
-   row('Курс','1 '+from+' ≈ '+q.fx.toFixed(4)+' '+S.outCurrency)+
-   row('Комиссия',money(q.fee,S.sourceCurrency))+
-   row('Спишется со счёта',money(q.total,S.sourceCurrency),true);
-}
+
 function validConfig(){
  const q=quote();
  return q.valid&&q.amt>q.fee&&q.amt+q.fee<=4812.60;
@@ -230,7 +222,7 @@ f=primary('На главную','uxLeaveBank()');break;
 case'out-unavailable':p=`<div class="tf-hero">${tfStatusMark('failed')}${title('Перевод недоступен')}<p>Для выбранного направления нет доступного метода</p></div><div class="tbl">${keyrow('Страна',COUNTRY[S.country])}${keyrow('Валюты',`${S.sourceCurrency} → ${S.outCurrency}`)}${keyrow('Метод',S.outRail)}</div>`;f=primary('Изменить параметры',"go('out-config')");break;
 }
 return {p,f,head};}
-function purposeName(){return {personal:'Перевод собственных средств',family:'Перевод родственникам',education:'Обучение',other:S.purposeOther||'Другое'}[S.purpose]}
+
 
 function renderQuote(){const t=$('quoteBlock');if(t)t.innerHTML=qSummary(false)}
 function uxSetAmount(value){S.amount=String(value).replace(/[^0-9.,]/g,'').replace(',','.');renderQuote();uxUpdateFlowCTA()}
