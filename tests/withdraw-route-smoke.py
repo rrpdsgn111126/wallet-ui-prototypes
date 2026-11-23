@@ -92,7 +92,7 @@ def run():
         ready()
         errors = []
         with sync_playwright() as playwright:
-            browser = playwright.chromium.launch(headless=True, args=["--no-sandbox"])
+            browser = playwright.chromium.launch(headless=True, channel="chrome", args=["--no-sandbox"])
             for width, height in [(390, 844), (430, 932), (1440, 900)]:
                 context = browser.new_context(
                     viewport={"width": width, "height": height},
