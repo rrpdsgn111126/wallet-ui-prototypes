@@ -3,7 +3,7 @@
 <head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
 <title>Международные переводы · alt.vu · source components</title>
 <link rel="stylesheet" href="../../design-system/css/alt-vu-wallet.css">
-<link rel="stylesheet" href="../../design-system/transfi-remittance/bank-prototype-base.css"><link rel="stylesheet" href="../../design-system/css/transfi-bank-altvu.css"><link rel="stylesheet" href="./withdraw-route-experiment.css"><link rel="stylesheet" href="../../design-system/transfi-remittance/route-card.css"></head>
+<link rel="stylesheet" href="../../design-system/transfi-remittance/bank-prototype-base.css"><link rel="stylesheet" href="../../design-system/css/transfi-bank-altvu.css"><link rel="stylesheet" href="./withdraw-route-experiment.css"><link rel="stylesheet" href="../../design-system/transfi-remittance/route-card.css"><script src="../../design-system/transfi-remittance/field-clear.js" defer></script></head>
 <body>
 <header class="top"><div class="brand">alt.vu <span>/ Международные переводы · прототип</span></div><span class="chip">v8 · компоненты приложения</span></header>
 <div class="proto-shell">
@@ -408,11 +408,7 @@ function uxBankRouteCard(){
         contentHtml:'<b'+(hasCountry?'':' class="tf-bank-country-placeholder"')+'>'+esc(country)+'</b>',
         id:'tf-bank-country',
         picker:'country',
-        ariaLabel:'Страна получателя: '+country,
-        clearable:true,
-        clearKey:'country',
-        clearLabel:'Сбросить выбранную страну',
-        filled:hasCountry
+        ariaLabel:'Страна получателя: '+country
       };
   return window.AltvuRouteCard.render({
     variant:bankSpecimen?'bank':'country',
@@ -442,6 +438,7 @@ function uxBankAmountCard(){
   '</div>';
 }
 function uxRenderScreen(){
+  if(S.componentAmountConversion)return {head:'',p:uxBankAmountCard(),f:''};
   if(S.componentRouteKind)return {head:'',p:uxBankRouteCard(),f:''};
   // Design-system specimen: render ONLY the real selector field. Its picker
   // reuses uxPickerField/uxRenderPicker/uxChoosePicker without a second copy.
@@ -621,16 +618,6 @@ document.querySelector('.phone.tf-phone').addEventListener('keydown',function(e)
  }
 });
 document.querySelector('.phone.tf-phone').addEventListener('click',function(e){
-  // Clear is a sibling of the picker, rendered by shared AltvuRouteCard.
-  // Reset the country without opening the sheet or changing the source balance.
-  const clear=e.target.closest('[data-route-clear="country"]');
-  if(clear){
-    e.preventDefault();e.stopPropagation();
-    S.country='';render();
-    const destination=document.getElementById('tf-bank-country');
-    if(destination)destination.focus({preventScroll:true});
-    return;
-  }
   const trigger=e.target.closest('[data-picker]');
   if(trigger){uxOpenPicker(trigger.dataset.picker);return;}
   const choice=e.target.closest('[data-picker-value]');
@@ -693,6 +680,13 @@ if(tfQuery.get('component')==='route-card'){
     }
     document.documentElement.classList.add('tf-capture','tf-embedded','tf-route-specimen');
   }
+}
+// Live specimen of the existing two-value amount and FX conversion card.
+if(tfQuery.get('component')==='amount-conversion'){
+  S.flow='out';S.screen='out-config';S.outRail='SWIFT';
+  S.outCurrency='EUR';S.amount=tfQuery.get('filled')==='1'?'250.00':'';
+  S.componentAmountConversion=true;S.modal=null;
+  document.documentElement.classList.add('tf-capture','tf-embedded','tf-route-specimen','tf-conversion-specimen');
 }
 // Provider-independent canonical picker specimen. The internal SWIFT rail
 // merely supplies the full demo currency/country options; it is never shown.
