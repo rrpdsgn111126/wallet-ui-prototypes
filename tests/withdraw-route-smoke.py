@@ -383,8 +383,12 @@ def run():
                     expect(route.locator(".tf-bank-leg").first).to_contain_text("Откуда → ALT.VU")
                     expect(route.locator(".tf-bank-destination")).to_contain_text("Куда → Страна")
                     expect(route.locator(".tf-bank-destination .fl i")).to_have_text("Куда → Страна")
-                    expect(route.locator(".tf-bank-destination .fl b")).to_have_text("Германия")
-                    expect(route.locator(".tf-bank-destination svg.tf-country-flag")).to_have_count(1)
+                    expect(route.locator(".tf-bank-leg").first.locator(".fl b")).to_have_text("4 812.60 $")
+                    expect(route.locator(".tf-bank-destination .fl b")).to_have_text("Выберите страну")
+                    expect(route.locator(".tf-bank-destination svg.tf-country-flag")).to_have_count(0)
+                    expect(route.locator(".tf-bank-destination .fi svg")).to_have_count(1)
+                    expect(route.locator(".tf-bank-destination .tf-picker-chevron")).to_have_count(0)
+                    expect(page.locator("#footer .tf-button")).to_have_attribute("aria-disabled", "true")
                     # All three dividers must share a computed semantic color,
                     # exactly 1px thick and stretch from card edge to card edge.
                     dividers = page.evaluate("""() => {
@@ -400,7 +404,11 @@ def run():
                         const rs=getComputedStyle(route,'::after');
                         const ms=getComputedStyle(mid,'::before');
                         const totalCss=getComputedStyle(total);
-                        const capsule=getComputedStyle(fx.querySelector('.sbp-rate'));
+                        const rateElement=fx.querySelector('.sbp-rate');
+                        const arrowElement=route.querySelector('.tf-bank-arrow');
+                        const capsule=getComputedStyle(rateElement);
+                        const arrowCss=getComputedStyle(arrowElement);
+                        const arrowRect=rect(arrowElement),rateRect=rect(rateElement);
                         return {
                             route:[Math.abs(bankRect.left-routeRect.left),Math.abs(bankRect.right-routeRect.right)],
                             mid:[Math.abs(fxRect.left-midRect.left),Math.abs(fxRect.right-midRect.right)],
@@ -412,7 +420,12 @@ def run():
                             totBottom:totalCss.borderBottomWidth,
                             semantic:getComputedStyle(bank).getPropertyValue('--ds-sem-divider').trim(),
                             borderToken:getComputedStyle(bank).getPropertyValue('--ds-sem-border').trim(),
-                            capsuleOutline:capsule.boxShadow
+                            capsuleOutline:capsule.boxShadow,
+                            capsulesMatch:['height','borderRadius','backgroundColor','boxShadow']
+                                .every(key=>capsule[key]===arrowCss[key]),
+                            arrowCentered:Math.abs((arrowRect.left+arrowRect.right)/2-(bankRect.left+bankRect.right)/2)<1,
+                            fxCentered:Math.abs((rateRect.left+rateRect.right)/2-(fxRect.left+fxRect.right)/2)<1,
+                            capsuleHeight:capsule.height
                         };
                     }""")
                     for key in ("route","mid","table"):
@@ -423,6 +436,8 @@ def run():
                     assert dividers["totTop"]=="0px" and dividers["totBottom"]=="0px", dividers
                     assert dividers["semantic"]=="#e9ecf0", dividers
                     assert "230, 228, 225" in dividers["capsuleOutline"], dividers
+                    assert dividers["capsulesMatch"] and dividers["capsuleHeight"]=="32px", dividers
+                    assert dividers["arrowCentered"] and dividers["fxCentered"], dividers
 
                     expect(page.locator(".tf-bank-sbp")).to_be_visible()
                     expect(page.locator(".tf-bank-sbp .h")).to_have_count(2)
@@ -461,6 +476,11 @@ def run():
                     expect(rows).to_have_count(1)
                     expect(rows.first).to_contain_text("К списанию")
                     expect(rows.first).to_contain_text("комиссия")
+                    fee="2.50" if rail=="SEPA" else "18.00"
+                    expect(page.locator("#quoteBlock .tf-bank-fee")).to_have_text(
+                        f"(комиссия {fee} $)"
+                    )
+                    expect(page.locator("#quoteBlock .rv")).to_have_css("font-weight","600")
                     expect(page.locator("#footer .tf-button")).to_have_text("Реквизиты получателя")
                     expect(page.locator("#quoteBlock")).not_to_contain_text("Курс")
                     # Compact total must stay one line, not overlap and sit next to the CTA.
@@ -497,6 +517,10 @@ def run():
                     expect(amount).to_have_value("9 999 999.99")
                     amount.fill("1234.56")
                     expect(amount).to_have_value("1 234.56")
+                    expect(page.locator("#quoteBlock .rv")).to_have_text(
+                        "1 237.06 $" if rail=="SEPA" else "1 252.56 $"
+                    )
+                    expect(page.locator("#footer .tf-button")).to_have_attribute("aria-disabled","true")
                     received = page.locator("#tf-bank-receive").inner_text().replace(" ", "")
                     assert abs(float(received)-round(1234.56*fx,2))<0.011, (
                         f"Bank FX mismatch {rail}, {width}px: {received}"
@@ -506,6 +530,8 @@ def run():
                     expect(page.locator('#pickerLayer [data-picker-value="FR"]')).to_be_visible()
                     page.locator('#pickerLayer [data-picker-value="FR"]').click()
                     expect(page.locator(".tf-bank-destination")).to_contain_text("Франция")
+                    expect(page.locator(".tf-bank-destination svg.tf-country-flag")).to_have_count(1)
+                    expect(page.locator("#footer .tf-button")).to_have_attribute("aria-disabled","false")
                     expect(page.locator("#tf-out-amount")).to_have_value("1 234.56")
                     if rail == "SWIFT":
                         page.locator(".tf-bank-currency-switch").click()
