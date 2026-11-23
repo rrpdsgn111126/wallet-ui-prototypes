@@ -438,7 +438,14 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid 
 .phone.tf-phone .tf-native-sheet .tf-method-row.m .mt b{display:block;font-size:16px;font-weight:400;line-height:22px}
 .phone.tf-phone .tf-native-sheet .tf-method-row.m .mt i{display:block;font-size:12px;line-height:16px;color:var(--n500);font-style:normal;margin:0}
 .phone.tf-phone .tf-native-sheet .tf-method-row.m svg{flex-shrink:0}
-.phone.tf-phone .tf-native-sheet .tf-method-subtitle{font-size:12px;color:var(--n500);margin:15px 4px 11px}
+/* Shared secondary group caption: wallet history dates and bank method-sheet group labels.
+   Both use one existing DS token instead of unrelated hard-coded font metrics. */
+.phone.tf-phone .tf-source-home .d,
+.phone.tf-phone .tf-source-history .d,
+.phone.tf-phone .tf-native-sheet .tf-method-subtitle{
+  font:var(--ds-type-body-secondary);color:var(--n500);
+}
+.phone.tf-phone .tf-native-sheet .tf-method-subtitle{margin:15px 4px 11px}
 .phone.tf-phone .tf-native-sheet .note{font-size:14px;line-height:18px;color:var(--n500);margin:4px 0 12px;padding:0 4px}
 .phone.tf-phone .tf-native-sheet .lnk{display:inline-flex;align-items:center;gap:6px;font-size:14px;color:var(--brand-600);padding:0 4px}
 @media(max-width:390px){
