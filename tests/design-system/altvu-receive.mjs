@@ -66,7 +66,17 @@ try{
   assert.equal(await v.locator('.qr-rotate-sheet').isVisible(),false,'Escape closes confirmation');
   assert.equal(await page.evaluate(()=>myPay.url),initial,'Escape must not rotate URL');
   await v.locator('.qr-rotate').click();
-  await v.locator('.qr-rotate-dim').click({position:{x:5,y:10}});
+  const dimProbe=await v.locator('.qr-rotate-dim').evaluate(el=>{
+    const b=el.getBoundingClientRect();
+    const x=b.left+b.width/2,y=b.top+Math.min(32,b.height*0.1);
+    const target=document.elementFromPoint(x,y);
+    return {x,y,rect:[b.left,b.top,b.width,b.height],
+      hit:target?.className||target?.tagName,
+      dimDisplay:getComputedStyle(el).display,
+      pointer:getComputedStyle(el).pointerEvents};
+  });
+  console.log('ALT.VU modal backdrop hit test',JSON.stringify(dimProbe));
+  await page.mouse.click(dimProbe.x,dimProbe.y);
   assert.equal(await v.locator('.qr-rotate-sheet').isVisible(),false,'Backdrop closes confirmation');
   await v.locator('.qr-rotate').click();
   await v.locator('.qr-rotate-yes').click();
