@@ -17,12 +17,15 @@
 .prototype-gallery-grid iframe{width:min(100%,390px);height:690px;border:1px solid #ccd3cc;border-radius:20px;background:#fff}
 </style>
 <style id="experimental-components-gallery">
-/* One live component reference, no embedded full-screen previews. */
-#g-experiments .exp-route-component{grid-template-columns:minmax(220px,1fr) minmax(300px,423px)}
-#g-experiments .exp-route-preview iframe{width:423px;max-width:100%;height:302px!important;border-radius:16px;overflow:hidden}
+/* One reusable From/To card, shown in its live destination variants. */
+#g-experiments .exp-route-component{display:block}
+#g-experiments .exp-route-component>.meta{margin-bottom:20px}
+#g-experiments .exp-route-variants{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+#g-experiments .exp-route-preview{box-sizing:border-box;min-width:0;margin:0}
+#g-experiments .exp-route-preview iframe{display:block;width:100%;max-width:423px;height:280px!important;border-radius:16px;overflow:hidden}
 @media(max-width:860px){
-  #g-experiments .exp-route-component{grid-template-columns:minmax(0,1fr)}
-  #g-experiments .exp-route-preview iframe{width:100%;max-width:none;height:302px;border-radius:0}
+  #g-experiments .exp-route-variants{grid-template-columns:minmax(0,1fr)}
+  #g-experiments .exp-route-preview iframe{max-width:none;height:280px!important;border-radius:0}
 }
 </style>
 <style id="canonical-selector-gallery">
@@ -155,15 +158,29 @@
 <article class="cmp exp-route-component" id="experimental-transfer-route">
 <div class="meta">
 <h3>Откуда / Куда</h3>
-<p>Единый компонент из двух полей: кошелёк-источник с доступным балансом и получатель с адресом. Разделитель на всю ширину карточки, 1 px, токен <code>--ds-sem-divider</code>; стрелка находится поверх линии. Внизу — действия «Вставить» и «Сканировать». Для SEPA/SWIFT используется тот же принцип разделения строк.</p>
-<p class="cls"><code>.exp-route-card · .exp-leg · .exp-arrow-line · .exp-actions.uzones</code></p>
-<p class="sts"><b>Статус:</b> экспериментальный. Использует существующие стили и токены дизайн-системы.</p>
-<a class="open" href="https://rrpdsgn111126.github.io/wallet-ui-prototypes/preview/withdraw-route/transfi-remittance/?experiment=withdraw&amp;mode=usdt" target="_blank" rel="noopener">Открыть в прототипе</a>
+<p>Одна двухпольная карточка с постоянным источником ALT.VU и разными типами назначения. Во всех вариантах одинаковые отступы, размер иконок, типографика и разделитель с центральной стрелкой. Источник визуального паттерна — актуальная карточка вывода SEPA/SWIFT. Ниже показаны реальные карточки из экспериментального прототипа, а не снимки целых экранов.</p>
+<p class="cls"><code>.tf-bank-route-card · .tf-bank-leg · .tf-bank-arrow-line · .tf-bank-arrow</code></p>
+<p class="sts"><b>Варианты:</b> криптоадрес · страна SEPA · страна SWIFT · банк (демонстрационное состояние, выбор банка на первом шаге не реализован).</p>
+<a class="open" href="https://rrpdsgn111126.github.io/wallet-ui-prototypes/preview/withdraw-route/transfi-remittance/?experiment=withdraw&amp;mode=usdt" target="_blank" rel="noopener">Открыть экспериментальный прототип</a>
 </div>
+<div class="exp-route-variants">
 <figure class="v exp-route-preview">
-<figcaption>Светлая · ALT.VU → USDT</figcaption>
-<iframe loading="lazy" scrolling="no" src="https://rrpdsgn111126.github.io/wallet-ui-prototypes/preview/withdraw-route/transfi-remittance/?experiment=withdraw&amp;mode=usdt&amp;component=route-card" title="Компонент Откуда → Куда, без остального экрана"></iframe>
+<figcaption>Криптовалюта · ALT.VU → USDT</figcaption>
+<iframe loading="lazy" scrolling="no" src="https://rrpdsgn111126.github.io/wallet-ui-prototypes/preview/withdraw-route/transfi-remittance/?experiment=withdraw&amp;mode=usdt&amp;component=route-card" title="Общая карточка: источник ALT.VU, получатель USDT с адресом"></iframe>
 </figure>
+<figure class="v exp-route-preview">
+<figcaption>SEPA · Выбор страны</figcaption>
+<iframe loading="lazy" scrolling="no" src="https://rrpdsgn111126.github.io/wallet-ui-prototypes/preview/withdraw-route/transfi-remittance/legacy.html?flow=out&amp;screen=out-config&amp;rail=SEPA&amp;component=route-card&amp;kind=country" title="Общая карточка SEPA: страна получателя не выбрана"></iframe>
+</figure>
+<figure class="v exp-route-preview">
+<figcaption>SWIFT · Страна выбрана</figcaption>
+<iframe loading="lazy" scrolling="no" src="https://rrpdsgn111126.github.io/wallet-ui-prototypes/preview/withdraw-route/transfi-remittance/legacy.html?flow=out&amp;screen=out-config&amp;rail=SWIFT&amp;component=route-card&amp;kind=country&amp;country=GB" title="Общая карточка SWIFT: выбрана Великобритания"></iframe>
+</figure>
+<figure class="v exp-route-preview">
+<figcaption>Банк · Пример назначения</figcaption>
+<iframe loading="lazy" scrolling="no" src="https://rrpdsgn111126.github.io/wallet-ui-prototypes/preview/withdraw-route/transfi-remittance/legacy.html?flow=out&amp;screen=out-config&amp;rail=SWIFT&amp;component=route-card&amp;kind=bank" title="Общая карточка с банком-получателем, визуальный пример"></iframe>
+</figure>
+</div>
 </article>
 </section>
 </main>
