@@ -140,6 +140,14 @@ def run():
                 expect(page.locator("#v-exp-route .exp-leg").first.locator(".fl i")).to_have_text("Откуда → ALT.VU")
                 expect(page.locator("#exp-balance")).to_have_text(re.compile(r"[\d\s\u00a0.,]+\s*\$"))
                 expect(page.locator("#v-exp-route .exp-leg").nth(1).locator(".fl i")).to_have_text("Куда → USDT")
+                # Shared route renderer must mount canonical 40/24 coin icons.
+                icons=page.locator("#v-exp-route .exp-leg .cn.ds-icon-frame")
+                expect(icons).to_have_count(2)
+                for icon in icons.all():
+                    expect(icon).to_have_css("width", "40px")
+                    expect(icon).to_have_css("height", "40px")
+                    expect(icon).to_have_css("background-color", "rgb(233, 236, 240)")
+                    expect(icon.locator("img")).to_have_css("width", "24px")
                 # UI Kit previews the same live component; its separator
                 # must span the actual card width and depend on the semantic role.
                 route_geometry = page.evaluate("""() => {
@@ -420,6 +428,14 @@ def run():
                     expect(route).to_be_visible()
                     expect(route.locator(".tf-bank-leg")).to_have_count(2)
                     expect(route.locator(".tf-bank-leg").first).to_contain_text("Откуда → ALT.VU")
+                    # ALT.VU source is framed; flags and generic bank SVGs are not.
+                    source_icon=route.locator(".tf-bank-leg").first.locator(".cn.ds-icon-frame")
+                    expect(source_icon).to_have_count(1)
+                    expect(source_icon).to_have_css("width", "40px")
+                    expect(source_icon).to_have_css("height", "40px")
+                    expect(source_icon).to_have_css("background-color", "rgb(233, 236, 240)")
+                    expect(source_icon.locator("img")).to_have_css("width", "24px")
+                    expect(route.locator(".tf-bank-destination .cn.ds-icon-frame")).to_have_count(0)
                     expect(route.locator(".tf-bank-destination")).to_contain_text("Куда → Страна")
                     expect(route.locator(".tf-bank-destination .fl i")).to_have_text("Куда → Страна")
                     expect(route.locator(".tf-bank-leg").first.locator(".fl b")).to_have_text("4 812.60 $")
