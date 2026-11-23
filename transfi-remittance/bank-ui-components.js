@@ -206,10 +206,11 @@ function uxRenderPicker({settled=false}={}){
  const key=S.picker,choices=uxPickerOptions(key),heading=uxPickerTitle(key);
  const rows=choices.map(option=>{
    const checked=S[key]===option.value;
-   const icon=key==='country'?uxFlagPlate(option.value):(key==='outCurrency'||key==='inCurrency')?uxCurrencyPickerIcon(option.value):tfIconFor(key==='purpose'?'note':'currency');
+   const hasIcon=key!=='purpose';
+   const icon=key==='country'?uxFlagPlate(option.value):(key==='outCurrency'||key==='inCurrency')?uxCurrencyPickerIcon(option.value):tfIconFor('currency');
    return '<button type="button" class="row tf-picker-row" data-picker-value="'+esc(option.value)+
-     '" role="radio" aria-checked="'+checked+'"><span class="ri'+((key==='country'||key==='outCurrency'||key==='inCurrency')?' ds-icon-frame':'')+'">'+icon+
-     '</span><span class="rt">'+esc(option.label)+'</span>'+
+     '" role="radio" aria-checked="'+checked+'">'+(hasIcon?'<span class="ri'+((key==='country'||key==='outCurrency'||key==='inCurrency')?' ds-icon-frame':'')+'">'+icon+'</span>':'')+
+     '<span class="rt">'+esc(option.label)+'</span>'+
      '<span class="rd'+(checked?' on':'')+'" aria-hidden="true"></span></button>';
  }).join('');
  layer.innerHTML='<div class="dim tf-picker-dim'+(settled?' settled':'')+'" data-picker-dismiss aria-hidden="true"></div>'+
