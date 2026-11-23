@@ -646,9 +646,9 @@ def run():
                 flags = page.evaluate("""() => [...document.querySelectorAll(
                     '#pickerLayer .tf-picker-row .tf-country-flag'
                 )].map(el => [getComputedStyle(el).width,getComputedStyle(el).height])""")
-                assert flags == [["24px", "24px"]] * 3, flags
+                assert flags == [["20px", "20px"]] * 3, flags
                 # The bank selector uses the current Coins & Networks
-                # 32px semantic frame, but preserves the separate 24px flags.
+                # 32px semantic frame with 20px flag artwork, using live design tokens.
                 def frame_geometry(key):
                     return page.evaluate("""key => {
                         const phone=document.querySelector('.phone.tf-phone');
@@ -676,7 +676,7 @@ def run():
                 assert len(light["frames"]) == 4, light
                 assert all(f["frame"] and f["size"] == ["32px","32px"]
                            and f["color"] == light["expected"]
-                           and f["art"] == ["24px","24px"]
+                           and f["art"] == ["20px","20px"]
                            for f in light["frames"]), light
                 page.evaluate("document.documentElement.classList.add('dark')")
                 dark=frame_geometry("outCurrency")
