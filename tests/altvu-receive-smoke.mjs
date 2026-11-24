@@ -49,10 +49,14 @@ try{
     const wrap=card.parentElement.getBoundingClientRect();
     const box=card.getBoundingClientRect();
     const next=card.nextElementSibling.getBoundingClientRect();
-    return {top:box.top-wrap.top,bottom:next.top-box.bottom};
+    return {top:box.top-wrap.top,bottom:next.top-box.bottom,
+      topCss:parseFloat(getComputedStyle(card.parentElement).paddingTop),
+      bottomCss:parseFloat(getComputedStyle(card).marginBottom)};
   });
-  assert.ok(Math.abs(cardGaps.top-12)<=1 && Math.abs(cardGaps.bottom-12)<=1,
-    'QR card must have equal outer vertical gaps: '+JSON.stringify(cardGaps));
+  assert.equal(cardGaps.topCss,12,'Top spacing must be 12 CSS px');
+  assert.equal(cardGaps.bottomCss,12,'Bottom spacing must be 12 CSS px');
+  assert.ok(cardGaps.top>0 && Math.abs(cardGaps.top-cardGaps.bottom)<=1,
+    'QR card must have equal rendered outer vertical gaps: '+JSON.stringify(cardGaps));
   assert.equal(await v.locator('.qr-rotate').evaluate(e=>getComputedStyle(e).fontSize),'14px');
   assert.equal(await v.locator('.qr-email-copy svg').count(),1,'Bank copy icon is present');
   assert.equal(await v.locator('.qr-email-copy').innerText(),'','Copy action has no visible text');
