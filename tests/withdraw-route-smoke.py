@@ -787,6 +787,45 @@ def run():
                         expect(page.locator("#pickerLayer")).to_be_hidden()
                     page.screenshot(path=str(OUT / f"route-{kind}-{rail.lower()}-{width}.png"))
                     context.close()
+            # Bank deposit buttons and the readonly SEPA EUR field must
+            # match the canonical, shared bank renderer.
+            for width,height in [(390,844),(430,932)]:
+                for rail in ("SEPA","SWIFT"):
+                    context=browser.new_context(viewport={"width":width,"height":height})
+                    page=context.new_page()
+                    page.on("pageerror", lambda exc: errors.append(str(exc)))
+                    page.goto(
+                        f"http://127.0.0.1:{PORT}/transfi-remittance/legacy.html"
+                        f"?capture=1&embedded=1&flow=in&screen=in-details&rail={rail}",
+                        wait_until="domcontentloaded"
+                    )
+                    button=page.locator("#footer .btn")
+                    expect(button).to_have_text("Скопировать реквизиты")
+                    expect(button).to_have_attribute("onclick","copyAll()")
+                    if rail=="SEPA":
+                        expect(page.locator(".tf-deposit-currency")).to_contain_text("EUR")
+                        expect(page.locator(".tf-deposit-currency svg.tf-country-flag")).to_have_count(1)
+                        expect(page.locator(
+                            ".tf-deposit-currency svg.tf-country-flag polygon"
+                        )).to_have_count(12)
+                        expect(page.locator(
+                            ".tf-deposit-currency svg.tf-currency-icon"
+                        )).to_have_count(0)
+                        expect(page.locator('[data-picker="inCurrency"]')).to_have_count(0)
+                    else:
+                        expect(page.locator('[data-picker="inCurrency"] svg.tf-country-flag')).to_have_count(1)
+                    page.evaluate("""() => {
+                       window.__copiedDeposit=null;
+                       window.copyText = text => {window.__copiedDeposit=text};
+                    }""")
+                    button.click()
+                    copied=page.evaluate("window.__copiedDeposit")
+                    assert copied and "DEMO-REF-000123" in copied, (rail,copied)
+                    assert copied==page.evaluate(
+                        "() => getRequisites().map(([k,v])=>k+': '+v).join('\\n')"
+                    ), (rail,copied)
+                    page.screenshot(path=str(OUT / f"deposit-{rail.lower()}-{width}.png"))
+                    context.close()
             browser.close()
         assert not errors, f"Uncaught JS errors: {errors}"
         print("PASS: USDT/USDC/ALT.VU + SEPA/SWIFT route/FX, pickers, fee-aware use-all, navigation, 390/430/1440")
