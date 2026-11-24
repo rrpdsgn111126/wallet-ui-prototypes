@@ -1,52 +1,96 @@
-/* Shared clearable input behavior for the canonical text field, amount field
-   and amount-with-conversion. No button is ever added to the From/To card.
-   Hosts retain ownership of validation, formatting, quote and payment state. */
+/* One clearable-input controller for text, address, amount and FX amount.
+   The common From/To card, selectors and readonly fields are excluded.
+   Each layout gets the clear icon where its own component defines the action zone. */
 (function(root){
 'use strict';
 if(root.AltvuFieldClear)return;
-const SELECTOR='.fld.w input, .tf-bank-sbp .h:first-child .t input';
-const CLEAR_CLASS='ds-field-clear';
-const SVG='<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>';
+const CLASS='ds-field-clear';
+const SELECTOR='.fld.w .fl input, .unit .urow .ut textarea, .unit .urow .ut input, .tf-bank-sbp .h:first-child .t input';
+const SVG='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>';
+const buttons=new WeakMap();
+const controls=new WeakMap();
 let scheduled=false;
-function eligible(input){
-  if(!(input instanceof HTMLInputElement)||input.disabled||input.readOnly)return false;
-  if(!['text','search','email','tel','url','number'].includes(input.type))return false;
-  if(input.closest('.tf-bank-route-card, .exp-route-card, .fld.off, .fld.g, [data-no-clear]'))return false;
+function kind(input){
+  if(!(input instanceof HTMLInputElement||input instanceof HTMLTextAreaElement)||
+    input.disabled||input.readOnly)return null;
+  if(input.closest('.tf-bank-route-card, .exp-route-card, .fld.off, .fld.g, [data-no-clear]'))return null;
+  if(input instanceof HTMLInputElement && !['text','search','email','tel','url','number'].includes(input.type))return null;
+  if(input.closest('.tf-bank-sbp .h:first-child .t'))return 'conversion';
   const field=input.closest('.fld.w');
-  if(field&&field.matches('button, [role="button"], .net-pick, .tf-picker-trigger'))return false;
-  if(field&&input.closest('.fl'))return true;
-  return Boolean(input.closest('.tf-bank-sbp .h:first-child .t'));
+  if(field && input.closest('.fl')){
+    if(field.matches('button, [role="button"], .net-pick, .tf-picker-trigger'))return null;
+    return input.classList.contains('wd-amt')?'amount':'text';
+  }
+  if(input.closest('.unit .urow .ut'))return 'address';
+  return null;
 }
-function owner(input){
-  return input.closest('.tf-bank-sbp .h:first-child .t')||input.closest('.fld.w .fl');
+function buttonFor(input){
+  return controls.get(input)||null;
 }
-function control(input){
-  const host=owner(input);
-  return host&&[...host.children].find(el=>el.classList&&el.classList.contains(CLEAR_CLASS))||null;
-}
-function update(input){
-  const button=control(input);
+function sync(input){
+  const button=buttonFor(input);
   if(!button)return;
-  button.hidden=!(input.value&&String(input.value).trim());
+  button.hidden=!String(input.value||'').trim();
+  const mirror=button.closest('.ds-conversion-inline')?.querySelector('.ds-conversion-mirror');
+  if(mirror){
+    mirror.textContent=input.value||input.placeholder||'0.00';
+  }
+}
+function labelFor(input){
+  const parent=input.closest('.fld.w, .urow, .tf-bank-sbp .t');
+  const label=parent?.querySelector('.fl i, .ut i, label');
+  return 'Очистить '+(label?.textContent?.trim()||input.getAttribute('aria-label')||'поле');
+}
+function makeButton(input){
+  const button=document.createElement('button');
+  button.type='button';
+  button.className=CLASS;
+  button.setAttribute('aria-label',labelFor(input));
+  button.innerHTML=SVG;
+  button.hidden=true;
+  controls.set(input,button);
+  buttons.set(button,input);
+  return button;
 }
 function enhance(rootNode){
   const base=rootNode&&rootNode.querySelectorAll?rootNode:document;
   base.querySelectorAll(SELECTOR).forEach(input=>{
-    if(!eligible(input))return;
-    const host=owner(input);
-    if(!host)return;
-    let button=control(input);
-    if(!button){
-      button=document.createElement('button');
-      button.type='button';
-      button.className=CLEAR_CLASS;
-      button.setAttribute('aria-label','Очистить '+(host.querySelector('i,label')?.textContent?.trim()||input.getAttribute('aria-label')||'поле'));
-      button.innerHTML=SVG;
-      button.hidden=true;
-      host.appendChild(button);
-      host.classList.add('ds-has-clear');
+    const type=kind(input);
+    if(!type)return;
+    if(buttonFor(input)){sync(input);return;}
+    const button=makeButton(input);
+    if(type==='text'){
+      const field=input.closest('.fld.w');
+      let slot=[...field.children].find(el=>el.classList?.contains('ds-clear-slot'));
+      if(!slot){
+        slot=document.createElement('span');
+        slot.className='ds-clear-slot';
+        field.appendChild(slot);
+      }
+      slot.appendChild(button);
+    }else if(type==='amount'){
+      const field=input.closest('.fld.w');
+      field.classList.add('ds-clear-amount');
+      field.appendChild(button);
+    }else if(type==='address'){
+      const row=input.closest('.unit .urow');
+      row.classList.add('ds-clear-address');
+      row.appendChild(button);
+    }else{
+      const parent=input.parentElement;
+      const inline=document.createElement('span');
+      inline.className='ds-conversion-inline';
+      const track=document.createElement('span');
+      track.className='ds-conversion-track';
+      const mirror=document.createElement('span');
+      mirror.className='ds-conversion-mirror';
+      mirror.setAttribute('aria-hidden','true');
+      parent.insertBefore(inline,input);
+      track.append(input,mirror);
+      inline.append(track,button);
+      parent.classList.add('ds-clear-conversion');
     }
-    update(input);
+    sync(input);
   });
 }
 function schedule(){
@@ -54,30 +98,33 @@ function schedule(){
   scheduled=true;
   requestAnimationFrame(()=>{scheduled=false;enhance();});
 }
-function findInput(button){
-  const host=button.parentElement;
-  return host&&host.querySelector('input');
-}
 document.addEventListener('click',event=>{
-  const button=event.target.closest&&event.target.closest('button.'+CLEAR_CLASS);
+  const button=event.target.closest&&event.target.closest('button.'+CLASS);
   if(button){
-    const input=findInput(button);
-    if(!input||!eligible(input))return;
-    event.preventDefault();event.stopImmediatePropagation();
+    const input=buttons.get(button);
+    if(!input||!kind(input))return;
+    event.preventDefault();
+    event.stopImmediatePropagation();
     input.value='';
     input.dispatchEvent(new Event('input',{bubbles:true}));
     input.dispatchEvent(new Event('change',{bubbles:true}));
-    update(input);
+    sync(input);
     input.focus({preventScroll:true});
     return;
   }
-  if(event.target.closest&&event.target.closest('.wd-max, #exp-use-all, #tf-bank-use-all'))schedule();
+  if(event.target.closest&&event.target.closest('.wd-max, #exp-use-all, #tf-bank-use-all, [data-act*="paste"], [data-act*="scan"], [data-act*="book"]')){
+    setTimeout(schedule,0);
+    setTimeout(schedule,250);
+  }
 },true);
 document.addEventListener('input',event=>{
-  if(event.target instanceof HTMLInputElement)update(event.target);
+  if(event.target instanceof HTMLInputElement||event.target instanceof HTMLTextAreaElement)sync(event.target);
 },true);
 document.addEventListener('change',event=>{
-  if(event.target instanceof HTMLInputElement)update(event.target);
+  if(event.target instanceof HTMLInputElement||event.target instanceof HTMLTextAreaElement)sync(event.target);
+},true);
+document.addEventListener('focusin',event=>{
+  if(event.target instanceof HTMLInputElement||event.target instanceof HTMLTextAreaElement)sync(event.target);
 },true);
 function start(){
   enhance();
@@ -89,5 +136,5 @@ function start(){
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start,{once:true});
 else start();
-root.AltvuFieldClear=Object.freeze({enhance,sync:update});
+root.AltvuFieldClear=Object.freeze({enhance,sync});
 })(window);
