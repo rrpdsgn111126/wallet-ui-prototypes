@@ -43,8 +43,9 @@ try{
   assert.match(await v.locator('.qr-intro').innerText(),/другому пользователю ALT\.VU/);
   assert.equal(await v.locator('.qr-cap').count(),0,'Redundant QR caption is removed');
   assert.equal(await v.locator('.qrw + .qr-intro').count(),1,'Instruction follows QR');
-  assert.equal(await v.locator('.qrbox + .qr-renew .qr-rotate').count(),1,'Renew action follows instruction');
-  assert.equal(await v.locator('.qr-intro').evaluate(e=>getComputedStyle(e).fontSize),'16px');
+  assert.equal(await v.locator('.qrbox > .qr-intro + .qr-renew .qr-rotate').count(),1,'Renew action follows instruction inside QR card');
+  assert.equal(await v.locator('.qr-intro').evaluate(e=>getComputedStyle(e).fontSize),'14px');
+  assert.equal(await v.locator('.qr-rotate').evaluate(e=>getComputedStyle(e).fontSize),'14px');
   assert.equal(await v.locator('.qr-email-copy svg').count(),1,'Bank copy icon is present');
   assert.equal(await v.locator('.qr-email-copy').innerText(),'','Copy action has no visible text');
   assert.equal(await v.locator('.qr-email-copy').evaluate(e=>getComputedStyle(e).width),'36px');
