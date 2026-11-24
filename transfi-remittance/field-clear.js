@@ -70,8 +70,13 @@ function enhance(rootNode){
       slot.appendChild(button);
     }else if(type==='amount'){
       const field=input.closest('.fld.w');
+      const addon=field.querySelector(':scope > .addon');
+      const currency=addon?.querySelector('.cur');
+      // Amount input's trailing action zone: X, currency symbol, MAX.
+      // Never place X next to the leading coin illustration.
+      if(!addon||!currency)return;
       field.classList.add('ds-clear-amount');
-      field.appendChild(button);
+      addon.insertBefore(button,currency);
     }else if(type==='address'){
       const row=input.closest('.unit .urow');
       row.classList.add('ds-clear-address');
