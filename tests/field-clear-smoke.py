@@ -26,7 +26,7 @@ def run():
     assert (ROOT/"design-system"/"transfi-remittance"/"field-clear.js").exists()
     # Catch a malformed selector block swallowing later rules: all layout
     # geometry checks below must run with the actual canonical stylesheet.
-    assert "ds-clear-amount>.ds-field-clear" in (
+    assert "ds-clear-amount>.addon>.ds-field-clear" in (
         ROOT/"design-system"/"css"/"alt-vu-wallet.css"
     ).read_text()
     source=(ROOT/"design-system"/"transfi-remittance"/"route-card.js").read_text()
@@ -189,7 +189,7 @@ def run():
                 context.close()
             browser.close()
         assert not errors,f"Browser errors: {errors}"
-        print("PASS: text-right, address-right, amount-icon, FX-after-digits, clear/focus/MAX/FX (390/430/1440)")
+        print("PASS: text-right, address-right, amount-right-before-currency, FX-after-digits, clear/focus/MAX/FX (390/430/1440)")
     finally:
         server.terminate()
         with contextlib.suppress(Exception):server.wait(timeout=5)
