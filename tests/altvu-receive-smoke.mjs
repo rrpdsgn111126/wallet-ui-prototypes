@@ -41,7 +41,13 @@ try{
   const v=page.locator('#v-my-qr');
   assert.equal(await v.locator('.h1').innerText(),'Пополнение ALT.VU');
   assert.match(await v.locator('.qr-intro').innerText(),/другому пользователю ALT\.VU/);
-  assert.equal(await v.locator('.qr-cap').innerText(),'QR-код для получения перевода');
+  assert.equal(await v.locator('.qr-cap').count(),0,'Redundant QR caption is removed');
+  assert.equal(await v.locator('.qrw + .qr-intro').count(),1,'Instruction follows QR');
+  assert.equal(await v.locator('.qrbox + .qr-renew .qr-rotate').count(),1,'Renew action follows instruction');
+  assert.equal(await v.locator('.qr-intro').evaluate(e=>getComputedStyle(e).fontSize),'16px');
+  assert.equal(await v.locator('.qr-email-copy svg').count(),1,'Bank copy icon is present');
+  assert.equal(await v.locator('.qr-email-copy').innerText(),'','Copy action has no visible text');
+  assert.equal(await v.locator('.qr-email-copy').evaluate(e=>getComputedStyle(e).width),'36px');
   assert.equal(await v.locator('.qr-copy').count(),0,'Obsolete bottom copy link was removed');
   assert.equal(await v.locator('.qr-share').count(),1,'One bottom primary action');
   assert.equal(await v.locator('.qr-email-field.fld.w').count(),1,
