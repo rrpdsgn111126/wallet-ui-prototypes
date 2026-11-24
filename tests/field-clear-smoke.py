@@ -75,7 +75,10 @@ def run():
                     const button=el.querySelector('.ds-field-clear').getBoundingClientRect();
                     const input=el.querySelector('input').getBoundingClientRect();
                     return {gap:button.left-icon.right,after:input.left-button.right,
-                            aligned:Math.abs((button.top+button.bottom)/2-(icon.top+icon.bottom)/2)};
+                            aligned:Math.abs((button.top+button.bottom)/2-(icon.top+icon.bottom)/2),
+                            fieldClass:el.className,buttonParent:el.querySelector('.ds-field-clear').parentElement.className,
+                            positioning:getComputedStyle(el.querySelector('.ds-field-clear')).position,
+                            cssLeft:getComputedStyle(el.querySelector('.ds-field-clear')).left};
                 }""")
                 assert 0<=icon_geo["gap"]<=10 and icon_geo["after"]>=0 and icon_geo["aligned"]<=4, icon_geo
                 amount.locator(".ds-field-clear").click()
