@@ -246,7 +246,8 @@ async def smoke(browser, origin):
         }""")
         await copy_button.click()
         copied=await page.evaluate("window.__testCopiedRequisites")
-        assert copied and "IBAN" in copied and "DEMO-REF-000123" in copied, (rail,copied)
+        expected_account="IBAN" if rail=="SEPA" else "Номер счёта"
+        assert copied and expected_account in copied and "DEMO-REF-000123" in copied, (rail,copied)
         assert copied==await page.evaluate(
             "() => getRequisites().map(([k,v]) => k+': '+v).join('\\n')"
         ), "Copy CTA changed the payload: "+rail
