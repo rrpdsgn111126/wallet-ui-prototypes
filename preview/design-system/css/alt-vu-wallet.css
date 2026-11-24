@@ -2626,12 +2626,11 @@ html.duo2 .duo-cl[hidden]{display:none}
 /* Ordinary text input: trailing action slot, the same side as field icons. */
 .fld.w>.ds-clear-slot{display:flex;align-items:center;justify-content:center;flex:0 0 36px;min-width:36px}
 .fld.w>.ds-clear-slot>.ds-field-clear{flex:0 0 36px}
-/* Plain amount: clear is directly beside the left currency icon,
-   not beside the digits or MAX. Reserve its 36px footprint in all states. */
-.fld.w.ds-clear-amount{position:relative}
-.fld.w.ds-clear-amount>.fl{padding-inline-start:36px}
-.fld.w.ds-clear-amount>.ds-field-clear{
-  position:absolute;left:62px;top:50%;transform:translateY(-50%);z-index:2
+/* Plain amount: trailing X is immediately LEFT of the currency sign,
+   together with $ and MAX in the right-side addon. Never by the left icon. */
+.fld.w.ds-clear-amount>.addon{gap:8px}
+.fld.w.ds-clear-amount>.addon>.ds-field-clear{
+  flex:0 0 32px;width:32px;min-width:32px;height:36px;align-self:center
 }
 /* Address with tools: put clear on the far right of the address row;
    the Paste/Scan/Book action bar keeps its existing structure and height. */
