@@ -14,6 +14,7 @@ on:
       - 'ui-kit/**'
       - 'tests/withdraw-route-smoke.py'
       - 'tests/altvu-receive-smoke.mjs'
+      - 'tests/sbp-deposit-smoke.mjs'
       - 'tests/field-clear-smoke.py'
       - 'tests/method-sheet-parity.py'
       - '.github/workflows/publish-withdraw-route-preview.yml'
@@ -70,6 +71,7 @@ jobs:
           SERVER_PID=$!
           trap 'kill "$SERVER_PID" || true' EXIT
           node tests/altvu-receive-smoke.mjs
+          node tests/sbp-deposit-smoke.mjs
       - name: Save browser screenshots
         if: always()
         uses: actions/upload-artifact@v4
