@@ -2539,7 +2539,7 @@ html.duo2 #v-profile .duo-pf-pr{display:block;margin:0}
 html.duo2 #v-profile .duo-pf-pr[hidden]{display:none}
 html.duo2 .duo-pf-av{flex:0 0 56px;width:56px;height:56px}
 html.duo2 .duo-pf-av .avaw{width:56px;height:56px;margin:0}
-html.duo2 .duo-pf-av .ava,html.duo2 .duo-pf-av .avaw img{width:56px;height:56px;font-size:20px
+html.duo2 .duo-pf-av .ava,html.duo2 .duo-pf-av .avaw img{width:56px;height:56px;font-size:20px}
 html.duo2 .duo-pf-av .avcam{width:22px;height:22px;box-shadow:0 0 0 2.5px var(--surface,#fff)}
 html.duo2 .duo-pf-av .avcam svg{width:12px;height:12px}
 html.duo2 .duo-pf-t{flex:1;min-width:0}
