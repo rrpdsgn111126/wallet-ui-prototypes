@@ -24,6 +24,11 @@ def ready():
 
 def run():
     assert (ROOT/"design-system"/"transfi-remittance"/"field-clear.js").exists()
+    # Catch a malformed selector block swallowing later rules: all layout
+    # geometry checks below must run with the actual canonical stylesheet.
+    assert "ds-clear-amount>.ds-field-clear" in (
+        ROOT/"design-system"/"css"/"alt-vu-wallet.css"
+    ).read_text()
     source=(ROOT/"design-system"/"transfi-remittance"/"route-card.js").read_text()
     assert "tf-route-clear" not in source and "syncClear" not in source
     gallery=(ROOT/"design-system"/"ui-kit"/"index.html").read_text()
