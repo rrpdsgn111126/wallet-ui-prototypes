@@ -213,7 +213,15 @@ async def smoke(browser, origin):
         if rail == "SEPA":
             assert await page.locator('[data-picker="inCurrency"]').count() == 0, "SEPA EUR must be fixed"
             assert "EUR" in await page.locator(".tf-deposit-currency").inner_text()
-            await assert_currency_icon(page,".tf-deposit-currency","EUR")
+            await assert_picker_flag(page, ".tf-deposit-currency", "EUR")
+            # Fixed SEPA must show the exact EU flag from the shared picker,
+            # not the older contour euro icon; the EU artwork has 12 stars.
+            assert await page.locator(
+                ".tf-deposit-currency .tf-country-flag polygon"
+            ).count() == 12
+            assert await page.locator(
+                ".tf-deposit-currency svg.tf-currency-icon"
+            ).count() == 0
         else:
             await page.locator('[data-picker="inCurrency"]').click()
             sheet = page.locator(".tf-picker-sheet")
@@ -228,6 +236,20 @@ async def smoke(browser, origin):
             await page.locator('[data-picker="inCurrency"]').click()
             await page.keyboard.press("Escape")
             await expect(page.locator(".tf-picker-sheet")).to_have_count(0)
+        # SEPA and SWIFT share one CTA label and the same copyAll handler.
+        copy_button=page.locator(".tf-foot .btn")
+        await expect(copy_button).to_have_text("Скопировать реквизиты")
+        await expect(copy_button).to_have_attribute("onclick", "copyAll()")
+        await page.evaluate("""() => {
+            window.__testCopiedRequisites = null;
+            window.copyText = value => { window.__testCopiedRequisites = value; };
+        }""")
+        await copy_button.click()
+        copied=await page.evaluate("window.__testCopiedRequisites")
+        assert copied and "IBAN" in copied and "DEMO-REF-000123" in copied, (rail,copied)
+        assert copied==await page.evaluate(
+            "() => getRequisites().map(([k,v]) => k+': '+v).join('\\n')"
+        ), "Copy CTA changed the payload: "+rail
         await page.close()
 
         page = await bank_page(browser, origin, "out", rail, "out-config")
