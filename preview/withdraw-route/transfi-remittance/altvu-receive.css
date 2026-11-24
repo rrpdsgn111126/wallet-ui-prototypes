@@ -2,11 +2,11 @@
    .lnk, .btn, and native .dim + .sheet patterns; no replacement field. */
 #v-my-qr .qr-intro{
   width:100%;max-width:320px;margin:0;color:var(--n500);
-  font:var(--ds-type-body-compact);text-align:center;
+  font:var(--ds-type-body-secondary);text-align:center;
 }
 #v-my-qr .qr-renew{
   display:flex;justify-content:center;align-items:center;
-  margin:0 0 16px;
+  margin:0;
 }
 #v-my-qr .qr-renew .qr-rotate{
   border:0;background:transparent;cursor:pointer;

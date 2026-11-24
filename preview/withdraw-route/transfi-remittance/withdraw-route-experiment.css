@@ -48,60 +48,60 @@ html.exp-route-specimen #v-exp-route .exp-route-card{margin:0}
 
 
 /* Shared two-leg route card CSS lives in work/design-system/transfi-remittance/route-card.css. */
-.phone.tf-phone .tf-bank-sbp{
+.phone .tf-bank-sbp{
   background:var(--surface);border-radius:20px;
   box-shadow:0 1px 2px var(--sh-1);margin:0 0 4px;overflow:visible;
 }
-.phone.tf-phone .tf-bank-sbp .h{
+.phone .tf-bank-sbp .h{
   display:flex;align-items:flex-end;gap:12px;padding:16px 18px 24px;
 }
-.phone.tf-phone .tf-bank-sbp .h + .mid + .h{padding:24px 18px 8px}
-.phone.tf-phone .tf-bank-sbp .t{flex:1 1 auto;min-width:0}
-.phone.tf-phone .tf-bank-sbp .t label,
-.phone.tf-phone .tf-bank-sbp .tf-bank-receive-label{
+.phone .tf-bank-sbp .h + .mid + .h{padding:24px 18px 8px}
+.phone .tf-bank-sbp .t{flex:1 1 auto;min-width:0}
+.phone .tf-bank-sbp .t label,
+.phone .tf-bank-sbp .tf-bank-receive-label{
   /* Same semantic type role and vertical gap as the route labels. */
   display:block;font:var(--ds-type-field-label);
   color:var(--n500);font-style:normal;margin-bottom:4px;
 }
-.phone.tf-phone .tf-bank-sbp .t input,
-.phone.tf-phone .tf-bank-sbp #tf-bank-receive{
+.phone .tf-bank-sbp .t input,
+.phone .tf-bank-sbp #tf-bank-receive{
   box-sizing:border-box;display:block;width:100%;min-width:0;
   margin:0;border:0;padding:0;outline:0;background:transparent;
   font:var(--ds-type-amount-hero);
   letter-spacing:-.5px;font-variant-numeric:tabular-nums;
   color:var(--n900);white-space:nowrap;
 }
-.phone.tf-phone .tf-bank-sbp .t input::placeholder,
-.phone.tf-phone .tf-bank-sbp #tf-bank-receive.tf-bank-placeholder{
+.phone .tf-bank-sbp .t input::placeholder,
+.phone .tf-bank-sbp #tf-bank-receive.tf-bank-placeholder{
   color:var(--n300);opacity:1;
 }
-.phone.tf-phone .tf-bank-sbp .u{
+.phone .tf-bank-sbp .u{
   flex:0 0 auto;font:var(--ds-type-control-regular);
   line-height:38px;color:var(--n500);
 }
-.phone.tf-phone .tf-bank-sbp .mid{position:relative;height:0}
-.phone.tf-phone .tf-bank-sbp .mid::before{
+.phone .tf-bank-sbp .mid{position:relative;height:0}
+.phone .tf-bank-sbp .mid::before{
   content:"";position:absolute;left:0;right:0;top:0;
   height:1px;background:var(--ds-sem-divider);
 }
-.phone.tf-phone .tf-bank-sbp .sbp-rate{
+.phone .tf-bank-sbp .sbp-rate{
   position:absolute;top:0;left:50%;transform:translate(-50%,-50%);
   display:flex;align-items:center;justify-content:center;
   padding:0 12px;
   color:var(--n850);font:var(--ds-type-body-secondary);
   white-space:nowrap;font-variant-numeric:tabular-nums;
 }
-.phone.tf-phone .tf-bank-sbp button.tf-bank-currency-switch{
+.phone .tf-bank-sbp button.tf-bank-currency-switch{
   display:inline-flex;align-items:center;justify-content:center;
   flex:0 0 auto;align-self:flex-end;height:36px;
   padding:0 12px;border:0;border-radius:999px;
   background:var(--n100);color:var(--n850);
   font:var(--ds-type-small-emphasis);cursor:pointer;
 }
-.phone.tf-phone .tf-bank-sbp .tf-bank-currency-switch:focus-visible{
+.phone .tf-bank-sbp .tf-bank-currency-switch:focus-visible{
   outline:2px solid var(--brand-600);outline-offset:2px;
 }
-.phone.tf-phone .tf-bank-sbp .tf-bank-use-all-wrap{padding:0 18px 12px;margin:0}
+.phone .tf-bank-sbp .tf-bank-use-all-wrap{padding:0 18px 12px;margin:0}
 .phone.tf-phone .tf-bank-use-all{
   display:inline-flex;align-items:center;gap:4px;flex-wrap:wrap;
   min-height:44px;max-width:100%;padding:9px 0;border:0;
@@ -130,3 +130,79 @@ html.exp-route-specimen #v-exp-route .exp-route-card{margin:0}
   flex:0 0 auto;max-width:none;white-space:nowrap;
   font:var(--ds-type-bank-strong);color:var(--n900);
 }
+
+/* SBP adopts the same canonical bank conversion and selector primitives
+   as SEPA/SWIFT; bank search is an intentional, scoped extension. */
+#v-dep-sbp .sbp-bank.tf-picker-trigger{
+  display:flex;align-items:center;gap:12px;box-sizing:border-box;
+  width:100%;min-height:68px;appearance:none;-webkit-appearance:none;
+  border:0;text-align:left;cursor:pointer;font:inherit;color:var(--n900);
+}
+#v-dep-sbp .sbp-bank .fi.ds-icon-frame{
+  box-sizing:border-box;flex:0 0 var(--ds-icon-frame-size,32px);
+  width:var(--ds-icon-frame-size,32px);height:var(--ds-icon-frame-size,32px);
+  display:grid;place-items:center;background:var(--coin-plate,var(--ds-color-coin-plate));
+  border-radius:999px;padding:0;
+}
+#v-dep-sbp .sbp-bank #sbp-bki svg,
+#v-dep-sbp .sbp-bank #sbp-bki img{width:20px;height:20px;display:block;border-radius:50%}
+#v-dep-sbp .sbp-bank .fl{flex:1 1 auto;min-width:0}
+#v-dep-sbp .sbp-bank .fl i,
+#v-dep-sbp .sbp-bank .fl b{font-weight:400}
+#v-dep-sbp .sbp-bank .tf-picker-chevron{margin-left:auto;flex:0 0 20px;color:var(--n400)}
+#v-dep-sbp .sbp-bank .tf-picker-chevron svg{display:block}
+#v-dep-sbp .sbp-bank:focus-visible,
+#v-dep-sbp .sbp-picker-box .tf-picker-row:focus-visible{
+  outline:2px solid var(--brand-600);outline-offset:2px;
+}
+#v-dep-sbp .sbp-bank-sheet[hidden],#v-dep-sbp .sbp-bank-dim[hidden]{display:none!important}
+#v-dep-sbp .sbp-bank-dim{z-index:7}
+#v-dep-sbp .sbp-bank-sheet{
+  box-sizing:border-box;position:absolute;left:0;right:0;bottom:0;z-index:8;
+  display:flex;flex-direction:column;max-height:calc(100% - 24px);
+  min-height:0;overflow:hidden;padding:10px 16px calc(36px + env(safe-area-inset-bottom));
+  background:var(--n50);border-radius:24px 24px 0 0;
+}
+#v-dep-sbp .sbp-bank-sheet .grab{flex:0 0 auto}
+#v-dep-sbp .sbp-bank-sheet .sh2{flex:0 0 auto;font:var(--ds-type-title);color:var(--n900);margin-bottom:14px}
+#v-dep-sbp .sbp-bank-search{
+  box-sizing:border-box;flex:0 0 auto;display:flex;align-items:center;
+  width:100%;height:56px;min-height:56px;margin:0 0 12px;
+  border-radius:16px;background:var(--surface);
+}
+#v-dep-sbp .sbp-bank-search .fl{min-width:0;flex:1}
+#v-dep-sbp .sbp-bank-search .fi{flex:none}
+#v-dep-sbp .sbp-bank-search input{
+  width:100%;min-width:0;border:0;outline:0;background:transparent;
+  color:var(--n900);font:var(--ds-type-field-value,400 16px/22px Inter,sans-serif)
+}
+#v-dep-sbp .sbp-picker-box{
+  box-sizing:border-box;flex:1 1 auto;min-height:0;overflow-y:auto;
+  overscroll-behavior:contain;width:100%;margin:0 0 12px;padding:0;
+  border-radius:16px;background:var(--surface);
+}
+#v-dep-sbp .sbp-picker-box .tf-picker-row{
+  box-sizing:border-box;display:flex;align-items:center;gap:12px;
+  width:100%;min-height:60px;margin:0;padding:10px 16px;
+  border:0;border-radius:0;background:transparent;color:var(--n900);
+  box-shadow:inset 0 1px 0 var(--n50);text-align:left;
+  font:var(--ds-type-field-value,400 16px/22px Inter,sans-serif);cursor:pointer;
+}
+#v-dep-sbp .sbp-picker-box .tf-picker-row:first-child{box-shadow:none}
+#v-dep-sbp .sbp-picker-box .tf-picker-row .ri.ds-icon-frame{
+  box-sizing:border-box;display:grid;place-items:center;flex:0 0 var(--ds-icon-frame-size,32px);
+  width:var(--ds-icon-frame-size,32px);height:var(--ds-icon-frame-size,32px);
+  border-radius:999px;background:var(--coin-plate,var(--ds-color-coin-plate))
+}
+#v-dep-sbp .sbp-picker-box .ri img,#v-dep-sbp .sbp-picker-box .ri svg{
+  display:block;width:20px;height:20px;object-fit:contain;border-radius:50%
+}
+#v-dep-sbp .sbp-picker-box .rt{flex:1;min-width:0}
+#v-dep-sbp .sbp-picker-box .rd{margin-left:auto}
+#v-dep-sbp .sbp-cv.tf-bank-sbp .sbp-rate{
+  /* Preserve native SBP quote countdown/retry within the shared FX divider. */
+  height:32px;padding:0 12px;gap:6px;border-radius:999px;
+  background:var(--surface);box-shadow:inset 0 0 0 1px var(--n100)
+}
+#v-dep-sbp .sbp-cv.tf-bank-sbp .h{cursor:text}
+#v-dep-sbp .sbp-cv.tf-bank-sbp input.dim2{color:var(--n300)}

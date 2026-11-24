@@ -52,7 +52,7 @@
   const routeCss=document.createElement('link');routeCss.rel='stylesheet';
   routeCss.href='../../design-system/transfi-remittance/route-card.css';
   document.head.appendChild(routeCss);
-  const link=document.createElement('link');link.rel='stylesheet';link.href='./withdraw-route-experiment.css';document.head.appendChild(link);
+  if(!document.querySelector('link[data-exp-route-css]')){const link=document.createElement('link');link.rel='stylesheet';link.href='./withdraw-route-experiment.css';link.dataset.expRouteCss='1';document.head.appendChild(link);}
 
   const head=document.querySelector('#v-out-usdt-tron > .head');
   if(!head)return;
