@@ -50,6 +50,14 @@ def run():
                 expect(empty.locator(".ds-field-clear")).to_be_hidden()
                 expect(full.locator(".ds-field-clear")).to_be_visible()
                 expect(page.locator(".fld.w.off .ds-field-clear")).to_have_count(0)
+                text_geo=full.evaluate("""el => {
+                    const input=el.querySelector('input').getBoundingClientRect();
+                    const clear=el.querySelector('.ds-field-clear').getBoundingClientRect();
+                    const field=el.getBoundingClientRect();
+                    return {right:field.right-clear.right, after:clear.left-input.right,
+                            aligned:Math.abs((clear.top+clear.bottom)/2-(field.top+field.bottom)/2)};
+                }""")
+                assert 8<=text_geo["right"]<=20 and text_geo["after"]>=-1 and text_geo["aligned"]<=4, text_geo
                 empty.locator("input").fill("Алексей")
                 expect(empty.locator(".ds-field-clear")).to_be_visible()
                 empty.locator(".ds-field-clear").click()
@@ -62,10 +70,41 @@ def run():
                 amount=page.locator(".fld.w").nth(1)
                 expect(amount.locator(".ds-field-clear")).to_be_visible()
                 expect(amount.locator(".addon .mx")).to_have_text("MAX")
+                icon_geo=amount.evaluate("""el => {
+                    const icon=el.querySelector('.fi').getBoundingClientRect();
+                    const button=el.querySelector('.ds-field-clear').getBoundingClientRect();
+                    const input=el.querySelector('input').getBoundingClientRect();
+                    return {gap:button.left-icon.right,after:input.left-button.right,
+                            aligned:Math.abs((button.top+button.bottom)/2-(icon.top+icon.bottom)/2)};
+                }""")
+                assert 0<=icon_geo["gap"]<=10 and icon_geo["after"]>=0 and icon_geo["aligned"]<=4, icon_geo
                 amount.locator(".ds-field-clear").click()
                 expect(amount.locator("input")).to_have_value("")
                 expect(amount.locator(".ds-field-clear")).to_be_hidden()
                 expect(amount.locator(".addon .mx")).to_have_text("MAX")
+
+                # Address field: right side of the upper row, not the tools bar.
+                page.goto(BASE+"design-system/components/unit.html",wait_until="domcontentloaded")
+                address=page.locator(".unit").nth(1)
+                addr_input=address.locator("textarea")
+                addr_clear=address.locator(".ds-field-clear")
+                expect(addr_clear).to_be_visible()
+                addr_geo=address.evaluate("""el => {
+                    const row=el.querySelector('.urow').getBoundingClientRect();
+                    const button=el.querySelector('.ds-field-clear').getBoundingClientRect();
+                    const tools=el.querySelector('.uzones').getBoundingClientRect();
+                    return {right:row.right-button.right,
+                            inside:button.top>=row.top&&button.bottom<=row.bottom,
+                            beforeTools:button.bottom<=tools.top};
+                }""")
+                assert 7<=addr_geo["right"]<=18 and addr_geo["inside"] and addr_geo["beforeTools"], addr_geo
+                expect(address.locator(".uzones .uzone")).to_have_count(3)
+                addr_clear.click()
+                expect(addr_input).to_have_value("")
+                expect(addr_input).to_be_focused()
+                expect(addr_clear).to_be_hidden()
+                addr_input.fill("TDemoAddr22222222222222222")
+                expect(addr_clear).to_be_visible()
 
                 # Real USDT amount field reuses the clear controller.
                 page.goto(BASE+"transfi-remittance/?experiment=withdraw&mode=usdt",
@@ -98,6 +137,16 @@ def run():
                 expect(cvinput).to_have_value("250.00")
                 cvclear=conversion.locator(".ds-field-clear")
                 expect(cvclear).to_be_visible()
+                cv_geo=conversion.evaluate("""el => {
+                    const input=el.querySelector('#tf-out-amount').getBoundingClientRect();
+                    const mirror=el.querySelector('.ds-conversion-mirror').getBoundingClientRect();
+                    const button=el.querySelector('.ds-field-clear').getBoundingClientRect();
+                    return {gap:button.left-input.right,
+                            mirrorGap:button.left-mirror.right,
+                            aligned:Math.abs((button.top+button.bottom)/2-(input.top+input.bottom)/2),
+                            notBelow:button.top<input.bottom};
+                }""")
+                assert 0<=cv_geo["gap"]<=12 and 0<=cv_geo["mirrorGap"]<=12 and cv_geo["aligned"]<=4 and cv_geo["notBelow"], cv_geo
                 cvclear.click()
                 expect(cvinput).to_have_value("")
                 expect(cvclear).to_be_hidden()
@@ -122,7 +171,7 @@ def run():
                 context.close()
             browser.close()
         assert not errors,f"Browser errors: {errors}"
-        print("PASS: text / amount / conversion cleared, MAX and FX preserved, route-card untouched (390/430/1440)")
+        print("PASS: text-right, address-right, amount-icon, FX-after-digits, clear/focus/MAX/FX (390/430/1440)")
     finally:
         server.terminate()
         with contextlib.suppress(Exception):server.wait(timeout=5)
