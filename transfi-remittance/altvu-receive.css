@@ -4,7 +4,6 @@
   width:100%;max-width:320px;margin:0;color:var(--n500);
   font:var(--ds-type-body-secondary);text-align:center;
 }
-#v-my-qr .qrbox .qr-cap{color:var(--n500);font:var(--ds-type-body-secondary)}
 #v-my-qr .qr-renew{
   display:flex;justify-content:center;align-items:center;
   margin:0 0 16px;
@@ -15,17 +14,14 @@
   color:var(--brand-600);
 }
 #v-my-qr .qr-renew .qr-rotate:disabled{opacity:.55;cursor:default}
-#v-my-qr .qr-email-field{gap:12px;margin-bottom:12px}
-#v-my-qr .qr-email-field .fl{min-width:0}
 #v-my-qr .qr-email-field .qr-mail{
   width:100%;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
   cursor:text;
 }
 #v-my-qr .qr-email-field .qr-email-copy{
-  display:inline-flex;align-items:center;justify-content:center;
-  min-height:36px;max-width:100%;padding:0 12px;
-  border:0;border-radius:999px;background:var(--n100);color:var(--n850);
-  cursor:pointer;font:var(--ds-type-small-emphasis);
+  flex:0 0 36px;width:36px;height:36px;padding:0;border:0;border-radius:12px;
+  display:grid;place-items:center;background:var(--n50);color:var(--n850);
+  cursor:pointer;
 }
 #v-my-qr .qr-email-field .qr-email-copy:disabled{cursor:default;opacity:.5}
 #v-my-qr .qr-email-field .qr-email-copy:focus-visible,
@@ -38,4 +34,4 @@
   box-sizing:border-box;width:100%;cursor:pointer;
 }
 #v-my-qr .qr-rotate-sheet .btn[disabled]{opacity:.6;cursor:default}
-#v-my-qr .qr-rotate-sheet .p{margin-bottom:18px}
+#v-my-qr .qr-rotate-sheet .p{margin-bottom:18px;font:var(--ds-type-body-secondary)}
