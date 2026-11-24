@@ -49,8 +49,8 @@ html.exp-route-specimen #v-exp-route .exp-route-card{margin:0}
 
 /* Shared two-leg route card CSS lives in work/design-system/transfi-remittance/route-card.css. */
 .phone .tf-bank-sbp{
-  background:var(--surface);border-radius:20px;
-  box-shadow:0 1px 2px var(--sh-1);margin:0 0 4px;overflow:visible;
+  background:var(--surface,var(--ds-sem-surface,#fff));border-radius:20px;
+  box-shadow:0 1px 2px var(--sh-1,var(--ds-color-sh-1,#1615140a));margin:0 0 4px;overflow:visible;
 }
 .phone .tf-bank-sbp .h{
   display:flex;align-items:flex-end;gap:12px;padding:16px 18px 24px;
@@ -168,7 +168,7 @@ html.exp-route-specimen #v-exp-route .exp-route-card{margin:0}
 #v-dep-sbp .sbp-bank-search{
   box-sizing:border-box;flex:0 0 auto;display:flex;align-items:center;
   width:100%;height:56px;min-height:56px;margin:0 0 12px;
-  border-radius:16px;background:var(--surface);
+  border-radius:16px;background:var(--surface,var(--ds-sem-surface,#fff));
 }
 #v-dep-sbp .sbp-bank-search .fl{min-width:0;flex:1}
 #v-dep-sbp .sbp-bank-search .fi{flex:none}
@@ -179,7 +179,7 @@ html.exp-route-specimen #v-exp-route .exp-route-card{margin:0}
 #v-dep-sbp .sbp-picker-box{
   box-sizing:border-box;flex:1 1 auto;min-height:0;overflow-y:auto;
   overscroll-behavior:contain;width:100%;margin:0 0 12px;padding:0;
-  border-radius:16px;background:var(--surface);
+  border-radius:16px;background:var(--surface,var(--ds-sem-surface,#fff));
 }
 #v-dep-sbp .sbp-picker-box .tf-picker-row{
   box-sizing:border-box;display:flex;align-items:center;gap:12px;
@@ -202,7 +202,22 @@ html.exp-route-specimen #v-exp-route .exp-route-card{margin:0}
 #v-dep-sbp .sbp-cv.tf-bank-sbp .sbp-rate{
   /* Preserve native SBP quote countdown/retry within the shared FX divider. */
   height:32px;padding:0 12px;gap:6px;border-radius:999px;
-  background:var(--surface);box-shadow:inset 0 0 0 1px var(--n100)
+  background:var(--surface,var(--ds-sem-surface,#fff));box-shadow:inset 0 0 0 1px var(--n100)
 }
 #v-dep-sbp .sbp-cv.tf-bank-sbp .h{cursor:text}
 #v-dep-sbp .sbp-cv.tf-bank-sbp input.dim2{color:var(--n300)}
+
+/* Chrome adds a built-in search X. All wallet search inputs use the canonical
+   AltvuFieldClear.ds-field-clear icon instead; never show two clear actions. */
+.phone input[type="search"]::-webkit-search-cancel-button,
+.phone input[type="search"]::-webkit-search-decoration{
+  -webkit-appearance:none;appearance:none;display:none;
+}
+#v-dep-sbp .sbp-bank-search .ds-clear-slot{margin-left:auto}
+#v-dep-sbp .sbp-picker-box{
+  box-shadow:0 1px 2px var(--sh-1,var(--ds-color-sh-1,#1615140a));
+}
+#v-vpick .ve-search .fl{
+  display:flex;align-items:center;flex:1 1 auto;min-width:0;
+}
+#v-vpick .ve-search .fl input{flex:1 1 auto;width:100%;min-width:0}

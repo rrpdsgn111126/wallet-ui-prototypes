@@ -23,20 +23,39 @@ try{
     assert.equal(await bank.locator('.fl i').innerText(),'Откуда');
     assert.equal(await v.locator('#sbp-cv.sbp-cv.tf-bank-sbp').count(),1);
     assert.equal(await v.locator('#sbp-cv .h').count(),2);
-    assert.equal(await v.locator('#sbp-cv .h').first().locator('label').innerText(),'Заплатите');
+    assert.equal(await v.locator('#sbp-cv .h').first().locator('label').innerText(),'Заплатить');
     assert.equal(await v.locator('#sbp-cv .h').last().locator('label').innerText(),'Зачислим');
     const currencyStyle=await v.locator('#sbp-rub').evaluate(e=>getComputedStyle(e).fontSize);
     assert.equal(currencyStyle,'32px','SBP amount must reuse SWIFT/SEPA amount token');
+    // Regression: a missing --surface in wallet LIGHT theme must NOT remove
+    // the conversion card, search surface, or the option-list container.
+    const cardBG=await v.locator('#sbp-cv').evaluate(e=>getComputedStyle(e).backgroundColor);
+    assert.equal(cardBG,'rgb(255, 255, 255)','SBP conversion retains white card surface');
+    const cardShadow=await v.locator('#sbp-cv').evaluate(e=>getComputedStyle(e).boxShadow);
+    assert.notEqual(cardShadow,'none','SBP conversion retains surface shadow');
     await bank.click();
     const sheet=v.locator('#sbp-bank-sheet');
     await sheet.waitFor({state:'visible'});
     assert.equal(await sheet.getAttribute('role'),'dialog');
     assert.equal(await sheet.locator('#sbp-q').getAttribute('placeholder'),'Поиск банка');
     assert.equal(await sheet.locator('.tf-picker-box[role="radiogroup"]').count(),1);
+    for(const selector of ['.sbp-bank-search','.sbp-picker-box']){
+      const bg=await sheet.locator(selector).evaluate(e=>getComputedStyle(e).backgroundColor);
+      assert.equal(bg,'rgb(255, 255, 255)',selector+' uses canonical white surface');
+    }
+    const clear=sheet.locator('.sbp-bank-search > .ds-clear-slot > button.ds-field-clear');
+    assert.equal(await clear.count(),1,'Use only canonical field-clear icon');
     await sheet.locator('#sbp-q').fill('Т-Банк');
     await page.waitForTimeout(100);
     const list=sheet.locator('.tf-picker-row');
     assert.equal(await list.count(),1,'Search filters bank rows');
+    assert.equal(await clear.isVisible(),true,'Canonical search clear appears with text');
+    await clear.click();
+    assert.equal(await sheet.locator('#sbp-q').inputValue(),'','Canonical clear empties search');
+    assert.equal(await list.count(),3,'Clearing search restores full bank list');
+    assert.equal(await clear.isVisible(),false,'One clear hides when search is empty');
+    await sheet.locator('#sbp-q').fill('Т-Банк');
+
     assert.equal(await list.first().locator('.ri.ds-icon-frame').count(),1);
     assert.equal(await list.first().locator('.rd').count(),1);
     await page.screenshot({path:path.join(out,'picker-'+width+'.png')});
@@ -59,6 +78,16 @@ try{
     assert.ok(layout.scroll<=layout.width+1,'Conversion must not overflow horizontally');
     assert.notEqual(layout.before,'none','Shared quote divider must remain present');
     await page.screenshot({path:path.join(out,'form-'+width+'.png')});
+    await page.evaluate(()=>show('vpick',false));
+    const geo=page.locator('#v-vpick');
+    const geoInput=geo.locator('#ve-q');
+    await geoInput.fill('Германия');
+    const geoClear=geo.locator('.ve-search > .ds-clear-slot > button.ds-field-clear');
+    assert.equal(await geoClear.count(),1,'Region search reuses canonical clear');
+    assert.equal(await geoClear.isVisible(),true);
+    await geoClear.click();
+    assert.equal(await geoInput.inputValue(),'');
+    assert.equal(await geoClear.isVisible(),false);
     assert.deepEqual(errors,[], 'Uncaught browser errors');
     await context.close();
     console.log('PASS: SBP bank picker, search, quote, payment validation at '+width+'px');
