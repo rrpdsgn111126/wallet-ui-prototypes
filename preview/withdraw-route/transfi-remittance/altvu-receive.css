@@ -1,5 +1,7 @@
 /* ALT.VU inbound QR screen. Composes existing .qrbox, .fld.w, .fl, .addon,
    .lnk, .btn, and native .dim + .sheet patterns; no replacement field. */
+/* Match the QR card's existing 12px bottom separation from the address field. */
+#v-my-qr > .wrap.tight{padding-top:12px}
 #v-my-qr .qr-intro{
   width:100%;max-width:320px;margin:0;color:var(--n500);
   font:var(--ds-type-body-secondary);text-align:center;
