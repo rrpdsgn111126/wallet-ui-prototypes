@@ -78,14 +78,24 @@ def run():
                 icon_geo=amount.evaluate("""el => {
                     const icon=el.querySelector('.fi').getBoundingClientRect();
                     const button=el.querySelector('.ds-field-clear').getBoundingClientRect();
-                    const input=el.querySelector('input').getBoundingClientRect();
-                    return {gap:button.left-icon.right,after:input.left-button.right,
-                            aligned:Math.abs((button.top+button.bottom)/2-(icon.top+icon.bottom)/2),
-                            fieldClass:el.className,buttonParent:el.querySelector('.ds-field-clear').parentElement.className,
-                            positioning:getComputedStyle(el.querySelector('.ds-field-clear')).position,
-                            cssLeft:getComputedStyle(el.querySelector('.ds-field-clear')).left};
+                    const currency=el.querySelector('.addon .cur').getBoundingClientRect();
+                    const max=el.querySelector('.addon .mx').getBoundingClientRect();
+                    const addon=el.querySelector('.addon').getBoundingClientRect();
+                    const field=el.getBoundingClientRect();
+                    return {
+                        iconGap:button.left-icon.right,
+                        currencyGap:currency.left-button.right,
+                        rightSide:button.left>field.left+field.width/2,
+                        sameRow:Math.abs((button.top+button.bottom)/2-(currency.top+currency.bottom)/2),
+                        beforeMAX:currency.right<max.left,
+                        insideAddon:button.left>=addon.left-1 && button.right<=addon.right+1,
+                        order:[...el.querySelector('.addon').children].map(n=>n.className)
+                    };
                 }""")
-                assert 0<=icon_geo["gap"]<=10 and icon_geo["after"]>=0 and icon_geo["aligned"]<=4, icon_geo
+                assert icon_geo["rightSide"] and icon_geo["insideAddon"], icon_geo
+                assert 0<=icon_geo["currencyGap"]<=12 and icon_geo["sameRow"]<=4, icon_geo
+                assert icon_geo["beforeMAX"] and icon_geo["iconGap"]>30, icon_geo
+                assert icon_geo["order"][:3]==["ds-field-clear","cur","mx wd-max"], icon_geo
                 amount.locator(".ds-field-clear").click()
                 expect(amount.locator("input")).to_have_value("")
                 expect(amount.locator(".ds-field-clear")).to_be_hidden()
