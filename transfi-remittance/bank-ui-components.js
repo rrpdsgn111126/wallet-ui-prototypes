@@ -151,7 +151,11 @@ function uxSourceAccountField(){
 }
 
 function uxFixedCurrencyField(label,value){
-  return '<div class="fld w tf-field tf-fixed-currency'+(label==='Валюта пополнения'?' tf-deposit-currency':'')+'"><div class="fi">'+uxCurrencySymbol(value)+
+  // SEPA deposit is readonly, but uses the same currency flag and frame
+  // as the interactive SWIFT currency picker. Withdrawal stays unchanged.
+  const deposit=label==='Валюта пополнения';
+  return '<div class="fld w tf-field tf-fixed-currency'+(deposit?' tf-deposit-currency':'')+'"><div class="fi'+(deposit?' ds-icon-frame':'')+'">'+
+    (deposit?uxCurrencyPickerIcon(value):uxCurrencySymbol(value))+
     '</div><div class="fl"><i>'+esc(label)+'</i><b>'+esc(value)+'</b></div></div>';
 }
 
