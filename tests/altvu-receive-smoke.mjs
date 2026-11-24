@@ -45,6 +45,14 @@ try{
   assert.equal(await v.locator('.qrw + .qr-intro').count(),1,'Instruction follows QR');
   assert.equal(await v.locator('.qrbox > .qr-intro + .qr-renew .qr-rotate').count(),1,'Renew action follows instruction inside QR card');
   assert.equal(await v.locator('.qr-intro').evaluate(e=>getComputedStyle(e).fontSize),'14px');
+  const cardGaps=await v.locator('.qrbox').evaluate(card=>{
+    const wrap=card.parentElement.getBoundingClientRect();
+    const box=card.getBoundingClientRect();
+    const next=card.nextElementSibling.getBoundingClientRect();
+    return {top:box.top-wrap.top,bottom:next.top-box.bottom};
+  });
+  assert.ok(Math.abs(cardGaps.top-12)<=1 && Math.abs(cardGaps.bottom-12)<=1,
+    'QR card must have equal outer vertical gaps: '+JSON.stringify(cardGaps));
   assert.equal(await v.locator('.qr-rotate').evaluate(e=>getComputedStyle(e).fontSize),'14px');
   assert.equal(await v.locator('.qr-email-copy svg').count(),1,'Bank copy icon is present');
   assert.equal(await v.locator('.qr-email-copy').innerText(),'','Copy action has no visible text');
