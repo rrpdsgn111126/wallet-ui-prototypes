@@ -178,7 +178,7 @@ case'in-details':{
  p=`<div class="tf-label">Валюта поступления</div>${segment(CURRENCY.map(v=>({v})),S.inCurrency,'setIncomingCurrency')}
  <div class="tf-label">Способ перевода</div>${segment([{v:'SEPA',disabled:!sepaEnabled},{v:'SWIFT'}],S.inRail,'setIncomingRail')}
  <div class="box tf-requisites">${rows.map(([k,v],i)=>copyrow(k,v,i)).join('')}</div>`;
- f=primary('Скопировать все реквизиты','copyAll()');break;}
+ f=primary('Скопировать реквизиты','copyAll()');break;}
 case'in-pending':p=`<div class="tf-hero">${tfStatusMark('pending')}${title('Ожидаем поступление')}<p>Платёж отобразится после подтверждения банка</p></div>${timeline('in')}`;f=action('Вернуться к реквизитам',"go('in-details')");break;
 case'in-success':p=`<div class="hero tf-hero">${tfStatusMark('success')}${title('Деньги зачислены')}</div><div class="tbl">${keyrow('Валюта',S.inCurrency)}${keyrow('Сумма','По факту зачисления')}${keyrow('Статус','Завершено')}</div>`;f=primary('К реквизитам',"go('in-details')");break;
 case'in-held':p=`<div class="tf-hero">${tfStatusMark('held')}${title('Поступление на проверке')}<p>Средства пока недоступны для использования</p></div><div class="tbl">${keyrow('Валюта',S.inCurrency)}${keyrow('Статус','На проверке')}</div>`;f=primary('К реквизитам',"go('in-details')");break;
@@ -385,7 +385,7 @@ function uxRenderScreen(){
     return {
       head:'Пополнение '+S.inRail,
       p:`${currencyControl}<div class="box tf-requisites">${rows.map(([k,v],i)=>copyrow(k,v,i)).join('')}</div>`,
-      f:primary('Скопировать все реквизиты','copyAll()')
+      f:primary('Скопировать реквизиты','copyAll()')
     };
   }
   if(S.screen==='out-config'){
