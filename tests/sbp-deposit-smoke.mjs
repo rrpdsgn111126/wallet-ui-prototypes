@@ -135,7 +135,7 @@ try{
     const sbpGaps=await conversionMeasure(sbpSpec,'#sbp-cv','.h:first-child .t input',
       '.h:last-child .t label','.sbp-rate','.mid');
     const fxGaps=await conversionMeasure(fxSpec,'#tf-bank-sbp','.h:first-child .t input',
-      '.h:last-child .tf-bank-receive-label','.sbp-rate','.mid');
+      '.h + .mid + .h .tf-bank-receive-label','.sbp-rate','.mid');
     const routeGaps=await conversionMeasure(routeSpec,'.tf-bank-route-card',
       '.tf-bank-leg:first-child .fl b','.tf-bank-leg:last-child .fl i',
       '.tf-bank-arrow','.tf-bank-arrow-line');
