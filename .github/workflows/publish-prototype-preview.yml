@@ -32,6 +32,12 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: true
+      - name: Verify crypto withdrawal network confirmation (Playwright)
+        run: |
+          python3 -m pip install playwright
+          python3 -m playwright install --with-deps chromium
+          python3 tests/bank-qa/crypto-network-confirm.py
+          python3 tests/bank-qa/source-flows.py
       - name: Publish an isolated Pages snapshot, not a source merge
         shell: bash
         run: |

@@ -27,6 +27,14 @@ async def open_source(page, view):
     }""", view)
     await expect(page.locator("#v-"+view+".on")).to_be_visible()
 
+async def confirm_crypto_network(page):
+    sheet=page.locator(".wd-network-confirm")
+    await expect(sheet).to_be_visible()
+    slider=sheet.locator(".wd-confirm-slide")
+    await slider.focus()
+    await page.keyboard.press("Enter")
+    await expect(sheet).to_have_count(0)
+
 async def enter_pin(page):
     for i in range(4):
         await page.evaluate("() => psKey('1')")
@@ -165,6 +173,7 @@ async def test_source(browser, origin):
 
     # Original crypto withdrawal: form -> check -> any demo PIN -> native success.
     await open_source(page,"out-usdt-tron")
+    await confirm_crypto_network(page)
     root=page.locator("#v-out-usdt-tron")
     await root.locator(".wd-addr").fill("TDEMOONLYPLACEHOLDERFORCRYPTOOUT00001")
     await root.locator(".wd-amt").fill("20.00")
@@ -178,6 +187,7 @@ async def test_source(browser, origin):
     # failure state (real transactions are never submitted).
     await page.evaluate("""() => {const e=document.getElementById('pv-outcome');e.value='failed';e.dispatchEvent(new Event('change',{bubbles:true}))}""")
     await open_source(page,"out-usdt-tron")
+    await confirm_crypto_network(page)
     await root.locator(".wd-addr").fill("TDEMOONLYPLACEHOLDERFORCRYPTOOUT00002")
     await root.locator(".wd-amt").fill("20.00")
     await root.locator(".wd-go").click()
