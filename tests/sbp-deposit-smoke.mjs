@@ -146,10 +146,11 @@ try{
       assert.ok(Math.abs(gap.upperToDivider-24)<=2,name+' top number to divider: 24px');
       assert.ok(Math.abs(gap.dividerToLower-24)<=2,name+' divider to lower label: 24px');
     }
-    assert.ok(Math.abs(routeGaps.upperToPill-16)<=2,'From/To top value to capsule: 16px');
-    assert.ok(Math.abs(routeGaps.pillToLower-16)<=2,'From/To capsule to lower label: 16px');
-    assert.ok(Math.abs(routeGaps.upperToDivider-32)<=2,'From/To top value to divider: 32px');
-    assert.ok(Math.abs(routeGaps.dividerToLower-32)<=2,'From/To divider to lower label: 32px');
+    assert.ok(Math.abs(routeGaps.upperToPill-8)<=2,'From/To top value to capsule: 8px');
+    assert.ok(Math.abs(routeGaps.pillToLower-8)<=2,'From/To capsule to lower label: 8px');
+    assert.ok(Math.abs(routeGaps.upperToDivider-24)<=2,'From/To top value to divider: 24px');
+    assert.ok(Math.abs(routeGaps.dividerToLower-24)<=2,'From/To divider to lower label: 24px');
+    assert.deepEqual(routeGaps,fxGaps,'From/To and FX match both capsule and divider gaps');
     await sbpSpec.screenshot({path:path.join(out,'sbp-component-'+width+'.png')});
     await fxSpec.screenshot({path:path.join(out,'bank-component-'+width+'.png')});
     await routeSpec.screenshot({path:path.join(out,'route-component-'+width+'.png')});
