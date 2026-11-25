@@ -190,6 +190,7 @@
     to.placeholder=state.method==='altvu'?'Почта или телефон':'Адрес кошелька';
     to.inputMode=state.method==='altvu'?'email':'text';
     to.value=state.address;amt.value=groupAmount(state.amount);
+    window.AltvuFieldClear?.enhance(screen);
     E('exp-net-toggle').hidden=state.method==='altvu';
     E('exp-net-value').textContent=netName(state.network);
     E('exp-net-icon').className='nlg '+state.network;
@@ -252,7 +253,7 @@
     if(!networks().includes(key))return;
     const changed=key!==state.network;
     state.network=key;
-    if(changed){state.address='';state.scannedCode='';to.value='';}
+    if(changed){state.address='';state.scannedCode='';to.value='';window.AltvuFieldClear?.sync(to);}
     E('exp-net-value').textContent=netName(key);
     E('exp-net-icon').className='nlg '+key;
     netField.setAttribute('aria-label','Сеть: '+netName(key));
@@ -280,6 +281,7 @@
     to.value=value;
     state.address=value;
     state.scannedCode=code ? value : '';
+    window.AltvuFieldClear?.sync(to);
     say('');
   }
   async function pasteRecipient(){
@@ -536,6 +538,9 @@
       if(typeof show!=='function')return;
       show('withdraw',false);
       open(methods[method]?method:'usdt');
+      if(qs.get('component')==='route-card'&&qs.get('filled')==='1'){
+        setRecipient(state.method==='altvu'?'demo.receiver@example.invalid':state.network==='tron'?'T'+'1'.repeat(33):'0x'+'1'.repeat(40),false);
+      }
     },650);
   }
   window.altWithdrawRouteExperiment={open,closeSheet,state};

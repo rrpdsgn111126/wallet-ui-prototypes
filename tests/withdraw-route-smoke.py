@@ -313,10 +313,12 @@ def run():
                 })""")
                 page.locator("#exp-paste").click()
                 expect(page.locator("#exp-recipient")).to_have_value("0x" + "a" * 40)
+                expect(page.locator(".exp-route-card .ds-field-clear")).to_be_visible()
                 # Real scanner entry point receives a deterministic decoded QR result.
                 page.evaluate("() => {window.scanQR = async opts => {opts.take({kind:'addr', value:'0x' + 'b'.repeat(40)})}}")
                 page.locator("#exp-scan").click()
                 expect(page.locator("#exp-recipient")).to_have_value("0x" + "b" * 40)
+                expect(page.locator(".exp-route-card .ds-field-clear")).to_be_visible()
                 # Exercise native book filtering, empty state, dismissal and selection.
                 page.evaluate("""() => {
                     const s=window.altWithdrawRouteExperiment.state;
@@ -336,6 +338,7 @@ def run():
                 page.locator("#exp-book").click()
                 page.locator("#v-exp-route .wd-sheet [data-wd-pick]").click()
                 expect(page.locator("#exp-recipient")).to_have_value("0x"+"c"*40)
+                expect(page.locator(".exp-route-card .ds-field-clear")).to_be_visible()
                 expect(page.locator("#v-exp-route .wd-sheet")).to_be_hidden()
                 page.evaluate("() => {bookLoad=async()=>{bookAll=[];return true;}}")
                 page.locator("#exp-book").click()
@@ -359,6 +362,7 @@ def run():
                     chosen = options.nth(1).get_attribute("data-ns")
                     options.nth(1).click()
                     expect(page.locator("#exp-recipient")).to_have_value("")
+                    expect(page.locator(".exp-route-card .ds-field-clear")).to_be_hidden()
                     expect(page.locator("#exp-net-icon")).to_have_class(re.compile("nlg " + chosen))
                     expect(page.locator("#exp-net-toggle")).to_have_attribute("aria-expanded", "false")
                 else:
@@ -401,9 +405,13 @@ def run():
                     })""")
                     page.locator("#exp-paste").click()
                     expect(page.locator("#exp-recipient")).to_have_value("demo.receiver@example.invalid")
+                    expect(page.locator(".exp-route-card .ds-field-clear")).to_be_visible()
                     page.evaluate("() => {window.scanQR = async opts => {opts.take({kind:'code', value:'ABCD-EFGH'})}}")
                     page.locator("#exp-scan").click()
                     expect(page.locator("#exp-recipient")).to_have_value("ABCD-EFGH")
+                    page.locator(".exp-route-card .ds-field-clear").click()
+                    expect(page.locator("#exp-recipient")).to_have_value("")
+                    assert page.evaluate("window.altWithdrawRouteExperiment.state.scannedCode")==""
                     # The original recipient lookup is verified via email on Continue.
                     page.locator("#exp-recipient").fill("demo.receiver@example.invalid")
                 else:
@@ -427,6 +435,7 @@ def run():
                     expect(page.locator("#v-exp-route .wd-sheet [data-wd-pick]")).to_have_count(1)
                     page.locator("#v-exp-route .wd-sheet [data-wd-pick]").click()
                     expect(page.locator("#exp-recipient")).to_have_value("0x"+"d"*40)
+                    expect(page.locator(".exp-route-card .ds-field-clear")).to_be_visible()
                     page.evaluate("() => {bookLoad=window.__originalBookLoad}")
                     page.locator("#exp-recipient").fill("0x" + "1" * 40)
                 amount_input = page.locator("#exp-amount")
@@ -451,7 +460,7 @@ def run():
                 )
                 page = context.new_page()
                 page.on("pageerror", lambda exc: errors.append(str(exc)))
-                page.goto(HOST + "usdt&component=route-card", wait_until="domcontentloaded")
+                page.goto(HOST + "usdt&component=route-card&filled=1", wait_until="domcontentloaded")
                 expect(page.locator("#v-exp-route")).to_have_class(
                     re.compile(r"\bon\b"), timeout=30000
                 )
@@ -467,6 +476,10 @@ def run():
                 expect(page.locator("#exp-dest-label")).to_have_text("Куда → USDT")
                 expect(page.locator("#exp-paste")).to_be_visible()
                 expect(page.locator("#exp-scan")).to_be_visible()
+                expect(page.locator(".exp-route-card .ds-field-clear")).to_be_visible()
+                page.locator(".exp-route-card .ds-field-clear").click()
+                expect(page.locator("#exp-recipient")).to_have_value("")
+                expect(page.locator(".exp-route-card .ds-field-clear")).to_be_hidden()
                 card = page.locator("#v-exp-route .exp-route-card").bounding_box()
                 assert card and card["y"] >= 0 and card["y"] + card["height"] <= 304, (
                     f"Component not fully visible in catalog at {specimen_width}px: {card}"
