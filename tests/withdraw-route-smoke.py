@@ -83,6 +83,34 @@ def verify_shared_bank_components():
 
 
 
+def confirm_network(page, coin, screenshot=None):
+    sheet = page.locator(".exp-network-confirm")
+    expect(sheet).to_be_visible()
+    expect(sheet.locator("[data-confirm-coin]")).to_have_text(coin)
+    expect(sheet.locator(".row .rt")).to_have_text(["Сеть", "Монета"])
+    slider = sheet.locator(".exp-confirm-slide")
+    expect(slider).to_have_text("Подтвердить")
+    expect(page.locator("#exp-note")).to_be_hidden()
+    page.wait_for_timeout(750)
+    if screenshot:
+        page.screenshot(path=str(screenshot))
+    for fraction in (0.4, 1):
+        slider.scroll_into_view_if_needed()
+        page.wait_for_timeout(250)
+        track = slider.bounding_box()
+        thumb = slider.locator(".exp-slide-thumb").bounding_box()
+        x = thumb["x"] + thumb["width"]/2
+        y = thumb["y"] + thumb["height"]/2
+        scale = slider.evaluate("el=>el.getBoundingClientRect().width/el.offsetWidth")
+        page.mouse.move(x,y)
+        page.mouse.down()
+        page.mouse.move(x+(track["width"]-thumb["width"]-8*scale)*fraction,y,steps=12)
+        page.mouse.up()
+        if fraction < 1:
+            expect(sheet).to_be_visible()
+    expect(sheet).to_have_count(0)
+
+
 def run():
     verify_shared_bank_components()
     server = subprocess.Popen(
@@ -164,6 +192,7 @@ def run():
                 expect(page.locator("#v-exp-route")).to_have_class(
                     re.compile(r"\bon\b"), timeout=30000
                 )
+                confirm_network(page, "USDT", OUT / f"network-confirm-usdt-{width}.png")
                 # Design system is NOT copied into the experiment. The real
                 # external CSS and its imported tokens must actually load.
                 expect(page.locator("#exp-canonical-design-system")).to_have_attribute(
@@ -430,6 +459,14 @@ def run():
                 if options.count() > 1:
                     chosen = options.nth(1).get_attribute("data-ns")
                     options.nth(1).click()
+                    expect(page.locator(".exp-network-confirm")).to_be_visible()
+                    expect(page.locator("#exp-recipient")).to_have_value("T" + "1" * 33)
+                    page.keyboard.press("Escape")
+                    expect(page.locator(".exp-network-confirm")).to_have_count(0)
+                    expect(page.locator("#exp-net-value")).to_have_text("TRC20")
+                    page.locator("#exp-net-toggle").click()
+                    page.locator('.phone > .ns-sheet .ns-box [data-ns="'+chosen+'"]').click()
+                    confirm_network(page, "USDT")
                     expect(page.locator("#exp-recipient")).to_have_value("")
                     expect(page.locator(".exp-route-card .ds-field-clear")).to_be_hidden()
                     expect(page.locator("#exp-net-icon")).to_have_class(re.compile("nlg " + chosen))
@@ -457,6 +494,10 @@ def run():
                 expect(page.locator("#v-exp-route")).to_have_class(
                     re.compile(r"\bon\b"), timeout=30000
                 )
+                if mode == "usdc":
+                    confirm_network(page, "USDC")
+                else:
+                    expect(page.locator(".exp-network-confirm")).to_have_count(0)
                 expect(page.locator("#exp-dest-label")).to_have_text("Куда → " + target)
                 expect(page.locator("#exp-balance")).to_have_text(re.compile(r"[\d\s\u00a0.,]+\s*\$"))
                 expect(page.locator("#v-exp-route .exp-amount-caption")).to_have_count(0)
@@ -529,6 +570,7 @@ def run():
                     page.on("pageerror", lambda exc: errors.append(str(exc)))
                     page.goto(HOST + mode, wait_until="domcontentloaded")
                     expect(page.locator("#v-exp-route")).to_have_class(re.compile(r"\bon\b"), timeout=30000)
+                    confirm_network(page, mode.upper(), OUT / f"network-confirm-{mode}-{width}.png")
                     expect(page.locator("#exp-dest-label")).to_have_text("Куда → " + mode.upper())
                     card = page.locator("#v-exp-route .exp-amount-field")
                     amount = card.locator("input.wd-amt")

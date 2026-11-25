@@ -161,6 +161,9 @@ def run():
                 page.goto(BASE+"transfi-remittance/?experiment=withdraw&mode=usdt",
                           wait_until="domcontentloaded")
                 expect(page.locator("#v-exp-route")).to_have_class("view on",timeout=30000)
+                page.locator(".exp-confirm-slide").focus()
+                page.keyboard.press("Enter")
+                expect(page.locator(".exp-network-confirm")).to_have_count(0)
                 recipient=page.locator("#exp-recipient")
                 route_clear=page.locator(".tf-bank-route-card .ds-field-clear")
                 expect(route_clear).to_have_count(1)
