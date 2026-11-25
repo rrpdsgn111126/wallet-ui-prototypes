@@ -592,12 +592,17 @@
       methodSkeletonClear(kind,methodSkeletonVisible(screen));
     });
   }
+  const methodSkeletonWasVisible={topup:false,withdraw:false};
   function methodSkeletonSync(){
     methodSkeletonKinds.forEach(kind=>{
       const screen=E('v-'+kind);
       if(!screen)return;
-      if(methodSkeletonVisible(screen))methodSkeletonStart(kind);
-      else if(screen.classList.contains('method-skeleton-loading'))methodSkeletonCancel(kind);
+      const visible=methodSkeletonVisible(screen);
+      if(visible&&!methodSkeletonWasVisible[kind])methodSkeletonStart(kind);
+      else if(!visible&&screen.classList.contains('method-skeleton-loading'))
+        methodSkeletonCancel(kind);
+      // Loading class changes alone must never restart the demo animation.
+      methodSkeletonWasVisible[kind]=visible;
     });
   }
   const methodSkeletonObserver=new MutationObserver(methodSkeletonSync);
