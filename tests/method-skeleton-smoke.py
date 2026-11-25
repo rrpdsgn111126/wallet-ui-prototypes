@@ -57,7 +57,7 @@ def check_skeleton(page, direction, dark, moving):
               circle=getComputedStyle(icon,'::after'),
               b=getComputedStyle(el.querySelector('.mt b'),'::after'),
               i=getComputedStyle(el.querySelector('.mt i'),'::after');
-        return {height:r.height, iconWidth:icon.getBoundingClientRect().width,
+        return {height:parseFloat(getComputedStyle(el).height), iconWidth:parseFloat(getComputedStyle(icon).width),
                 circle:circle.content, radius:circle.borderRadius,
                 iconBackground:circle.backgroundImage, shimmer:circle.animationName,
                 titleHeight:parseFloat(b.height), subtitleHeight:parseFloat(i.height),
