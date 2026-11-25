@@ -114,11 +114,11 @@ def run():
                 # Design system is NOT copied into the experiment. The real
                 # external CSS and its imported tokens must actually load.
                 expect(page.locator("#exp-canonical-design-system")).to_have_attribute(
-                    "href", "../../design-system/css/alt-vu-wallet.css"
+                    "href", re.compile(r"^\.\./\.\./design-system/css/alt-vu-wallet\.css\?v=.+$")
                 )
                 page.wait_for_function("""() => {
                     const sheet=[...document.styleSheets].find(s => s.href &&
-                        s.href.endsWith('/design-system/css/alt-vu-wallet.css'));
+                        new URL(s.href).pathname.endsWith('/design-system/css/alt-vu-wallet.css'));
                     const token=getComputedStyle(document.documentElement)
                         .getPropertyValue('--ds-type-field-value').trim();
                     return Boolean(sheet && token);
@@ -467,6 +467,38 @@ def run():
                     re.compile(r"\bon\b"), timeout=30000
                 )
                 context.close()
+            # Explicit regression for both cryptocurrency methods at every viewport.
+            for width, height in [(390, 844), (430, 932), (1440, 900)]:
+                for mode in ("usdt", "usdc"):
+                    context = browser.new_context(viewport={"width": width, "height": height},
+                                                  reduced_motion="reduce")
+                    page = context.new_page()
+                    page.on("pageerror", lambda exc: errors.append(str(exc)))
+                    page.goto(HOST + mode, wait_until="domcontentloaded")
+                    expect(page.locator("#v-exp-route")).to_have_class(re.compile(r"\bon\b"), timeout=30000)
+                    expect(page.locator("#exp-dest-label")).to_have_text("Куда → " + mode.upper())
+                    card = page.locator("#v-exp-route .exp-amount-field")
+                    amount = card.locator("input.wd-amt")
+                    clear = card.locator(".addon .ds-field-clear")
+                    expect(clear).to_be_hidden()
+                    for value in ("", "250.00"):
+                        amount.fill(value)
+                        if value:
+                            expect(clear).to_be_visible()
+                        else:
+                            expect(clear).to_be_hidden()
+                        geo = card.evaluate("""el => {
+                            const r=el.querySelector('input.wd-amt').getBoundingClientRect();
+                            const c=el.querySelector('.addon .cur').getBoundingClientRect();
+                            const x=el.querySelector('.addon .ds-field-clear').getBoundingClientRect();
+                            const sy=el.getBoundingClientRect().height/el.offsetHeight;
+                            return {currency:Math.abs((r.top+r.bottom-c.top-c.bottom)/2)/sy,
+                                clear:Math.abs((r.top+r.bottom-x.top-x.bottom)/2)/sy};
+                        }""")
+                        assert max(geo.values())<=1, (mode,width,value,geo)
+                    page.screenshot(path=str(OUT / f"amount-axis-{mode}-{width}.png"))
+                    print(f"PASS amount axis {mode} {width}px", flush=True)
+                    context.close()
             # Catalog specimen is the REAL source/recipient card only, not a
             # cropped full-screen screenshot or a second hand-built component.
             for specimen_width in (390, 423):
