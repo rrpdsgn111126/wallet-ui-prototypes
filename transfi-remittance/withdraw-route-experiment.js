@@ -514,6 +514,22 @@
 
   // Deep links make each variant independently inspectable from the UI Kit.
   const qs=new URLSearchParams(location.search);
+
+  // Component library capture: display the LIVE SBP FX card, not a duplicate.
+  // All amount parsing, quote timing, bank state and clear actions stay native.
+  if(qs.get('component')==='sbp-conversion'){
+    document.documentElement.classList.add('sbp-conversion-specimen');
+    setTimeout(async()=>{
+      if(typeof show!=='function'||typeof sbpOpen!=='function')return;
+      show('dep-sbp',false);
+      await sbpOpen();
+      if(qs.get('filled')==='1'){
+        const input=document.getElementById('sbp-rub');
+        if(input){input.value='5000';sbpInput('rub');}
+      }
+      document.documentElement.dataset.sbpSpecimenReady='1';
+    },650);
+  }
   if(qs.get('experiment')==='withdraw'){
     const method=(qs.get('mode')||'usdt').toLowerCase();
     setTimeout(()=>{

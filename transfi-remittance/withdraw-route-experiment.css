@@ -235,3 +235,29 @@ html.exp-route-specimen #v-exp-route .exp-route-card{margin:0}
   display:flex;align-items:center;flex:1 1 auto;min-width:0;
 }
 #v-vpick .ve-search .fl input{flex:1 1 auto;width:100%;min-width:0}
+
+/* Design-system catalog crop of the ACTUAL SBP conversion card.
+   Do not recreate its DOM or its conversion/quote logic in the UI Kit. */
+html.sbp-conversion-specimen,html.sbp-conversion-specimen body{
+  width:100%;height:100%;margin:0;overflow:hidden;background:var(--n50,#f6f7f8);
+}
+html.sbp-conversion-specimen .phone{
+  box-sizing:border-box;width:100%!important;height:100%!important;
+  max-width:none!important;min-height:0!important;
+  transform:none!important;margin:0!important;
+  border:0!important;border-radius:0!important;box-shadow:none!important;
+  overflow:hidden;
+}
+html.sbp-conversion-specimen #v-dep-sbp>.tint,
+html.sbp-conversion-specimen #v-dep-sbp>.head,
+html.sbp-conversion-specimen #v-dep-sbp>.foot,
+html.sbp-conversion-specimen #v-dep-sbp #sbp-bank,
+html.sbp-conversion-specimen #v-dep-sbp #sbp-cap{
+  display:none!important;
+}
+html.sbp-conversion-specimen #v-dep-sbp>.wrap.tight{
+  box-sizing:border-box;display:block;width:100%;height:100%;
+  overflow:hidden!important;min-height:0;max-height:none!important;
+  padding:18px 12px 0!important;
+}
+html.sbp-conversion-specimen #v-dep-sbp #sbp-cv{margin:0!important}

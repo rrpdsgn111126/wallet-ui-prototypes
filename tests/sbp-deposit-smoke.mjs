@@ -94,6 +94,66 @@ try{
     await geoClear.click();
     assert.equal(await geoInput.inputValue(),'');
     assert.equal(await geoClear.isVisible(),false);
+
+    // Cross-component spacing measurement at the same real viewport width:
+    // conversion divider vs canonical From/To divider. No copied components.
+    const sbpSpec=await context.newPage();
+    await sbpSpec.goto(root+'/transfi-remittance/index.html?component=sbp-conversion&filled=1',
+      {waitUntil:'domcontentloaded'});
+    await sbpSpec.waitForFunction(()=>document.documentElement.dataset.sbpSpecimenReady==='1');
+    const sbpCard=sbpSpec.locator('#v-dep-sbp.on #sbp-cv');
+    await sbpCard.waitFor({state:'visible'});
+    assert.equal(await sbpSpec.locator('#v-dep-sbp.on .head:visible').count(),0,
+      'SBP specimen has no app navigation');
+    assert.equal(await sbpSpec.locator('#sbp-bank:visible').count(),0,
+      'SBP specimen renders card only');
+    assert.equal(await sbpSpec.locator('#sbp-cv.tf-bank-sbp').count(),1);
+    assert.match((await sbpSpec.locator('#sbp-rub').inputValue()).replace(/\s/g,''),/^5000(?:[.]00)?$/,'SBP specimen uses actual populated amount');
+    const fxSpec=await context.newPage();
+    await fxSpec.goto(root+'/transfi-remittance/legacy.html?component=amount-conversion&filled=1',
+      {waitUntil:'domcontentloaded'});
+    await fxSpec.locator('#tf-bank-sbp').waitFor({state:'visible'});
+    assert.equal(await fxSpec.locator('#tf-bank-use-all').count(),1,'Withdrawal has use-all action');
+    const routeSpec=await context.newPage();
+    await routeSpec.goto(root+'/transfi-remittance/legacy.html?component=route-card&rail=SWIFT&kind=country',
+      {waitUntil:'domcontentloaded'});
+    await routeSpec.locator('.tf-bank-route-card .tf-bank-arrow').waitFor({state:'visible'});
+    const conversionMeasure=async(p,card,upper,lower,pill,divider)=>p.evaluate(({card,upper,lower,pill,divider})=>{
+      const host=document.querySelector(card);
+      const up=host.querySelector(upper).getBoundingClientRect();
+      const down=host.querySelector(lower).getBoundingClientRect();
+      const cap=host.querySelector(pill).getBoundingClientRect();
+      const mid=host.querySelector(divider).getBoundingClientRect();
+      const lineY=mid.top+mid.height/2;
+      return {
+        upperToPill:Math.round(cap.top-up.bottom),
+        pillToLower:Math.round(down.top-cap.bottom),
+        upperToDivider:Math.round(lineY-up.bottom),
+        dividerToLower:Math.round(down.top-lineY)
+      };
+    },{card,upper,lower,pill,divider});
+    const sbpGaps=await conversionMeasure(sbpSpec,'#sbp-cv','.h:first-child .t input',
+      '.h:last-child .t label','.sbp-rate','.mid');
+    const fxGaps=await conversionMeasure(fxSpec,'#tf-bank-sbp','.h:first-child .t input',
+      '.h:last-child .tf-bank-receive-label','.sbp-rate','.mid');
+    const routeGaps=await conversionMeasure(routeSpec,'.tf-bank-route-card',
+      '.tf-bank-leg:first-child .fl b','.tf-bank-leg:last-child .fl i',
+      '.tf-bank-arrow','.tf-bank-arrow-line');
+    console.log('AMOUNT/ROUTE SPACING '+width+'px '+JSON.stringify({sbpGaps,fxGaps,routeGaps}));
+    for(const [name,gap] of Object.entries({sbpGaps,fxGaps})){
+      assert.ok(Math.abs(gap.upperToPill-8)<=2,name+' top number to capsule: 8px');
+      assert.ok(Math.abs(gap.pillToLower-8)<=2,name+' capsule to lower label: 8px');
+      assert.ok(Math.abs(gap.upperToDivider-24)<=2,name+' top number to divider: 24px');
+      assert.ok(Math.abs(gap.dividerToLower-24)<=2,name+' divider to lower label: 24px');
+    }
+    assert.ok(Math.abs(routeGaps.upperToPill-16)<=2,'From/To top value to capsule: 16px');
+    assert.ok(Math.abs(routeGaps.pillToLower-16)<=2,'From/To capsule to lower label: 16px');
+    assert.ok(Math.abs(routeGaps.upperToDivider-32)<=2,'From/To top value to divider: 32px');
+    assert.ok(Math.abs(routeGaps.dividerToLower-32)<=2,'From/To divider to lower label: 32px');
+    await sbpSpec.screenshot({path:path.join(out,'sbp-component-'+width+'.png')});
+    await fxSpec.screenshot({path:path.join(out,'bank-component-'+width+'.png')});
+    await routeSpec.screenshot({path:path.join(out,'route-component-'+width+'.png')});
+    await sbpSpec.close();await fxSpec.close();await routeSpec.close();
     assert.deepEqual(errors,[], 'Uncaught browser errors');
     await context.close();
     console.log('PASS: SBP bank picker, search, quote, payment validation at '+width+'px');
