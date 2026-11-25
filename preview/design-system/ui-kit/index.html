@@ -23,8 +23,19 @@
 #g-experiments .exp-route-variants{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
 #g-experiments .exp-route-preview{box-sizing:border-box;min-width:0;margin:0}
 #g-experiments .exp-route-preview iframe{display:block;width:100%;max-width:423px;height:280px!important;border-radius:16px;overflow:hidden}
+/* Single visual amount-conversion component, two live behavioral variants.
+   Frames load working instances from the experiment rather than duplicate markup. */
+#g-experiments .exp-conversion-component{display:block}
+#g-experiments .exp-conversion-variants{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+#g-experiments .exp-conversion-preview{box-sizing:border-box;min-width:0;margin:0}
+#g-experiments .exp-conversion-preview iframe{
+  display:block;width:100%;max-width:423px;height:336px!important;
+  border-radius:16px;overflow:hidden;background:#f6f7f8;
+}
 @media(max-width:860px){
   #g-experiments .exp-route-variants{grid-template-columns:minmax(0,1fr)}
+  #g-experiments .exp-conversion-variants{grid-template-columns:minmax(0,1fr)}
+  #g-experiments .exp-conversion-preview iframe{max-width:none;height:336px!important;border-radius:0}
   #g-experiments .exp-route-preview iframe{max-width:none;height:280px!important;border-radius:0}
 }
 </style>
@@ -53,7 +64,7 @@
   <div><h1>Компоненты alt.vu</h1><p>Рабочая библиотека <code>work/design-system</code> · стили считываются из реальных компонентов</p></div></div>
   <ul class="stats"><li><b>43</b>компонента</li><li><b>91</b>состояние</li><li><b>57</b>цветовых токенов</li><li><b>2</b>темы</li></ul>
 </header>
-<nav class="toc"><ol><li><a href="#tokens">Токены</a><span>57</span></li><li><a href="#g-base">Основа</a><span>2</span></li><li><a href="#g-frame">Каркас экрана</a><span>4</span></li><li><a href="#g-buttons">Кнопки</a><span>4</span></li><li><a href="#g-fields">Поля ввода</a><span>8</span></li><li><a href="#g-choice">Выбор</a><span>6</span></li><li><a href="#g-sheets">Шторки и списки</a><span>6</span></li><li><a href="#g-marks">Монеты, сети, категории</a><span>2</span></li><li><a href="#g-card">Карта и баннеры</a><span>3</span></li><li><a href="#g-status">Статусы и сообщения</a><span>8</span></li><li><a href="#prototype-reference">Актуальный прототип</a><span>5</span></li><li><a href="#g-experiments">Экспериментальные компоненты</a><span>1</span></li></ol></nav>
+<nav class="toc"><ol><li><a href="#tokens">Токены</a><span>57</span></li><li><a href="#g-base">Основа</a><span>2</span></li><li><a href="#g-frame">Каркас экрана</a><span>4</span></li><li><a href="#g-buttons">Кнопки</a><span>4</span></li><li><a href="#g-fields">Поля ввода</a><span>8</span></li><li><a href="#g-choice">Выбор</a><span>6</span></li><li><a href="#g-sheets">Шторки и списки</a><span>6</span></li><li><a href="#g-marks">Монеты, сети, категории</a><span>2</span></li><li><a href="#g-card">Карта и баннеры</a><span>3</span></li><li><a href="#g-status">Статусы и сообщения</a><span>8</span></li><li><a href="#prototype-reference">Актуальный прототип</a><span>5</span></li><li><a href="#g-experiments">Экспериментальные компоненты</a><span>2</span></li></ol></nav>
 <main>
 <p class="ds-typography-intro"><strong>Текстовые стили в компонентах:</strong> в сводной таблице ниже каждая типографическая комбинация показана один раз, с перечнем использующих её компонентов и семантических алиасов; в карточках показаны место применения и фактические значения <code>размер / line-height · насыщенность</code>. Данные считываются из отображаемого образца. «Использует токен» означает проверенную CSS-зависимость; «Совпадение, без привязки» — совпадение параметров без доказанной зависимости; «Локальный стиль» — отсутствие подходящего общего стиля. Для банковских образцов учитываются реальные поля из вложенного экрана.</p>
 <section class="grp" id="tokens"><h2 class="grp-h">Токены</h2>
@@ -170,7 +181,7 @@
 </section>
 
 <section class="grp" id="g-experiments" data-status="experimental">
-<h2 class="grp-h">Экспериментальные компоненты · Вывод</h2>
+<h2 class="grp-h">Экспериментальные компоненты</h2>
 <article class="cmp exp-route-component" id="experimental-transfer-route">
 <div class="meta">
 <h3>Откуда / Куда</h3>
@@ -195,6 +206,28 @@
 <figure class="v exp-route-preview">
 <figcaption>Банк · Пример назначения</figcaption>
 <iframe loading="lazy" scrolling="no" src="https://rrpdsgn111126.github.io/wallet-ui-prototypes/preview/withdraw-route/transfi-remittance/legacy.html?flow=out&amp;screen=out-config&amp;rail=SWIFT&amp;component=route-card&amp;kind=bank" title="Общая карточка с банком-получателем, визуальный пример"></iframe>
+</figure>
+</div>
+</article>
+
+<article class="cmp exp-conversion-component" id="experimental-amount-conversion">
+<div class="meta">
+<h3>Сумма с конвертацией · варианты</h3>
+<p>Одна визуальная композиция <code>.sbp-cv.tf-bank-sbp</code> с двумя суммами и курсом в капсуле между ними. Это <strong>два живых варианта существующего компонента</strong>, а не нарисованные копии. Общие стили и токены сохранены; платёжная логика и обработчики пока различаются.</p>
+<p><strong>Вывод SEPA/SWIFT:</strong> ввод суммы USD → рассчитанная сумма в валюте получения; в SWIFT доступен выбор валюты и действие «Использовать всё». <strong>Пополнение СБП:</strong> ввод RUB или USD → расчёт другой суммы, курс с таймером; выбор банка находится вне этой карточки.</p>
+<p><strong>Отступы вокруг капсулы курса:</strong> по CSS 8 px от нижней границы верхнего числового поля до капсулы и 8 px от капсулы до нижней подписи. У «Откуда / Куда» аналогичные интервалы по 16 px. Разница — 8 px с каждой стороны; интервалы намеренно пока не унифицированы.</p>
+<p class="cls"><code>.sbp-cv.tf-bank-sbp · .h · .mid · .sbp-rate</code> · <code>AltvuFieldClear</code></p>
+<p class="sts"><b>Варианты:</b> вывод SEPA/SWIFT · пополнение СБП. Состояния: пустое, заполнено; вычисления работают в живых компонентах.</p>
+<a class="open" href="https://rrpdsgn111126.github.io/wallet-ui-prototypes/preview/withdraw-route/transfi-remittance/legacy.html?component=amount-conversion&amp;filled=1" target="_blank" rel="noopener">Открыть компонент вывода</a>
+</div>
+<div class="exp-conversion-variants">
+<figure class="v exp-conversion-preview">
+<figcaption>Вывод SEPA/SWIFT · USD → валюта получения</figcaption>
+<iframe loading="lazy" scrolling="no" src="https://rrpdsgn111126.github.io/wallet-ui-prototypes/preview/withdraw-route/transfi-remittance/legacy.html?component=amount-conversion&amp;filled=1" title="Живой компонент конвертации при выводе"></iframe>
+</figure>
+<figure class="v exp-conversion-preview">
+<figcaption>Пополнение СБП · RUB ↔ USD</figcaption>
+<iframe loading="lazy" scrolling="no" src="https://rrpdsgn111126.github.io/wallet-ui-prototypes/preview/withdraw-route/transfi-remittance/?component=sbp-conversion&amp;filled=1" title="Живой компонент конвертации при пополнении через СБП"></iframe>
 </figure>
 </div>
 </article>
