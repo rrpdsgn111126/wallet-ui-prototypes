@@ -80,8 +80,8 @@
     '<div class="fld w exp-amount-field">'+
       '<div class="fl"><i>Сумма перевода</i><b><input id="exp-amount" class="wd-amt" inputmode="decimal" placeholder="0.00" aria-label="Сумма перевода в долларах"></b></div>'+
       '<div class="addon"><span class="cur">$</span></div>'+
+      '<div class="exp-limit"><button id="exp-use-all" class="exp-use-all" type="button">Использовать всё: <span id="exp-max-value" aria-live="polite">0.00 $</span></button></div>'+
     '</div>'+
-    '<div class="exp-limit"><button id="exp-use-all" class="exp-use-all" type="button">Использовать всё: <span id="exp-max-value" aria-live="polite">0.00 $</span></button></div>'+
     '<p class="exp-note" id="exp-note"></p>'+
     '</div>'+
     '<div class="foot"><div class="exp-error" id="exp-error" role="alert"></div><button class="btn" type="button" id="exp-next">Продолжить</button></div>'+
