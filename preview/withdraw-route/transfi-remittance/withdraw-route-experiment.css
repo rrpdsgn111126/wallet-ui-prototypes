@@ -163,7 +163,7 @@ html.exp-route-specimen #v-exp-route .exp-route-card{margin:0}
 #v-dep-sbp .sbp-bank .fl{flex:1 1 auto;min-width:0}
 #v-dep-sbp .sbp-bank .fl i,
 #v-dep-sbp .sbp-bank .fl b{font-weight:400}
-#v-dep-sbp .sbp-bank .tf-picker-chevron{margin-left:auto;flex:0 0 20px;color:var(--n400)}
+#v-dep-sbp .sbp-bank .tf-picker-chevron{margin-left:auto}
 #v-dep-sbp .sbp-bank .tf-picker-chevron svg{display:block}
 #v-dep-sbp .sbp-bank:focus-visible,
 #v-dep-sbp .sbp-picker-box .tf-picker-row:focus-visible{
