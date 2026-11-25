@@ -177,7 +177,23 @@ def run():
                 expect(page.locator("#v-exp-route .exp-amount-field img")).to_have_count(0)
                 expect(page.locator("#v-exp-route .exp-amount-field .addon .cur")).to_have_text("$")
                 expect(page.locator("#v-exp-route .exp-amount-field .addon .mx")).to_have_count(0)
-                expect(page.locator("#v-exp-route .exp-amount-field")).to_have_css("height", "104px")
+                amount_card = page.locator("#v-exp-route .exp-amount-field")
+                expect(amount_card.locator("#exp-use-all")).to_be_visible()
+                expect(amount_card).to_have_css("padding-left", "16px")
+                expect(amount_card).to_have_css("padding-right", "16px")
+                expect(amount_card).to_have_css("padding-top", "16px")
+                expect(amount_card).to_have_css("padding-bottom", "16px")
+                geometry = amount_card.evaluate("""card => {
+                    const box = card.getBoundingClientRect();
+                    const input = card.querySelector('#exp-amount').getBoundingClientRect();
+                    const action = card.querySelector('#exp-use-all').getBoundingClientRect();
+                    const route = document.querySelector('#v-exp-route .exp-route-card');
+                    return {below: action.top >= input.bottom,
+                        left: Math.abs(action.left - box.left - 16) <= 1,
+                        inside: action.bottom <= box.bottom - 15 && action.right <= box.right - 15,
+                        sameInset: getComputedStyle(card).paddingLeft === getComputedStyle(route).paddingLeft};
+                }""")
+                assert all(geometry.values()), (width, geometry)
                 expect(page.locator("#exp-use-all")).to_be_visible()
                 expect(page.locator("#exp-use-all")).to_contain_text("Использовать всё:")
                 expect(page.locator("#exp-max")).to_have_count(0)
