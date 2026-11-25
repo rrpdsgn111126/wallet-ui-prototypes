@@ -9032,12 +9032,11 @@ function wdBookPaint(root, coin, net){
   b.toggleAttribute('hidden', wdBookFor(coin, net).length === 0);
 }
 
-function wdSheet(root, on){
+function wdSheet(root, on, route){
   const dim = root.querySelector('.wd-dim'), sh = root.querySelector('.wd-sheet');
   if(!dim || !sh) return;
   if(!on){ dim.hidden = true; sh.hidden = true; bkPageHide(root); return; }
-  sheetOpen(dim, sh);
-  const {coin, net} = wdParts(root.id.slice(2));
+  const {coin, net} = route || wdParts(root.id.slice(2));
   const list = wdBookFor(coin, net);
   sh.querySelector('.wd-sheet-p').textContent =
     'Адреса сети ' + netName(net) + '. Из других сетей здесь нет — вывод идёт в ' +
@@ -9047,6 +9046,9 @@ function wdSheet(root, on){
     '<div class="ic cic ' + esc((a.coin || '').toLowerCase()) + '"></div>' +
     '<div class="t"><b>' + esc(a.label || '') + '</b>' +
     '<div class="abfull">' + esc(a.address) + '</div></div></button>').join('');
+  if(route && !list.length) sh.querySelector('.wd-sheet-box').innerHTML =
+    '<div class="row"><div class="rt">Нет сохранённых адресов в этой сети</div></div>';
+  sheetOpen(dim, sh);
   bkDecide(root, sh, dim);
 }
 

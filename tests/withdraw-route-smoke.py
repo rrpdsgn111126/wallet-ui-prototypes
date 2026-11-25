@@ -155,17 +155,21 @@ def run():
                     const box=document.querySelector('#v-exp-route .exp-route-card');
                     const line=box.querySelector('.exp-arrow-line');
                     const a=box.getBoundingClientRect(),b=line.getBoundingClientRect();
-                    const pseudo=getComputedStyle(line,'::after');
+                    const pseudo=getComputedStyle(line,'::after'),before=getComputedStyle(line,'::before');
+                    const arrow=getComputedStyle(line.querySelector('.tf-bank-arrow'));
                     const token=getComputedStyle(line).getPropertyValue('--ds-sem-divider').trim();
                     return {left:Math.abs(a.left-b.left),right:Math.abs(a.right-b.right),
-                        thickness:pseudo.height, pseudoLeft:pseudo.left, pseudoRight:pseudo.right,
+                        thickness:pseudo.height, beforeThickness:before.height,
+                        split:Math.abs(parseFloat(before.width)+parseFloat(pseudo.width)+parseFloat(arrow.width)-parseFloat(getComputedStyle(line).width))<1 && before.position==='static' && pseudo.position==='static' && Math.abs(parseFloat(before.width)-parseFloat(pseudo.width))<1,
+                        outline:arrow.boxShadow, beforeColor:before.backgroundColor,
                         color:pseudo.backgroundColor,token};
                 }""")
                 assert route_geometry["left"]<=1 and route_geometry["right"]<=1, (
                     f"Crypto route line is not edge to edge {width}px: {route_geometry}"
                 )
                 assert route_geometry["thickness"]=="1px"
-                assert route_geometry["pseudoLeft"]=="0px" and route_geometry["pseudoRight"]=="0px"
+                assert route_geometry["split"] and route_geometry["beforeThickness"]=="1px", route_geometry
+                assert "233, 236, 240" in route_geometry["outline"] and route_geometry["beforeColor"]==route_geometry["color"], route_geometry
                 assert route_geometry["color"]=="rgb(233, 236, 240)",route_geometry
                 expect(page.locator("#v-exp-route .exp-amount-caption")).to_have_count(0)
                 expect(page.locator("#v-exp-route .exp-amount-field .fl i")).to_have_text("Сумма перевода")
@@ -222,7 +226,8 @@ def run():
                 amount_input.press("Backspace")
                 expect(amount_input).to_have_value("1 345")
                 amount_input.fill("")
-                expect(page.locator("#v-exp-route .exp-actions .uzone")).to_have_count(2)
+                expect(page.locator("#v-exp-route .exp-actions .uzone")).to_have_count(3)
+                expect(page.locator("#exp-book")).to_have_text("Из книжки")
                 expect(page.locator("#exp-paste")).to_contain_text("Вставить")
                 expect(page.locator("#exp-scan")).to_contain_text("Сканировать")
                 expect(page.locator("#exp-net-toggle")).to_have_class("fld w net-pick")
@@ -278,6 +283,32 @@ def run():
                 page.evaluate("() => {window.scanQR = async opts => {opts.take({kind:'addr', value:'0x' + 'b'.repeat(40)})}}")
                 page.locator("#exp-scan").click()
                 expect(page.locator("#exp-recipient")).to_have_value("0x" + "b" * 40)
+                # Exercise native book filtering, empty state, dismissal and selection.
+                page.evaluate("""() => {
+                    const s=window.altWithdrawRouteExperiment.state;
+                    const coin=s.method.toUpperCase(),net=s.network;
+                    window.__originalBookLoad=bookLoad;
+                    bookLoad=async()=>{bookAll=[
+                        {coin,network:net,label:'Тестовый адрес',address:'0x'+'c'.repeat(40)},
+                        {coin,network:'other',label:'Другая сеть',address:'wrong-net'},
+                        {coin:coin==='USDT'?'USDC':'USDT',network:net,label:'Другая монета',address:'wrong-coin'}
+                    ];return true;};
+                }""")
+                page.locator("#exp-book").click()
+                expect(page.locator("#v-exp-route .wd-sheet")).to_be_visible()
+                expect(page.locator("#v-exp-route .wd-sheet [data-wd-pick]")).to_have_count(1)
+                page.keyboard.press("Escape")
+                expect(page.locator("#v-exp-route .wd-sheet")).to_be_hidden()
+                page.locator("#exp-book").click()
+                page.locator("#v-exp-route .wd-sheet [data-wd-pick]").click()
+                expect(page.locator("#exp-recipient")).to_have_value("0x"+"c"*40)
+                expect(page.locator("#v-exp-route .wd-sheet")).to_be_hidden()
+                page.evaluate("() => {bookLoad=async()=>{bookAll=[];return true;}}")
+                page.locator("#exp-book").click()
+                expect(page.locator("#v-exp-route .wd-sheet-box")).to_contain_text("Нет сохранённых адресов")
+                page.locator('#v-exp-route .wd-sheet [data-act="wd-manual"]').click()
+                expect(page.locator("#v-exp-route .wd-sheet")).to_be_hidden()
+                page.evaluate("() => {bookLoad=window.__originalBookLoad}")
                 page.locator("#exp-recipient").fill("")
                 max_label = page.locator("#exp-max-value").inner_text()
                 page.locator("#exp-use-all").click()
@@ -326,7 +357,7 @@ def run():
                 expect(page.locator("#v-exp-route .exp-amount-field .fi")).to_have_count(0)
                 expect(page.locator("#exp-paste")).to_contain_text("Вставить")
                 expect(page.locator("#exp-scan")).to_contain_text("Сканировать")
-                expect(page.locator("#v-exp-route .exp-actions .uzone")).to_have_count(2)
+                expect(page.locator("#v-exp-route .exp-actions .uzone")).to_have_count(2 if mode == "altvu" else 3)
                 if mode == "altvu":
                     expect(page.locator("#exp-recipient")).to_have_attribute("placeholder", "Почта или телефон")
                     expect(page.locator("#exp-net-toggle")).to_be_hidden()
@@ -349,6 +380,20 @@ def run():
                     expect(page.locator(".phone > .ns-sheet .ns-box [data-ns]")).not_to_have_count(0)
                     page.keyboard.press("Escape")
                     expect(page.locator(".phone > .ns-sheet")).to_be_hidden()
+                    expect(page.locator("#exp-book")).to_have_text("Из книжки")
+                    page.evaluate("""() => {
+                        const s=window.altWithdrawRouteExperiment.state;
+                        window.__originalBookLoad=bookLoad;
+                        bookLoad=async()=>{bookAll=[
+                          {coin:'USDC',network:s.network,label:'USDC test',address:'0x'+'d'.repeat(40)},
+                          {coin:'USDT',network:s.network,label:'USDT test',address:'wrong-coin'}
+                        ];return true;};
+                    }""")
+                    page.locator("#exp-book").click()
+                    expect(page.locator("#v-exp-route .wd-sheet [data-wd-pick]")).to_have_count(1)
+                    page.locator("#v-exp-route .wd-sheet [data-wd-pick]").click()
+                    expect(page.locator("#exp-recipient")).to_have_value("0x"+"d"*40)
+                    page.evaluate("() => {bookLoad=window.__originalBookLoad}")
                     page.locator("#exp-recipient").fill("0x" + "1" * 40)
                 amount_input = page.locator("#exp-amount")
                 expect(amount_input).to_have_css("font-size", "32px")
@@ -457,7 +502,7 @@ def run():
                         const rect=e=>e.getBoundingClientRect();
                         const bankRect=rect(bank),fxRect=rect(fx),tableRect=rect(tbl);
                         const routeRect=rect(route),midRect=rect(mid),rowRect=rect(total);
-                        const rs=getComputedStyle(route,'::after');
+                        const rs=getComputedStyle(route,'::after'),ls=getComputedStyle(route,'::before');
                         const ms=getComputedStyle(mid,'::before');
                         const totalCss=getComputedStyle(total);
                         const rateElement=fx.querySelector('.sbp-rate');
@@ -471,13 +516,15 @@ def run():
                             table:[Math.abs(tableRect.left-rowRect.left),Math.abs(tableRect.right-rowRect.right)],
                             colors:[rs.backgroundColor,ms.backgroundColor],
                             lineSizes:[rs.height,ms.height],
-                            inset:[rs.left,rs.right,ms.left,ms.right],
+                            inset:[ms.left,ms.right],
+                            split:ls.position==='static'&&rs.position==='static'&&ls.backgroundColor===rs.backgroundColor&&ls.height===rs.height&&Math.abs(parseFloat(ls.width)+parseFloat(rs.width)+parseFloat(arrowCss.width)-parseFloat(getComputedStyle(route).width))<1,
+                            arrowOutline:arrowCss.boxShadow,
                             totTop:totalCss.borderTopWidth,
                             totBottom:totalCss.borderBottomWidth,
                             semantic:getComputedStyle(bank).getPropertyValue('--ds-sem-divider').trim(),
                             borderToken:getComputedStyle(bank).getPropertyValue('--ds-sem-border').trim(),
                             capsuleOutline:capsule.boxShadow,
-                            capsulesMatch:['height','borderRadius','backgroundColor','boxShadow']
+                            capsulesMatch:['height','borderRadius','backgroundColor']
                                 .every(key=>capsule[key]===arrowCss[key]),
                             arrowCentered:Math.abs((arrowRect.left+arrowRect.right)/2-(bankRect.left+bankRect.right)/2)<1,
                             fxCentered:Math.abs((rateRect.left+rateRect.right)/2-(fxRect.left+fxRect.right)/2)<1,
@@ -488,7 +535,8 @@ def run():
                         assert max(dividers[key])<=1, f"{rail} divider not full-width {width}px: {dividers}"
                     assert dividers["colors"]==["rgb(233, 236, 240)"]*2, dividers
                     assert dividers["lineSizes"]==["1px"]*2, dividers
-                    assert dividers["inset"]==["0px"]*4, dividers
+                    assert dividers["inset"]==["0px"]*2 and dividers["split"], dividers
+                    assert "233, 236, 240" in dividers["arrowOutline"], dividers
                     assert dividers["totTop"]=="0px" and dividers["totBottom"]=="0px", dividers
                     assert dividers["semantic"]=="#e9ecf0", dividers
                     assert "230, 228, 225" in dividers["capsuleOutline"], dividers
@@ -764,7 +812,7 @@ def run():
                             thickness:d.height,color:d.backgroundColor};
                     }""")
                     assert geom["width"] == geom["height"] == "32px", geom
-                    assert "230, 228, 225" in geom["outline"], geom
+                    assert "233, 236, 240" in geom["outline"], geom
                     assert geom["left"] <= 1 and geom["right"] <= 1, geom
                     assert geom["thickness"] == "1px", geom
                     assert geom["color"] == "rgb(233, 236, 240)", geom
