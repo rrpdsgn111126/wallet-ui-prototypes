@@ -28,9 +28,13 @@
       bank_country:'Великобритания',bank_account:'DEMO-GBP-002',bank_bic:'DEMOGB22',
       fee_minor:1800,created_at:at(130)}
   ];
-  const operations=PV.data['/operations'].operations;
-  // Idempotent even if the preview adapter is re-initialized during QA.
-  operations.unshift(...fixtures.filter(op=>!operations.some(old=>old.id===op.id)));
+  // The asynchronous canonical preview may reset its seed after this script.
+  // Reuse these exact bank fixtures after that initialization, without duplicating them.
+  window.altPreviewRestoreBankFixtures=function(){
+    const operations=PV.data['/operations'].operations;
+    operations.unshift(...fixtures.filter(op=>!operations.some(old=>old.id===op.id)));
+  };
+  window.altPreviewRestoreBankFixtures();
   const css=document.createElement('style');
   css.id='pv-bank-operation-visuals';
   css.textContent='.pv-bank-plate{display:flex;align-items:center;justify-content:center;'+
