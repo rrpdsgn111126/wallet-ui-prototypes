@@ -13,17 +13,21 @@ async def swipe(page, fraction):
     slider=page.locator(".wd-confirm-slide")
     await expect(slider).to_be_visible()
     thumb=slider.locator(".wd-slide-thumb")
+    await slider.scroll_into_view_if_needed()
+    await page.wait_for_timeout(250)
     a=await slider.bounding_box()
     b=await thumb.bounding_box()
     x=b["x"]+b["width"]/2
     y=b["y"]+b["height"]/2
     await page.mouse.move(x,y)
     await page.mouse.down()
-    await page.mouse.move(x+(a["width"]-b["width"]-8)*fraction,y,steps=12)
+    scale=await slider.evaluate("(el)=>el.getBoundingClientRect().width/el.offsetWidth")
+    await page.mouse.move(x+(a["width"]-b["width"]-8*scale)*fraction,y,steps=12)
     await page.mouse.up()
 
 async def test(browser, origin, width):
     page=await browser.new_page(viewport={"width":width,"height":932})
+    print(f"Testing network confirmation at {width}px", flush=True)
     errors=[]
     page.on("pageerror",lambda e:errors.append(str(e)))
     await page.goto(origin+"/transfi-remittance/")

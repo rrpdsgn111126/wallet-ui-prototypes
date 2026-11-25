@@ -490,6 +490,7 @@
     '.wd-network-confirm .row .rv .ri,.wd-network-confirm .row .rv .cn{width:32px;height:32px;flex:0 0 32px;display:flex;align-items:center;justify-content:center}',
     '.wd-network-confirm .row .rv img{width:24px;height:24px}',
     '.wd-network-confirm .btn.wd-confirm-slide{position:relative;touch-action:none;overflow:hidden;user-select:none;margin:16px 0 0;min-height:52px}',
+    '.wd-network-confirm .btn.wd-confirm-slide:active{transform:none}',
     '.wd-confirm-slide .wd-slide-label{pointer-events:none;position:relative;z-index:1}',
     '.wd-confirm-slide .wd-slide-thumb{position:absolute;left:4px;top:4px;bottom:4px;width:44px;max-width:calc(100% - 8px);border-radius:12px;background:var(--surface,#fff);color:var(--n900);display:flex;align-items:center;justify-content:center;z-index:2;pointer-events:none;transform:translateX(var(--slide-x,0px))}',
     '.wd-confirm-slide:not(.dragging) .wd-slide-thumb{transition:transform .18s ease-out}',
@@ -556,7 +557,7 @@
     root.append(dim,sheet);
     pending={target,change,root,dim,sheet,inert,focus};
     const slider=sheet.querySelector('.wd-confirm-slide'),thumb=slider.querySelector('.wd-slide-thumb');
-    let pointer=null,x0=0,travel=0,pos=0;
+    let pointer=null,x0=0,travel=0,pos=0,scale=1;
     function draw(x){
       pos=Math.max(0,Math.min(travel,x));
       slider.style.setProperty('--slide-x',pos+'px');
@@ -565,16 +566,17 @@
       if(pointer!==null || e.button!==0)return;
       e.preventDefault();pointer=e.pointerId;x0=e.clientX;
       travel=Math.max(1,slider.clientWidth-thumb.offsetWidth-8);
+      scale=slider.getBoundingClientRect().width/Math.max(1,slider.offsetWidth) || 1;
       slider.classList.add('dragging');slider.setPointerCapture(pointer);draw(0);
     });
-    slider.addEventListener('pointermove',e=>{if(e.pointerId===pointer)draw(e.clientX-x0);});
+    slider.addEventListener('pointermove',e=>{if(e.pointerId===pointer)draw((e.clientX-x0)/scale);});
     function stop(e,commit){
       if(e.pointerId!==pointer)return;
       pointer=null;slider.classList.remove('dragging');
       if(commit && pos>=travel*.9){finish();return;}
       draw(0);
     }
-    slider.addEventListener('pointerup',e=>{if(e.pointerId===pointer)draw(e.clientX-x0);stop(e,true);});
+    slider.addEventListener('pointerup',e=>{if(e.pointerId===pointer)draw((e.clientX-x0)/scale);stop(e,true);});
     slider.addEventListener('pointercancel',e=>stop(e,false));
     slider.addEventListener('lostpointercapture',e=>stop(e,false));
     slider.addEventListener('click',e=>{if(e.detail===0 && pending && pending.sheet===sheet)finish();});
