@@ -76,12 +76,12 @@ def check_skeleton(page, direction, dark, moving):
         assert geom["shimmer"] == "none", geom
     expect(root.locator(".sh2")).to_be_visible()
     expect(root.locator(".tf-bank-title")).to_be_visible()
-    start_height = first.evaluate("(el) => el.getBoundingClientRect().height")
+    start_height = first.evaluate("(el) => parseFloat(getComputedStyle(el).height)")
     page.screenshot(path=str(OUT / f"methods-skeleton-{direction}-{'dark' if dark else 'light'}-{page.viewport_size['width']}.png"))
     page.wait_for_function("(kind) => !window.altMethodSkeleton.isLoading(kind)", arg=direction, timeout=6000)
     expect(sheet).not_to_have_attribute("aria-busy", "true")
     assert not root.locator(".method-list").first.evaluate("(el) => el.inert")
-    assert first.evaluate("(el) => el.getBoundingClientRect().height") == start_height, (
+    assert first.evaluate("(el) => parseFloat(getComputedStyle(el).height)") == start_height, (
         "Skeleton changed the row height"
     )
     expect(first.locator(".mt b")).not_to_be_empty()
