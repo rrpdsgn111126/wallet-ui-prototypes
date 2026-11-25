@@ -543,5 +543,68 @@
       }
     },650);
   }
+
+  // Experimental skeleton for the TWO existing method sheets only.
+  // Keep real method DOM in place: it owns navigation and preserves row height.
+  // First opening simulates a cold catalog fetch in the local preview;
+  // subsequent openings use the loaded catalog. ?skeleton=demo replays it.
+  const methodSkeletonModes=new URLSearchParams(location.search);
+  const methodSkeletonDemo=methodSkeletonModes.get('skeleton')==='demo';
+  const methodSkeletonReady={topup:false,withdraw:false};
+  const methodSkeletonTokens={topup:0,withdraw:0};
+  const methodSkeletonKinds=['topup','withdraw'];
+  function methodSkeletonClear(kind,successful){
+    const screen=E('v-'+kind);
+    if(!screen)return;
+    screen.classList.remove('method-skeleton-loading');
+    const sheet=screen.querySelector('.sheet');
+    if(sheet)sheet.removeAttribute('aria-busy');
+    screen.querySelectorAll('.sheet .method-list, .sheet .lnk').forEach(el=>{el.inert=false;});
+    if(successful)methodSkeletonReady[kind]=true;
+  }
+  function methodSkeletonCancel(kind){
+    methodSkeletonTokens[kind]++;
+    methodSkeletonClear(kind,false);
+  }
+  function methodSkeletonStart(kind){
+    const screen=E('v-'+kind);
+    if(!screen||!screen.classList.contains('on')||
+       (methodSkeletonReady[kind]&&!methodSkeletonDemo)||
+       screen.classList.contains('method-skeleton-loading'))return;
+    const token=++methodSkeletonTokens[kind];
+    screen.classList.add('method-skeleton-loading');
+    const sheet=screen.querySelector('.sheet');
+    if(sheet)sheet.setAttribute('aria-busy','true');
+    screen.querySelectorAll('.sheet .method-list, .sheet .lnk').forEach(el=>{el.inert=true;});
+    // No external requests: mock /networks and local preview animation only.
+    // Real pending catalog data is awaited, but neither network failure nor
+    // navigation away may trap the user behind a perpetual skeleton.
+    const source=typeof netAll==='function'
+      ? Promise.resolve().then(()=>netAll()).catch(()=>null)
+      : Promise.resolve();
+    const pause=new Promise(resolve=>setTimeout(resolve,methodSkeletonDemo?1500:850));
+    Promise.all([source,pause]).then(()=>{
+      if(methodSkeletonTokens[kind]!==token)return;
+      methodSkeletonClear(kind,screen.classList.contains('on'));
+    });
+  }
+  const methodSkeletonShow=window.show;
+  window.show=function(){
+    const result=methodSkeletonShow.apply(this,arguments);
+    const current=typeof view==='string'?view:'';
+    methodSkeletonKinds.forEach(kind=>{
+      const el=E('v-'+kind);
+      if(kind!==current&&el&&el.classList.contains('method-skeleton-loading'))
+        methodSkeletonCancel(kind);
+    });
+    if((current==='topup'||current==='withdraw')&&arguments[0]===current)
+      methodSkeletonStart(current);
+    return result;
+  };
+  window.altMethodSkeleton=Object.freeze({
+    // Read-only state for visual regression tests and the prototype QA panel.
+    isLoading:kind=>!!E('v-'+kind)?.classList.contains('method-skeleton-loading')
+  });
+
   window.altWithdrawRouteExperiment={open,closeSheet,state};
 })();

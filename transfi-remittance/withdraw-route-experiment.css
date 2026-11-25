@@ -241,3 +241,115 @@ html.sbp-conversion-specimen #v-dep-sbp>.wrap.tight{
   padding:18px 12px 0!important;
 }
 html.sbp-conversion-specimen #v-dep-sbp #sbp-cv{margin:0!important}
+
+/* Two method-selection bottom sheets: skeletons use REAL row geometry.
+   They never duplicate or replace an actionable method/button. */
+#v-topup.method-skeleton-loading .sheet .method-option,
+#v-withdraw.method-skeleton-loading .sheet .method-option{
+  pointer-events:none;cursor:progress;
+}
+#v-topup.method-skeleton-loading.ways-wait .sheet .method-option,
+#v-withdraw.method-skeleton-loading.ways-wait .sheet .method-option,
+#v-topup.method-skeleton-loading.ways-wait .sheet .note,
+#v-withdraw.method-skeleton-loading.ways-wait .sheet .note{
+  visibility:visible;
+}
+#v-topup.method-skeleton-loading .sheet .method-option .ic,
+#v-withdraw.method-skeleton-loading .sheet .method-option .ic{
+  position:relative;
+}
+#v-topup.method-skeleton-loading .sheet .method-option .ic > *,
+#v-withdraw.method-skeleton-loading .sheet .method-option .ic > *{
+  visibility:hidden!important;
+}
+#v-topup.method-skeleton-loading .sheet .method-option .ic::after,
+#v-withdraw.method-skeleton-loading .sheet .method-option .ic::after{
+  content:"";position:absolute;inset:0;border-radius:50%;
+  background:linear-gradient(100deg,var(--n100,#e9ecf0) 12%,var(--n50,#f6f7f8) 36%,var(--n100,#e9ecf0) 65%);
+  background-size:240% 100%;animation:method-skeleton-wave 1.5s ease-in-out infinite;
+}
+#v-topup.method-skeleton-loading .sheet .method-option .mt b,
+#v-withdraw.method-skeleton-loading .sheet .method-option .mt b,
+#v-topup.method-skeleton-loading .sheet .method-option .mt i,
+#v-withdraw.method-skeleton-loading .sheet .method-option .mt i{
+  position:relative;color:transparent!important;
+}
+#v-topup.method-skeleton-loading .sheet .method-option .mt b::after,
+#v-withdraw.method-skeleton-loading .sheet .method-option .mt b::after,
+#v-topup.method-skeleton-loading .sheet .method-option .mt i::after,
+#v-withdraw.method-skeleton-loading .sheet .method-option .mt i::after,
+#v-topup.method-skeleton-loading .sheet .tf-bank-title::after,
+#v-withdraw.method-skeleton-loading .sheet .tf-bank-title::after,
+#v-topup.method-skeleton-loading .sheet .note::after,
+#v-withdraw.method-skeleton-loading .sheet .note::after,
+#v-topup.method-skeleton-loading .sheet .note::before,
+#v-withdraw.method-skeleton-loading .sheet .note::before{
+  content:"";position:absolute;left:0;top:50%;transform:translateY(-50%);
+  display:block;border-radius:999px;
+  background:linear-gradient(100deg,var(--n100,#e9ecf0) 12%,var(--n50,#f6f7f8) 36%,var(--n100,#e9ecf0) 65%);
+  background-size:240% 100%;animation:method-skeleton-wave 1.5s ease-in-out infinite;
+}
+#v-topup.method-skeleton-loading .sheet .method-option .mt b::after,
+#v-withdraw.method-skeleton-loading .sheet .method-option .mt b::after{
+  width:min(112px,53%);height:14px;
+}
+#v-topup.method-skeleton-loading .sheet .method-option .mt i::after,
+#v-withdraw.method-skeleton-loading .sheet .method-option .mt i::after{
+  width:min(218px,87%);height:11px;animation-delay:-.16s;
+}
+#v-topup.method-skeleton-loading .sheet .method-list .method-option:nth-child(3n+2) .mt b::after,
+#v-withdraw.method-skeleton-loading .sheet .method-list .method-option:nth-child(3n+2) .mt b::after{
+  width:min(80px,36%);
+}
+#v-topup.method-skeleton-loading .sheet .method-list .method-option:nth-child(3n+3) .mt i::after,
+#v-withdraw.method-skeleton-loading .sheet .method-list .method-option:nth-child(3n+3) .mt i::after{
+  width:min(146px,66%);
+}
+#v-topup.method-skeleton-loading .sheet .method-option .method-chevron,
+#v-withdraw.method-skeleton-loading .sheet .method-option .method-chevron{
+  visibility:hidden!important;
+}
+#v-topup.method-skeleton-loading .sheet .tf-bank-title,
+#v-withdraw.method-skeleton-loading .sheet .tf-bank-title{
+  position:relative;color:transparent!important;
+}
+#v-topup.method-skeleton-loading .sheet .tf-bank-title::after,
+#v-withdraw.method-skeleton-loading .sheet .tf-bank-title::after{
+  width:58%;height:11px;animation-delay:-.34s;
+}
+#v-topup.method-skeleton-loading .sheet .note,
+#v-withdraw.method-skeleton-loading .sheet .note{
+  position:relative;color:transparent!important;
+}
+#v-topup.method-skeleton-loading .sheet .note::before,
+#v-withdraw.method-skeleton-loading .sheet .note::before{
+  top:10px;width:92%;height:11px;
+}
+#v-topup.method-skeleton-loading .sheet .note::after,
+#v-withdraw.method-skeleton-loading .sheet .note::after{
+  top:30px;width:68%;height:11px;animation-delay:-.23s;
+}
+#v-topup.method-skeleton-loading .sheet .lnk,
+#v-withdraw.method-skeleton-loading .sheet .lnk{
+  visibility:hidden!important;
+}
+@keyframes method-skeleton-wave{
+  0%{background-position:100% 50%}
+  100%{background-position:-110% 50%}
+}
+@media(prefers-reduced-motion:reduce){
+  #v-topup.method-skeleton-loading .sheet .method-option .ic::after,
+  #v-withdraw.method-skeleton-loading .sheet .method-option .ic::after,
+  #v-topup.method-skeleton-loading .sheet .method-option .mt b::after,
+  #v-withdraw.method-skeleton-loading .sheet .method-option .mt b::after,
+  #v-topup.method-skeleton-loading .sheet .method-option .mt i::after,
+  #v-withdraw.method-skeleton-loading .sheet .method-option .mt i::after,
+  #v-topup.method-skeleton-loading .sheet .tf-bank-title::after,
+  #v-withdraw.method-skeleton-loading .sheet .tf-bank-title::after,
+  #v-topup.method-skeleton-loading .sheet .note::before,
+  #v-withdraw.method-skeleton-loading .sheet .note::before,
+  #v-topup.method-skeleton-loading .sheet .note::after,
+  #v-withdraw.method-skeleton-loading .sheet .note::after{
+    animation:none;background-position:50% 50%;
+  }
+}

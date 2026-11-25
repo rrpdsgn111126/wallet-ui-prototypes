@@ -15,6 +15,7 @@ on:
       - 'tests/withdraw-route-smoke.py'
       - 'tests/altvu-receive-smoke.mjs'
       - 'tests/sbp-deposit-smoke.mjs'
+      - 'tests/method-skeleton-smoke.py'
       - 'tests/field-clear-smoke.py'
       - 'tests/method-sheet-parity.py'
       - '.github/workflows/publish-withdraw-route-preview.yml'
@@ -58,6 +59,8 @@ jobs:
           test -f design-system/tokens/tokens.css
       - name: Verify canonical method markup, rendered selector layout and actions (390/430/1440; light/dark)
         run: python tests/method-sheet-parity.py
+      - name: Validate method-sheet skeleton loading (390/430/1440; light/dark)
+        run: python tests/method-skeleton-smoke.py
       - name: Validate experimental withdrawals (390/430/1440)
         run: python tests/withdraw-route-smoke.py
       - name: Validate shared text, amount and FX input clearing
