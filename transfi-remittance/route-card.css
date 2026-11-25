@@ -96,3 +96,9 @@ html.tf-route-specimen .phone.tf-phone>.tf-scroll{
   padding:18px 12px 0!important;overflow:hidden!important;
 }
 html.tf-route-specimen .phone.tf-phone .tf-bank-route-card{margin:0;}
+
+/* Editable recipient: same reserved system action slot in empty/filled states. */
+.phone .tf-bank-route-card .tf-bank-leg.ds-clear-route{gap:8px}
+.phone .tf-bank-route-card .tf-bank-leg.ds-clear-route > .fi{margin-inline-end:6px}
+.phone .tf-bank-route-card .tf-bank-leg.ds-clear-route > .ds-field-clear{align-self:center}
+.phone .tf-bank-route-card .tf-bank-leg.ds-clear-route .fl :is(input,textarea){box-sizing:border-box;width:100%;min-width:0}

@@ -1,11 +1,11 @@
 /* One clearable-input controller for text, address, amount and FX amount.
-   The common From/To card, selectors and readonly fields are excluded.
+   Editable From/To recipients share the controller; selectors and readonly fields are excluded.
    Each layout gets the clear icon where its own component defines the action zone. */
 (function(root){
 'use strict';
 if(root.AltvuFieldClear)return;
 const CLASS='ds-field-clear';
-const SELECTOR='.fld.w .fl input, .unit .urow .ut textarea, .unit .urow .ut input, .tf-bank-sbp .h:first-child .t input';
+const SELECTOR='.fld.w .fl input, .unit .urow .ut textarea, .unit .urow .ut input, .tf-bank-sbp .h:first-child .t input, .tf-bank-route-card .tf-bank-leg .fl input, .tf-bank-route-card .tf-bank-leg .fl textarea';
 const SVG='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>';
 const buttons=new WeakMap();
 const controls=new WeakMap();
@@ -13,8 +13,10 @@ let scheduled=false;
 function kind(input){
   if(!(input instanceof HTMLInputElement||input instanceof HTMLTextAreaElement)||
     input.disabled||input.readOnly)return null;
-  if(input.closest('.tf-bank-route-card, .exp-route-card, .fld.off, .fld.g, [data-no-clear]'))return null;
+  if(input.closest('.fld.off, .fld.g, [data-no-clear]'))return null;
   if(input instanceof HTMLInputElement && !['text','search','email','tel','url','number'].includes(input.type))return null;
+  const leg=input.closest('.tf-bank-route-card .tf-bank-leg');
+  if(leg)return leg.matches('button,[role="button"],[data-picker]')?null:'route';
   if(input.closest('.tf-bank-sbp .h:first-child .t'))return 'conversion';
   const field=input.closest('.fld.w');
   if(field && input.closest('.fl')){
@@ -37,7 +39,7 @@ function sync(input){
   }
 }
 function labelFor(input){
-  const parent=input.closest('.fld.w, .urow, .tf-bank-sbp .t');
+  const parent=input.closest('.fld.w, .urow, .tf-bank-sbp .t, .tf-bank-leg');
   const label=parent?.querySelector('.fl i, .ut i, label');
   return 'Очистить '+(label?.textContent?.trim()||input.getAttribute('aria-label')||'поле');
 }
@@ -77,6 +79,10 @@ function enhance(rootNode){
       if(!addon||!currency)return;
       field.classList.add('ds-clear-amount');
       addon.insertBefore(button,currency);
+    }else if(type==='route'){
+      const leg=input.closest('.tf-bank-leg');
+      leg.classList.add('ds-clear-route');
+      leg.appendChild(button);
     }else if(type==='address'){
       const row=input.closest('.unit .urow');
       row.classList.add('ds-clear-address');
