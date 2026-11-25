@@ -44,7 +44,7 @@ function labelFor(input){
 function makeButton(input){
   const button=document.createElement('button');
   button.type='button';
-  button.className=CLASS;
+  button.className=CLASS+' ds-system-action';
   button.setAttribute('aria-label',labelFor(input));
   button.innerHTML=SVG;
   button.hidden=true;

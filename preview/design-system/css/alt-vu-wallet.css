@@ -2611,15 +2611,7 @@ html.duo2 .duo-cl[hidden]{display:none}
 .cbx.on::before{content:"";width:11px;height:6px;margin-top:-3px;border-left:2.2px solid var(--brand-ink);border-bottom:2.2px solid var(--brand-ink);border-radius:1px;transform:rotate(-45deg)}.tbl .rl{margin-left:0}.pl-sheet .ve-done{padding:12px 8px 24px}.pl-sheet .ve-done .ic{background:color-mix(in srgb,var(--brand) 14%,transparent)}.pl-sheet .ve-done .ic svg{width:38px;height:38px;stroke:var(--brand-600)}.pl-sheet .btn{margin-top:0}.pl-sheet .ve-later{margin-bottom:8px}.pl-cn .p{margin-bottom:12px}.pl-cn-list{columns:2;column-gap:16px;padding:4px 16px}.pl-cn-list div{padding:10px 0;font-size:16px;line-height:20px;color:var(--n900);break-inside:avoid}:is(#v-profile,#v-settings,#v-language,#v-earn.as-prof).view.on{overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;scrollbar-gutter:stable}:is(#v-profile,#v-settings,#v-language,#v-earn.as-prof).view.on > .wrap{flex:none;overflow:visible;min-height:auto}:is(#v-profile,#v-settings,#v-language,#v-earn.as-prof) > .ptabs{position:sticky;top:env(safe-area-inset-top);z-index:3}:is(#v-profile,#v-settings,#v-language,#v-earn.as-prof) > .ptabs::before{content:"";position:absolute;left:-16px;right:-16px;top:0;bottom:-1.5px;z-index:-1}:is(#v-profile,#v-settings,#v-language,#v-earn.as-prof) > .ptabs.pl-stuck::before{top:calc(-1 * env(safe-area-inset-top));background:var(--n50)}:is(#v-profile,#v-settings,#v-language,#v-earn.as-prof).view.on.pl-lock{overflow:hidden}:is(#v-profile,#v-settings,#v-language,#v-earn.as-prof).pl-lock > .dim{top:var(--pl-st,0px);bottom:calc(-1 * var(--pl-st,0px))}:is(#v-profile,#v-settings,#v-language,#v-earn.as-prof).pl-lock > .sheet{bottom:calc(-1 * var(--pl-st,0px))}#v-language.ovl > :not(.dim):not(.sheet){visibility:hidden}.pl-bill-gt{font-size:14px;font-weight:600;line-height:18px;color:var(--n500);margin:4px 4px 8px}
 /* Canonical clear action: placement is owned by the field type, not the
    shared From/To card. Invisible slots reserve space: no layout shift. */
-.ds-field-clear{
-  display:grid;place-items:center;flex:0 0 36px;
-  width:36px;height:36px;min-width:36px;padding:0;margin:0;
-  border:0;border-radius:50%;background:transparent;color:var(--n500);
-  cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent;
-}
-.ds-field-clear svg{display:block;width:16px;height:16px}
-.ds-field-clear:hover{background:var(--n100)}
-.ds-field-clear:focus-visible{outline:2px solid var(--brand-600);outline-offset:1px}
+/* Clear placement and hidden-state behavior; appearance belongs to system actions. */
 .ds-field-clear[hidden]{
   display:grid!important;visibility:hidden!important;pointer-events:none!important
 }
@@ -2630,7 +2622,7 @@ html.duo2 .duo-cl[hidden]{display:none}
    together with $ and MAX in the right-side addon. Never by the left icon. */
 .fld.w.ds-clear-amount>.addon{gap:8px}
 .fld.w.ds-clear-amount>.addon>.ds-field-clear{
-  flex:0 0 32px;width:32px;min-width:32px;height:36px;align-self:center
+  align-self:center
 }
 /* Address with tools: put clear on the far right of the address row;
    the Paste/Scan/Book action bar keeps its existing structure and height. */
@@ -2664,3 +2656,45 @@ html.duo2 .duo-cl[hidden]{display:none}
 .sbp-cv .t.ds-clear-conversion .ds-conversion-inline>.ds-field-clear{
   flex:0 0 36px;align-self:center
 }
+
+/* System actions: common 36px hit area, 20px graphic and 1.8 stroke.
+   Legacy inline glyphs share the same primitive without changing click dispatch. */
+.phone{
+  --ds-system-action-size:36px;
+  --ds-system-action-glyph:20px;
+  --ds-system-action-stroke:1.8;
+  --ds-system-action-ink:var(--n500);
+  --ds-system-action-hover:var(--n100);
+}
+.phone :is(.ds-system-action,.ds-field-clear,.tf-copy,.qr-email-copy,.tf-picker-chevron,.prlc2,.cl-x,svg:is(.method-chevron,.cpi),.addon > svg:has(>path:is([d="m9 5 7 7-7 7"],[d="m6 9.5 6 6 6-6"])),.row > svg:has(>path:is([d="m9 5 7 7-7 7"],[d="m6 9.5 6 6 6-6"])),.addon > svg:has(>path[d^="M15 5.5A2.5"])){
+  box-sizing:border-box;display:grid;place-items:center;
+  flex:0 0 var(--ds-system-action-size);
+  width:var(--ds-system-action-size);height:var(--ds-system-action-size);
+  min-width:var(--ds-system-action-size);
+  padding:0;margin-block:0;border:0;border-radius:50%;
+  background:transparent;color:var(--ds-system-action-ink);
+  touch-action:manipulation;-webkit-tap-highlight-color:transparent;
+}
+.phone :is(.ds-system-action,.ds-field-clear,.tf-copy,.qr-email-copy,.tf-picker-chevron,.prlc2,.cl-x) > svg{
+  display:block;width:var(--ds-system-action-glyph);height:var(--ds-system-action-glyph);
+  flex:none;stroke:currentColor;stroke-width:var(--ds-system-action-stroke);
+}
+.phone :is(svg:is(.method-chevron,.cpi),.addon > svg:has(>path:is([d="m9 5 7 7-7 7"],[d="m6 9.5 6 6 6-6"])),.row > svg:has(>path:is([d="m9 5 7 7-7 7"],[d="m6 9.5 6 6 6-6"])),.addon > svg:has(>path[d^="M15 5.5A2.5"])){
+  display:block;padding:calc((var(--ds-system-action-size) - var(--ds-system-action-glyph))/2);
+  margin:0;stroke:currentColor;stroke-width:var(--ds-system-action-stroke);
+}
+.phone :is(.ds-system-action,.ds-field-clear,.tf-copy,.qr-email-copy,.cl-x,.prlc2,.cpi,.addon > svg:has(>path[d^="M15 5.5A2.5"])):not(:disabled){cursor:pointer}
+@media (hover:hover){
+  .phone :is(.ds-system-action:not([data-system-action="chevron"]),.ds-field-clear,.tf-copy,.qr-email-copy,.cl-x,.prlc2,.cpi,.addon > svg:has(>path[d^="M15 5.5A2.5"])):not(:disabled):hover,
+  .phone :is(.fld:not(.off):not(:disabled),.row:not(.off):not(:disabled),.sbp-bank:not(:disabled)):hover :is(.tf-picker-chevron,.method-chevron,.ds-system-action[data-system-action="chevron"],.addon > svg:has(>path:is([d="m9 5 7 7-7 7"],[d="m6 9.5 6 6 6-6"])),.row > svg:has(>path:is([d="m9 5 7 7-7 7"],[d="m6 9.5 6 6 6-6"]))),
+  .phone .ds-system-action[data-system-action="chevron"]:not(:disabled):hover{
+    background:var(--ds-system-action-hover);
+  }
+}
+.phone :is(.ds-system-action,.ds-field-clear,.tf-copy,.qr-email-copy,.cl-x):focus-visible{
+  outline:2px solid var(--brand-600);outline-offset:1px;background:var(--ds-system-action-hover);
+}
+.phone :is(.ds-system-action,.ds-field-clear,.tf-copy,.qr-email-copy,.cl-x):disabled{
+  cursor:default;opacity:.5;
+}
+.phone :is(.cl-x,.prlc2,.tf-copy,.qr-email-copy,.tf-picker-chevron)[hidden]{display:none!important}

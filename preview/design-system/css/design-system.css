@@ -293,7 +293,7 @@ html body .phone.tf-phone {
 .phone .sheet .method-list .m.row.method-option .mt.rt b { font:var(--ds-type-row); }
 .phone .sheet .method-list .m.row.method-option .mt.rt i { font:var(--ds-type-meta-caption);color:var(--n500); }
 .phone .sheet .method-list .m.row.method-option .method-chevron {
-  display:block;flex:0 0 18px;width:18px;height:18px;margin-left:auto;color:var(--n400);
+  margin-left:auto; /* system action geometry is shared */
 }
 
 
