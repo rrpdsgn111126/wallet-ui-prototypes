@@ -188,9 +188,16 @@ def run():
                     const input = card.querySelector('#exp-amount').getBoundingClientRect();
                     const action = card.querySelector('#exp-use-all').getBoundingClientRect();
                     const route = document.querySelector('#v-exp-route .exp-route-card');
-                    return {below: action.top >= input.bottom,
-                        left: Math.abs(action.left - box.left - 16) <= 1,
-                        inside: action.bottom <= box.bottom - 15 && action.right <= box.right - 15,
+                    // Desktop scales the whole phone. Convert viewport coordinates
+                    // back to local CSS pixels before checking the actual inset.
+                    const sx = box.width / card.offsetWidth;
+                    const sy = box.height / card.offsetHeight;
+                    const left = (action.left - box.left) / sx;
+                    const right = (box.right - action.right) / sx;
+                    const bottom = (box.bottom - action.bottom) / sy;
+                    return {below: action.top >= input.bottom - 0.5,
+                        left: Math.abs(left - 16) <= 1,
+                        inside: bottom >= 15 && right >= 15,
                         sameInset: getComputedStyle(card).paddingLeft === getComputedStyle(route).paddingLeft};
                 }""")
                 assert all(geometry.values()), (width, geometry)
