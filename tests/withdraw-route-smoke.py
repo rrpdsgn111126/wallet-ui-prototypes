@@ -94,6 +94,59 @@ def run():
         errors = []
         with sync_playwright() as playwright:
             browser = playwright.chromium.launch(headless=True, channel="chrome", args=["--no-sandbox"])
+            # Home history: all preview data, native row/detail routing, no CTA.
+            for width, height in [(390, 844), (430, 932), (1440, 900)]:
+                context = browser.new_context(viewport={"width": width, "height": height},
+                                              reduced_motion="reduce")
+                page = context.new_page()
+                page.on("pageerror", lambda exc: errors.append(str(exc)))
+                page.goto(HOST.split("?")[0], wait_until="domcontentloaded")
+                page.wait_for_function("window.altWithdrawRouteExperiment && allOps.length >= 25", timeout=30000)
+                home = page.locator("#v-home")
+                expect(home).to_have_class(re.compile(r"\bon\b"), timeout=30000)
+                rows = home.locator(".feed .op")
+                operations = page.evaluate("PV.data['/operations'].operations")
+                expect(rows).to_have_count(len(operations))
+                expect(home.locator(".feed .allops, .feed [data-act='all-ops']")).to_have_count(0)
+                assert len({op["id"] for op in operations}) == len(operations)
+                for coin, nets in (("USDT", ("tron","bnb","polygon","ton")),
+                                   ("USDC", ("bnb","polygon"))):
+                    for net in nets:
+                        for kind in ("deposit", "withdrawal"):
+                            assert any(o.get("coin")==coin and o.get("network")==net and
+                                       o["kind"]==kind and o["status"] in ("credited","confirmed")
+                                       for o in operations), (coin,net,kind)
+                for rail in ("SEPA","SWIFT"):
+                    for kind in ("deposit","withdrawal"):
+                        assert any(o.get("bank_rail")==rail and o["kind"]==kind for o in operations)
+                assert any(o["kind"]=="transfer" and o["amount_minor"]>0 for o in operations)
+                assert any(o["kind"]=="transfer" and o["amount_minor"]<0 for o in operations)
+                assert any(o.get("network")=="sbp" for o in operations)
+                assert any(o["kind"]=="card" for o in operations)
+                # On mobile inspect every native detail, including the last
+                # transaction. On other widths check the scrollable list tail.
+                checked = operations if width == 390 else [operations[0], operations[-1]]
+                for op in checked:
+                    row = home.locator('.feed .op[data-id="'+op["id"]+'"]')
+                    row.scroll_into_view_if_needed()
+                    row.click()
+                    detail = page.locator("#v-details")
+                    expect(detail).to_have_class(re.compile(r"\bon\b"), timeout=10000)
+                    assert page.evaluate("curOp.id")==op["id"], op
+                    expect(detail.locator("#d-amt")).not_to_be_empty()
+                    expect(detail.locator("#d-badge")).not_to_be_empty()
+                    expect(detail.locator("#d-box")).not_to_be_empty()
+                    if op.get("bank_rail"):
+                        expect(detail.locator("#d-box")).to_contain_text(op["bank_rail"])
+                    elif op.get("coin") in ("USDT","USDC"):
+                        expect(detail.locator("#d-box")).to_contain_text("Сеть")
+                    detail.locator(".back").click()
+                    expect(home).to_have_class(re.compile(r"\bon\b"), timeout=10000)
+                expect(rows).to_have_count(len(operations))
+                page.screenshot(path=str(OUT / f"home-history-{width}.png"))
+                context.close()
+                print(f"PASS home history {width}px: {len(operations)} rows, {len(checked)} native details", flush=True)
+
             for width, height in [(390, 844), (430, 932), (1440, 900)]:
                 context = browser.new_context(
                     viewport={"width": width, "height": height},
