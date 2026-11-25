@@ -183,8 +183,7 @@
   color:var(--n900);overflow-wrap:anywhere;
 }
 .phone.tf-phone .tf-copyrow .tf-copy{
-  flex:0 0 36px;width:36px;height:36px;border:0;border-radius:12px;
-  display:grid;place-items:center;background:var(--n50);color:var(--n850);
+  /* Shared system action; no local geometry or background. */
 }
 .phone.tf-phone .tbl{
   box-sizing:border-box;width:100%;border-radius:20px;
@@ -435,7 +434,7 @@ html.tf-embedded .proto-shell,html.tf-embedded .workspace{height:100%;width:100%
 .phone.tf-phone .fld.tf-picker-trigger .fl i{font-weight:400}
 .phone.tf-phone .fld.tf-picker-trigger .fl b{font-weight:400}
 .phone.tf-phone .tf-picker-chevron{
-  flex:0 0 20px;margin-left:auto;color:var(--n400);display:grid;place-items:center;
+  margin-left:auto;
 }
 .phone.tf-phone .tf-picker-chevron svg{display:block}
 .phone.tf-phone .tf-picker-trigger:focus-visible,
