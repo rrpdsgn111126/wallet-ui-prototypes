@@ -87,6 +87,11 @@
     '<div class="foot"><div class="exp-error" id="exp-error" role="alert"></div><button class="btn" type="button" id="exp-next">Продолжить</button></div>'+
     '';
   document.querySelector('.phone').appendChild(screen);
+  // Reuse the native address-book sheet and its long-list page presentation.
+  const originalWithdraw=E('v-out-usdt-tron');
+  for(const selector of ['.wd-dim','.wd-sheet']){
+    screen.appendChild(originalWithdraw.querySelector(selector).cloneNode(true));
+  }
 
   // Clone the exact selector from USDT DEPOSIT, removing only the native
   // data-act handler that otherwise navigates to a deposit screen.
@@ -105,21 +110,21 @@
   netField.querySelector('.fl b').id='exp-net-value';
   E('exp-network-slot').replaceChildren(netField);
 
-  // Copy the native two-action row from the original matching method.
+  // Copy native actions from the matching withdrawal method (including its address book).
   // Remove the old data-act hooks: they target invisible source screens.
   function paintRecipientActions(){
     const selector=state.method==='altvu'?'#v-transfer #tr-who .uzones':
-                                           '#v-out-usdt-tron .unit .uzones';
+                                           '#v-out-'+state.method+'-'+state.network+' .unit .uzones';
     const original=document.querySelector(selector);
     if(!original)return;
     const actions=document.createElement('div');
     actions.className='uzones exp-actions';
-    [...original.querySelectorAll('.uzone')].slice(0,2).forEach((originalButton,index)=>{
+    [...original.querySelectorAll('.uzone')].slice(0,state.method==='altvu'?2:3).forEach((originalButton,index)=>{
       const button=originalButton.cloneNode(true);
       button.removeAttribute('data-act');
       button.removeAttribute('hidden');
       button.removeAttribute('id');
-      button.id=index===0?'exp-paste':'exp-scan';
+      button.id=['exp-paste','exp-scan','exp-book'][index];
       actions.appendChild(button);
     });
     E('exp-actions-slot').replaceChildren(actions);
@@ -319,12 +324,57 @@
       }
     });
   }
+  let bookBusy=false;
+  function bookIsOpen(){
+    const page=screen.querySelector('.bk-pg');
+    return !screen.querySelector('.wd-sheet').hidden || !!(page&&!page.hidden);
+  }
+  function closeBook(focus=true){
+    wdSheet(screen,false);
+    if(focus) E('exp-book')?.focus({preventScroll:true});
+  }
+  async function openBook(){
+    if(state.method==='altvu'||bookBusy)return;
+    const method=state.method,net=state.network;
+    bookBusy=true;
+    try{
+      const loaded=await bookLoad();
+      if(method!==state.method||net!==state.network||!screen.classList.contains('on'))return;
+      if(!loaded){say('Не удалось загрузить записную книжку. Попробуйте ещё раз.');return;}
+      wdSheet(screen,true,{coin:methods[method].coin,net});
+      const active=screen.querySelector('.bk-pg:not([hidden])')||screen.querySelector('.wd-sheet');
+      active.querySelector('[data-wd-pick]')?.focus({preventScroll:true});
+    }catch(e){say('Не удалось открыть записную книжку. Попробуйте ещё раз.');}
+    finally{bookBusy=false;}
+  }
+  // Native sheet rows and dismissal, adapted only for the experiment's address input.
+  screen.addEventListener('click',e=>{
+    if(!bookIsOpen())return;
+    const pick=e.target.closest('[data-wd-pick]');
+    if(pick){
+      e.preventDefault();e.stopPropagation();
+      const match=wdBookFor(methods[state.method].coin,state.network)
+        .find(a=>a.address===pick.dataset.wdPick);
+      if(!match)return;
+      setRecipient(match.address,false);closeBook(false);to.focus({preventScroll:true});
+      return;
+    }
+    if(e.target.closest('[data-act="wd-manual"], .wd-dim, .back')){
+      e.preventDefault();e.stopPropagation();closeBook();
+    }
+  },true);
+  document.addEventListener('keydown',e=>{
+    if(e.key==='Escape'&&screen.classList.contains('on')&&bookIsOpen()){
+      e.preventDefault();e.stopImmediatePropagation();closeBook();
+    }
+  },true);
   E('exp-actions-slot').addEventListener('click',e=>{
-    const action=e.target.closest('#exp-paste, #exp-scan');
+    const action=e.target.closest('#exp-paste, #exp-scan, #exp-book');
     if(!action)return;
-    e.preventDefault();
+    e.preventDefault();e.stopPropagation();
     if(action.id==='exp-paste')pasteRecipient();
-    else scanRecipient();
+    else if(action.id==='exp-scan')scanRecipient();
+    else openBook();
   });
   to.addEventListener('input',()=>{
     state.address=to.value;state.scannedCode='';say('');
