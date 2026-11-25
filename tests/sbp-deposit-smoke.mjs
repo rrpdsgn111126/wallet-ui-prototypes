@@ -71,10 +71,16 @@ try{
     await v.locator('#sbp-rub').fill('1500');
     await page.waitForFunction(()=>sbp.rate==='ok'&&Number(document.querySelector('#sbp-usd')?.value.replace(/[^0-9.]/g,''))>0,{timeout:15000});
     assert.equal(await v.locator('#sbp-go').isEnabled(),true,'Payment CTA activates on valid bank quote');
-    const layout=await v.locator('#sbp-cv').evaluate(e=>({
-      width:e.clientWidth,scroll:e.scrollWidth,
-      before:getComputedStyle(e.querySelector('.mid'),'::before').content
-    }));
+    const layout=await v.locator('#sbp-cv').evaluate(e=>{
+      const box=e.getBoundingClientRect(), sy=box.height/e.offsetHeight;
+      const label=e.querySelector('.h:first-child label').getBoundingClientRect();
+      const amount=e.querySelector('#sbp-usd').getBoundingClientRect();
+      return {width:e.clientWidth,scroll:e.scrollWidth,
+        before:getComputedStyle(e.querySelector('.mid'),'::before').content,
+        top:(label.top-box.top)/sy,bottom:(box.bottom-amount.bottom)/sy};
+    });
+    assert.ok(Math.abs(layout.top-16)<=1 && Math.abs(layout.bottom-16)<=1,
+      'SBP label and receive amount must have matching 16px outer insets: '+JSON.stringify(layout));
     assert.ok(layout.scroll<=layout.width+1,'Conversion must not overflow horizontally');
     assert.notEqual(layout.before,'none','Shared quote divider must remain present');
     await page.screenshot({path:path.join(out,'form-'+width+'.png')});

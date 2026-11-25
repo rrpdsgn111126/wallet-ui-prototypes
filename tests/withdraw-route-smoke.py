@@ -195,9 +195,19 @@ def run():
                     const left = (action.left - box.left) / sx;
                     const right = (box.right - action.right) / sx;
                     const bottom = (box.bottom - action.bottom) / sy;
+                    const label = card.querySelector('.fl i').getBoundingClientRect();
+                    const top = (label.top - box.top) / sy;
+                    const button = card.querySelector('#exp-use-all');
+                    const placeholder = getComputedStyle(card.querySelector('#exp-amount'),'::placeholder');
+                    const token = document.createElement('span');
+                    token.style.color='var(--n300)'; card.appendChild(token);
+                    const expected = getComputedStyle(token).color; token.remove();
                     return {below: action.top >= input.bottom - 0.5,
                         left: Math.abs(left - 16) <= 1,
-                        inside: bottom >= 15 && right >= 15,
+                        inside: right >= 15,
+                        symmetric: Math.abs(top - 16) <= 1 && Math.abs(bottom - top) <= 1,
+                        unpaddedAction: getComputedStyle(button).paddingBottom === '0px',
+                        placeholder: placeholder.color === expected && placeholder.opacity === '1',
                         sameInset: getComputedStyle(card).paddingLeft === getComputedStyle(route).paddingLeft};
                 }""")
                 assert all(geometry.values()), (width, geometry)
@@ -599,6 +609,17 @@ def run():
                     expect(page.locator(".tf-bank-sbp .h").first.locator(".u")).to_have_text("$")
                     expect(page.locator(".tf-bank-sbp #tf-bank-use-all")).to_be_visible()
                     expect(page.locator("#tf-bank-use-all")).to_contain_text("Использовать всё:")
+                    amount_spacing = page.locator('#tf-bank-sbp').evaluate("""card => {
+                        const box=card.getBoundingClientRect(), sy=box.height/card.offsetHeight;
+                        const label=card.querySelector('.h:first-child label').getBoundingClientRect();
+                        const action=card.querySelector('#tf-bank-use-all').getBoundingClientRect();
+                        const top=(label.top-box.top)/sy, bottom=(box.bottom-action.bottom)/sy;
+                        const input=card.querySelector('#tf-out-amount');
+                        const ph=getComputedStyle(input,'::placeholder');
+                        const receive=getComputedStyle(card.querySelector('#tf-bank-receive'));
+                        return {top,bottom,placeholder:ph.color===receive.color && ph.opacity==='1'};
+                    }""")
+                    assert abs(amount_spacing['top']-16)<=1 and abs(amount_spacing['bottom']-16)<=1 and amount_spacing['placeholder'], (rail,width,amount_spacing)
                     expect(page.locator("#footer #quoteBlock")).to_be_visible()
                     rows = page.locator("#quoteBlock .row")
                     expect(rows).to_have_count(1)

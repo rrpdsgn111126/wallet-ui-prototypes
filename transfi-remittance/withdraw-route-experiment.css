@@ -8,7 +8,7 @@
    belongs to the amount field, spanning both columns under the input. */
 #v-exp-route .fld.w.exp-amount-field{
   display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;
-  height:auto;min-height:104px;padding:16px;gap:4px 0;margin-bottom:0;
+  height:auto;min-height:104px;padding:16px;gap:12px 0;margin-bottom:0;
 }
 #v-exp-route .exp-amount-field .fl{flex:1 1 auto;min-width:0}
 #v-exp-route .exp-amount-field .fl i{margin-bottom:4px}
@@ -24,11 +24,7 @@
 #v-exp-route .exp-amount-field .fl b input.wd-amt::placeholder{
   font-weight:600;
 }
-#v-exp-route .exp-amount-field .exp-limit{grid-column:1 / -1;min-width:0;padding:0;margin:0}
-#v-exp-route .exp-use-all{display:inline-flex;align-items:center;flex-wrap:wrap;column-gap:4px;max-width:100%;min-height:44px;padding:9px 0;border:0;background:transparent;color:var(--n500);cursor:pointer;text-align:left;font:var(--ds-type-body-secondary)}
-#v-exp-route .exp-use-all span{font-weight:600;color:var(--n850)}
-#v-exp-route .exp-use-all:focus-visible{outline:2px solid var(--brand-600);outline-offset:2px;border-radius:4px}
-#v-exp-route .exp-use-all:disabled{cursor:default;opacity:.55}
+#v-exp-route .exp-amount-field .exp-limit{display:flex;grid-column:1 / -1;min-width:0;padding:0;margin:0}
 #v-exp-route .exp-note{margin:20px 4px 0;color:var(--n500);font:var(--ds-type-body-secondary)}
 #v-exp-route .exp-error{min-height:18px;font:var(--ds-type-body-secondary);color:var(--err);padding:0 3px;margin-bottom:9px}
 #v-exp-route .exp-error:empty{display:none}
@@ -60,7 +56,9 @@ html.exp-route-specimen #v-exp-route .exp-route-card{margin:0}
 .phone .tf-bank-sbp .h{
   display:flex;align-items:flex-end;gap:12px;padding:16px 18px 24px;
 }
-.phone .tf-bank-sbp .h + .mid + .h{padding:24px 18px 8px}
+.phone .tf-bank-sbp .h + .mid + .h{padding:24px 18px 16px}
+/* A withdrawal has a final action below the receive amount; SBP does not. */
+.phone .tf-bank-sbp:has(.tf-bank-use-all-wrap) .h + .mid + .h{padding-bottom:12px}
 .phone .tf-bank-sbp .t{flex:1 1 auto;min-width:0}
 .phone .tf-bank-sbp .t label,
 .phone .tf-bank-sbp .tf-bank-receive-label{
@@ -76,6 +74,7 @@ html.exp-route-specimen #v-exp-route .exp-route-card{margin:0}
   letter-spacing:-.5px;font-variant-numeric:tabular-nums;
   color:var(--n900);white-space:nowrap;
 }
+#v-exp-route .exp-amount-field .fl b input.wd-amt::placeholder,
 .phone .tf-bank-sbp .t input::placeholder,
 .phone .tf-bank-sbp #tf-bank-receive.tf-bank-placeholder{
   color:var(--n300);opacity:1;
@@ -106,17 +105,27 @@ html.exp-route-specimen #v-exp-route .exp-route-card{margin:0}
 .phone .tf-bank-sbp .tf-bank-currency-switch:focus-visible{
   outline:2px solid var(--brand-600);outline-offset:2px;
 }
-.phone .tf-bank-sbp .tf-bank-use-all-wrap{padding:0 18px 12px;margin:0}
+.phone .tf-bank-sbp .tf-bank-use-all-wrap{display:flex;padding:0 18px 16px;margin:0}
+/* One action style for both amount cards: its line box ends exactly 16px
+   from the card edge. Keep a 44px hit area without adding visual padding. */
+#v-exp-route .exp-use-all,
 .phone.tf-phone .tf-bank-use-all{
-  display:inline-flex;align-items:center;gap:4px;flex-wrap:wrap;
-  min-height:44px;max-width:100%;padding:9px 0;border:0;
+  position:relative;display:inline-flex;align-items:center;gap:4px;flex-wrap:wrap;
+  min-height:0;max-width:100%;padding:0;border:0;vertical-align:top;
   background:transparent;color:var(--n500);cursor:pointer;
   font:var(--ds-type-body-secondary);text-align:left;
 }
+#v-exp-route .exp-use-all::after,
+.phone.tf-phone .tf-bank-use-all::after{
+  content:"";position:absolute;inset:-12px 0;
+}
+#v-exp-route .exp-use-all span,
 .phone.tf-phone .tf-bank-use-all span{font-weight:600;color:var(--n850)}
+#v-exp-route .exp-use-all:focus-visible,
 .phone.tf-phone .tf-bank-use-all:focus-visible{
   outline:2px solid var(--brand-600);outline-offset:2px;border-radius:4px;
 }
+#v-exp-route .exp-use-all:disabled,
 .phone.tf-phone .tf-bank-use-all:disabled{opacity:.55;cursor:default}
 .phone.tf-phone .tf-bank-config-quote{margin:0 0 12px}
 /* Compact debit total is pinned just above the recipient-details CTA.
