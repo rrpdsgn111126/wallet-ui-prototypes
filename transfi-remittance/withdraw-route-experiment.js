@@ -553,6 +553,11 @@
   const methodSkeletonReady={topup:false,withdraw:false};
   const methodSkeletonTokens={topup:0,withdraw:0};
   const methodSkeletonKinds=['topup','withdraw'];
+  // Mobile bottom-nav sheets are .view.ovl rather than .view.on. Observe
+  // both real visibility states without intercepting global navigation.
+  function methodSkeletonVisible(screen){
+    return !!screen&&(screen.classList.contains('on')||screen.classList.contains('ovl'));
+  }
   function methodSkeletonClear(kind,successful){
     const screen=E('v-'+kind);
     if(!screen)return;
@@ -568,7 +573,7 @@
   }
   function methodSkeletonStart(kind){
     const screen=E('v-'+kind);
-    if(!screen||!screen.classList.contains('on')||
+    if(!methodSkeletonVisible(screen)||
        (methodSkeletonReady[kind]&&!methodSkeletonDemo)||
        screen.classList.contains('method-skeleton-loading'))return;
     const token=++methodSkeletonTokens[kind];
@@ -576,33 +581,34 @@
     const sheet=screen.querySelector('.sheet');
     if(sheet)sheet.setAttribute('aria-busy','true');
     screen.querySelectorAll('.sheet .method-list, .sheet .lnk').forEach(el=>{el.inert=true;});
-    // No external requests: mock /networks and local preview animation only.
-    // Real pending catalog data is awaited, but neither network failure nor
-    // navigation away may trap the user behind a perpetual skeleton.
+    // Local mock only. Real pending catalog data is awaited; a rejection
+    // or navigation away never traps a user in the loading state.
     const source=typeof netAll==='function'
       ? Promise.resolve().then(()=>netAll()).catch(()=>null)
       : Promise.resolve();
     const pause=new Promise(resolve=>setTimeout(resolve,methodSkeletonDemo?1500:850));
     Promise.all([source,pause]).then(()=>{
       if(methodSkeletonTokens[kind]!==token)return;
-      methodSkeletonClear(kind,screen.classList.contains('on'));
+      methodSkeletonClear(kind,methodSkeletonVisible(screen));
     });
   }
-  const methodSkeletonShow=window.show;
-  window.show=function(){
-    const result=methodSkeletonShow.apply(this,arguments);
-    const current=typeof view==='string'?view:'';
+  function methodSkeletonSync(){
     methodSkeletonKinds.forEach(kind=>{
-      const el=E('v-'+kind);
-      if(kind!==current&&el&&el.classList.contains('method-skeleton-loading'))
-        methodSkeletonCancel(kind);
+      const screen=E('v-'+kind);
+      if(!screen)return;
+      if(methodSkeletonVisible(screen))methodSkeletonStart(kind);
+      else if(screen.classList.contains('method-skeleton-loading'))methodSkeletonCancel(kind);
     });
-    if((current==='topup'||current==='withdraw')&&arguments[0]===current)
-      methodSkeletonStart(current);
-    return result;
-  };
+  }
+  const methodSkeletonObserver=new MutationObserver(methodSkeletonSync);
+  methodSkeletonKinds.forEach(kind=>{
+    const screen=E('v-'+kind);
+    if(screen)methodSkeletonObserver.observe(screen,{
+      attributes:true,attributeFilter:['class']
+    });
+  });
+  methodSkeletonSync();
   window.altMethodSkeleton=Object.freeze({
-    // Read-only state for visual regression tests and the prototype QA panel.
     isLoading:kind=>!!E('v-'+kind)?.classList.contains('method-skeleton-loading')
   });
 
