@@ -17,6 +17,83 @@
     return sharedQrPreviewApi(path, body);
   };
 
+  // History examples for all supported methods. Data only: original groupOps,
+  // opRow, openOp and openReceipt remain the sole history/detail renderers.
+  window.altPreviewRestoreBankFixtures?.();
+  const historyOps=PV.data['/operations'].operations;
+  const historyNow=Date.now();
+  let historySeq=0;
+  const historyAt=min=>new Date(historyNow-min*60000).toISOString();
+  function historyExample(fields,age){
+    const id='pv-h'+String(++historySeq).padStart(3,'0');
+    if(!historyOps.some(o=>o.id===id))historyOps.push({
+      id,fee_minor:0,created_at:historyAt(age),...fields
+    });
+  }
+  // Use the canonical network catalog, not a separately maintained list.
+  for(const n of (PV.data['/networks']?.networks||[])){
+    for(const incoming of [true,false]){
+      if(!n[incoming?'can_deposit':'can_withdraw'])continue;
+      const kind=incoming?'deposit':'withdrawal';
+      if(historyOps.some(o=>o.kind===kind&&o.coin===n.coin&&o.network===n.network))continue;
+      const cents=12000+historySeq*1700;
+      historyExample({kind,coin:n.coin,network:n.network,
+        title:(incoming?'Пополнение ':'Вывод ')+n.coin,
+        status:incoming?'credited':'confirmed',amount_minor:incoming?cents:-cents-100,
+        amount_crypto:(cents/100).toFixed(2),fee_minor:incoming?0:100,
+        address:'DEMO_ONLY_'+n.coin+'_'+n.network+'_NOT_A_WALLET',
+        tx_hash:'demo-only-'+kind+'-'+n.coin+'-'+n.network},300+historySeq*55);
+    }
+  }
+  // Keep the source's SBP amount and sender/recipient name semantics.
+  for(const o of historyOps){
+    if(o.network==='sbp'&&o.amount_crypto&&!o.coin)o.coin='RUB';
+    if(o.id==='pv-transfer-005')o.title=o.recipient_name||'Тестовый получатель';
+  }
+  historyExample({kind:'transfer',status:'confirmed',amount_minor:12500,
+    title:'Тестовый отправитель',recipient_name:'Тестовый отправитель'},105);
+  historyExample({kind:'deposit',network:'sbp',coin:'RUB',title:'Пополнение СБП',
+    status:'confirming',amount_minor:0,hold_minor:15000,amount_crypto:'13332.00',
+    rate:'88.88',address:'Т-Банк',tx_hash:'demo-sbp-pending'},150);
+  historyExample({kind:'deposit',network:'sbp',coin:'RUB',title:'Пополнение СБП',
+    status:'rejected',amount_minor:0,hold_minor:5000,amount_crypto:'4444.00',
+    rate:'88.88',address:'ВТБ',reason:'name_mismatch',tx_hash:'demo-sbp-return'},1600);
+  for(const [coin,network] of [['USDT','tron'],['USDC','polygon']]){
+    historyExample({kind:'deposit',coin,network,title:'Пополнение '+coin,status:'confirming',
+      state:'review',amount_minor:7500,amount_crypto:'75.00',
+      address:'DEMO_ONLY_REVIEW_NOT_A_WALLET',tx_hash:'demo-review-'+coin},190+historySeq*4);
+    historyExample({kind:'withdrawal',coin,network,title:'Вывод '+coin,status:'queued',
+      amount_minor:-8100,amount_crypto:'80.00',fee_minor:100,
+      address:'DEMO_ONLY_PENDING_NOT_A_WALLET'},240+historySeq*4);
+    historyExample({kind:'withdrawal',coin,network,title:'Вывод '+coin,status:'failed',
+      amount_minor:-4000,amount_crypto:'40.00',
+      address:'DEMO_ONLY_FAILED_NOT_A_WALLET'},1750+historySeq*8);
+  }
+  historyExample({kind:'deposit',coin:'USDT',network:'tron',title:'Пополнение USDT',
+    status:'rejected',state:'returned',amount_minor:0,got_minor:6000,
+    amount_crypto:'60.00',ret_amount:'59.00',ret_fee:'1.00',from:'DEMO_ONLY_RETURN_NOT_A_WALLET',
+    tx_hash:'demo-deposit-return',ret_tx:'demo-return'},1900);
+  historyExample({kind:'card',status:'confirming',amount_minor:-8490,orig_minor:31179,
+    orig_currency:'AED',merchant:'DEMO MARKET',title:'DEMO MARKET',mcc:'5411',last4:'9716'},55);
+  historyExample({kind:'card',status:'credited',amount_minor:-10200,orig_minor:10000,
+    orig_currency:'USD',merchant:'DEMO ATM',title:'Снятие наличных',mcc:'6011',
+    last4:'9716',fee_minor:100,settled_at:historyAt(450)},460);
+  historyOps.sort((a,b)=>Date.parse(b.created_at)-Date.parse(a.created_at));
+  const sharedLoadOps=loadOps;
+  loadOps=async function(){
+    const oldFeed=document.querySelector('#v-home > .wrap .feed');
+    const scroll=oldFeed?.scrollTop||0;
+    await sharedLoadOps.apply(this,arguments);
+    const feed=document.querySelector('#v-home > .wrap .feed');
+    if(feed){
+      const ops=PV.data['/operations'].operations||[];
+      allOps=ops;
+      feed.innerHTML=groupOps(ops);
+      feed.scrollTop=scroll;
+    }
+  };
+  loadOps();
+
   // The UI Kit embeds only the live from/to component, without a full screen.
   // It is still the same DOM and handlers as the working experiment.
   if(new URLSearchParams(location.search).get('component')==='route-card'){
@@ -196,18 +273,126 @@
     E('exp-net-icon').className='nlg '+state.network;
     E('exp-net-toggle').setAttribute('aria-label','Сеть: '+netName(state.network));
     paintRecipientActions();
+    E('exp-note').hidden=state.method!=='altvu';
     E('exp-note').textContent=state.method==='altvu'?
-      'Получатель должен иметь счёт ALT.VU. Имя проверим перед подтверждением.':
-      'Проверьте адрес и сеть. Перевод в криптосети нельзя отменить.';
+      'Получатель должен иметь счёт ALT.VU. Имя проверим перед подтверждением.':'';
     balancePaint();say('');
   }
+
+  // Experiment-only safety gate. Reuse the shared sheet, warning, row, icon
+  // and primary-button styles; the route state changes only after confirmation.
+  let networkConfirmation=null, confirmedPair='';
+  const routePair=key=>state.method+':'+key;
+  const routeSpecimen=()=>document.documentElement.classList.contains('exp-route-specimen');
+  function dismissNetworkConfirmation(){
+    const pending=networkConfirmation;
+    if(!pending)return null;
+    networkConfirmation=null;
+    pending.sheet.remove();pending.dim.remove();
+    pending.inert.forEach(([el,was])=>{el.inert=was;});
+    return pending;
+  }
+  function cancelNetworkConfirmation(){
+    const pending=dismissNetworkConfirmation();
+    if(!pending)return;
+    if(pending.change){
+      netField.focus({preventScroll:true});
+    }else{
+      confirmedPair='';
+      show('home',false);
+      show('withdraw',false);
+      Promise.resolve(afterShow('withdraw')).catch(()=>{});
+    }
+  }
+  function requireNetworkConfirmation(key,change){
+    if(state.method==='altvu'||routeSpecimen()||!screen.classList.contains('on'))return;
+    if(networkConfirmation)return;
+    const coin=methods[state.method].coin;
+    const dim=document.createElement('div'),sheet=document.createElement('div');
+    dim.className='dim exp-network-confirm-dim';dim.hidden=true;
+    sheet.className='sheet exp-network-confirm';sheet.hidden=true;
+    sheet.setAttribute('role','dialog');
+    sheet.setAttribute('aria-modal','true');
+    sheet.setAttribute('aria-labelledby','exp-network-confirm-title');
+    sheet.setAttribute('aria-describedby','exp-network-confirm-warning');
+    const mark=document.querySelector('#v-withdraw-check .warn .wi');
+    const coinIcon=E('exp-dest-logo');
+    sheet.innerHTML='<div class="grab"></div>'+
+      '<div class="warn exp-confirm-mark" aria-hidden="true">'+(mark?mark.outerHTML:'!')+'</div>'+
+      '<div class="sh2" id="exp-network-confirm-title">Проверьте сеть и монету</div>'+
+      '<div class="p" id="exp-network-confirm-warning">Ошибка при выборе сети или монеты может привести к потере средств.</div>'+
+      '<div class="box"><div class="row"><div class="rt">Сеть</div><div class="rv"><div class="ri ds-icon-frame">'+netLogo(key)+'</div><span data-confirm-network>'+esc(netName(key))+'</span></div></div>'+
+      '<div class="row"><div class="rt">Монета</div><div class="rv"><div class="cn ds-icon-frame">'+coinIcon.outerHTML.replace('id="exp-dest-logo"','')+'</div><span data-confirm-coin>'+esc(coin)+'</span></div></div></div>'+
+      '<button type="button" class="btn exp-confirm-slide" aria-label="Подтвердить сеть и монету: '+esc(netName(key))+' '+esc(coin)+'. Сдвиньте вправо или нажмите Enter.">'+
+      '<span class="exp-slide-label">Подтвердить</span><span class="exp-slide-thumb" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></span></button>';
+    const inert=Array.from(screen.children).map(el=>[el,el.inert]);
+    inert.forEach(([el])=>{el.inert=true;});
+    screen.append(dim,sheet);
+    networkConfirmation={key,change,sheet,dim,inert};
+    const slider=sheet.querySelector('.exp-confirm-slide'),thumb=slider.querySelector('.exp-slide-thumb');
+    let pointer=null,x0=0,travel=0,pos=0,scale=1;
+    function draw(x){
+      pos=Math.max(0,Math.min(travel,x));
+      slider.style.setProperty('--slide-x',pos+'px');
+    }
+    function finish(){
+      if(!networkConfirmation||networkConfirmation.sheet!==sheet)return;
+      dismissNetworkConfirmation();
+      confirmedPair=routePair(key);
+      if(change)applyNetwork(key);
+      netField.focus({preventScroll:true});
+    }
+    slider.addEventListener('pointerdown',e=>{
+      if(pointer!==null||e.button!==0)return;
+      e.preventDefault();pointer=e.pointerId;x0=e.clientX;
+      travel=Math.max(1,slider.clientWidth-thumb.offsetWidth-8);
+      scale=slider.getBoundingClientRect().width/Math.max(1,slider.offsetWidth)||1;
+      slider.classList.add('dragging');slider.setPointerCapture(pointer);draw(0);
+    });
+    slider.addEventListener('pointermove',e=>{if(e.pointerId===pointer)draw((e.clientX-x0)/scale);});
+    function stop(e,commit){
+      if(e.pointerId!==pointer)return;
+      pointer=null;slider.classList.remove('dragging');
+      if(commit&&pos>=travel*.9){finish();return;}
+      draw(0);
+    }
+    slider.addEventListener('pointerup',e=>{if(e.pointerId===pointer)draw((e.clientX-x0)/scale);stop(e,true);});
+    slider.addEventListener('pointercancel',e=>stop(e,false));
+    slider.addEventListener('lostpointercapture',e=>stop(e,false));
+    slider.addEventListener('click',e=>{if(e.detail===0)finish();});
+    dim.addEventListener('click',cancelNetworkConfirmation);
+    sheetOpen(dim,sheet);
+    slider.focus({preventScroll:true});
+  }
+  const routeBack=back;
+  back=function(){
+    if(networkConfirmation&&screen.classList.contains('on')){cancelNetworkConfirmation();return;}
+    return routeBack.apply(this,arguments);
+  };
+  document.addEventListener('keydown',e=>{
+    if(!networkConfirmation||!screen.classList.contains('on'))return;
+    if(e.key==='Escape'){
+      e.preventDefault();e.stopImmediatePropagation();cancelNetworkConfirmation();
+    }else if(e.key==='Tab'){
+      e.preventDefault();networkConfirmation.sheet.querySelector('.exp-confirm-slide').focus();
+    }
+  },true);
+  // Clear a stale overlay if a native navigation leaves this screen.
+  new MutationObserver(()=>{
+    if(!screen.classList.contains('on')&&networkConfirmation){
+      dismissNetworkConfirmation();confirmedPair='';
+    }
+  }).observe(screen,{attributes:true,attributeFilter:['class']});
+
   function open(method){
     if(!methods[method])return;
+    dismissNetworkConfirmation();confirmedPair='';
     state.method=method;state.network=methods[method].network;
     state.address='';state.scannedCode='';state.amount='';
     if(method!=='altvu'&&!networks().includes(state.network))
       state.network=networks()[0]||state.network;
     paint();show('exp-route');refreshBalance();
+    if(method!=='altvu'&&!routeSpecimen())requireNetworkConfirmation(state.network,false);
   }
   // The same global .ns-sheet used by native USDT/USDC deposits.
   function closeSheet(restoreFocus=true){
@@ -216,7 +401,7 @@
     if(restoreFocus&&screen.classList.contains('on'))netField.focus({preventScroll:true});
   }
   async function pickNetwork(){
-    if(state.method==='altvu'||state.sheetBusy)return;
+    if(state.method==='altvu'||state.sheetBusy||networkConfirmation)return;
     state.sheetBusy=true;
     try{
       state.networkCatalog=await netAll();
@@ -251,6 +436,11 @@
   }
   function selectNetwork(key){
     if(!networks().includes(key))return;
+    if(key===state.network){closeSheet();return;}
+    closeSheet(false);
+    requireNetworkConfirmation(key,true);
+  }
+  function applyNetwork(key){
     const changed=key!==state.network;
     state.network=key;
     if(changed){state.address='';state.scannedCode='';to.value='';window.AltvuFieldClear?.sync(to);}
@@ -448,7 +638,10 @@
   },true);
 
   async function next(){
-    if(state.busy)return;
+    if(state.busy||networkConfirmation)return;
+    if(state.method!=='altvu'&&!routeSpecimen()&&confirmedPair!==routePair(state.network)){
+      requireNetworkConfirmation(state.network,false);return;
+    }
     const address=to.value.trim(),value=cleanAmount(amt.value);
     const cents=Math.round(Number(value)*100);
     if(!/^\d{1,7}(?:\.\d{1,2})?$/.test(value)||!Number.isFinite(cents)||cents<=0||cents>MAX_AMOUNT_MINOR){
