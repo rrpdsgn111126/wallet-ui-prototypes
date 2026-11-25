@@ -36,7 +36,7 @@ def run():
     experiment=gallery.split('id="g-experiments"',1)[1].split("</section>",1)[0]
     route=experiment.split('id="experimental-transfer-route"',1)[1].split("</article>",1)[0]
     conversion=experiment.split('id="experimental-amount-conversion"',1)[1].split("</article>",1)[0]
-    assert "filled=1" not in route and "tf-route-clear" not in route
+    assert "component=route-card&amp;filled=1" in route and "tf-route-clear" not in route
     assert "legacy.html?component=amount-conversion&amp;filled=1" in conversion
     assert "component=sbp-conversion&amp;filled=1" in conversion
 

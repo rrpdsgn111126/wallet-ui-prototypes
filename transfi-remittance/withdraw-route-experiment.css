@@ -4,27 +4,7 @@
 #v-exp-route .exp-actions{margin:0 -16px}
 #v-exp-route #exp-net-toggle{cursor:pointer}
 #v-exp-route #exp-net-toggle[hidden]{display:none}
-/* Same 16px content inset as the shared From/To card. The max action
-   belongs to the amount field, spanning both columns under the input. */
-#v-exp-route .fld.w.exp-amount-field{
-  display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;
-  height:auto;min-height:104px;padding:16px;gap:12px 0;margin-bottom:0;
-}
-#v-exp-route .exp-amount-field .fl{flex:1 1 auto;min-width:0}
-#v-exp-route .exp-amount-field .fl i{margin-bottom:4px}
-#v-exp-route .exp-amount-field .fl b{display:block;min-width:0;overflow:visible;white-space:nowrap}
-#v-exp-route .exp-amount-field .addon{flex:0 0 auto;margin-left:8px}
-#v-exp-route .exp-amount-field .addon .cur{font:var(--ds-type-control-regular);color:var(--n500)}
-/* All three methods share the 32/38/600 monetary text token.
-   Only digits grow; label and currency stay at their original sizes. */
-#v-exp-route .exp-amount-field .fl b input.wd-amt{
-  font:var(--ds-type-amount-hero);
-  letter-spacing:-.5px;
-}
-#v-exp-route .exp-amount-field .fl b input.wd-amt::placeholder{
-  font-weight:600;
-}
-#v-exp-route .exp-amount-field .exp-limit{display:flex;grid-column:1 / -1;min-width:0;padding:0;margin:0}
+/* Amount layout is shared in css/alt-vu-wallet.css. */
 #v-exp-route .exp-note{margin:20px 4px 0;color:var(--n500);font:var(--ds-type-body-secondary)}
 #v-exp-route .exp-error{min-height:18px;font:var(--ds-type-body-secondary);color:var(--err);padding:0 3px;margin-bottom:9px}
 #v-exp-route .exp-error:empty{display:none}

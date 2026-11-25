@@ -202,7 +202,12 @@ def run():
                     const token = document.createElement('span');
                     token.style.color='var(--n300)'; card.appendChild(token);
                     const expected = getComputedStyle(token).color; token.remove();
-                    return {below: action.top >= input.bottom - 0.5,
+                    const currency = card.querySelector('.addon .cur').getBoundingClientRect();
+                    const clear = card.querySelector('.addon .ds-field-clear').getBoundingClientRect();
+                    const center = r => (r.top+r.bottom)/2;
+                    return {currencyCentered:Math.abs(center(currency)-center(input))/sy<=1,
+                        clearCentered:Math.abs(center(clear)-center(input))/sy<=1,
+                        below: action.top >= input.bottom - 0.5,
                         left: Math.abs(left - 16) <= 1,
                         inside: right >= 15,
                         symmetric: Math.abs(top - 16) <= 1 && Math.abs(bottom - top) <= 1,
@@ -220,6 +225,17 @@ def run():
                 # Amount digits share the existing 32/38/600 monetary role.
                 # The regular field caption, currency and MAX must not inherit it.
                 amount_input = page.locator("#exp-amount")
+                amount_input.fill("250.00")
+                expect(amount_card.locator(".addon .ds-field-clear")).to_be_visible()
+                assert amount_card.evaluate("""el => {
+                    const r=el.querySelector('input.wd-amt').getBoundingClientRect();
+                    const c=el.querySelector('.addon .cur').getBoundingClientRect();
+                    const x=el.querySelector('.addon .ds-field-clear').getBoundingClientRect();
+                    return Math.abs((r.top+r.bottom-c.top-c.bottom)/2)<=1 &&
+                           Math.abs((r.top+r.bottom-x.top-x.bottom)/2)<=1;
+                }"""), width
+                amount_card.locator(".addon .ds-field-clear").click()
+                expect(amount_input).to_have_value("")
                 expect(amount_input).to_have_css("font-size", "32px")
                 expect(amount_input).to_have_css("line-height", "38px")
                 expect(amount_input).to_have_css("font-weight", "600")
