@@ -17,6 +17,83 @@
     return sharedQrPreviewApi(path, body);
   };
 
+  // History examples for all supported methods. Data only: original groupOps,
+  // opRow, openOp and openReceipt remain the sole history/detail renderers.
+  window.altPreviewRestoreBankFixtures?.();
+  const historyOps=PV.data['/operations'].operations;
+  const historyNow=Date.now();
+  let historySeq=0;
+  const historyAt=min=>new Date(historyNow-min*60000).toISOString();
+  function historyExample(fields,age){
+    const id='pv-h'+String(++historySeq).padStart(3,'0');
+    if(!historyOps.some(o=>o.id===id))historyOps.push({
+      id,fee_minor:0,created_at:historyAt(age),...fields
+    });
+  }
+  // Use the canonical network catalog, not a separately maintained list.
+  for(const n of (PV.data['/networks']?.networks||[])){
+    for(const incoming of [true,false]){
+      if(!n[incoming?'can_deposit':'can_withdraw'])continue;
+      const kind=incoming?'deposit':'withdrawal';
+      if(historyOps.some(o=>o.kind===kind&&o.coin===n.coin&&o.network===n.network))continue;
+      const cents=12000+historySeq*1700;
+      historyExample({kind,coin:n.coin,network:n.network,
+        title:(incoming?'Пополнение ':'Вывод ')+n.coin,
+        status:incoming?'credited':'confirmed',amount_minor:incoming?cents:-cents-100,
+        amount_crypto:(cents/100).toFixed(2),fee_minor:incoming?0:100,
+        address:'DEMO_ONLY_'+n.coin+'_'+n.network+'_NOT_A_WALLET',
+        tx_hash:'demo-only-'+kind+'-'+n.coin+'-'+n.network},300+historySeq*55);
+    }
+  }
+  // Keep the source's SBP amount and sender/recipient name semantics.
+  for(const o of historyOps){
+    if(o.network==='sbp'&&o.amount_crypto&&!o.coin)o.coin='RUB';
+    if(o.id==='pv-transfer-005')o.title=o.recipient_name||'Тестовый получатель';
+  }
+  historyExample({kind:'transfer',status:'confirmed',amount_minor:12500,
+    title:'Тестовый отправитель',recipient_name:'Тестовый отправитель'},105);
+  historyExample({kind:'deposit',network:'sbp',coin:'RUB',title:'Пополнение СБП',
+    status:'confirming',amount_minor:0,hold_minor:15000,amount_crypto:'13332.00',
+    rate:'88.88',address:'Т-Банк',tx_hash:'demo-sbp-pending'},150);
+  historyExample({kind:'deposit',network:'sbp',coin:'RUB',title:'Пополнение СБП',
+    status:'rejected',amount_minor:0,hold_minor:5000,amount_crypto:'4444.00',
+    rate:'88.88',address:'ВТБ',reason:'name_mismatch',tx_hash:'demo-sbp-return'},1600);
+  for(const [coin,network] of [['USDT','tron'],['USDC','polygon']]){
+    historyExample({kind:'deposit',coin,network,title:'Пополнение '+coin,status:'confirming',
+      state:'review',amount_minor:7500,amount_crypto:'75.00',
+      address:'DEMO_ONLY_REVIEW_NOT_A_WALLET',tx_hash:'demo-review-'+coin},190+historySeq*4);
+    historyExample({kind:'withdrawal',coin,network,title:'Вывод '+coin,status:'queued',
+      amount_minor:-8100,amount_crypto:'80.00',fee_minor:100,
+      address:'DEMO_ONLY_PENDING_NOT_A_WALLET'},240+historySeq*4);
+    historyExample({kind:'withdrawal',coin,network,title:'Вывод '+coin,status:'failed',
+      amount_minor:-4000,amount_crypto:'40.00',
+      address:'DEMO_ONLY_FAILED_NOT_A_WALLET'},1750+historySeq*8);
+  }
+  historyExample({kind:'deposit',coin:'USDT',network:'tron',title:'Пополнение USDT',
+    status:'rejected',state:'returned',amount_minor:0,got_minor:6000,
+    amount_crypto:'60.00',ret_amount:'59.00',ret_fee:'1.00',from:'DEMO_ONLY_RETURN_NOT_A_WALLET',
+    tx_hash:'demo-deposit-return',ret_tx:'demo-return'},1900);
+  historyExample({kind:'card',status:'confirming',amount_minor:-8490,orig_minor:31179,
+    orig_currency:'AED',merchant:'DEMO MARKET',title:'DEMO MARKET',mcc:'5411',last4:'9716'},55);
+  historyExample({kind:'card',status:'credited',amount_minor:-10200,orig_minor:10000,
+    orig_currency:'USD',merchant:'DEMO ATM',title:'Снятие наличных',mcc:'6011',
+    last4:'9716',fee_minor:100,settled_at:historyAt(450)},460);
+  historyOps.sort((a,b)=>Date.parse(b.created_at)-Date.parse(a.created_at));
+  const sharedLoadOps=loadOps;
+  loadOps=async function(){
+    const oldFeed=document.querySelector('#v-home > .wrap .feed');
+    const scroll=oldFeed?.scrollTop||0;
+    await sharedLoadOps.apply(this,arguments);
+    const feed=document.querySelector('#v-home > .wrap .feed');
+    if(feed){
+      const ops=PV.data['/operations'].operations||[];
+      allOps=ops;
+      feed.innerHTML=groupOps(ops);
+      feed.scrollTop=scroll;
+    }
+  };
+  loadOps();
+
   // The UI Kit embeds only the live from/to component, without a full screen.
   // It is still the same DOM and handlers as the working experiment.
   if(new URLSearchParams(location.search).get('component')==='route-card'){
