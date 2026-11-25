@@ -131,7 +131,14 @@ def validate_browser():
                                 assert computed["rowHeight"] >= 60, (view, computed)
                                 assert computed["iconWidth"] == "32px", (view, computed)
                                 assert computed["titleSize"] == "16px", (view, computed)
-                                assert computed["chevron"] == "18px", (view, computed)
+                                assert computed["chevron"] == "36px", (view, computed)
+                                action_row=first.locator(".method-option:not([hidden])").first
+                                arrow=action_row.locator(".method-chevron")
+                                page.mouse.move(0,0)
+                                expect(arrow).to_have_css("background-color","rgba(0, 0, 0, 0)")
+                                action_row.locator(".rt").hover()
+                                assert arrow.evaluate("e=>getComputedStyle(e).backgroundColor") != "rgba(0, 0, 0, 0)"
+                                expect(arrow).to_have_css("stroke-width","1.8px")
                                 page.screenshot(path=str(OUT / f"method-{view}-{'dark' if dark else 'light'}-{width}.png"))
                                 print(f"PASS real method UI {view} {'dark' if dark else 'light'} {width}px")
                         page.evaluate("document.documentElement.classList.remove('dark')")

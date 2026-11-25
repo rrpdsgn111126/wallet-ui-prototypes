@@ -61,6 +61,8 @@ try{
   assert.equal(await v.locator('.qr-email-copy svg').count(),1,'Bank copy icon is present');
   assert.equal(await v.locator('.qr-email-copy').innerText(),'','Copy action has no visible text');
   assert.equal(await v.locator('.qr-email-copy').evaluate(e=>getComputedStyle(e).width),'36px');
+  assert.equal(await v.locator('.qr-email-copy svg').evaluate(e=>getComputedStyle(e).width),'20px');
+  assert.equal(await v.locator('.qr-email-copy svg').evaluate(e=>getComputedStyle(e).strokeWidth),'1.8px');
   assert.equal(await v.locator('.qr-copy').count(),0,'Obsolete bottom copy link was removed');
   assert.equal(await v.locator('.qr-share').count(),1,'One bottom primary action');
   assert.equal(await v.locator('.qr-email-field.fld.w').count(),1,

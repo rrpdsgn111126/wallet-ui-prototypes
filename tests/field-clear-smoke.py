@@ -51,6 +51,35 @@ def run():
                 context=browser.new_context(viewport={"width":width,"height":900},reduced_motion="reduce")
                 page=context.new_page()
                 page.on("pageerror",lambda error:errors.append(str(error)))
+                # Shared interactive specimen: identical geometry/ink/hover in both themes.
+                for theme in ("light","dark"):
+                    page.goto(BASE+"design-system/components/system-actions.html#"+theme,wait_until="domcontentloaded")
+                    page.reload(wait_until="domcontentloaded")
+                    selector=page.locator(".net-pick")
+                    arrow=selector.locator(".ds-system-action")
+                    copy=page.locator('[data-system-action="copy"]')
+                    clear=page.locator(".ds-field-clear")
+                    for action in (arrow,copy,clear):
+                        expect(action).to_be_visible()
+                        expect(action).to_have_css("width","36px")
+                        expect(action).to_have_css("height","36px")
+                        expect(action.locator("svg")).to_have_css("width","20px")
+                        expect(action.locator("svg")).to_have_css("height","20px")
+                        expect(action.locator("svg")).to_have_css("stroke-width","1.8px")
+                    page.mouse.move(0,0)
+                    expect(arrow).to_have_css("background-color","rgba(0, 0, 0, 0)")
+                    expect(copy).to_have_css("background-color","rgba(0, 0, 0, 0)")
+                    selector.locator(".fl").hover()
+                    hover=arrow.evaluate("e=>getComputedStyle(e).backgroundColor")
+                    assert hover!="rgba(0, 0, 0, 0)",hover
+                    copy.hover()
+                    expect(copy).to_have_css("background-color",hover)
+                    clear.hover()
+                    expect(clear).to_have_css("background-color",hover)
+                    expect(copy).to_have_css("background-color","rgba(0, 0, 0, 0)")
+                    disabled=page.locator(".ds-system-action:disabled")
+                    disabled.hover(force=True)
+                    expect(disabled).to_have_css("background-color","rgba(0, 0, 0, 0)")
                 # Ordinary text input: empty, filled and disabled use one controller.
                 page.goto(BASE+"design-system/components/fld.html",wait_until="domcontentloaded")
                 fields=page.locator(".fld.w")
@@ -93,7 +122,7 @@ def run():
                         sameRow:Math.abs((button.top+button.bottom)/2-(currency.top+currency.bottom)/2),
                         beforeMAX:currency.right<max.left,
                         insideAddon:button.left>=addon.left-1 && button.right<=addon.right+1,
-                        order:[...el.querySelector('.addon').children].map(n=>n.className)
+                        order:[...el.querySelector('.addon').children].map(n=>n.classList.contains('ds-field-clear')?'ds-field-clear':n.className)
                     };
                 }""")
                 assert icon_geo["rightSide"] and icon_geo["insideAddon"], icon_geo

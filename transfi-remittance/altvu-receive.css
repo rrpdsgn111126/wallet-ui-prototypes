@@ -20,13 +20,6 @@
   width:100%;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
   cursor:text;
 }
-#v-my-qr .qr-email-field .qr-email-copy{
-  flex:0 0 36px;width:36px;height:36px;padding:0;border:0;border-radius:12px;
-  display:grid;place-items:center;background:var(--n50);color:var(--n850);
-  cursor:pointer;
-}
-#v-my-qr .qr-email-field .qr-email-copy:disabled{cursor:default;opacity:.5}
-#v-my-qr .qr-email-field .qr-email-copy:focus-visible,
 #v-my-qr .qr-renew .qr-rotate:focus-visible{
   outline:2px solid var(--brand-600);outline-offset:2px;
 }
