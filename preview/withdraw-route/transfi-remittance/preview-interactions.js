@@ -3,17 +3,19 @@
 (function(){
   'use strict';
   const current=document.currentScript;
-  const src=new URL('../../design-system/transfi-remittance/preview-interactions.js',current.src);
+  const version=new URL(current.src).searchParams.get('v');
+  function versioned(path){const url=new URL(path,current.src);if(version)url.searchParams.set('v',version);return url;}
+  const src=versioned('../../design-system/transfi-remittance/preview-interactions.js');
   const script=document.createElement('script');
   script.src=src.href;
   script.async=false;
   script.onload=function(){
     const component=document.createElement('script');
-    component.src=new URL('../../design-system/transfi-remittance/route-card.js',current.src).href;
+    component.src=versioned('../../design-system/transfi-remittance/route-card.js').href;
     component.async=false;
     component.onload=function(){
       const route=document.createElement('script');
-      route.src=new URL('./withdraw-route-experiment.js?v=20261123',current.src).href;
+      route.src=versioned('./withdraw-route-experiment.js').href;
       document.head.appendChild(route);
     };
     component.onerror=function(){console.error('Failed to load canonical route-card.js');};

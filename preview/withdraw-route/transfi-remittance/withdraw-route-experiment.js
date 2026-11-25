@@ -543,5 +543,79 @@
       }
     },650);
   }
+
+  // Experimental skeleton for the TWO existing method sheets only.
+  // Keep real method DOM in place: it owns navigation and preserves row height.
+  // First opening simulates a cold catalog fetch in the local preview;
+  // subsequent openings use the loaded catalog. ?skeleton=demo replays it.
+  const methodSkeletonModes=new URLSearchParams(location.search);
+  const methodSkeletonDemo=methodSkeletonModes.get('skeleton')==='demo';
+  const methodSkeletonReady={topup:false,withdraw:false};
+  const methodSkeletonTokens={topup:0,withdraw:0};
+  const methodSkeletonKinds=['topup','withdraw'];
+  // Mobile bottom-nav sheets are .view.ovl rather than .view.on. Observe
+  // both real visibility states without intercepting global navigation.
+  function methodSkeletonVisible(screen){
+    return !!screen&&(screen.classList.contains('on')||screen.classList.contains('ovl'));
+  }
+  function methodSkeletonClear(kind,successful){
+    const screen=E('v-'+kind);
+    if(!screen)return;
+    screen.classList.remove('method-skeleton-loading');
+    const sheet=screen.querySelector('.sheet');
+    if(sheet)sheet.removeAttribute('aria-busy');
+    screen.querySelectorAll('.sheet .method-list, .sheet .lnk').forEach(el=>{el.inert=false;});
+    if(successful)methodSkeletonReady[kind]=true;
+  }
+  function methodSkeletonCancel(kind){
+    methodSkeletonTokens[kind]++;
+    methodSkeletonClear(kind,false);
+  }
+  function methodSkeletonStart(kind){
+    const screen=E('v-'+kind);
+    if(!methodSkeletonVisible(screen)||
+       (methodSkeletonReady[kind]&&!methodSkeletonDemo)||
+       screen.classList.contains('method-skeleton-loading'))return;
+    const token=++methodSkeletonTokens[kind];
+    screen.classList.add('method-skeleton-loading');
+    const sheet=screen.querySelector('.sheet');
+    if(sheet)sheet.setAttribute('aria-busy','true');
+    screen.querySelectorAll('.sheet .method-list, .sheet .lnk').forEach(el=>{el.inert=true;});
+    // Local mock only. Real pending catalog data is awaited; a rejection
+    // or navigation away never traps a user in the loading state.
+    const source=typeof netAll==='function'
+      ? Promise.resolve().then(()=>netAll()).catch(()=>null)
+      : Promise.resolve();
+    const pause=new Promise(resolve=>setTimeout(resolve,methodSkeletonDemo?1500:850));
+    Promise.all([source,pause]).then(()=>{
+      if(methodSkeletonTokens[kind]!==token)return;
+      methodSkeletonClear(kind,methodSkeletonVisible(screen));
+    });
+  }
+  const methodSkeletonWasVisible={topup:false,withdraw:false};
+  function methodSkeletonSync(){
+    methodSkeletonKinds.forEach(kind=>{
+      const screen=E('v-'+kind);
+      if(!screen)return;
+      const visible=methodSkeletonVisible(screen);
+      if(visible&&!methodSkeletonWasVisible[kind])methodSkeletonStart(kind);
+      else if(!visible&&screen.classList.contains('method-skeleton-loading'))
+        methodSkeletonCancel(kind);
+      // Loading class changes alone must never restart the demo animation.
+      methodSkeletonWasVisible[kind]=visible;
+    });
+  }
+  const methodSkeletonObserver=new MutationObserver(methodSkeletonSync);
+  methodSkeletonKinds.forEach(kind=>{
+    const screen=E('v-'+kind);
+    if(screen)methodSkeletonObserver.observe(screen,{
+      attributes:true,attributeFilter:['class']
+    });
+  });
+  methodSkeletonSync();
+  window.altMethodSkeleton=Object.freeze({
+    isLoading:kind=>!!E('v-'+kind)?.classList.contains('method-skeleton-loading')
+  });
+
   window.altWithdrawRouteExperiment={open,closeSheet,state};
 })();
