@@ -467,3 +467,163 @@
   }
   qa();
 })();
+
+
+/* Shared crypto withdrawal network confirmation, composed from native wallet UI. */
+(function(){
+  'use strict';
+  if(!window.altPreview || typeof show !== 'function') return;
+  const isCrypto = v => /^out-usd[tc]-[a-z]+$/.test(v || '');
+  const rootFor = v => document.getElementById('v-' + v);
+  const originalShow = show, originalBack = back, originalPick = netPick, originalGo = wdGo;
+  let pending = null, confirmed = '', accepting = '';
+  const style = document.createElement('style');
+  style.textContent = [
+    '.wd-network-confirm.sheet{max-height:calc(100% - 16px);overflow-y:auto;overscroll-behavior:contain}',
+    '.wd-network-confirm .sh2,.wd-network-confirm .p{text-align:center}',
+    '.wd-network-confirm .sh2{margin-bottom:8px}',
+    '.wd-network-confirm .p{margin:0 0 16px}',
+    '.wd-network-confirm .wd-confirm-mark.warn{width:52px;height:52px;box-sizing:border-box;border-radius:50%;padding:0;display:flex;align-items:center;justify-content:center;margin:0 auto 12px}',
+    '.wd-network-confirm .wd-confirm-mark .wi{flex:none;margin:0;display:flex}',
+    '.wd-network-confirm .row .rt{color:var(--n500)}',
+    '.wd-network-confirm .row .rv{color:var(--n900);display:flex;align-items:center;gap:8px}',
+    '.wd-network-confirm .row .rv .ri,.wd-network-confirm .row .rv .cn{width:32px;height:32px;flex:0 0 32px;display:flex;align-items:center;justify-content:center}',
+    '.wd-network-confirm .row .rv img{width:24px;height:24px}',
+    '.wd-network-confirm .btn.wd-confirm-slide{position:relative;touch-action:none;overflow:hidden;user-select:none;margin:16px 0 0;min-height:52px}',
+    '.wd-network-confirm .btn.wd-confirm-slide:active{transform:none}',
+    '.wd-confirm-slide .wd-slide-label{pointer-events:none;position:relative;z-index:1}',
+    '.wd-confirm-slide .wd-slide-thumb{position:absolute;left:4px;top:4px;bottom:4px;width:44px;max-width:calc(100% - 8px);border-radius:12px;background:var(--surface,#fff);color:var(--n900);display:flex;align-items:center;justify-content:center;z-index:2;pointer-events:none;transform:translateX(var(--slide-x,0px))}',
+    '.wd-confirm-slide:not(.dragging) .wd-slide-thumb{transition:transform .18s ease-out}',
+    '.wd-confirm-slide:focus-visible{outline:2px solid var(--n900);outline-offset:3px}',
+    '@media(prefers-reduced-motion:reduce){.wd-confirm-slide .wd-slide-thumb{transition:none}}'
+  ].join('\n');
+  document.head.appendChild(style);
+  // Remove only the obsolete form warning; keep fee/minimum and final review.
+  document.querySelectorAll('.view[id^="v-out-usdt-"] .hint,.view[id^="v-out-usdc-"] .hint').forEach(h=>{
+    if(/перевод в сети отменить нельзя|(?:сверьте|проверьте).*(?:адрес|сеть)/i.test(h.textContent))h.remove();
+  });
+  function close(){
+    const p=pending;if(!p)return null;
+    pending=null;
+    p.sheet.remove();p.dim.remove();
+    p.inert.forEach(([el,was])=>{el.inert=was;});
+    return p;
+  }
+  function cancel(){
+    const p=close();if(!p)return;
+    if(p.change){
+      if(p.focus && p.focus.isConnected)p.focus.focus({preventScroll:true});
+    }else{
+      confirmed='';
+      show('withdraw',false);
+      Promise.resolve(afterShow('withdraw')).catch(()=>{});
+    }
+  }
+  function finish(){
+    const p=close();if(!p)return;
+    confirmed=p.target;
+    if(p.change){
+      accepting=p.target;
+      try{Promise.resolve(originalPick(p.target.split('-')[2])).catch(()=>{confirmed='';});}
+      finally{accepting='';}
+    }else if(p.focus && p.focus.isConnected)p.focus.focus({preventScroll:true});
+  }
+  function open(target,change){
+    if(!isCrypto(target))return;
+    if(pending && pending.target===target)return;
+    close();
+    const root=rootFor(view), source=rootFor(target);
+    if(!root || !source || !root.classList.contains('on'))return;
+    const {coin,net}=wdParts(target);
+    const dim=document.createElement('div'),sheet=document.createElement('div');
+    dim.className='dim wd-network-confirm-dim';dim.hidden=true;
+    sheet.className='sheet wd-network-confirm';sheet.hidden=true;
+    sheet.setAttribute('role','dialog');sheet.setAttribute('aria-modal','true');
+    sheet.setAttribute('aria-labelledby','wd-network-confirm-title');
+    sheet.setAttribute('aria-describedby','wd-network-confirm-warning');
+    const mark=document.querySelector('#v-withdraw-check .warn .wi');
+    const coinMark=source.querySelector('.unit .ui .cn');
+    sheet.innerHTML='<div class="grab"></div>'+
+      '<div class="warn wd-confirm-mark" aria-hidden="true">'+(mark?mark.outerHTML:'!')+'</div>'+
+      '<div class="sh2" id="wd-network-confirm-title">Проверьте сеть и монету</div>'+
+      '<div class="p" id="wd-network-confirm-warning">Ошибка при выборе сети или монеты может привести к потере средств.</div>'+
+      '<div class="box"><div class="row"><div class="rt">Сеть</div><div class="rv"><div class="ri">'+netLogo(net)+'</div><span data-confirm-network>'+esc(netName(net))+'</span></div></div>'+
+      '<div class="row"><div class="rt">Монета</div><div class="rv">'+(coinMark?coinMark.outerHTML:'')+'<span data-confirm-coin>'+esc(coin)+'</span></div></div></div>'+
+      '<button type="button" class="btn wd-confirm-slide" aria-label="Подтвердить сеть и монету: '+esc(netName(net))+' '+esc(coin)+'. Сдвиньте вправо или нажмите Enter.">'+
+      '<span class="wd-slide-label">Подтвердить</span><span class="wd-slide-thumb" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></span></button>';
+    const focus=change?root.querySelector('[data-act="netpick"]'):document.activeElement;
+    const inert=Array.from(root.children).map(el=>[el,el.inert]);
+    inert.forEach(([el])=>{el.inert=true;});
+    root.append(dim,sheet);
+    pending={target,change,root,dim,sheet,inert,focus};
+    const slider=sheet.querySelector('.wd-confirm-slide'),thumb=slider.querySelector('.wd-slide-thumb');
+    let pointer=null,x0=0,travel=0,pos=0,scale=1;
+    function draw(x){
+      pos=Math.max(0,Math.min(travel,x));
+      slider.style.setProperty('--slide-x',pos+'px');
+    }
+    slider.addEventListener('pointerdown',e=>{
+      if(pointer!==null || e.button!==0)return;
+      e.preventDefault();pointer=e.pointerId;x0=e.clientX;
+      travel=Math.max(1,slider.clientWidth-thumb.offsetWidth-8);
+      scale=slider.getBoundingClientRect().width/Math.max(1,slider.offsetWidth) || 1;
+      slider.classList.add('dragging');slider.setPointerCapture(pointer);draw(0);
+    });
+    slider.addEventListener('pointermove',e=>{if(e.pointerId===pointer)draw((e.clientX-x0)/scale);});
+    function stop(e,commit){
+      if(e.pointerId!==pointer)return;
+      pointer=null;slider.classList.remove('dragging');
+      if(commit && pos>=travel*.9){finish();return;}
+      draw(0);
+    }
+    slider.addEventListener('pointerup',e=>{if(e.pointerId===pointer)draw((e.clientX-x0)/scale);stop(e,true);});
+    slider.addEventListener('pointercancel',e=>stop(e,false));
+    slider.addEventListener('lostpointercapture',e=>stop(e,false));
+    slider.addEventListener('click',e=>{if(e.detail===0 && pending && pending.sheet===sheet)finish();});
+    dim.addEventListener('click',cancel);
+    sheetOpen(dim,sheet);
+    slider.focus({preventScroll:true});
+  }
+  show=function(v,push){
+    const before=view;
+    const previous=confirmed;
+    if(pending && v!==before)close();
+    const result=originalShow(v,push);
+    const actual=view;
+    if(isCrypto(actual)){
+      if(accepting===actual){confirmed=actual;return result;}
+      if(before==='withdraw-check' && previous===actual){confirmed=actual;return result;}
+      if(before!==actual || (!confirmed && !pending)){
+        confirmed='';
+        open(actual,false);
+      }
+    }else if(actual!=='withdraw-check')confirmed='';
+    return result;
+  };
+  netPick=async function(key){
+    if(!isCrypto(view))return originalPick(key);
+    const next=view.split('-').slice(0,2).join('-')+'-'+key;
+    netSheet(false);
+    if(next===view || !rootFor(next))return;
+    open(next,true);
+  };
+  back=function(){
+    if(pending){cancel();return;}
+    return originalBack.apply(this,arguments);
+  };
+  wdGo=function(){
+    if(isCrypto(view) && (pending || confirmed!==view)){
+      if(!pending)open(view,false);
+      return;
+    }
+    return originalGo.apply(this,arguments);
+  };
+  document.addEventListener('keydown',e=>{
+    if(!pending)return;
+    if(e.key==='Escape'){
+      e.preventDefault();e.stopImmediatePropagation();cancel();
+    }else if(e.key==='Tab'){
+      e.preventDefault();pending.sheet.querySelector('.wd-confirm-slide').focus();
+    }
+  },true);
+})();
