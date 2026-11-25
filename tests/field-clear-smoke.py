@@ -34,7 +34,11 @@ def run():
     gallery=(ROOT/"design-system"/"ui-kit"/"index.html").read_text()
     assert 'id="amount-conversion"' in gallery
     experiment=gallery.split('id="g-experiments"',1)[1].split("</section>",1)[0]
-    assert "filled=1" not in experiment and "tf-route-clear" not in experiment
+    route=experiment.split('id="experimental-transfer-route"',1)[1].split("</article>",1)[0]
+    conversion=experiment.split('id="experimental-amount-conversion"',1)[1].split("</article>",1)[0]
+    assert "filled=1" not in route and "tf-route-clear" not in route
+    assert "legacy.html?component=amount-conversion&amp;filled=1" in conversion
+    assert "component=sbp-conversion&amp;filled=1" in conversion
 
     server=subprocess.Popen([sys.executable,"-m","http.server",str(PORT),"--bind","127.0.0.1"],
                             cwd=ROOT,stdout=subprocess.DEVNULL,stderr=subprocess.STDOUT)
