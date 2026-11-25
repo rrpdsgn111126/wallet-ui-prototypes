@@ -8,6 +8,11 @@
 .phone .tf-bank-route-card .tf-bank-leg{
   display:flex;align-items:flex-start;gap:14px;padding:16px 0;
 }
+/* Match the FX two-amount card at the central 32px capsule:
+   24px to the divider centre, 8px to the capsule edge.
+   Keep 16px external top/bottom padding around the card content. */
+.phone .tf-bank-route-card .tf-bank-leg:first-child{padding-bottom:8px}
+.phone .tf-bank-route-card .tf-bank-leg:nth-child(3){padding-top:8px}
 .phone .tf-bank-route-card .tf-bank-leg .fi{
   display:flex;align-items:center;justify-content:center;
   flex:0 0 40px;width:40px;height:40px;border-radius:50%;
