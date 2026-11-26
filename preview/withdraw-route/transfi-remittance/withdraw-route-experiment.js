@@ -321,10 +321,10 @@
       '<div class="warn exp-confirm-mark" aria-hidden="true">'+(mark?mark.outerHTML:'!')+'</div>'+
       '<div class="sh2" id="exp-network-confirm-title">Проверьте сеть и монету</div>'+
       '<div class="p" id="exp-network-confirm-warning">Ошибка при выборе сети или монеты может привести к потере средств.</div>'+
-      '<div class="box"><div class="row"><div class="rt">Сеть</div><div class="rv"><div class="ri ds-icon-frame">'+netLogo(key)+'</div><span data-confirm-network>'+esc(netName(key))+'</span></div></div>'+
-      '<div class="row"><div class="rt">Монета</div><div class="rv"><div class="cn ds-icon-frame">'+coinIcon.outerHTML.replace('id="exp-dest-logo"','')+'</div><span data-confirm-coin>'+esc(coin)+'</span></div></div></div>'+
+      '<div class="tbl"><div class="rl"><span>Сеть</span><b><span data-confirm-network>'+esc(netName(key))+'</span><span class="ds-icon-frame" aria-hidden="true">'+netLogo(key)+'</span></b></div>'+
+      '<div class="rl"><span>Монета</span><b><span data-confirm-coin>'+esc(coin)+'</span><span class="cn ds-icon-frame" aria-hidden="true">'+coinIcon.outerHTML.replace('id="exp-dest-logo"','')+'</span></b></div></div>'+
       '<button type="button" class="btn exp-confirm-slide" aria-label="Подтвердить сеть и монету: '+esc(netName(key))+' '+esc(coin)+'. Сдвиньте вправо или нажмите Enter.">'+
-      '<span class="exp-slide-label">Подтвердить</span><span class="exp-slide-thumb" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></span></button>';
+      '<span class="exp-slide-fill" aria-hidden="true"></span><span class="exp-slide-label">Подтвердить</span><span class="exp-slide-thumb" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></span></button>';
     const inert=Array.from(screen.children).map(el=>[el,el.inert]);
     inert.forEach(([el])=>{el.inert=true;});
     screen.append(dim,sheet);
@@ -334,6 +334,13 @@
     function draw(x){
       pos=Math.max(0,Math.min(travel,x));
       slider.style.setProperty('--slide-x',pos+'px');
+      // Keep the arrow at the advancing edge without crossing the centered text.
+      const label=slider.querySelector('.exp-slide-label');
+      const range=document.createRange();range.selectNodeContents(label);
+      const labelWidth=range.getBoundingClientRect().width/scale;
+      const center=slider.clientWidth/2;
+      const arrow=4+thumb.offsetWidth/2+pos;
+      thumb.style.opacity=Math.abs(arrow-center)<labelWidth/2+12?'0':'1';
     }
     function finish(){
       if(!networkConfirmation||networkConfirmation.sheet!==sheet)return;

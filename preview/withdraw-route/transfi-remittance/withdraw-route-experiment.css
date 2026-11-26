@@ -363,14 +363,41 @@ html.sbp-conversion-specimen #v-dep-sbp #sbp-cv{margin:0!important}
 .exp-network-confirm .p{margin:0 0 16px;font:var(--ds-type-body-secondary)}
 .exp-network-confirm .exp-confirm-mark.warn{box-sizing:border-box;width:52px;height:52px;border-radius:50%;padding:0;display:flex;align-items:center;justify-content:center;margin:0 auto 12px}
 .exp-network-confirm .exp-confirm-mark .wi{flex:none;margin:0;display:flex}
-.exp-network-confirm .row .rt{color:var(--n500)}
-.exp-network-confirm .row .rv{display:flex;align-items:center;gap:8px;color:var(--n900)}
-.exp-network-confirm .row .rv .ds-icon-frame{flex:none;display:flex;align-items:center;justify-content:center}
-.exp-network-confirm .row .rv img{width:20px;height:20px}
-#v-exp-route .btn.exp-confirm-slide{position:relative;touch-action:none;overflow:hidden;user-select:none;margin:16px 0 0;min-height:52px}
+/* A table in a sheet keeps the ordinary .tbl/.rl layout, not the standalone
+   sheet summary rule (.sheet .rl adds an extra bottom border and margin). */
+#v-exp-route .exp-network-confirm .tbl .rl{padding:11px 0;margin:0;border-bottom:0}
+#v-exp-route .exp-network-confirm .tbl .rl b>.ds-icon-frame{display:flex;flex:0 0 var(--ds-icon-frame-size)}
+#v-exp-route .exp-network-confirm .tbl .rl b>span:not(.ds-icon-frame){flex:none;min-width:0;color:inherit;font:inherit}
+#v-exp-route .btn.exp-confirm-slide{
+  --slide-thumb-size:44px;
+  --slide-fill-edge:calc(4px + var(--slide-thumb-size) + var(--slide-x,0px));
+  position:relative;box-sizing:border-box;touch-action:none;overflow:hidden;user-select:none;
+  margin:16px 0 0;min-height:var(--ds-size-button);
+  border:1px solid var(--ds-sem-border);background:transparent;box-shadow:none;
+  color:var(--ds-sem-text-secondary);
+}
 #v-exp-route .btn.exp-confirm-slide:active{transform:none}
-.exp-confirm-slide .exp-slide-label{position:relative;z-index:1;pointer-events:none}
-.exp-confirm-slide .exp-slide-thumb{position:absolute;left:4px;top:4px;bottom:4px;width:44px;border-radius:12px;background:var(--surface);color:var(--n900);display:flex;align-items:center;justify-content:center;z-index:2;pointer-events:none;transform:translateX(var(--slide-x,0px))}
-.exp-confirm-slide:not(.dragging) .exp-slide-thumb{transition:transform .18s ease-out}
+.exp-confirm-slide .exp-slide-fill{
+  position:absolute;left:4px;top:3px;bottom:3px;
+  width:calc(var(--slide-thumb-size) + var(--slide-x,0px));
+  border-radius:12px;background:var(--brand);pointer-events:none;
+}
+.exp-confirm-slide .exp-slide-label{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;z-index:1;
+  pointer-events:none;
+  background-image:linear-gradient(to right,var(--brand-ink) 0 var(--slide-fill-edge),var(--ds-sem-text-secondary) var(--slide-fill-edge) 100%);
+  background-clip:text;-webkit-background-clip:text;color:transparent;
+}
+.exp-confirm-slide .exp-slide-thumb{
+  position:absolute;left:4px;top:3px;bottom:3px;width:var(--slide-thumb-size);
+  border-radius:12px;background:transparent;color:var(--brand-ink);
+  display:flex;align-items:center;justify-content:center;z-index:2;pointer-events:none;
+  transform:translateX(var(--slide-x,0px));
+}
+.exp-confirm-slide:not(.dragging) .exp-slide-thumb{transition:transform .18s ease-out,opacity .12s ease-out}
+.exp-confirm-slide:not(.dragging) .exp-slide-fill{transition:width .18s ease-out}
 .exp-confirm-slide:focus-visible{outline:2px solid var(--brand-600);outline-offset:3px}
-@media(prefers-reduced-motion:reduce){.exp-confirm-slide .exp-slide-thumb{transition:none}}
+@media(prefers-reduced-motion:reduce){.exp-confirm-slide .exp-slide-thumb,.exp-confirm-slide .exp-slide-fill{transition:none}}
+
+/* Keep developer-only recipient autofill outside active bank pickers. */
+body:has(#pickerLayer:not([hidden])) #recipientTools{display:none!important}
