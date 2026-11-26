@@ -1105,6 +1105,35 @@ def run():
                     ), (rail,copied)
                     page.screenshot(path=str(OUT / f"deposit-{rail.lower()}-{width}.png"))
                     context.close()
+            # Experimental SEPA/SWIFT recipient: placeholder and purpose picker
+            # must be correct at both mobile widths, without changing shared UI.
+            for width,height in [(390,844),(430,932)]:
+                for rail in ("SEPA","SWIFT"):
+                    context=browser.new_context(viewport={"width":width,"height":height}, reduced_motion="reduce")
+                    page=context.new_page()
+                    page.on("pageerror", lambda exc: errors.append(str(exc)))
+                    page.goto(
+                        f"http://127.0.0.1:{PORT}/transfi-remittance/legacy.html"
+                        f"?capture=1&embedded=1&flow=out&screen=out-recipient&rail={rail}",
+                        wait_until="domcontentloaded"
+                    )
+                    expect(page.locator("#f-recipientName")).to_have_attribute(
+                        "placeholder", "Например, Alexander Müller"
+                    )
+                    trigger=page.locator('[data-picker="purpose"]')
+                    trigger.click()
+                    expect(page.locator("#pickerLayer .tf-picker-row")).to_have_count(4)
+                    expect(page.locator("#pickerLayer .tf-picker-row .ri")).to_have_count(0)
+                    expect(page.locator("#pickerLayer .tf-picker-row .rd")).to_have_count(4)
+                    expect(page.locator('#pickerLayer [aria-checked="true"]')).to_have_count(1)
+                    page.locator('[data-picker-value="education"]').click()
+                    expect(trigger).to_contain_text("Обучение")
+                    expect(page.locator("#pickerLayer")).to_be_hidden()
+                    trigger.click()
+                    page.keyboard.press("Escape")
+                    expect(page.locator("#pickerLayer")).to_be_hidden()
+                    expect(trigger).to_contain_text("Обучение")
+                    context.close()
             browser.close()
         assert not errors, f"Uncaught JS errors: {errors}"
         print("PASS: USDT/USDC/ALT.VU + SEPA/SWIFT route/FX, pickers, fee-aware use-all, navigation, 390/430/1440")
