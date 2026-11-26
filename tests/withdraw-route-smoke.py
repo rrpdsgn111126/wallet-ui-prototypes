@@ -1127,6 +1127,8 @@ def run():
                     expect(page.locator("#pickerLayer .tf-picker-row .ri")).to_have_count(0)
                     expect(page.locator("#pickerLayer .tf-picker-row .rd")).to_have_count(4)
                     expect(page.locator('#pickerLayer [aria-checked="true"]')).to_have_count(1)
+                    # Test helper must not obscure the real destination options.
+                    expect(page.locator("#recipientTools")).to_be_hidden()
                     page.locator('[data-picker-value="education"]').click()
                     expect(trigger).to_contain_text("Обучение")
                     expect(page.locator("#pickerLayer")).to_be_hidden()
