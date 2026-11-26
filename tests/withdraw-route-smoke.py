@@ -87,9 +87,35 @@ def confirm_network(page, coin, screenshot=None):
     sheet = page.locator(".exp-network-confirm")
     expect(sheet).to_be_visible()
     expect(sheet.locator("[data-confirm-coin]")).to_have_text(coin)
-    expect(sheet.locator(".row .rt")).to_have_text(["Сеть", "Монета"])
+    expect(sheet.locator(".tbl > .rl > span")).to_have_text(["Сеть", "Монета"])
+    expect(sheet.locator(".tbl > .rl > b > .ds-icon-frame:last-child")).to_have_count(2)
+    # Match the actual title/value table's canonical styles, rather than
+    # copying generic list geometry or the standalone sheet summary border.
+    layout = sheet.evaluate("""el => {
+        const specimen=document.createElement('div');
+        specimen.className='tbl';
+        specimen.innerHTML='<div class="rl"><span>Сеть</span><b>TRC20</b></div><div class="rl"><span>Монета</span><b>USDT</b></div>';
+        const phone=el.closest('.phone');phone.appendChild(specimen);
+        const style=(node,keys)=>keys.map(key=>getComputedStyle(node)[key]);
+        const rows=Array.from(el.querySelectorAll('.tbl > .rl'));
+        const refs=Array.from(specimen.querySelectorAll('.rl'));
+        const keys=['paddingTop','paddingBottom','marginBottom','borderTopWidth','borderBottomWidth','borderTopColor','gap','alignItems'];
+        const fonts=['fontFamily','fontSize','lineHeight','fontWeight','color'];
+        const result=rows.every((r,i)=>JSON.stringify(style(r,keys))===JSON.stringify(style(refs[i],keys)) &&
+          JSON.stringify(style(r.firstElementChild,fonts))===JSON.stringify(style(refs[i].firstElementChild,fonts)) &&
+          JSON.stringify(style(r.querySelector('b'),fonts))===JSON.stringify(style(refs[i].querySelector('b'),fonts)));
+        specimen.remove();return result;
+    }""")
+    assert layout, "Confirmation table must match canonical title/value table"
+    for row in sheet.locator(".tbl > .rl").all():
+        assert row.evaluate("""el=>{const b=el.querySelector('b');return b.firstElementChild.getBoundingClientRect().right<=b.lastElementChild.getBoundingClientRect().left}""")
     slider = sheet.locator(".exp-confirm-slide")
     expect(slider).to_have_text("Подтвердить")
+    expect(slider).to_have_css("background-color", "rgba(0, 0, 0, 0)")
+    expect(slider).to_have_css("border-top-width", "1px")
+    fill=slider.locator(".exp-slide-fill")
+    expect(fill).to_have_css("width", "44px")
+    assert slider.evaluate("""el=>{const s=getComputedStyle(el),f=getComputedStyle(el.querySelector(\'.exp-slide-fill\'));return f.backgroundColor===\'rgb(203, 241, 74)\'&&s.boxShadow===\'none\'}""")
     expect(page.locator("#exp-note")).to_be_hidden()
     page.wait_for_timeout(750)
     if screenshot:
@@ -105,9 +131,13 @@ def confirm_network(page, coin, screenshot=None):
         page.mouse.move(x,y)
         page.mouse.down()
         page.mouse.move(x+(track["width"]-thumb["width"]-8*scale)*fraction,y,steps=12)
+        assert fill.bounding_box()["width"] > thumb["width"] * 1.5
+        if screenshot and fraction < 1:
+            page.screenshot(path=str(screenshot.with_name(screenshot.stem+"-drag"+screenshot.suffix)))
         page.mouse.up()
         if fraction < 1:
             expect(sheet).to_be_visible()
+            expect(fill).to_have_css("width", "44px")
     expect(sheet).to_have_count(0)
 
 
