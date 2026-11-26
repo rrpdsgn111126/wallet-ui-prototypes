@@ -103,7 +103,8 @@ def confirm_network(page, coin, screenshot=None):
         const fonts=['fontFamily','fontSize','lineHeight','fontWeight','color'];
         const result=rows.every((r,i)=>JSON.stringify(style(r,keys))===JSON.stringify(style(refs[i],keys)) &&
           JSON.stringify(style(r.firstElementChild,fonts))===JSON.stringify(style(refs[i].firstElementChild,fonts)) &&
-          JSON.stringify(style(r.querySelector('b'),fonts))===JSON.stringify(style(refs[i].querySelector('b'),fonts)));
+          JSON.stringify(style(r.querySelector('b'),fonts))===JSON.stringify(style(refs[i].querySelector('b'),fonts)) &&
+          JSON.stringify(style(r.querySelector('b > span:not(.ds-icon-frame)'),fonts))===JSON.stringify(style(refs[i].querySelector('b'),fonts)));
         specimen.remove();return result;
     }""")
     assert layout, "Confirmation table must match canonical title/value table"
