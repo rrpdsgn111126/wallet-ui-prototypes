@@ -398,3 +398,6 @@ html.sbp-conversion-specimen #v-dep-sbp #sbp-cv{margin:0!important}
 .exp-confirm-slide:not(.dragging) .exp-slide-fill{transition:width .18s ease-out}
 .exp-confirm-slide:focus-visible{outline:2px solid var(--brand-600);outline-offset:3px}
 @media(prefers-reduced-motion:reduce){.exp-confirm-slide .exp-slide-thumb,.exp-confirm-slide .exp-slide-fill{transition:none}}
+
+/* Keep developer-only recipient autofill outside active bank pickers. */
+body:has(#pickerLayer:not([hidden])) #recipientTools{display:none!important}
