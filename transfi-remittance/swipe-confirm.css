@@ -4,10 +4,24 @@
   --slide-fill-edge:calc(4px + var(--slide-thumb-size) + var(--slide-x,0px));
   position:relative;box-sizing:border-box;touch-action:none;overflow:hidden;user-select:none;
   margin:0;height:var(--ds-size-button);min-height:var(--ds-size-button);
-  border:1px solid var(--ds-sem-border);background-color:var(--ds-sem-surface,#fff);background-image:none;box-shadow:none;
+  border:1px solid var(--ds-sem-border);background:var(--ds-sem-surface,#fff);background-clip:padding-box;box-shadow:none;isolation:isolate;
   color:var(--ds-sem-text-secondary);
 }
 .phone .btn.exp-confirm-slide:active{transform:none}
+/* Explicit opaque track under the fill and label. Keep text clipping on
+   the label only; the track must paint as a real themed surface. */
+.phone button.btn.exp-confirm-slide::before{
+  content:"";position:absolute;inset:0;border-radius:inherit;
+  background:var(--ds-sem-surface,#fff);pointer-events:none;z-index:-1;
+}
+html:not(.dark) .phone button.btn.exp-confirm-slide{
+  background-color:var(--ds-color-surface,#fff)!important;
+  background-image:none!important;
+}
+html:not(.dark) .phone button.btn.exp-confirm-slide::before{
+  background-color:var(--ds-color-surface,#fff);
+}
+.exp-confirm-slide .exp-slide-fill{z-index:0}
 .exp-confirm-slide .exp-slide-fill{
   position:absolute;left:4px;top:3px;bottom:3px;
   width:calc(var(--slide-thumb-size) + var(--slide-x,0px));

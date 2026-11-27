@@ -130,6 +130,17 @@ def verify_crypto_review(page, coin, screenshot=None):
     expect(slider.locator(".exp-slide-thumb svg")).to_be_visible()
     expect(slider.locator(".exp-slide-thumb svg path")).to_have_css("stroke","rgb(22, 21, 20)")
     expect(slider.locator(".exp-slide-thumb svg")).to_have_css("width","20px")
+    # Check painted pixels, not just the CSS value (the label uses text clipping).
+    # Sample the right-hand unfilled track, clear of the text and rounded border.
+    import base64
+    track_png=base64.b64encode(slider.screenshot()).decode("ascii")
+    pixel=page.evaluate("""async data=>{
+      const img=new Image();img.src='data:image/png;base64,'+data;await img.decode();
+      const canvas=document.createElement('canvas');canvas.width=img.width;canvas.height=img.height;
+      const ctx=canvas.getContext('2d');ctx.drawImage(img,0,0);
+      return Array.from(ctx.getImageData(Math.floor(img.width*.90),Math.floor(img.height*.50),1,1).data);
+    }""",track_png)
+    assert pixel==[255,255,255,255], ("Swipe CTA track must actually paint white",pixel)
     expect(slider).to_have_css("border-top-width","1px")
     expect(slider.locator(".exp-slide-label")).to_have_text("Подтвердить")
     expect(slider.locator(".exp-slide-fill")).to_have_css("background-color","rgb(203, 241, 74)")
