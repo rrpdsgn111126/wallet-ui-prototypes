@@ -358,18 +358,8 @@ html.sbp-conversion-specimen #v-dep-sbp #sbp-cv{margin:0!important}
 }
 
 
-/* Network confirmation: shared native sheet and DS tokens; no alternative controls. */
+/* The network-selection picker remains native; there is no separate warning sheet. */
 #v-exp-route .exp-note[hidden]{display:none!important}
-#v-exp-route .exp-network-confirm.sheet{max-height:calc(100% - 16px);overflow-y:auto;overscroll-behavior:contain}
-.exp-network-confirm .sh2,.exp-network-confirm .p{text-align:center}
-.exp-network-confirm .sh2{margin-bottom:8px}
-.exp-network-confirm .p{margin:0 0 16px;font:var(--ds-type-body-secondary)}
-.exp-network-confirm .exp-confirm-mark.warn{box-sizing:border-box;width:52px;height:52px;border-radius:50%;padding:0;display:flex;align-items:center;justify-content:center;margin:0 auto 12px}
-.exp-network-confirm .exp-confirm-mark .wi{flex:none;margin:0;display:flex}
-/* Network confirmation uses the unified table row geometry from design-system.css. */
-#v-exp-route .exp-network-confirm .tbl .rl b>.ds-icon-frame{display:flex;flex:0 0 var(--ds-icon-frame-size)}
-#v-exp-route .exp-network-confirm .tbl .rl b>span:not(.ds-icon-frame){flex:none;min-width:0;color:inherit;font:inherit}
-#v-exp-route .exp-network-confirm .btn.exp-confirm-slide{margin:16px 0 0}
 #v-withdraw-check .amsub{font:var(--ds-type-body-secondary)}
 /* Bank shell defines --surface in both themes; native wallet intentionally
    does not in light mode. Bind the shared quote component's expected aliases
