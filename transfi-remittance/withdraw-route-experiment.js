@@ -819,3 +819,12 @@
 
   window.altWithdrawRouteExperiment={open,closeSheet,state};
 })();
+// Load the experiment navigation state after native and experimental handlers.
+// Its window-capture listener runs before document listeners without forking them.
+(function(){
+  if(document.querySelector('script[data-alt-nav-loader]'))return;
+  const script=document.createElement('script');
+  script.dataset.altNavLoader='1';
+  script.src=new URL('./navigation-loader.js',document.currentScript.src).href;
+  document.head.appendChild(script);
+})();
