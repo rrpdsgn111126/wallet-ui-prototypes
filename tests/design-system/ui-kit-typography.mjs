@@ -38,12 +38,14 @@ let fail = false;
 try {
   for (const width of [390, 430, 1440]) {
     const page = await browser.newPage({ viewport: { width, height: 932 }, deviceScaleFactor: 1 });
+    const stylesPage = await browser.newPage({ viewport: { width, height: 932 }, deviceScaleFactor: 1 });
     const errors = [];
     page.on('pageerror', e => errors.push(e.message));
+    stylesPage.on('pageerror', e => errors.push('Styles: ' + e.message));
     try {
       await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 30000 });
       const cards = page.locator('article.cmp');
-      assert.equal(await cards.count(), 48, 'Unexpected component gallery count');
+      assert.equal(await cards.count(), 47, 'Unexpected component gallery count');
       assert.equal(await page.locator('article.cmp .ds-typography').count(), 47,
         'Typography component must use only its two theme tables');
       // Bank component frames are intentionally loading="lazy" in the UI Kit.
@@ -167,13 +169,25 @@ try {
 
       assert.ok(find('bnv')?.text.includes('12 px'), 'Navigation typography missing');
       assert.equal(await page.locator('.tbls').count(), 0, 'Legacy hard-coded tables must be removed');
-      assert.equal(await page.locator('#ds-type-catalog').count(), 1, 'Measured typography catalog missing');
-      await page.waitForFunction(() => {
+      assert.equal(await page.locator('#tokens, #type, #ds-type-catalog').count(), 0,
+        'Foundation content must not appear in the component catalog');
+      assert.equal(await page.locator('a[href="styles.html#tokens"]').count(), 1,
+        'Token navigation link missing');
+      assert.equal(await page.locator('a[href="styles.html#text-styles"]').count(), 1,
+        'Typography navigation link missing');
+      await stylesPage.goto(new URL('styles.html', url).href, {waitUntil:'domcontentloaded', timeout:30000});
+      assert.equal(await stylesPage.locator('#tokens, #type, #ds-type-catalog').count(), 3,
+        'Foundation page must contain tokens, themed examples and live catalog');
+      await stylesPage.waitForFunction(() =>
+        document.querySelectorAll('#ds-measurement-samples article.cmp').length >= 40,
+        null, {timeout:30000});
+      assert.equal(await stylesPage.locator('#ds-type-catalog').count(), 1, 'Measured typography catalog missing');
+      await stylesPage.waitForFunction(() => {
         const aliases = [...document.querySelectorAll('#ds-type-catalog .ds-type-catalog-aliases')]
           .map(x => x.textContent);
         return aliases.some(x => x.includes('--ds-type-action-label') && x.includes('--ds-type-nav-label'));
       }, null, { timeout: 30000 });
-      const catalog = await page.evaluate(() => {
+      const catalog = await stylesPage.evaluate(() => {
         const rows = [...document.querySelectorAll('#ds-type-catalog .ds-type-catalog-row')];
         const captionRows = rows.filter(row => row.querySelector('.ds-type-catalog-aliases')?.textContent.includes('--ds-type-action-label'));
         const caption = captionRows[0] || null;
@@ -196,21 +210,21 @@ try {
       assert.ok(find('bnv')?.text.includes('--ds-text-caption'), 'Shared navigation foundation absent');
 
       assert.ok(find('amount')?.text.includes('12 px'), 'Amount field caption missing');
-      const summaryText = await page.locator('#ds-type-catalog').innerText();
+      const summaryText = await stylesPage.locator('#ds-type-catalog').innerText();
       assert.ok(!summaryText.includes('Локальные комбинации без общего стиля · '),
         'The typography catalog still contains local combinations');
       assert.ok(!summaryText.includes('Совпадение, без привязки'),
         'UI Kit still contains unbound metric matches');
 
       // The foundation is a pair of actual styles instead of metadata + two samples.
-      assert.equal(await page.locator('#type .meta, #type .ds-typography').count(), 0,
+      assert.equal(await stylesPage.locator('#type .meta, #type .ds-typography').count(), 0,
         'Third typography metadata column must not exist');
-      const frames = page.locator('#type figure.v iframe');
+      const frames = stylesPage.locator('#type figure.v iframe');
       assert.equal(await frames.count(), 2, 'Exactly two themed typography tables required');
-      await page.waitForFunction(expected => [...document.querySelectorAll('#type figure.v iframe')]
+      await stylesPage.waitForFunction(expected => [...document.querySelectorAll('#type figure.v iframe')]
         .every(frame => frame.contentDocument?.querySelectorAll('[data-ds-type-style]').length === expected),
         definitionJson.text_styles.length, { timeout: 30000 });
-      const themed = await page.evaluate(() => {
+      const themed = await stylesPage.evaluate(() => {
         const frames = [...document.querySelectorAll('#type figure.v iframe')];
         return frames.map(frame => {
           const doc = frame.contentDocument;
@@ -331,7 +345,7 @@ try {
       }
 
       await page.locator('#btn .meta').screenshot({ path: path.join(output, 'button-typography-' + width + '.png') });
-      await page.locator('#type figure.v').first().screenshot({ path: path.join(output, 'type-light-' + width + '.png') });
+      await stylesPage.locator('#type figure.v').first().screenshot({ path: path.join(output, 'type-light-' + width + '.png') });
       assert.deepEqual(errors, [], 'UI Kit page errors: ' + errors.join(' | '));
       console.log('UI Kit ' + width + 'px: ' + report.length + ' cards, ' +
         report.filter(x => x.count > 0).length + ' cards with text, measured values OK');
@@ -339,6 +353,7 @@ try {
       fail = true;
       console.error('DS-03 ERROR at ' + width + 'px:', e.stack || e);
     } finally {
+      await stylesPage.close();
       await page.close();
     }
   }
