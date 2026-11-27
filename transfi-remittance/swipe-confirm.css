@@ -1,0 +1,31 @@
+/* Shared swipe-to-confirm button: network sheet, review and library specimen. */
+.phone .btn.exp-confirm-slide{
+  --slide-thumb-size:44px;
+  --slide-fill-edge:calc(4px + var(--slide-thumb-size) + var(--slide-x,0px));
+  position:relative;box-sizing:border-box;touch-action:none;overflow:hidden;user-select:none;
+  margin:0;min-height:var(--ds-size-button);
+  border:1px solid var(--ds-sem-border);background:transparent;box-shadow:none;
+  color:var(--ds-sem-text-secondary);
+}
+.phone .btn.exp-confirm-slide:active{transform:none}
+.exp-confirm-slide .exp-slide-fill{
+  position:absolute;left:4px;top:3px;bottom:3px;
+  width:calc(var(--slide-thumb-size) + var(--slide-x,0px));
+  border-radius:12px;background:var(--brand);pointer-events:none;
+}
+.exp-confirm-slide .exp-slide-label{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;z-index:1;
+  pointer-events:none;
+  background-image:linear-gradient(to right,var(--brand-ink) 0 var(--slide-fill-edge),var(--ds-sem-text-secondary) var(--slide-fill-edge) 100%);
+  background-clip:text;-webkit-background-clip:text;color:transparent;
+}
+.exp-confirm-slide .exp-slide-thumb{
+  position:absolute;left:4px;top:3px;bottom:3px;width:var(--slide-thumb-size);
+  border-radius:12px;background:transparent;color:var(--brand-ink);
+  display:flex;align-items:center;justify-content:center;z-index:2;pointer-events:none;
+  transform:translateX(var(--slide-x,0px));
+}
+.exp-confirm-slide:not(.dragging) .exp-slide-thumb{transition:transform .18s ease-out,opacity .12s ease-out}
+.exp-confirm-slide:not(.dragging) .exp-slide-fill{transition:width .18s ease-out}
+.exp-confirm-slide:focus-visible{outline:2px solid var(--brand-600);outline-offset:3px}
+@media(prefers-reduced-motion:reduce){.exp-confirm-slide .exp-slide-thumb,.exp-confirm-slide .exp-slide-fill{transition:none}}

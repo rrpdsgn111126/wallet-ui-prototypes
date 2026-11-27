@@ -142,6 +142,45 @@ def confirm_network(page, coin, screenshot=None):
     expect(sheet).to_have_count(0)
 
 
+def verify_crypto_review(page, coin, screenshot=None):
+    review=page.locator("#v-withdraw-check")
+    expect(review.locator("#wdc-box")).to_have_class(re.compile(r"\btf-quote\b"))
+    expect(review.locator("#wdc-sub")).to_contain_text(coin)
+    expect(review.locator("#wdc-box .row.tot .rt")).to_have_css("font-weight","600")
+    expect(review.locator("#wdc-box .row").first).to_have_css("padding-top","14px")
+    expect(review.locator("#wdc-box .row").first).to_have_css("border-bottom-width","1px")
+    expect(review.locator("#wdc-box .row .rt i")).to_have_text(re.compile(r".{20,}"))
+    expect(review.locator(".warn > .wi")).to_be_visible()
+    expect(review.locator(".warn > p")).to_be_visible()
+    slider=review.locator("#wdc-go.exp-confirm-slide")
+    expect(slider).to_be_visible()
+    expect(slider.locator(".exp-slide-fill")).to_have_css("width","44px")
+    assert slider.evaluate("el=>el.classList.contains('nav-loading-exempt')&&!!window.AltvuSwipeConfirm")
+    if screenshot:
+        page.screenshot(path=str(screenshot))
+    # An ordinary click and incomplete swipe must not trigger native PIN.
+    slider.click()
+    expect(page.locator("#ps")).to_be_hidden()
+    page.wait_for_timeout(250)
+    track=slider.bounding_box()
+    thumb=slider.locator(".exp-slide-thumb").bounding_box()
+    x=thumb["x"]+thumb["width"]/2
+    y=thumb["y"]+thumb["height"]/2
+    page.mouse.move(x,y)
+    page.mouse.down()
+    page.mouse.move(x+(track["width"]-thumb["width"])*.4,y,steps=12)
+    page.mouse.up()
+    expect(page.locator("#ps")).to_be_hidden()
+    expect(slider.locator(".exp-slide-fill")).to_have_css("width","44px")
+    page.mouse.move(x,y)
+    page.mouse.down()
+    page.mouse.move(x+track["width"]-thumb["width"],y,steps=12)
+    page.mouse.up()
+    expect(page.locator("#ps")).to_be_visible()
+    page.evaluate("psClose()")
+    expect(page.locator("#ps")).to_be_hidden()
+
+
 def run():
     verify_shared_bank_components()
     server = subprocess.Popen(
@@ -510,6 +549,7 @@ def run():
                 expect(page.locator("#v-withdraw-check")).to_have_class(
                     re.compile(r"\bon\b"), timeout=30000
                 )
+                verify_crypto_review(page, "USDT", OUT / f"crypto-review-usdt-{width}.png")
                 page.locator("#v-withdraw-check .back").click()
                 expect(page.locator("#v-exp-route")).to_have_class(re.compile(r"\bon\b"))
                 context.close()
@@ -591,6 +631,8 @@ def run():
                 expect(page.locator(destination)).to_have_class(
                     re.compile(r"\bon\b"), timeout=30000
                 )
+                if mode == "usdc":
+                    verify_crypto_review(page, "USDC", OUT / "crypto-review-usdc-390.png")
                 context.close()
             # Explicit regression for both cryptocurrency methods at every viewport.
             for width, height in [(390, 844), (430, 932), (1440, 900)]:

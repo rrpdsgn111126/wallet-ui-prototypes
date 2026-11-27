@@ -323,50 +323,19 @@
       '<div class="p" id="exp-network-confirm-warning">Ошибка при выборе сети или монеты может привести к потере средств.</div>'+
       '<div class="tbl"><div class="rl"><span>Сеть</span><b><span data-confirm-network>'+esc(netName(key))+'</span><span class="ds-icon-frame" aria-hidden="true">'+netLogo(key)+'</span></b></div>'+
       '<div class="rl"><span>Монета</span><b><span data-confirm-coin>'+esc(coin)+'</span><span class="cn ds-icon-frame" aria-hidden="true">'+coinIcon.outerHTML.replace('id="exp-dest-logo"','')+'</span></b></div></div>'+
-      '<button type="button" class="btn exp-confirm-slide" aria-label="Подтвердить сеть и монету: '+esc(netName(key))+' '+esc(coin)+'. Сдвиньте вправо или нажмите Enter.">'+
-      '<span class="exp-slide-fill" aria-hidden="true"></span><span class="exp-slide-label">Подтвердить</span><span class="exp-slide-thumb" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></span></button>';
+      '<button type="button" class="btn exp-confirm-slide" aria-label="Подтвердить сеть и монету: '+esc(netName(key))+' '+esc(coin)+'. Сдвиньте вправо или нажмите Enter.">Подтвердить</button>';
     const inert=Array.from(screen.children).map(el=>[el,el.inert]);
     inert.forEach(([el])=>{el.inert=true;});
     screen.append(dim,sheet);
     networkConfirmation={key,change,sheet,dim,inert};
-    const slider=sheet.querySelector('.exp-confirm-slide'),thumb=slider.querySelector('.exp-slide-thumb');
-    let pointer=null,x0=0,travel=0,pos=0,scale=1;
-    function draw(x){
-      pos=Math.max(0,Math.min(travel,x));
-      slider.style.setProperty('--slide-x',pos+'px');
-      // Keep the arrow at the advancing edge without crossing the centered text.
-      const label=slider.querySelector('.exp-slide-label');
-      const range=document.createRange();range.selectNodeContents(label);
-      const labelWidth=range.getBoundingClientRect().width/scale;
-      const center=slider.clientWidth/2;
-      const arrow=4+thumb.offsetWidth/2+pos;
-      thumb.style.opacity=Math.abs(arrow-center)<labelWidth/2+12?'0':'1';
-    }
-    function finish(){
+    const slider=sheet.querySelector('.exp-confirm-slide');
+    window.AltvuSwipeConfirm.mount(slider,()=>{
       if(!networkConfirmation||networkConfirmation.sheet!==sheet)return;
       dismissNetworkConfirmation();
       confirmedPair=routePair(key);
       if(change)applyNetwork(key);
       netField.focus({preventScroll:true});
-    }
-    slider.addEventListener('pointerdown',e=>{
-      if(pointer!==null||e.button!==0)return;
-      e.preventDefault();pointer=e.pointerId;x0=e.clientX;
-      travel=Math.max(1,slider.clientWidth-thumb.offsetWidth-8);
-      scale=slider.getBoundingClientRect().width/Math.max(1,slider.offsetWidth)||1;
-      slider.classList.add('dragging');slider.setPointerCapture(pointer);draw(0);
     });
-    slider.addEventListener('pointermove',e=>{if(e.pointerId===pointer)draw((e.clientX-x0)/scale);});
-    function stop(e,commit){
-      if(e.pointerId!==pointer)return;
-      pointer=null;slider.classList.remove('dragging');
-      if(commit&&pos>=travel*.9){finish();return;}
-      draw(0);
-    }
-    slider.addEventListener('pointerup',e=>{if(e.pointerId===pointer)draw((e.clientX-x0)/scale);stop(e,true);});
-    slider.addEventListener('pointercancel',e=>stop(e,false));
-    slider.addEventListener('lostpointercapture',e=>stop(e,false));
-    slider.addEventListener('click',e=>{if(e.detail===0)finish();});
     dim.addEventListener('click',cancelNetworkConfirmation);
     sheetOpen(dim,sheet);
     slider.focus({preventScroll:true});
@@ -702,6 +671,22 @@
     finally{state.busy=false;E('exp-next').disabled=false;}
   }
   E('exp-next').addEventListener('click',next);
+  // Native confirmation and PIN remain the authoritative transfer flow.
+  const review=E('v-withdraw-check');
+  const reviewButton=E('wdc-go');
+  if(review&&reviewButton){
+    E('wdc-box').classList.add('tf-review-box','tf-quote','tf-review-quote');
+    const reviewSwipe=window.AltvuSwipeConfirm.mount(reviewButton,()=>{
+      if(review.classList.contains('on'))
+        psOpen(wdSubmit,'Перевод в сеть необратим: отменить его не сможем ни мы, ни сеть','withdraw');
+    });
+    const nativeCheck=wdCheck;
+    wdCheck=function(){
+      reviewSwipe.reset();
+      return nativeCheck.apply(this,arguments);
+    };
+  }
+
 
   // Only intercept withdrawal method rows. All other existing flows untouched.
   document.addEventListener('click',function(e){
