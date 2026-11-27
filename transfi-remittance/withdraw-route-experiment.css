@@ -380,6 +380,9 @@ html.sbp-conversion-specimen #v-dep-sbp #sbp-cv{margin:0!important}
   --surface:var(--ds-sem-surface);
   --sh-1:var(--ds-color-sh-1);
 }
+/* One identical semantic 1px divider in both review cards. */
+#v-withdraw-check .box.tf-quote .row:not(:last-child){border-bottom:1px solid var(--ds-sem-divider)}
+#v-withdraw-check .box.tf-quote .row.tot{border-top:0;box-shadow:none}
 #v-withdraw-check .box.tf-quote .wdc-address-row .rt{
   flex:1 1 45%;white-space:normal;overflow:visible;
 }

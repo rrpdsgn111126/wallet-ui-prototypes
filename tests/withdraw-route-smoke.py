@@ -112,7 +112,8 @@ def confirm_network(page, coin, screenshot=None):
         assert row.evaluate("""el=>{const b=el.querySelector('b');return b.firstElementChild.getBoundingClientRect().right<=b.lastElementChild.getBoundingClientRect().left}""")
     slider = sheet.locator(".exp-confirm-slide")
     expect(slider).to_have_text("Подтвердить")
-    expect(slider).to_have_css("background-color", "rgba(0, 0, 0, 0)")
+    assert slider.evaluate("""el=>{const s=getComputedStyle(el);return s.backgroundColor!=='rgba(0, 0, 0, 0)'&&s.height===getComputedStyle(el.closest('.phone').querySelector('button.btn:not(.exp-confirm-slide)')).height}""")
+    expect(slider.locator(".exp-slide-thumb")).to_have_css("opacity","1")
     expect(slider).to_have_css("border-top-width", "1px")
     fill=slider.locator(".exp-slide-fill")
     expect(fill).to_have_css("width", "44px")
@@ -133,12 +134,16 @@ def confirm_network(page, coin, screenshot=None):
         page.mouse.down()
         page.mouse.move(x+(track["width"]-thumb["width"]-8*scale)*fraction,y,steps=12)
         assert fill.bounding_box()["width"] > thumb["width"] * 1.5
+        expect(slider.locator(".exp-slide-thumb")).to_have_css("opacity","0")
         if screenshot and fraction < 1:
             page.screenshot(path=str(screenshot.with_name(screenshot.stem+"-drag"+screenshot.suffix)))
         page.mouse.up()
         if fraction < 1:
             expect(sheet).to_be_visible()
             expect(fill).to_have_css("width", "44px")
+            expect(slider.locator(".exp-slide-thumb")).to_have_css("opacity","1")
+        else:
+            expect(slider.locator(".spin.nav-spinner")).to_be_visible(timeout=1500)
     expect(sheet).to_have_count(0)
 
 
@@ -148,6 +153,8 @@ def verify_crypto_review(page, coin, screenshot=None):
     expect(review.locator("#wdc-sub")).to_contain_text(coin)
     expect(review.locator(".wrap > .box.tf-quote")).to_have_count(2)
     expect(review.locator("#wdc-fees .row.tot .rt")).to_have_css("font-weight","600")
+    expect(review.locator("#wdc-fees .row.tot")).to_have_css("border-top-width","0px")
+    assert review.evaluate("""el=>{const a=getComputedStyle(el.querySelector('#wdc-box .row'));const b=getComputedStyle(el.querySelector('#wdc-fees .row'));return a.borderBottomWidth===b.borderBottomWidth&&a.borderBottomColor===b.borderBottomColor&&b.borderBottomWidth==='1px'}""")
     expect(review.locator("#wdc-box .row").first).to_have_css("padding-top","14px")
     expect(review.locator("#wdc-box .row").first).to_have_css("border-bottom-width","1px")
     expect(review.locator("#wdc-box .row .rt")).to_contain_text(["Сеть","Адрес"])
@@ -168,6 +175,7 @@ def verify_crypto_review(page, coin, screenshot=None):
     slider=review.locator("#wdc-go.exp-confirm-slide")
     expect(slider).to_be_visible()
     expect(slider).to_have_css("height","52px")
+    expect(slider.locator(".exp-slide-thumb")).to_have_css("opacity","1")
     expect(slider).to_have_css("border-top-width","1px")
     expect(slider.locator(".exp-slide-label")).to_have_text("Подтвердить")
     expect(slider.locator(".exp-slide-fill")).to_have_css("background-color","rgb(203, 241, 74)")
@@ -186,6 +194,7 @@ def verify_crypto_review(page, coin, screenshot=None):
     page.mouse.move(x,y)
     page.mouse.down()
     page.mouse.move(x+(track["width"]-thumb["width"])*.4,y,steps=12)
+    expect(slider.locator(".exp-slide-thumb")).to_have_css("opacity","0")
     page.mouse.up()
     expect(page.locator("#ps")).to_be_hidden()
     expect(slider.locator(".exp-slide-fill")).to_have_css("width","44px")
@@ -193,6 +202,7 @@ def verify_crypto_review(page, coin, screenshot=None):
     page.mouse.down()
     page.mouse.move(x+track["width"]-thumb["width"],y,steps=12)
     page.mouse.up()
+    expect(slider.locator(".spin.nav-spinner")).to_be_visible(timeout=1500)
     expect(page.locator("#ps")).to_be_visible()
     page.evaluate("psClose()")
     expect(page.locator("#ps")).to_be_hidden()

@@ -10,23 +10,40 @@
     if(!slider.hasAttribute('aria-label'))slider.setAttribute('aria-label',labelText+'. Сдвиньте вправо или нажмите Enter.');
     slider.innerHTML='<span class="exp-slide-fill" aria-hidden="true"></span><span class="exp-slide-label"></span><span class="exp-slide-thumb" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></span>';
     const label=slider.querySelector('.exp-slide-label'),thumb=slider.querySelector('.exp-slide-thumb');
+    const spinner=document.createElement('span');
+    spinner.className='spin nav-spinner';spinner.setAttribute('aria-hidden','true');
     label.textContent=labelText;
     let pointer=null,x0=0,travel=0,pos=0,scale=1,locked=false;
     function draw(x){
       pos=Math.max(0,Math.min(travel,x));
       slider.style.setProperty('--slide-x',pos+'px');
-      const range=document.createRange();range.selectNodeContents(label);
-      const labelWidth=range.getBoundingClientRect().width/scale;
-      const center=slider.clientWidth/2,arrow=4+thumb.offsetWidth/2+pos;
-      thumb.style.opacity=Math.abs(arrow-center)<labelWidth/2+12?'0':'1';
+    }
+    let generation=0;
+    function setLoading(value){
+      locked=!!value;
+      slider.classList.toggle('nav-loading',locked);
+      slider.classList.toggle('nav-loading-button',locked);
+      if(locked){slider.setAttribute('aria-busy','true');slider.appendChild(spinner);}
+      else{slider.removeAttribute('aria-busy');spinner.remove();}
     }
     function reset(){
-      pointer=null;slider.classList.remove('dragging');draw(0);
+      generation++;
+      pointer=null;slider.classList.remove('dragging');draw(0);setLoading(false);
     }
-    function finish(){
+    async function finish(){
       if(locked||slider.disabled||slider.getAttribute('aria-disabled')==='true')return;
-      locked=true;
-      try{onConfirm();}finally{reset();queueMicrotask(()=>{locked=false;});}
+      const current=++generation;
+      setLoading(true);
+      try{
+        // Same minimum visual feedback as other navigation CTAs in this mock.
+        await new Promise(resolve=>setTimeout(resolve,190));
+        if(current!==generation||!slider.isConnected)return;
+        await onConfirm();
+      }catch(error){
+        console.error('Swipe confirmation failed',error);
+      }finally{
+        if(current===generation)reset();
+      }
     }
     slider.addEventListener('pointerdown',e=>{
       if(pointer!==null||locked||slider.disabled||e.button!==0)return;
@@ -47,7 +64,7 @@
     slider.addEventListener('lostpointercapture',e=>stop(e,false));
     // Suppress the old delegated click action; keyboard activation is explicit.
     slider.addEventListener('click',e=>{e.preventDefault();e.stopImmediatePropagation();if(e.detail===0)finish();},true);
-    const instance=Object.freeze({reset});instances.set(slider,instance);return instance;
+    const instance=Object.freeze({reset,setLoading});instances.set(slider,instance);return instance;
   }
   window.AltvuSwipeConfirm=Object.freeze({mount});
 })();

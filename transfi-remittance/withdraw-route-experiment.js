@@ -686,9 +686,25 @@
     const warning=review.querySelector('.warn');
     if(warning)reviewButton.before(warning);
     const reviewSwipe=window.AltvuSwipeConfirm.mount(reviewButton,()=>{
-      if(review.classList.contains('on'))
-        psOpen(wdSubmit,'Перевод в сеть необратим: отменить его не сможем ни мы, ни сеть','withdraw');
+      if(!review.classList.contains('on'))return;
+      const pin=E('ps');
+      psOpen(wdSubmit,'Перевод в сеть необратим: отменить его не сможем ни мы, ни сеть','withdraw');
+      if(!pin||!pin.hidden)return;
+      // psOpen may defer showing PIN until the keyboard has closed.
+      return new Promise(resolve=>{
+        let timeout;
+        const done=()=>{observer.disconnect();clearTimeout(timeout);resolve();};
+        const observer=new MutationObserver(()=>{
+          if(!pin.hidden||!review.classList.contains('on')||psFn!==wdSubmit)done();
+        });
+        observer.observe(pin,{attributes:true,attributeFilter:['hidden','class']});
+        observer.observe(review,{attributes:true,attributeFilter:['class']});
+        timeout=setTimeout(done,10000);
+      });
     });
+    new MutationObserver(()=>{
+      if(!review.classList.contains('on'))reviewSwipe.reset();
+    }).observe(review,{attributes:true,attributeFilter:['class']});
     const nativeCheck=wdCheck;
     wdCheck=function(){
       reviewSwipe.reset();
