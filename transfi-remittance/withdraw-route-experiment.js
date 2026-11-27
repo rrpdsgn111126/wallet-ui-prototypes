@@ -279,96 +279,13 @@
     balancePaint();say('');
   }
 
-  // Experiment-only safety gate. Reuse the shared sheet, warning, row, icon
-  // and primary-button styles; the route state changes only after confirmation.
-  let networkConfirmation=null, confirmedPair='';
-  const routePair=key=>state.method+':'+key;
-  const routeSpecimen=()=>document.documentElement.classList.contains('exp-route-specimen');
-  function dismissNetworkConfirmation(){
-    const pending=networkConfirmation;
-    if(!pending)return null;
-    networkConfirmation=null;
-    pending.sheet.remove();pending.dim.remove();
-    pending.inert.forEach(([el,was])=>{el.inert=was;});
-    return pending;
-  }
-  function cancelNetworkConfirmation(){
-    const pending=dismissNetworkConfirmation();
-    if(!pending)return;
-    if(pending.change){
-      netField.focus({preventScroll:true});
-    }else{
-      confirmedPair='';
-      show('home',false);
-      show('withdraw',false);
-      Promise.resolve(afterShow('withdraw')).catch(()=>{});
-    }
-  }
-  function requireNetworkConfirmation(key,change){
-    if(state.method==='altvu'||routeSpecimen()||!screen.classList.contains('on'))return;
-    if(networkConfirmation)return;
-    const coin=methods[state.method].coin;
-    const dim=document.createElement('div'),sheet=document.createElement('div');
-    dim.className='dim exp-network-confirm-dim';dim.hidden=true;
-    sheet.className='sheet exp-network-confirm';sheet.hidden=true;
-    sheet.setAttribute('role','dialog');
-    sheet.setAttribute('aria-modal','true');
-    sheet.setAttribute('aria-labelledby','exp-network-confirm-title');
-    sheet.setAttribute('aria-describedby','exp-network-confirm-warning');
-    const mark=document.querySelector('#v-withdraw-check .warn .wi');
-    const coinIcon=E('exp-dest-logo');
-    sheet.innerHTML='<div class="grab"></div>'+
-      '<div class="warn exp-confirm-mark" aria-hidden="true">'+(mark?mark.outerHTML:'!')+'</div>'+
-      '<div class="sh2" id="exp-network-confirm-title">Проверьте сеть и монету</div>'+
-      '<div class="p" id="exp-network-confirm-warning">Ошибка при выборе сети или монеты может привести к потере средств.</div>'+
-      '<div class="tbl"><div class="rl"><span>Сеть</span><b><span data-confirm-network>'+esc(netName(key))+'</span><span class="ds-icon-frame" aria-hidden="true">'+netLogo(key)+'</span></b></div>'+
-      '<div class="rl"><span>Монета</span><b><span data-confirm-coin>'+esc(coin)+'</span><span class="cn ds-icon-frame" aria-hidden="true">'+coinIcon.outerHTML.replace('id="exp-dest-logo"','')+'</span></b></div></div>'+
-      '<button type="button" class="btn exp-confirm-slide" aria-label="Подтвердить сеть и монету: '+esc(netName(key))+' '+esc(coin)+'. Сдвиньте вправо или нажмите Enter.">Подтвердить</button>';
-    const inert=Array.from(screen.children).map(el=>[el,el.inert]);
-    inert.forEach(([el])=>{el.inert=true;});
-    screen.append(dim,sheet);
-    networkConfirmation={key,change,sheet,dim,inert};
-    const slider=sheet.querySelector('.exp-confirm-slide');
-    window.AltvuSwipeConfirm.mount(slider,()=>{
-      if(!networkConfirmation||networkConfirmation.sheet!==sheet)return;
-      dismissNetworkConfirmation();
-      confirmedPair=routePair(key);
-      if(change)applyNetwork(key);
-      netField.focus({preventScroll:true});
-    });
-    dim.addEventListener('click',cancelNetworkConfirmation);
-    sheetOpen(dim,sheet);
-    slider.focus({preventScroll:true});
-  }
-  const routeBack=back;
-  back=function(){
-    if(networkConfirmation&&screen.classList.contains('on')){cancelNetworkConfirmation();return;}
-    return routeBack.apply(this,arguments);
-  };
-  document.addEventListener('keydown',e=>{
-    if(!networkConfirmation||!screen.classList.contains('on'))return;
-    if(e.key==='Escape'){
-      e.preventDefault();e.stopImmediatePropagation();cancelNetworkConfirmation();
-    }else if(e.key==='Tab'){
-      e.preventDefault();networkConfirmation.sheet.querySelector('.exp-confirm-slide').focus();
-    }
-  },true);
-  // Clear a stale overlay if a native navigation leaves this screen.
-  new MutationObserver(()=>{
-    if(!screen.classList.contains('on')&&networkConfirmation){
-      dismissNetworkConfirmation();confirmedPair='';
-    }
-  }).observe(screen,{attributes:true,attributeFilter:['class']});
-
   function open(method){
     if(!methods[method])return;
-    dismissNetworkConfirmation();confirmedPair='';
     state.method=method;state.network=methods[method].network;
     state.address='';state.scannedCode='';state.amount='';
     if(method!=='altvu'&&!networks().includes(state.network))
       state.network=networks()[0]||state.network;
     paint();show('exp-route');refreshBalance();
-    if(method!=='altvu'&&!routeSpecimen())requireNetworkConfirmation(state.network,false);
   }
   // The same global .ns-sheet used by native USDT/USDC deposits.
   function closeSheet(restoreFocus=true){
@@ -377,7 +294,7 @@
     if(restoreFocus&&screen.classList.contains('on'))netField.focus({preventScroll:true});
   }
   async function pickNetwork(){
-    if(state.method==='altvu'||state.sheetBusy||networkConfirmation)return;
+    if(state.method==='altvu'||state.sheetBusy)return;
     state.sheetBusy=true;
     try{
       state.networkCatalog=await netAll();
@@ -414,7 +331,7 @@
     if(!networks().includes(key))return;
     if(key===state.network){closeSheet();return;}
     closeSheet(false);
-    requireNetworkConfirmation(key,true);
+    applyNetwork(key);
   }
   function applyNetwork(key){
     const changed=key!==state.network;
@@ -614,10 +531,7 @@
   },true);
 
   async function next(){
-    if(state.busy||networkConfirmation)return;
-    if(state.method!=='altvu'&&!routeSpecimen()&&confirmedPair!==routePair(state.network)){
-      requireNetworkConfirmation(state.network,false);return;
-    }
+    if(state.busy)return;
     const address=to.value.trim(),value=cleanAmount(amt.value);
     const cents=Math.round(Number(value)*100);
     if(!/^\d{1,7}(?:\.\d{1,2})?$/.test(value)||!Number.isFinite(cents)||cents<=0||cents>MAX_AMOUNT_MINOR){
@@ -684,7 +598,11 @@
     details.after(fees);
     // Reuse the existing warning DOM, not another rendering of its contents.
     const warning=review.querySelector('.warn');
-    if(warning)reviewButton.before(warning);
+    if(warning){
+      const message=warning.querySelector('p');
+      if(message)message.textContent='Проверьте сеть и адрес кошелька. Перевод в сети отменить нельзя.';
+      reviewButton.before(warning);
+    }
     const reviewSwipe=window.AltvuSwipeConfirm.mount(reviewButton,()=>{
       if(!review.classList.contains('on'))return;
       const pin=E('ps');
