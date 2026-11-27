@@ -83,73 +83,16 @@ def verify_shared_bank_components():
 
 
 
-def confirm_network(page, coin, screenshot=None):
-    sheet = page.locator(".exp-network-confirm")
-    expect(sheet).to_be_visible()
-    expect(sheet.locator("[data-confirm-coin]")).to_have_text(coin)
-    expect(sheet.locator(".tbl > .rl > span")).to_have_text(["Сеть", "Монета"])
-    expect(sheet.locator(".tbl > .rl > b > .ds-icon-frame:last-child")).to_have_count(2)
-    # Match the actual title/value table's canonical styles, rather than
-    # copying generic list geometry or the standalone sheet summary border.
-    layout = sheet.evaluate("""el => {
-        const specimen=document.createElement('div');
-        specimen.className='tbl';
-        specimen.innerHTML='<div class="rl"><span>Сеть</span><b>TRC20</b></div><div class="rl"><span>Монета</span><b>USDT</b></div>';
-        const phone=el.closest('.phone');phone.appendChild(specimen);
-        const style=(node,keys)=>keys.map(key=>getComputedStyle(node)[key]);
-        const rows=Array.from(el.querySelectorAll('.tbl > .rl'));
-        const refs=Array.from(specimen.querySelectorAll('.rl'));
-        const keys=['paddingTop','paddingBottom','marginBottom','borderTopWidth','borderBottomWidth','borderTopColor','gap','alignItems'];
-        const fonts=['fontFamily','fontSize','lineHeight','fontWeight','color'];
-        const result=rows.every((r,i)=>JSON.stringify(style(r,keys))===JSON.stringify(style(refs[i],keys)) &&
-          JSON.stringify(style(r.firstElementChild,fonts))===JSON.stringify(style(refs[i].firstElementChild,fonts)) &&
-          JSON.stringify(style(r.querySelector('b'),fonts))===JSON.stringify(style(refs[i].querySelector('b'),fonts)) &&
-          JSON.stringify(style(r.querySelector('b > span:not(.ds-icon-frame)'),fonts))===JSON.stringify(style(refs[i].querySelector('b'),fonts)));
-        specimen.remove();return result;
-    }""")
-    assert layout, "Confirmation table must match canonical title/value table"
-    for row in sheet.locator(".tbl > .rl").all():
-        assert row.evaluate("""el=>{const b=el.querySelector('b');return b.firstElementChild.getBoundingClientRect().right<=b.lastElementChild.getBoundingClientRect().left}""")
-    slider = sheet.locator(".exp-confirm-slide")
-    expect(slider).to_have_text("Подтвердить")
-    assert slider.evaluate("""el=>{const s=getComputedStyle(el);return s.backgroundColor!=='rgba(0, 0, 0, 0)'&&s.height===getComputedStyle(el.closest('.phone').querySelector('button.btn:not(.exp-confirm-slide)')).height}""")
-    expect(slider.locator(".exp-slide-thumb")).to_have_css("opacity","1")
-    expect(slider).to_have_css("background-color","rgb(255, 255, 255)")
-    expect(slider.locator(".exp-slide-thumb svg")).to_be_visible()
-    expect(slider.locator(".exp-slide-thumb svg path")).to_have_css("stroke","rgb(22, 21, 20)")
-    expect(slider.locator(".exp-slide-thumb svg")).to_have_css("width","20px")
-    expect(slider).to_have_css("border-top-width", "1px")
-    fill=slider.locator(".exp-slide-fill")
-    expect(fill).to_have_css("width", "44px")
-    assert slider.evaluate("""el=>{const s=getComputedStyle(el),f=getComputedStyle(el.querySelector(\'.exp-slide-fill\'));return f.backgroundColor===\'rgb(203, 241, 74)\'&&s.boxShadow===\'none\'}""")
-    expect(page.locator("#exp-note")).to_be_hidden()
-    page.wait_for_timeout(750)
+def assert_no_network_confirmation(page, coin, screenshot=None):
+    """USDT/USDC opens directly; network confirmation is no longer a step."""
+    expect(page.locator(".exp-network-confirm")).to_have_count(0)
+    expect(page.locator(".exp-network-confirm-dim")).to_have_count(0)
+    expect(page.locator("#v-exp-route")).to_have_class(re.compile(r"\\bon\\b"))
+    expect(page.locator("#exp-recipient")).to_be_enabled()
+    expect(page.locator("#exp-net-toggle")).to_be_visible()
     if screenshot:
         page.screenshot(path=str(screenshot))
-    for fraction in (0.4, 1):
-        slider.scroll_into_view_if_needed()
-        page.wait_for_timeout(250)
-        track = slider.bounding_box()
-        thumb = slider.locator(".exp-slide-thumb").bounding_box()
-        x = thumb["x"] + thumb["width"]/2
-        y = thumb["y"] + thumb["height"]/2
-        scale = slider.evaluate("el=>el.getBoundingClientRect().width/el.offsetWidth")
-        page.mouse.move(x,y)
-        page.mouse.down()
-        page.mouse.move(x+(track["width"]-thumb["width"]-8*scale)*fraction,y,steps=12)
-        assert fill.bounding_box()["width"] > thumb["width"] * 1.5
-        expect(slider.locator(".exp-slide-thumb")).to_have_css("opacity","0")
-        if screenshot and fraction < 1:
-            page.screenshot(path=str(screenshot.with_name(screenshot.stem+"-drag"+screenshot.suffix)))
-        page.mouse.up()
-        if fraction < 1:
-            expect(sheet).to_be_visible()
-            expect(fill).to_have_css("width", "44px")
-            expect(slider.locator(".exp-slide-thumb")).to_have_css("opacity","1")
-            expect(slider.locator(".exp-slide-thumb svg")).to_be_visible()
-        else:
-            expect(slider.locator(".spin.nav-spinner")).to_be_visible(timeout=1500)
-    expect(sheet).to_have_count(0)
+
 
 
 def verify_crypto_review(page, coin, screenshot=None):
@@ -175,7 +118,9 @@ def verify_crypto_review(page, coin, screenshot=None):
         a.scrollWidth<=a.clientWidth+1;
     }""")
     expect(review.locator(".foot > .warn > .wi")).to_be_visible()
-    expect(review.locator(".foot > .warn > p")).to_be_visible()
+    expect(review.locator(".foot > .warn > p")).to_have_text(
+        "Проверьте сеть и адрес кошелька. Перевод в сети отменить нельзя."
+    )
     expect(review.locator(".foot > .warn")).to_have_css("margin-bottom","12px")
     slider=review.locator("#wdc-go.exp-confirm-slide")
     expect(slider).to_be_visible()
@@ -298,7 +243,7 @@ def run():
                 expect(page.locator("#v-exp-route")).to_have_class(
                     re.compile(r"\bon\b"), timeout=30000
                 )
-                confirm_network(page, "USDT", OUT / f"network-confirm-usdt-{width}.png")
+                assert_no_network_confirmation(page, "USDT", OUT / f"crypto-entry-usdt-{width}.png")
                 # Design system is NOT copied into the experiment. The real
                 # external CSS and its imported tokens must actually load.
                 expect(page.locator("#exp-canonical-design-system")).to_have_attribute(
@@ -564,15 +509,14 @@ def run():
                 options = page.locator(".phone > .ns-sheet .ns-box [data-ns]")
                 if options.count() > 1:
                     chosen = options.nth(1).get_attribute("data-ns")
-                    options.nth(1).click()
-                    expect(page.locator(".exp-network-confirm")).to_be_visible()
-                    expect(page.locator("#exp-recipient")).to_have_value("T" + "1" * 33)
+                    # Escape cancels the native network selector without changing the address.
                     page.keyboard.press("Escape")
-                    expect(page.locator(".exp-network-confirm")).to_have_count(0)
+                    expect(page.locator(".phone > .ns-sheet")).to_be_hidden()
+                    expect(page.locator("#exp-recipient")).to_have_value("T" + "1" * 33)
                     expect(page.locator("#exp-net-value")).to_have_text("TRC20")
                     page.locator("#exp-net-toggle").click()
                     page.locator('.phone > .ns-sheet .ns-box [data-ns="'+chosen+'"]').click()
-                    confirm_network(page, "USDT")
+                    assert_no_network_confirmation(page, "USDT")
                     expect(page.locator("#exp-recipient")).to_have_value("")
                     expect(page.locator(".exp-route-card .ds-field-clear")).to_be_hidden()
                     expect(page.locator("#exp-net-icon")).to_have_class(re.compile("nlg " + chosen))
@@ -602,7 +546,7 @@ def run():
                     re.compile(r"\bon\b"), timeout=30000
                 )
                 if mode == "usdc":
-                    confirm_network(page, "USDC")
+                    assert_no_network_confirmation(page, "USDC")
                 else:
                     expect(page.locator(".exp-network-confirm")).to_have_count(0)
                 expect(page.locator("#exp-dest-label")).to_have_text("Куда → " + target)
@@ -679,7 +623,7 @@ def run():
                     page.on("pageerror", lambda exc: errors.append(str(exc)))
                     page.goto(HOST + mode, wait_until="domcontentloaded")
                     expect(page.locator("#v-exp-route")).to_have_class(re.compile(r"\bon\b"), timeout=30000)
-                    confirm_network(page, mode.upper(), OUT / f"network-confirm-{mode}-{width}.png")
+                    assert_no_network_confirmation(page, mode.upper(), OUT / f"crypto-entry-{mode}-{width}.png")
                     expect(page.locator("#exp-dest-label")).to_have_text("Куда → " + mode.upper())
                     card = page.locator("#v-exp-route .exp-amount-field")
                     amount = card.locator("input.wd-amt")
