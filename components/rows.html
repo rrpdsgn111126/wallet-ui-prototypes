@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>alt.vu · Строки в плите</title>
+<title>alt.vu · Таблица / строка</title>
 <script>/* тема — из адреса: components/rows.html#dark */
 if (location.hash === '#dark') document.documentElement.classList.add('dark');</script>
 <link rel="stylesheet" href="../css/alt-vu-wallet.css">
@@ -39,6 +39,30 @@ if (location.hash === '#dark') document.documentElement.classList.add('dark');</
     <svg class="method-chevron" aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--n400)" stroke-width="1.8"><path d="m9 5 7 7-7 7"/></svg><span class="spin nav-spinner" aria-hidden="true"></span>
   </div>
 </div>
+</section>
+<section class="ds-st">
+<div class="ds-lab">Название, подпись, значение и перенос</div>
+<div class="box">
+  <div class="row"><div class="rt">Метод</div><div class="rv">SEPA</div></div>
+  <div class="row"><div class="rt">Комиссия<i>Сервисная комиссия</i></div><div class="rv">2.50 $</div></div>
+  <div class="row"><div class="rt">Счёт</div><div class="rv">DE00 0000 0000 0000 0000 00</div></div>
+  <div class="row"><div class="rt">Назначение</div><div class="rv">Перевод собственных средств</div></div>
+  <div class="row tot"><div class="rt">Спишется со счёта</div><div class="rv">102.50 $</div></div>
+</div>
+</section>
+<section class="ds-st">
+<div class="ds-lab">Без иконки / подпись / правый слот</div>
+<div class="box">
+  <div class="row"><div class="rt">Смена ПИН-кода</div></div>
+  <div class="row"><div class="rt">О движении денег<i>Пополнения, переводы и вывод</i></div><div class="sw on"></div></div>
+  <div class="row"><div class="rt">Уведомления<i>Операции и статусы</i></div><div class="sw"></div></div>
+  <div class="row"><div class="rt">Франция</div><div class="rd on"></div></div>
+  <div class="row"><div class="rt">Реквизиты<i>Скопировать номер счёта</i></div><button type="button" class="ds-system-action tf-copy" aria-label="Скопировать"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg></button></div>
+</div>
+</section>
+<section class="ds-st">
+<div class="ds-lab">Совместимый вариант «название — значение»</div>
+<div class="tbl"><div class="rl"><span>Валюта</span><b>USD</b></div><div class="rl"><span>Курс<i>Тестовый расчёт</i></span><b>0.92 €</b></div><div class="rl tot"><span>Итого</span><b>100.00 $</b></div></div>
 </section>
 </div>
 <script src="../showcase/specimen.js"></script>

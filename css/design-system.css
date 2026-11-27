@@ -275,9 +275,9 @@ html body .phone.tf-phone {
 .phone .sheet .method-list { margin-bottom:12px; }
 .phone .sheet .method-list .m.row.method-option {
   box-sizing:border-box;display:flex;align-items:center;gap:12px;
-  min-height:60px;height:auto;width:100%;margin:0;padding:10px 16px;
+  min-height:var(--ds-row-min-height);height:auto;width:100%;margin:0;padding:var(--ds-row-pad-block) var(--ds-row-pad-inline);
   border:0;border-radius:0;background:transparent;
-  box-shadow:inset 0 1px 0 var(--n50);color:var(--n900);text-align:left;cursor:pointer;
+  box-shadow:var(--ds-row-divider);color:var(--n900);text-align:left;cursor:pointer;
 }
 .phone .sheet .method-list .m.row.method-option:first-child { box-shadow:none; }
 /* Hidden SBP must not leave a divider above the first visible method. */
@@ -402,3 +402,50 @@ html body .phone.tf-phone {
   width:var(--ds-icon-art-size);height:var(--ds-icon-art-size);
   background-size:100%;background-color:transparent;
 }
+
+/* Unified wallet table / list row. Legacy .tbl/.rl is a compatibility
+   variant of .box/.row, not another geometry. Receipt .rcpt/.rl, history
+   .op and address book .ab intentionally keep their own component layouts. */
+.phone {
+  --ds-row-min-height:60px;
+  --ds-row-pad-block:10px;
+  --ds-row-pad-inline:16px;
+  --ds-row-gap:12px;
+  --ds-row-divider:inset 0 1px 0 var(--ds-sem-divider,var(--n100));
+}
+.phone :is(.box,.tbl) > :is(.row,.rl):not([hidden]) {
+  box-sizing:border-box;display:flex;align-items:center;
+  min-height:var(--ds-row-min-height);height:auto;
+  padding:var(--ds-row-pad-block) var(--ds-row-pad-inline);
+  gap:var(--ds-row-gap);margin:0;border:0;border-radius:0;
+  box-shadow:var(--ds-row-divider);
+}
+.phone :is(.box,.tbl) > :is(.row,.rl):first-child:not([hidden]) {box-shadow:none}
+.phone :is(.box,.tbl) > :is(.row,.rl)[hidden] {display:none}
+.phone .tbl {padding:0;overflow:hidden}
+.phone :is(.box,.tbl) > .row .rt,
+.phone .tbl > .rl > span {
+  min-width:0;flex:1 1 0;font:var(--ds-type-row);color:var(--n900);
+  overflow-wrap:anywhere;
+}
+.phone :is(.box,.tbl) > .row .rt i,
+.phone .tbl > .rl > span i {
+  display:block;margin:0;font:var(--ds-type-meta-caption);color:var(--n500);
+}
+.phone :is(.box,.tbl) > .row .rt i[hidden],
+.phone .tbl > .rl > span i[hidden] {display:none}
+.phone :is(.box,.tbl) > .row > .rv,
+.phone .tbl > .rl > b {
+  min-width:0;max-width:60%;flex:0 1 auto;font:var(--ds-type-control-regular);
+  text-align:right;color:var(--n500);white-space:normal;overflow-wrap:anywhere;
+}
+.phone .tbl > .rl > b {display:flex;justify-content:flex-end;align-items:center;gap:8px}
+.phone :is(.box,.tbl) > .row.dang .rt {color:var(--err)}
+.phone :is(.box,.tbl) > .row.tot .rt,
+.phone :is(.box,.tbl) > .row.tot .rv,
+.phone .tbl > .rl.tot > span,
+.phone .tbl > .rl.tot > b {
+  font:var(--ds-type-strong-value);color:var(--n900);
+}
+.phone .tbl > .rl.lm-row .lm-ri {width:32px;height:32px;min-width:32px;flex:0 0 32px}
+.phone .tbl > .rl.lm-row .lm-tx {font:var(--ds-type-row)}
