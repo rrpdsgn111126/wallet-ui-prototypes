@@ -8,8 +8,8 @@
 .phone .nav-loading .method-chevron .nav-spinner,
 .phone .nav-loading .row-chevron .nav-spinner,
 .phone .nav-loading .chevron .nav-spinner{
-  display:block;position:absolute;left:50%;top:50%;
-  transform:translate(-50%,-50%);margin:0;
+  display:block;position:absolute;inset:0;margin:auto;
+  /* .spin rotates with transform; centering must not use transform. */
 }
 .phone .nav-loading .method-chevron,
 .phone .nav-loading .row-chevron,
