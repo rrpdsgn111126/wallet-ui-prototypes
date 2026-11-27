@@ -7,6 +7,7 @@
 <script>/* тема — из адреса: components/btn.html#dark */
 if (location.hash === '#dark') document.documentElement.classList.add('dark');</script>
 <link rel="stylesheet" href="../css/alt-vu-wallet.css">
+<link rel="stylesheet" href="../css/navigation-loading.css">
 <link rel="stylesheet" href="../showcase/states.css">
 <link rel="stylesheet" href="../showcase/specimen.css">
 </head>
@@ -32,6 +33,11 @@ if (location.hash === '#dark') document.documentElement.classList.add('dark');</
 <div class="ds-lab">Выключено (.off)</div>
 <!-- состояние: Выключено (.off) -->
 <button class="btn off" id="b-name">Продолжить</button>
+</section>
+<section class="ds-st">
+<div class="ds-lab">Загрузка · переход на следующий экран</div>
+<!-- состояние: Загрузка, общий .spin и nav-loading-button -->
+<button class="btn nav-loading nav-loading-button" type="button" aria-busy="true" aria-label="Продолжить — загрузка">Продолжить<span class="spin nav-spinner" aria-hidden="true"></span></button>
 </section>
 </div>
 <script src="../showcase/specimen.js"></script>
