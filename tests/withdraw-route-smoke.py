@@ -168,6 +168,14 @@ def verify_crypto_review(page, coin, screenshot=None):
     page.mouse.move(x+track["width"]-thumb["width"],y,steps=12)
     page.mouse.up()
     expect(slider.locator(".spin.nav-spinner")).to_be_visible(timeout=1500)
+    loading=slider.evaluate("""el=>{
+      const f=el.querySelector('.exp-slide-fill'),a=el.querySelector('.exp-slide-thumb'),s=el.querySelector('.nav-spinner');
+      const css=n=>getComputedStyle(n);
+      return {background:css(el).backgroundColor,fill:css(f).visibility,
+        full:Math.abs(f.getBoundingClientRect().width-el.clientWidth*el.getBoundingClientRect().width/el.offsetWidth)<3,
+        arrow:css(a).visibility,opacity:css(a).opacity,spinner:css(s).visibility};
+    }""")
+    assert loading=={"background":"rgb(203, 241, 74)","fill":"visible","full":True,"arrow":"visible","opacity":"1","spinner":"visible"}, loading
     expect(page.locator("#ps")).to_be_visible()
     page.evaluate("psClose()")
     expect(page.locator("#ps")).to_be_hidden()

@@ -1,5 +1,5 @@
 @import url("../../design-system/css/transfi-bank-altvu.css");
-@import url("./swipe-confirm.css?v=20261127-swipe-white-track");
+@import url("./swipe-confirm.css?v=20261127-swipe-green-loading");
 @import url("../../design-system/css/navigation-loading.css");
 /* Transfer-route experiment: layout only. All palette / type uses alt.vu tokens. */
 #v-exp-route .exp-recipient{box-sizing:border-box;margin-top:4px;min-width:0}

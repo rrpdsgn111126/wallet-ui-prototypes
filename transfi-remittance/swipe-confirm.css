@@ -48,12 +48,28 @@ html:not(.dark) .phone button.btn.exp-confirm-slide::before{
   stroke-linecap:round;stroke-linejoin:round;fill:none;opacity:1;
 }
 .phone .btn.exp-confirm-slide:not(.dragging):not(.nav-loading-button) .exp-slide-thumb{opacity:1;visibility:visible}
-.phone .btn.exp-confirm-slide.dragging .exp-slide-thumb,
-.phone .btn.exp-confirm-slide.nav-loading-button .exp-slide-thumb{opacity:0;visibility:hidden}
-.exp-confirm-slide.dragging .exp-slide-thumb{opacity:0}
-.exp-confirm-slide.nav-loading-button .exp-slide-thumb{opacity:0}
+.phone .btn.exp-confirm-slide.dragging .exp-slide-thumb{opacity:0;visibility:hidden}
+/* The shared loading state hides ordinary button content. A completed swipe
+   is a filled primary button: keep the brand surface and the end chevron. */
+html .phone button.btn.exp-confirm-slide.nav-loading-button,
+html:not(.dark) .phone button.btn.exp-confirm-slide.nav-loading-button{
+  background-color:var(--brand)!important;
+  border-color:var(--brand);
+}
+.phone button.btn.exp-confirm-slide.nav-loading-button::before,
+html:not(.dark) .phone button.btn.exp-confirm-slide.nav-loading-button::before{
+  background-color:var(--brand);
+}
+.phone button.btn.exp-confirm-slide.nav-loading-button > .exp-slide-fill{
+  visibility:visible;left:0;top:0;bottom:0;width:100%;border-radius:inherit;
+  transition:none;
+}
+.phone button.btn.exp-confirm-slide.nav-loading-button > .exp-slide-thumb{
+  visibility:visible;opacity:1;left:auto;right:4px;transform:none;transition:none;
+}
+.phone button.btn.exp-confirm-slide.nav-loading-button > .exp-slide-label{visibility:hidden}
 .exp-confirm-slide:not(.dragging) .exp-slide-thumb{transition:transform .18s ease-out}
-.exp-confirm-slide.nav-loading-button > .nav-spinner{visibility:visible;color:var(--ds-sem-text-primary)}
+.phone button.btn.exp-confirm-slide.nav-loading-button > .nav-spinner{visibility:visible;color:var(--brand-ink);z-index:3}
 .exp-confirm-slide:not(.dragging) .exp-slide-fill{transition:width .18s ease-out}
 .exp-confirm-slide:focus-visible{outline:2px solid var(--brand-600);outline-offset:3px}
 @media(prefers-reduced-motion:reduce){.exp-confirm-slide .exp-slide-thumb,.exp-confirm-slide .exp-slide-fill{transition:none}}
