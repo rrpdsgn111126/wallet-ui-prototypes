@@ -19,7 +19,7 @@ try{
    try{
     await page.goto(root+'/components/sheet.html#'+theme,{waitUntil:'load'});
     const states=page.locator('section.ds-st');
-    assert.equal(await states.count(),2);
+    assert.equal(await states.count(),3,'Normal, disabled, and navigation loading specimens');
     for(let i=0;i<2;i++){
      const section=states.nth(i),list=section.locator('.sheet > .method-list');
      assert.equal(await list.count(),1,'Method list must be one common plate');
@@ -61,6 +61,21 @@ try{
     const disabled=states.nth(1).locator('.method-option.off');
     assert.equal(await disabled.count(),1,'Disabled method retained');
     assert.equal(await disabled.evaluate(el=>getComputedStyle(el).pointerEvents),'none');
+    const loading=states.nth(2).locator('.method-option.nav-loading-slot');
+    assert.equal(await loading.count(),1,'Method loading row must be a real method-option');
+    assert.equal(await loading.getAttribute('aria-busy'),'true');
+    assert.equal(await loading.locator(':scope > .spin.nav-spinner').count(),1);
+    assert.equal(await loading.locator(':scope > svg.method-chevron').count(),1);
+    const center=await loading.evaluate(el=>{
+      const s=el.querySelector('.nav-spinner').getBoundingClientRect();
+      const c=el.querySelector('.method-chevron').getBoundingClientRect();
+      const css=getComputedStyle(el.querySelector('.method-chevron'));
+      return {deltaX:Math.abs((s.left+s.right)/2-(c.left+c.right)/2),
+        deltaY:Math.abs((s.top+s.bottom)/2-(c.top+c.bottom)/2),
+        hidden:css.visibility==='hidden',size:getComputedStyle(el.querySelector('.nav-spinner')).width};
+    });
+    assert.ok(center.deltaX<=2&&center.deltaY<=2&&center.hidden&&center.size==='22px',
+      'Loading spinner must replace the chevron without shifting its slot');
     await page.screenshot({path:path.join(output,`sheet-${theme}-${width}.png`),fullPage:true});
     assert.deepEqual(errors,[]);
     console.log('PASS sheet sample '+theme+' '+width+'px');
