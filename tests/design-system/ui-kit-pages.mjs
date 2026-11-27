@@ -41,6 +41,8 @@ try {
 
       await page.locator('nav.toc a[href="#text-styles"]').click();
       await page.waitForURL(/\/styles\.html#text-styles$/);
+      await page.locator('#tokens').waitFor({ state: 'hidden' });
+      await page.locator('#text-styles').waitFor({ state: 'visible' });
       assert.equal(await page.locator('#tokens').isVisible(), false);
       assert.equal(await page.locator('#text-styles').isVisible(), true);
       assert.equal(await page.locator('#type figure.v iframe').count(), 2,
