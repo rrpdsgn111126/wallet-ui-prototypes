@@ -7,6 +7,7 @@
 - [Действующий прототип](https://rrpdsgn111126.github.io/wallet-ui-prototypes/transfi-remittance/)
 - [Тестовые сценарии и переключение результатов](https://rrpdsgn111126.github.io/wallet-ui-prototypes/transfi-remittance/?qa=1)
 - [Единый UI Kit — work/design-system](https://rrpdsgn111126.github.io/wallet-ui-prototypes/preview/design-system/ui-kit/)
+- [Токены и текстовые стили UI Kit](https://rrpdsgn111126.github.io/wallet-ui-prototypes/preview/design-system/ui-kit/styles.html)
 - [Экспериментальные компоненты вывода в UI Kit](https://rrpdsgn111126.github.io/wallet-ui-prototypes/preview/design-system/ui-kit/#g-experiments)
 - [Живой экспериментальный прототип вывода](https://rrpdsgn111126.github.io/wallet-ui-prototypes/preview/withdraw-route/transfi-remittance/?experiment=withdraw&mode=usdt)
 
