@@ -7,13 +7,14 @@
 - [Действующий прототип](https://rrpdsgn111126.github.io/wallet-ui-prototypes/transfi-remittance/)
 - [Тестовые сценарии и переключение результатов](https://rrpdsgn111126.github.io/wallet-ui-prototypes/transfi-remittance/?qa=1)
 - [Единый UI Kit — work/design-system](https://rrpdsgn111126.github.io/wallet-ui-prototypes/preview/design-system/ui-kit/)
+- [Эталонные экраны и наборы компонентов](https://rrpdsgn111126.github.io/wallet-ui-prototypes/preview/design-system/ui-kit/screens.html)
 - [Токены и текстовые стили UI Kit](https://rrpdsgn111126.github.io/wallet-ui-prototypes/preview/design-system/ui-kit/styles.html)
 - [Экспериментальные компоненты вывода в UI Kit](https://rrpdsgn111126.github.io/wallet-ui-prototypes/preview/design-system/ui-kit/#g-experiments)
 - [Живой экспериментальный прототип вывода](https://rrpdsgn111126.github.io/wallet-ui-prototypes/preview/withdraw-route/transfi-remittance/?experiment=withdraw&mode=usdt)
 
 ## Единый UI Kit для экспериментальных сценариев
 
-Ветка `work/design-system` — единственный источник `css/alt-vu-wallet.css` (импортирует `design-system.css` и `tokens/tokens.css`) и компонентов. Ветка `experiment/withdraw-route` подключает опубликованные стили по относительному адресу из `preview/design-system/` и использует их в экспериментальном выводе USDT, USDC и ALT.VU. Раздел `#g-experiments` показывает реальные экраны из этой ветки, без альтернативной библиотеки. Слияние исходных веток пока не производится.
+Ветка `work/design-system` — единственный источник `css/alt-vu-wallet.css` (импортирует `design-system.css` и `tokens/tokens.css`) и компонентов. Ветка `experiment/withdraw-route` подключает опубликованные стили по относительному адресу из `preview/design-system/` и использует их в экспериментальном выводе USDT, USDC и ALT.VU. Раздел `ui-kit/screens.html#g-experimental-compositions` показывает составные примеры из этой ветки, без альтернативной библиотеки; отдельные экспериментальные контролы остались в `ui-kit/index.html#g-experiments`. Слияние исходных веток пока не производится.
 
 ## Структура
 
