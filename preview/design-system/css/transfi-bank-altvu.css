@@ -566,40 +566,50 @@ html.tf-embedded .proto-shell,html.tf-embedded .workspace{height:100%;width:100%
 }
 
 /* Transaction details table: .box > .row > .rt/.rv with .tot for the final row. */
-.phone.tf-phone .box.tf-quote{
+.phone.tf-phone .box.tf-quote,
+.phone #v-withdraw-check .box.tf-quote{
   box-sizing:border-box;width:100%;margin:0 0 12px;padding:0;overflow:hidden;
   background:var(--surface);border-radius:20px;box-shadow:0 1px 2px var(--sh-1);
 }
-.phone.tf-phone .box.tf-quote .row{
+.phone.tf-phone .box.tf-quote .row,
+.phone #v-withdraw-check .box.tf-quote .row{
   box-sizing:border-box;display:flex;align-items:center;justify-content:space-between;
   gap:16px;min-height:60px;padding:14px 16px;
   background:transparent;box-shadow:none;border:0;border-bottom:1px solid var(--n100);
 }
-.phone.tf-phone .box.tf-quote .row:last-child{border-bottom:0}
-.phone.tf-phone .box.tf-quote .row.tot{
+.phone.tf-phone .box.tf-quote .row:last-child,
+.phone #v-withdraw-check .box.tf-quote .row:last-child{border-bottom:0}
+.phone.tf-phone .box.tf-quote .row.tot,
+.phone #v-withdraw-check .box.tf-quote .row.tot{
   border-top:2px solid var(--n100);border-bottom:0;
   font-weight:600;min-height:64px;
 }
-.phone.tf-phone .box.tf-quote .rt{
+.phone.tf-phone .box.tf-quote .rt,
+.phone #v-withdraw-check .box.tf-quote .rt{
   flex:1 1 45%;min-width:0;font:var(--ds-type-body-compact-strong);color:var(--n900);
 }
-.phone.tf-phone .box.tf-quote .rt i{
+.phone.tf-phone .box.tf-quote .rt i,
+.phone #v-withdraw-check .box.tf-quote .rt i{
   display:block;margin-top:3px;font:var(--ds-type-field-label);
   font-style:normal;color:var(--n500);
 }
-.phone.tf-phone .box.tf-quote .rv{
+.phone.tf-phone .box.tf-quote .rv,
+.phone #v-withdraw-check .box.tf-quote .rv{
   flex:1 1 55%;min-width:0;max-width:60%;text-align:right;
   font:var(--ds-type-lead);color:var(--n500);
   overflow-wrap:anywhere;
 }
 .phone.tf-phone .box.tf-quote .row.tot .rt,
-.phone.tf-phone .box.tf-quote .row.tot .rv{
+.phone #v-withdraw-check .box.tf-quote .row.tot .rt,
+.phone.tf-phone .box.tf-quote .row.tot .rv,
+.phone #v-withdraw-check .box.tf-quote .row.tot .rv{
   color:var(--n900);font-weight:600;
 }
 /* Shared values in BOTH review cards wrap long account numbers/IBANs.
    Prevent legacy .tf-review-row's white-space rule from differing from
    calculations on 390/430 px screens. */
-.phone.tf-phone .box.tf-quote .rv{
+.phone.tf-phone .box.tf-quote .rv,
+.phone #v-withdraw-check .box.tf-quote .rv{
   white-space:normal;
 }
 /* Circular flag artwork INSIDE the existing gray icon plate.
