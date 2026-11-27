@@ -237,7 +237,7 @@ html body .phone.tf-phone {
 .phone .warn p b { font: var(--ds-type-small-emphasis); }
 /* Double the existing 14px gap ABOVE the international-bank-transfer label;
    keep the spacing below the label unchanged. */
-.phone .sheet .tf-bank-title { margin-top:28px; }
+.phone .sheet .tf-bank-title { margin-top:28px; color:var(--ds-sem-text-secondary); }
 .phone .note b { font: var(--ds-type-small-emphasis); }
 .phone .cstat .bdg { font: var(--ds-type-notification-caption); }
 
