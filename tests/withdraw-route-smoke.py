@@ -64,7 +64,7 @@ def verify_shared_bank_components():
     route_js = (canonical_root / "route-card.js").read_text(encoding="utf-8")
     route_css = (canonical_root / "route-card.css").read_text(encoding="utf-8")
     crypto = (ROOT / "transfi-remittance" / "withdraw-route-experiment.js").read_text(encoding="utf-8")
-    gallery = (ROOT / "design-system" / "ui-kit" / "index.html").read_text(encoding="utf-8")
+    gallery = (ROOT / "design-system" / "ui-kit" / "screens.html").read_text(encoding="utf-8")
     assert "root.AltvuRouteCard=Object.freeze" in route_js
     assert "--ds-sem-divider" in route_css and "--ds-sem-border" in route_css
     assert "window.AltvuRouteCard.render({" in crypto
@@ -75,7 +75,7 @@ def verify_shared_bank_components():
     ).read_text(encoding="utf-8")
     assert 'src="../../design-system/transfi-remittance/route-card.js"' in experiment
     assert 'href="../../design-system/transfi-remittance/route-card.css"' in experiment
-    catalog = gallery.split('id="g-experiments"', 1)[1].split("</section>", 1)[0]
+    catalog = gallery.split('id="g-experimental-compositions"', 1)[1].split("</section>", 1)[0]
     assert catalog.count('<article class="cmp exp-route-component"') == 1
     assert catalog.count('class="v exp-route-preview"') == 4
     for state in ("mode=usdt", "kind=country", "country=GB", "kind=bank"):
