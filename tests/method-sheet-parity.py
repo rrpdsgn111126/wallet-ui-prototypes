@@ -101,6 +101,37 @@ def validate_browser():
                             return [...document.styleSheets].some(sheet =>
                               sheet.href && sheet.href.includes('/design-system/css/alt-vu-wallet.css'));
                         }""", timeout=30000)
+                        # Verify the canonical geometry in the real wallet and both
+                        # markup variants. Existing event hooks stay on their rows.
+                        for dark in (False, True):
+                            page.evaluate("(dark) => document.documentElement.classList.toggle('dark',dark)", dark)
+                            geometry=page.evaluate("""() => {
+                              const phone=document.querySelector('.phone');
+                              const fixture=document.createElement('div');
+                              fixture.style.cssText='position:absolute;left:0;top:0;width:320px;pointer-events:none;visibility:hidden';
+                              fixture.innerHTML='<div class="box"><div class="row"><div class="rt">Метод</div><div class="rv">SEPA</div></div><div class="row"><div class="rt">Комиссия<i>Сервисная</i></div><div class="rv">2.50 $</div></div><div class="row tot"><div class="rt">Итого</div><div class="rv">100.00 $</div></div><div class="row"><div class="rt">Счёт</div><div class="rv">Очень длинное значение, которое должно переноситься без обрезания и увеличивать высоту строки автоматически</div></div></div><div class="tbl"><div class="rl"><span>Метод</span><b>SEPA</b></div><div class="rl"><span>Комиссия<i>Сервисная</i></span><b>2.50 $</b></div><div class="rl tot"><span>Итого</span><b>100.00 $</b></div></div><div class="box lang-box"><div class="row"><div class="rt">English<i>English</i></div><div class="rd"></div></div></div>';
+                              phone.appendChild(fixture);
+                              const read=el=>{const c=getComputedStyle(el);return {height:el.offsetHeight,padding:c.padding,gap:c.gap,shadow:c.boxShadow,font:getComputedStyle(el.firstElementChild).fontSize,line:getComputedStyle(el.firstElementChild).lineHeight,caption:el.querySelector('i')?getComputedStyle(el.querySelector('i')).lineHeight:null}};
+                              const main=[...fixture.querySelectorAll('.box:not(.lang-box) > .row')].map(read);
+                              const legacy=[...fixture.querySelectorAll('.tbl > .rl')].map(read);
+                              const lang=read(fixture.querySelector('.lang-box .row'));
+                              fixture.remove();return {main,legacy,lang};
+                            }""")
+                            for r in geometry["main"][:3]+geometry["legacy"]+[geometry["lang"]]:
+                                assert r["height"]==60 and r["padding"]=="10px 16px" and r["gap"]=="12px", (width,dark,geometry)
+                                assert r["font"]=="16px" and r["line"]=="22px", (width,dark,geometry)
+                            assert geometry["main"][1]["caption"]==geometry["legacy"][1]["caption"]=="16px", geometry
+                            assert geometry["main"][1]["shadow"]==geometry["legacy"][1]["shadow"]!="none", geometry
+                            assert geometry["main"][0]["shadow"]==geometry["legacy"][0]["shadow"]=="none", geometry
+                            assert geometry["main"][3]["height"]>60, geometry
+                            page.evaluate("show('settings',false)")
+                            page.wait_for_function("() => !!document.querySelector('#v-settings.on')")
+                            settings=page.locator("#v-settings .box > .row:visible")
+                            assert settings.count()>0
+                            for row in settings.all():
+                                assert row.evaluate("e=>e.offsetHeight>=60 && getComputedStyle(e).padding==='10px 16px'"), row.inner_text()
+                            print(f"PASS shared table row geometry and settings {width}px dark={dark}")
+                        page.evaluate("document.documentElement.classList.remove('dark')")
                         for view, count in (("topup", 6), ("withdraw", 5)):
                             page.evaluate("(view) => show(view,false)", view)
                             sheet = page.locator(f"#v-{view} .sheet")
