@@ -235,14 +235,18 @@ html body .phone.tf-phone {
 .phone .box .ab .bdg,
 .phone .bdg,
 .phone .warn p b { font: var(--ds-type-small-emphasis); }
+/* Double the existing 14px gap ABOVE the international-bank-transfer label;
+   keep the spacing below the label unchanged. */
+.phone .sheet .tf-bank-title { margin-top:28px; }
 .phone .note b { font: var(--ds-type-small-emphasis); }
 .phone .cstat .bdg { font: var(--ds-type-notification-caption); }
 
 /* Section heading action is ordinary 16/22/400 body text, not a private style. */
 .phone .hh a { font: var(--ds-type-control-regular); }
 
-/* History, lists and tables */
+/* History, lists and tables: bank method captions share the same semantic token as history dates. */
 .phone .d,
+.phone .sheet .tf-bank-title,
 .phone .err-note,
 .phone .agree p,
 .phone .agree p a,
