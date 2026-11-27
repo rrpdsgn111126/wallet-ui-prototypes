@@ -161,11 +161,9 @@ def run():
                 page.goto(BASE+"transfi-remittance/?experiment=withdraw&mode=usdt",
                           wait_until="domcontentloaded")
                 expect(page.locator("#v-exp-route")).to_have_class("view on",timeout=30000)
-                # Both the network sheet and withdrawal review now share
-                # this swipe component; focus only the visible network sheet.
-                page.locator(".exp-network-confirm .exp-confirm-slide").focus()
-                page.keyboard.press("Enter")
+                # Network warning no longer interrupts entry to USDT/USDC.
                 expect(page.locator(".exp-network-confirm")).to_have_count(0)
+                expect(page.locator("#exp-recipient")).to_be_enabled()
                 recipient=page.locator("#exp-recipient")
                 route_clear=page.locator(".tf-bank-route-card .ds-field-clear")
                 expect(route_clear).to_have_count(1)
