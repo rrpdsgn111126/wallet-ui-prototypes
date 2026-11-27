@@ -43,7 +43,7 @@ try {
     try {
       await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 30000 });
       const cards = page.locator('article.cmp');
-      assert.equal(await cards.count(), 48, 'Unexpected component gallery count');
+      assert.equal(await cards.count(), 49, 'Unexpected component gallery count');
       assert.equal(await page.locator('article.cmp .ds-typography').count(), 47,
         'Typography component must use only its two theme tables');
       // Bank component frames are intentionally loading="lazy" in the UI Kit.
