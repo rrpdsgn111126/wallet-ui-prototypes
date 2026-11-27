@@ -132,6 +132,51 @@ def validate_browser():
                                 assert computed["iconWidth"] == "32px", (view, computed)
                                 assert computed["titleSize"] == "16px", (view, computed)
                                 assert computed["chevron"] == "36px", (view, computed)
+                                # The bank-method group caption shares the EXACT
+                                # semantic token of the home transaction date.
+                                # Its space above the preceding plate doubled
+                                # from the old 14px to 28px; the lower gap stays.
+                                caption = sheet.locator(".tf-bank-title")
+                                expect(caption).to_have_count(1)
+                                metrics=caption.evaluate("""el => {
+                                    const before=el.previousElementSibling;
+                                    const after=el.nextElementSibling;
+                                    const date=document.querySelector('#v-home .d');
+                                    const a=getComputedStyle(el),b=getComputedStyle(date);
+                                    const rect=e=>e.getBoundingClientRect();
+                                    return {
+                                      font:a.font, dateFont:b.font,
+                                      size:a.fontSize, dateSize:b.fontSize,
+                                      line:a.lineHeight,dateLine:b.lineHeight,
+                                      weight:a.fontWeight,dateWeight:b.fontWeight,
+                                      color:a.color,dateColor:b.color,
+                                      topMargin:a.marginTop,bottomMargin:a.marginBottom,
+                                      beforeGap:rect(el).top-rect(before).bottom,
+                                      afterGap:rect(after).top-rect(el).bottom
+                                    };
+                                }""")
+                                assert (metrics["font"]==metrics["dateFont"] and
+                                        metrics["color"]==metrics["dateColor"]), (view,dark,metrics)
+                                assert (metrics["size"],metrics["line"],metrics["weight"]) == (
+                                    "14px","20px","400"), (view,dark,metrics)
+                                assert metrics["topMargin"]=="28px", (view,dark,metrics)
+                                assert 26<=metrics["beforeGap"]<=31, (view,dark,metrics)
+                                assert metrics["afterGap"]<=14, (view,dark,metrics)
+                                # Temporarily change the semantic token: BOTH
+                                # texts must respond, not merely look similar.
+                                tokenProof=caption.evaluate("""el => {
+                                  const root=document.documentElement;
+                                  const key='--ds-type-support-copy';
+                                  const original=root.style.getPropertyValue(key);
+                                  const date=document.querySelector('#v-home .d');
+                                  root.style.setProperty(key,'400 15px/23px Inter');
+                                  const result=[getComputedStyle(el).fontSize,
+                                                getComputedStyle(date).fontSize];
+                                  if(original)root.style.setProperty(key,original);
+                                  else root.style.removeProperty(key);
+                                  return result;
+                                }""")
+                                assert tokenProof==["15px","15px"], (view,dark,tokenProof)
                                 action_row=first.locator(".method-option:not([hidden])").first
                                 arrow=action_row.locator(".method-chevron")
                                 page.mouse.move(0,0)
