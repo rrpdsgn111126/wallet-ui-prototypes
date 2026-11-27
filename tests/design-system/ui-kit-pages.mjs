@@ -48,9 +48,12 @@ try {
       assert.equal(await page.locator('#ds-measurement-samples article.cmp').count(), 47,
         'Live component sample list must be generated from the index');
       assert.equal(await page.locator('nav.toc a[href="#text-styles"][aria-current="location"]').count(), 1);
-      const componentLink = page.locator('#ds-type-catalog .ds-type-catalog-components a').first();
-      assert.match(await componentLink.getAttribute('href'), /^\.\/#/,
+      const hrefs = await page.locator('#ds-type-catalog .ds-type-catalog-components a')
+        .evaluateAll(links => links.map(link => link.getAttribute('href')));
+      assert.ok(hrefs.some(href => href?.startsWith('./#')),
         'Typography references must link back to the component page');
+      assert.ok(hrefs.every(href => href === '#type' || href?.startsWith('./#')),
+        'Typography contains a broken component link');
       await page.screenshot({
         path: path.join(output, 'styles-' + width + '.png'), fullPage: false
       });
