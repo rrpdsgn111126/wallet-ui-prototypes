@@ -87,7 +87,7 @@ def assert_no_network_confirmation(page, coin, screenshot=None):
     """USDT/USDC opens directly; network confirmation is no longer a step."""
     expect(page.locator(".exp-network-confirm")).to_have_count(0)
     expect(page.locator(".exp-network-confirm-dim")).to_have_count(0)
-    expect(page.locator("#v-exp-route")).to_have_class(re.compile(r"\\bon\\b"))
+    expect(page.locator("#v-exp-route")).to_have_class(re.compile(r"\bon\b"))
     expect(page.locator("#exp-recipient")).to_be_enabled()
     expect(page.locator("#exp-net-toggle")).to_be_visible()
     if screenshot:
