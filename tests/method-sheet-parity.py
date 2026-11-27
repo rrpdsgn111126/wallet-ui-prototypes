@@ -204,7 +204,7 @@ def validate_browser():
                         crypto_row=page.locator("#v-topup .method-list [data-go='dep-usdt-tron']")
                         crypto_row.click()
                         expect(crypto_row).to_have_class(re.compile(r"nav-loading"))
-                        expect(crypto_row.locator(".method-chevron .nav-spinner.spin")).to_have_count(1)
+                        expect(crypto_row.locator(":scope > .nav-spinner.spin")).to_have_count(1)
                         expect(page.locator("#v-dep-usdt-tron.on")).to_have_count(0)
                         expect(page.locator("#v-dep-usdt-tron.on")).to_be_visible(timeout=15000)
                         page.evaluate("""() => {
@@ -214,7 +214,7 @@ def validate_browser():
                         bank_row=page.locator("#v-topup .method-list [data-tf-bank='SEPA']")
                         bank_row.click()
                         expect(bank_row).to_have_class(re.compile(r"nav-loading"))
-                        expect(bank_row.locator(".method-chevron .nav-spinner.spin")).to_have_count(1)
+                        expect(bank_row.locator(":scope > .nav-spinner.spin")).to_have_count(1)
                         expect(page.locator("#tf-bank-overlay")).to_be_visible(timeout=15000)
                         assert not errors, (width, errors)
                         print(f"PASS method actions USDT and SEPA {width}px")
