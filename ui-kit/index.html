@@ -35,7 +35,7 @@
   <ul class="stats"><li><b>42</b>примера компонентов</li><li><b>91</b>состояние</li><li><b>57</b>цветовых токенов</li><li><b>2</b>темы</li></ul>
 </header>
 <nav class="toc" aria-label="Навигация библиотеки"><ol class="kit-tabs"><li><a class="kit-page-link" href="./" aria-current="page">Компоненты</a></li><li><a class="kit-page-link" href="screens.html">Экраны и композиции</a></li><li><a class="kit-page-link" href="styles.html#tokens">Токены</a></li><li><a class="kit-page-link" href="styles.html#text-styles">Текстовые стили</a></li></ol>
-<ol class="kit-categories" aria-label="Категории"><li><a href="#g-base">Основа</a><span>1</span></li><li><a href="#g-frame">Каркас экрана</a><span>4</span></li><li><a href="#g-buttons">Кнопки</a><span>5</span></li><li><a href="#g-fields">Поля ввода</a><span>7</span></li><li><a href="#g-choice">Выбор</a><span>6</span></li><li><a href="#g-sheets">Шторки и списки</a><span>5</span></li><li><a href="#g-marks">Монеты, сети, категории</a><span>2</span></li><li><a href="#g-card">Карта и баннеры</a><span>3</span></li><li><a href="#g-status">Статусы и сообщения</a><span>7</span></li><li><a href="#g-experiments">Экспериментальные компоненты</a><span>2</span></li></ol></nav>
+<ol class="kit-categories" aria-label="Категории"><li><a href="#g-base">Основа</a><span>1</span></li><li><a href="#g-frame">Каркас экрана</a><span>4</span></li><li><a href="#g-buttons">Кнопки</a><span>5</span></li><li><a href="#g-fields">Поля ввода</a><span>7</span></li><li><a href="#g-choice">Выбор</a><span>6</span></li><li><a href="#g-sheets">Шторки и списки</a><span>5</span></li><li><a href="#g-marks">Монеты, сети, категории</a><span>2</span></li><li><a href="#g-card">Карта и баннеры</a><span>3</span></li><li><a href="#g-status">Статусы и сообщения</a><span>7</span></li><li><a href="#g-experiments">Экспериментальные компоненты</a><span>1</span></li></ol></nav>
 <main>
 <section class="grp" id="g-base"><h2 class="grp-h">Основа</h2>
 <article class="cmp" id="scroll">
@@ -84,24 +84,8 @@
 
 <section class="grp" id="g-experiments" data-status="experimental">
 <h2 class="grp-h">Экспериментальные компоненты</h2>
-<article class="cmp" id="experimental-navigation-loading">
-<div class="meta">
-<h3>Лоадер переходов</h3>
-<p>Один базовый <code>.spin</code> для переходов: в навигационной строке заменяет правый шеврон, в основной и вторичной кнопке — текст по центру. Размеры элементов не меняются. <code>aria-busy="true"</code>, повторные нажатия блокируются. Спиннер показывается только при навигации, не при выборе значения или копировании.</p>
-<p class="cls"><code>.spin.nav-spinner · .nav-loading-slot · .nav-loading-button</code></p>
-<p class="sts"><b>Состояния:</b> Обычное · Загрузка · Возврат после перехода / ошибки.</p>
-<dl class="src"><dt>Стили</dt><dd><code>css/navigation-loading.css</code></dd><dt>Логика в эксперименте</dt><dd><code>transfi-remittance/navigation-loader.js</code></dd></dl>
-<a class="open" href="../components/btn.html">Кнопки · состояния и разметка</a>
-<a class="open" href="../components/sheet.html">Шторка · состояния и разметка</a>
-<a class="open" href="../components/rows.html">Строки · состояния и разметка</a>
-</div>
-<figure class="v"><figcaption>Кнопка · светлая тема</figcaption><iframe loading="lazy" src="../components/btn.html#light" title="Главная кнопка — состояние загрузки в единой библиотеке"></iframe></figure>
-<figure class="v d"><figcaption>Шторка · тёмная тема</figcaption><iframe loading="lazy" src="../components/sheet.html#dark" title="Шторка методов — загрузка выбранной строки"></iframe></figure>
-</article>
-
-
 <article class="cmp" id="experimental-swipe-confirm">
-<div class="meta"><h3>Кнопка подтверждения свайпом</h3><p>Единый интерактивный компонент для подтверждения сети и окончательной проверки вывода USDT/USDC. Высота 52 px (`--ds-size-button`), фон `--ds-sem-surface`, шеврон виден в покое и скрывается при движении. Заливка растёт по движению, незавершённый свайп сбрасывается. После полного свайпа — общий лоадер `.spin.nav-spinner` вместо содержимого, до готовности перехода. Enter/Space — доступная альтернатива.</p><p class="cls"><code>.exp-confirm-slide · AltvuSwipeConfirm · .nav-loading-button · .spin</code></p><p class="sts"><b>Состояния:</b> обычное · свайп · загрузка · сброс.</p><a class="open" href="https://rrpdsgn111126.github.io/wallet-ui-prototypes/preview/withdraw-route/components/swipe-confirm.html">Живой компонент</a></div>
+<div class="meta"><h3>Кнопка подтверждения свайпом</h3><p>Единый интерактивный компонент окончательной проверки вывода USDT/USDC. Высота 52 px (`--ds-size-button`), фон `--ds-sem-surface`, шеврон виден в покое и скрывается при движении. Заливка растёт по движению, незавершённый свайп сбрасывается. После полного свайпа кнопка целиком зелёная, шеврон справа, общий лоадер `.spin.nav-spinner` по центру вместо подписи до готовности перехода. Enter/Space — доступная альтернатива.</p><p class="cls"><code>.exp-confirm-slide · AltvuSwipeConfirm · .nav-loading-button · .spin</code></p><p class="sts"><b>Состояния:</b> обычное · свайп · загрузка · сброс.</p><a class="open" href="https://rrpdsgn111126.github.io/wallet-ui-prototypes/preview/withdraw-route/components/swipe-confirm.html">Живой компонент</a></div>
 <figure class="v"><figcaption>Светлая</figcaption><iframe loading="lazy" src="https://rrpdsgn111126.github.io/wallet-ui-prototypes/preview/withdraw-route/components/swipe-confirm.html" title="Кнопка подтверждения свайпом" style="height:240px"></iframe></figure>
 <figure class="v d"><figcaption>Тёмная</figcaption><iframe loading="lazy" src="https://rrpdsgn111126.github.io/wallet-ui-prototypes/preview/withdraw-route/components/swipe-confirm.html#dark" title="Кнопка подтверждения свайпом — тёмная" style="height:240px"></iframe></figure>
 </article>
