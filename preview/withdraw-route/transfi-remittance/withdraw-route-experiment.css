@@ -401,8 +401,25 @@ html.sbp-conversion-specimen #v-dep-sbp #sbp-cv{margin:0!important}
 #v-exp-route .exp-network-confirm .tbl .rl b>span:not(.ds-icon-frame){flex:none;min-width:0;color:inherit;font:inherit}
 #v-exp-route .exp-network-confirm .btn.exp-confirm-slide{margin:16px 0 0}
 #v-withdraw-check .amsub{font:var(--ds-type-body-secondary)}
-#v-withdraw-check #wdc-box .rt i{white-space:normal;overflow:visible;text-overflow:clip;overflow-wrap:anywhere}
-#v-withdraw-check .warn{margin-top:16px}
+/* Bank shell defines --surface in both themes; native wallet intentionally
+   does not in light mode. Bind the shared quote component's expected aliases
+   only in this view so the canonical table retains its real surface/shadow. */
+#v-withdraw-check{
+  --surface:var(--ds-sem-surface);
+  --sh-1:var(--ds-color-sh-1);
+}
+#v-withdraw-check .box.tf-quote .wdc-address-row .rt{
+  flex:1 1 45%;white-space:normal;overflow:visible;
+}
+#v-withdraw-check .box.tf-quote .wdc-address-row .rv{
+  white-space:normal;overflow-wrap:anywhere;word-break:normal;
+}
+#v-withdraw-check > .foot > .warn{margin:0 0 12px}
+#v-withdraw-check > .foot > #wdc-go.exp-confirm-slide{
+  display:flex;flex:none;width:100%;height:var(--ds-size-button);
+  min-height:var(--ds-size-button);margin:0;
+}
+
 
 /* Keep developer-only recipient autofill outside active bank pickers. */
 body:has(#pickerLayer:not([hidden])) #recipientTools{display:none!important}
