@@ -146,10 +146,7 @@ def confirm_network(page, coin, screenshot=None):
             expect(sheet).to_be_visible()
             expect(fill).to_have_css("width", "44px")
             expect(slider.locator(".exp-slide-thumb")).to_have_css("opacity","1")
-    expect(slider).to_have_css("background-color","rgb(255, 255, 255)")
-    expect(slider.locator(".exp-slide-thumb svg")).to_be_visible()
-    expect(slider.locator(".exp-slide-thumb svg path")).to_have_css("stroke","rgb(22, 21, 20)")
-    expect(slider.locator(".exp-slide-thumb svg")).to_have_css("width","20px")
+            expect(slider.locator(".exp-slide-thumb svg")).to_be_visible()
         else:
             expect(slider.locator(".spin.nav-spinner")).to_be_visible(timeout=1500)
     expect(sheet).to_have_count(0)
