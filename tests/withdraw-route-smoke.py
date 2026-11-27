@@ -1193,7 +1193,9 @@ def run():
                 page.wait_for_function("Boolean(window.altNavigationLoader)")
                 button=page.locator("#footer .btn")
                 expect(button).to_have_attribute("aria-disabled","true")
-                button.click()
+                # Playwright respects aria-disabled even though the native
+                # button intentionally stays clickable to explain validation.
+                button.evaluate("(el) => el.click()")
                 expect(button.locator(".nav-spinner")).to_have_count(0)
                 page.evaluate("S.amount='100'; S.country='DE'; render()")
                 page.locator("#f-recipientName").fill("Alexander Müller")
