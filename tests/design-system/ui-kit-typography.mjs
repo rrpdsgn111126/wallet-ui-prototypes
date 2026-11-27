@@ -45,8 +45,8 @@ try {
     try {
       await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 30000 });
       const cards = page.locator('article.cmp');
-      assert.equal(await cards.count(), 47, 'Unexpected component gallery count');
-      assert.equal(await page.locator('article.cmp .ds-typography').count(), 47,
+      assert.equal(await cards.count(), 42, 'Unexpected component gallery count');
+      assert.equal(await page.locator('article.cmp .ds-typography').count(), 42,
         'Typography component must use only its two theme tables');
       // Bank component frames are intentionally loading="lazy" in the UI Kit.
       // Scroll the checked specimens into view before expecting their metrics.
@@ -175,11 +175,11 @@ try {
         'Token navigation link missing');
       assert.equal(await page.locator('a[href="styles.html#text-styles"]').count(), 1,
         'Typography navigation link missing');
-      await stylesPage.goto(new URL('styles.html', url).href, {waitUntil:'domcontentloaded', timeout:30000});
+      await stylesPage.goto(new URL('styles.html#text-styles', url).href, {waitUntil:'domcontentloaded', timeout:30000});
       assert.equal(await stylesPage.locator('#tokens, #type, #ds-type-catalog').count(), 3,
         'Foundation page must contain tokens, themed examples and live catalog');
       await stylesPage.waitForFunction(() =>
-        document.querySelectorAll('#ds-measurement-samples article.cmp').length >= 40,
+        document.querySelectorAll('#ds-measurement-samples article.cmp').length >= 35,
         null, {timeout:30000});
       assert.equal(await stylesPage.locator('#ds-type-catalog').count(), 1, 'Measured typography catalog missing');
       await stylesPage.waitForFunction(() => {

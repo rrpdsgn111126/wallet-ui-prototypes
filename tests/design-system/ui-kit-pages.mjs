@@ -17,22 +17,32 @@ try {
     page.on('pageerror', error => errors.push(error.message));
     try {
       await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 30000 });
-      assert.equal(await page.locator('article.cmp').count(), 47,
-        'The component index must keep only its 47 component cards');
+      assert.equal(await page.locator('article.cmp').count(), 42,
+        'The component index must keep only its 42 component cards');
       assert.equal(await page.locator('#tokens, #type, #ds-type-catalog').count(), 0,
         'Foundations must no longer render on the component index');
+      assert.equal(await page.locator('nav.toc .kit-tabs > li').count(), 4);
+      assert.ok(await page.locator('nav.toc .kit-categories > li').count() > 0);
+      const tabs = await page.locator('.kit-tabs').boundingBox();
+      const categories = await page.locator('.kit-categories').boundingBox();
+      assert.ok(categories.y >= tabs.y + tabs.height, 'Categories must be beneath tabs');
       assert.equal(await page.locator('nav.toc a[href="styles.html#tokens"]').count(), 1);
       assert.equal(await page.locator('nav.toc a[href="styles.html#text-styles"]').count(), 1);
       assert.equal(await page.locator('nav.toc a[href="./"][aria-current="page"]').count(), 1);
 
       await page.locator('nav.toc a[href="styles.html#tokens"]').click();
       await page.waitForURL(/\/styles\.html#tokens$/, { timeout: 30000 });
+      assert.equal(await page.locator('#tokens').isVisible(), true);
+      assert.equal(await page.locator('#text-styles').isVisible(), false);
+      assert.equal(await page.locator('.kit-categories').count(), 0);
       assert.equal(await page.locator('#tokens .tk').count() > 30, true,
         'Token specimens missing');
       assert.equal(await page.locator('nav.toc a[href="#tokens"][aria-current="location"]').count(), 1);
 
       await page.locator('nav.toc a[href="#text-styles"]').click();
       await page.waitForURL(/\/styles\.html#text-styles$/);
+      assert.equal(await page.locator('#tokens').isVisible(), false);
+      assert.equal(await page.locator('#text-styles').isVisible(), true);
       assert.equal(await page.locator('#type figure.v iframe').count(), 2,
         'Typography must keep its light and dark live tables');
       await page.waitForFunction(() =>
@@ -42,10 +52,10 @@ try {
       await page.waitForFunction(() => {
         const status = document.querySelector('#ds-type-catalog-status')?.textContent || '';
         const ready = status.match(/(\d+) из (\d+) образцов загружены/);
-        return ready && Number(ready[1]) >= 40 &&
+        return ready && Number(ready[1]) >= 35 &&
           document.querySelectorAll('#ds-type-catalog .ds-type-catalog-row').length >= 10;
       }, null, { timeout: 60000 });
-      assert.equal(await page.locator('#ds-measurement-samples article.cmp').count(), 47,
+      assert.equal(await page.locator('#ds-measurement-samples article.cmp').count(), 42,
         'Live component sample list must be generated from the index');
       assert.equal(await page.locator('nav.toc a[href="#text-styles"][aria-current="location"]').count(), 1);
       const hrefs = await page.locator('#ds-type-catalog .ds-type-catalog-components a')
@@ -58,6 +68,10 @@ try {
         path: path.join(output, 'styles-' + width + '.png'), fullPage: false
       });
 
+      await page.locator('nav.toc a[href="screens.html"]').click();
+      await page.waitForURL(/\/screens\.html$/);
+      assert.equal(await page.locator('.kit-tabs a[aria-current="page"]').innerText(), 'Экраны и композиции');
+      assert.ok(await page.locator('.kit-categories a[href="#prototype-reference"]').isVisible());
       await page.locator('nav.toc a[href="./"]').click();
       await page.waitForURL(u => u.pathname.endsWith('/ui-kit/'));
       await page.locator('nav.toc a[href="#g-buttons"]').click();
