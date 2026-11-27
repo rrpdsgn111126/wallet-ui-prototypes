@@ -148,7 +148,7 @@ def validate_browser():
                         crypto_row.click()
                         expect(crypto_row).to_have_class(re.compile(r"nav-loading"))
                         expect(crypto_row.locator(".method-chevron .nav-spinner.spin")).to_have_count(1)
-                        expect(page.locator("#v-topup.on")).to_be_visible()
+                        expect(page.locator("#v-dep-usdt-tron.on")).to_have_count(0)
                         expect(page.locator("#v-dep-usdt-tron.on")).to_be_visible(timeout=15000)
                         page.evaluate("""() => {
                             window.tfVerificationQA.setScenarioStatus('approved');
