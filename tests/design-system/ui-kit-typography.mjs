@@ -213,27 +213,6 @@ try {
       const summaryText = await stylesPage.locator('#ds-type-catalog').innerText();
       assert.ok(!summaryText.includes('Локальные комбинации без общего стиля · '),
         'The typography catalog still contains local combinations');
-      if (summaryText.includes('Совпадение, без привязки')) {
-        const diagnostics = await stylesPage.evaluate(() => ({
-          ready: document.querySelector('#ds-type-catalog-status')?.textContent,
-          matchByCard: [...document.querySelectorAll('article.cmp')].filter(card =>
-            card.querySelector('.ds-typo-match')).map(card => ({
-              id: card.id,
-              name: card.querySelector('h3')?.textContent,
-              matches: [...card.querySelectorAll('.ds-typo-match')].map(m =>
-                m.parentElement?.textContent.slice(0, 230))
-            })),
-          rows: [...document.querySelectorAll('#ds-type-catalog .ds-type-catalog-row')]
-            .filter(row => row.textContent.includes('Совпадение, без привязки'))
-            .map(row => row.textContent.replace(/\\s+/g, ' ').slice(0, 500))
-        }));
-        const mainMatches = await page.locator('article.cmp').evaluateAll(cards =>
-          cards.filter(card => card.querySelector('.ds-typo-match')).map(card => ({
-            id:card.id,
-            text:[...card.querySelectorAll('.ds-typo-match')].map(x => x.parentElement?.textContent.slice(0, 160))
-          })));
-        console.error('DS-03 catalog diagnostics', JSON.stringify({diagnostics, mainMatches}));
-      }
       assert.ok(!summaryText.includes('Совпадение, без привязки'),
         'UI Kit still contains unbound metric matches');
 
