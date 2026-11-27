@@ -1,0 +1,33 @@
+name: UI Kit page separation QA
+on:
+  push:
+    branches: [work/design-system]
+    paths:
+      - 'ui-kit/**'
+      - 'showcase/**'
+      - 'tests/design-system/ui-kit-pages.mjs'
+      - '.github/workflows/ui-kit-pages.yml'
+  workflow_dispatch:
+jobs:
+  navigation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Playwright
+        run: npm install --no-save playwright@1.56.1
+      - name: Verify components and foundation pages at 390 / 430 / 1440px
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m http.server 8765 --bind 127.0.0.1 > "$RUNNER_TEMP/ui-kit-http.log" 2>&1 &
+          PID=$!
+          trap 'kill "$PID" 2>/dev/null || true' EXIT
+          node tests/design-system/ui-kit-pages.mjs http://127.0.0.1:8765/ui-kit/
+      - name: Upload UI Kit screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ui-kit-pages
+          path: ${{ runner.temp }}/ui-kit-pages/
+          if-no-files-found: warn
