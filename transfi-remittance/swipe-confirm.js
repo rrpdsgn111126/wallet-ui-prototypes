@@ -8,7 +8,7 @@
     const labelText=slider.textContent.trim()||'Подтвердить';
     slider.classList.add('btn','exp-confirm-slide','nav-loading-exempt');
     if(!slider.hasAttribute('aria-label'))slider.setAttribute('aria-label',labelText+'. Сдвиньте вправо или нажмите Enter.');
-    slider.innerHTML='<span class="exp-slide-fill" aria-hidden="true"></span><span class="exp-slide-label"></span><span class="exp-slide-thumb" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></span>';
+    slider.innerHTML='<span class="exp-slide-fill" aria-hidden="true"></span><span class="exp-slide-label"></span><span class="exp-slide-thumb" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--ds-color-brand-ink,#161514)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></span>';
     const label=slider.querySelector('.exp-slide-label'),thumb=slider.querySelector('.exp-slide-thumb');
     const spinner=document.createElement('span');
     spinner.className='spin nav-spinner';spinner.setAttribute('aria-hidden','true');
