@@ -106,6 +106,9 @@ def validate_browser():
                             sheet = page.locator(f"#v-{view} .sheet")
                             first = sheet.locator(".method-list").first
                             expect(first).to_be_visible(timeout=12000)
+                            # Measure the real loaded rows, not the transparent skeleton text.
+                            page.wait_for_function("() => !!window.altMethodSkeleton", timeout=30000)
+                            page.wait_for_function("(kind) => !window.altMethodSkeleton.isLoading(kind)", arg=view, timeout=12000)
                             expect(sheet.locator(".method-list")).to_have_count(2)
                             expect(sheet.locator(".method-list > button.m.row.method-option")).to_have_count(count)
                             expect(sheet.locator(".method-list .method-chevron")).to_have_count(count)
