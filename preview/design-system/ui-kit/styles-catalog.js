@@ -8,12 +8,18 @@
   function updateNavigation() {
     const current = location.hash === '#text-styles' || location.hash === '#type'
       || location.hash === '#ds-type-catalog' ? 'text-styles' : 'tokens';
+    document.getElementById('tokens').hidden = current !== 'tokens';
+    document.getElementById('text-styles').hidden = current !== 'text-styles';
     document.querySelectorAll('.kit-page-link[data-section]').forEach(link => {
       if (link.dataset.section === current) link.setAttribute('aria-current', 'location');
       else link.removeAttribute('aria-current');
     });
   }
-  window.addEventListener('hashchange', updateNavigation);
+  window.addEventListener('hashchange', () => {
+    updateNavigation();
+    window.scrollTo({ top: 0, behavior: 'instant' });
+    window.dispatchEvent(new Event('resize'));
+  });
   updateNavigation();
 
   function loadInspector() {
