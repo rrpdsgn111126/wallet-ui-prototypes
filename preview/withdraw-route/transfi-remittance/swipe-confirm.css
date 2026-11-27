@@ -3,8 +3,8 @@
   --slide-thumb-size:44px;
   --slide-fill-edge:calc(4px + var(--slide-thumb-size) + var(--slide-x,0px));
   position:relative;box-sizing:border-box;touch-action:none;overflow:hidden;user-select:none;
-  margin:0;min-height:var(--ds-size-button);
-  border:1px solid var(--ds-sem-border);background:transparent;box-shadow:none;
+  margin:0;height:var(--ds-size-button);min-height:var(--ds-size-button);
+  border:1px solid var(--ds-sem-border);background:var(--ds-sem-surface);box-shadow:none;
   color:var(--ds-sem-text-secondary);
 }
 .phone .btn.exp-confirm-slide:active{transform:none}
@@ -23,9 +23,13 @@
   position:absolute;left:4px;top:3px;bottom:3px;width:var(--slide-thumb-size);
   border-radius:12px;background:transparent;color:var(--brand-ink);
   display:flex;align-items:center;justify-content:center;z-index:2;pointer-events:none;
-  transform:translateX(var(--slide-x,0px));
+  transform:translateX(var(--slide-x,0px));opacity:1;
 }
-.exp-confirm-slide:not(.dragging) .exp-slide-thumb{transition:transform .18s ease-out,opacity .12s ease-out}
+.exp-confirm-slide .exp-slide-thumb svg{display:block;visibility:visible;opacity:1}
+.exp-confirm-slide.dragging .exp-slide-thumb{opacity:0}
+.exp-confirm-slide.nav-loading-button .exp-slide-thumb{opacity:0}
+.exp-confirm-slide:not(.dragging) .exp-slide-thumb{transition:transform .18s ease-out}
+.exp-confirm-slide.nav-loading-button > .nav-spinner{visibility:visible;color:var(--ds-sem-text-primary)}
 .exp-confirm-slide:not(.dragging) .exp-slide-fill{transition:width .18s ease-out}
 .exp-confirm-slide:focus-visible{outline:2px solid var(--brand-600);outline-offset:3px}
 @media(prefers-reduced-motion:reduce){.exp-confirm-slide .exp-slide-thumb,.exp-confirm-slide .exp-slide-fill{transition:none}}

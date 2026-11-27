@@ -1,35 +1,7 @@
 @import url("../../design-system/css/transfi-bank-altvu.css");
 @import url("./swipe-confirm.css");
+@import url("../../design-system/css/navigation-loading.css");
 /* Transfer-route experiment: layout only. All palette / type uses alt.vu tokens. */
-/* Reuse native .spin in CTA and navigational list rows; never alter row geometry. */
-.phone .nav-loading{cursor:progress!important}
-.phone .nav-loading.nav-loading-plain{position:relative}
-.phone .nav-loading .method-chevron svg,
-.phone .nav-loading .row-chevron svg,
-.phone .nav-loading .chevron svg{visibility:hidden}
-.phone .nav-loading .method-chevron .nav-spinner,
-.phone .nav-loading .row-chevron .nav-spinner,
-.phone .nav-loading .chevron .nav-spinner{
-  display:block;position:absolute;inset:0;margin:auto;
-  /* .spin rotates with transform; centering must not use transform. */
-}
-.phone .nav-loading .method-chevron,
-.phone .nav-loading .row-chevron,
-.phone .nav-loading .chevron{position:relative}
-.phone .nav-loading.nav-loading-plain>.nav-spinner{
-  position:absolute;top:50%;right:22px;margin:-11px 0 0;
-}
-.phone button.nav-loading-button{position:relative;color:transparent!important}
-.phone button.nav-loading-button>*:not(.nav-spinner){visibility:hidden}
-.phone button.nav-loading-button>.nav-spinner{
-  position:absolute;left:50%;top:50%;margin:-11px 0 0 -11px;
-  color:var(--brand-ink);visibility:visible;
-}
-.phone .nav-spinner{flex:none;pointer-events:none}
-/* Native spinner already handles rotation; in reduced motion, keep the indicator visible. */
-@media(prefers-reduced-motion:reduce){
-  .phone .nav-spinner{animation:none;border-top-color:var(--brand-ink)}
-}
 #v-exp-route .exp-recipient{box-sizing:border-box;margin-top:4px;min-width:0}
 #v-exp-route .exp-recipient:focus{box-shadow:0 2px 0 var(--brand-600)}
 #v-exp-route .exp-actions{margin:0 -16px}
@@ -142,7 +114,7 @@ html.exp-route-specimen #v-exp-route .exp-route-card{margin:0}
 /* Compact debit total is pinned just above the recipient-details CTA.
    Both columns stay on one line at the 390/430px phone widths. */
 .phone.tf-phone .box.tf-quote.tf-bank-config-quote .tf-bank-total-row{
-  min-height:56px;padding:12px 16px;gap:8px;border:0;
+  min-height:var(--ds-row-min-height);padding:var(--ds-row-pad-block) var(--ds-row-pad-inline);gap:var(--ds-row-gap);border:0;
 }
 .phone.tf-phone .box.tf-quote.tf-bank-config-quote .tf-bank-total-row .rt{
   flex:1 1 auto;min-width:0;white-space:nowrap;
@@ -208,9 +180,9 @@ html.exp-route-specimen #v-exp-route .exp-route-card{margin:0}
 }
 #v-dep-sbp .sbp-picker-box .tf-picker-row{
   box-sizing:border-box;display:flex;align-items:center;gap:12px;
-  width:100%;min-height:60px;margin:0;padding:10px 16px;
+  width:100%;min-height:var(--ds-row-min-height);margin:0;padding:var(--ds-row-pad-block) var(--ds-row-pad-inline);
   border:0;border-radius:0;background:transparent;color:var(--n900);
-  box-shadow:inset 0 1px 0 var(--n50);text-align:left;
+  box-shadow:var(--ds-row-divider);text-align:left;
   font:var(--ds-type-field-value,400 16px/22px Inter,sans-serif);cursor:pointer;
 }
 #v-dep-sbp .sbp-picker-box .tf-picker-row:first-child{box-shadow:none}
@@ -394,9 +366,7 @@ html.sbp-conversion-specimen #v-dep-sbp #sbp-cv{margin:0!important}
 .exp-network-confirm .p{margin:0 0 16px;font:var(--ds-type-body-secondary)}
 .exp-network-confirm .exp-confirm-mark.warn{box-sizing:border-box;width:52px;height:52px;border-radius:50%;padding:0;display:flex;align-items:center;justify-content:center;margin:0 auto 12px}
 .exp-network-confirm .exp-confirm-mark .wi{flex:none;margin:0;display:flex}
-/* A table in a sheet keeps the ordinary .tbl/.rl layout, not the standalone
-   sheet summary rule (.sheet .rl adds an extra bottom border and margin). */
-#v-exp-route .exp-network-confirm .tbl .rl{padding:11px 0;margin:0;border-bottom:0}
+/* Network confirmation uses the unified table row geometry from design-system.css. */
 #v-exp-route .exp-network-confirm .tbl .rl b>.ds-icon-frame{display:flex;flex:0 0 var(--ds-icon-frame-size)}
 #v-exp-route .exp-network-confirm .tbl .rl b>span:not(.ds-icon-frame){flex:none;min-width:0;color:inherit;font:inherit}
 #v-exp-route .exp-network-confirm .btn.exp-confirm-slide{margin:16px 0 0}
