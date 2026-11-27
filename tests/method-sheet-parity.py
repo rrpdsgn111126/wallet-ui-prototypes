@@ -155,6 +155,7 @@ def validate_browser():
                                     const date=document.querySelector('#v-home .d');
                                     const a=getComputedStyle(el),b=getComputedStyle(date);
                                     const rect=e=>e.getBoundingClientRect();
+                                    const scale=el.offsetWidth?rect(el).width/el.offsetWidth:1;
                                     return {
                                       font:a.font, dateFont:b.font,
                                       size:a.fontSize, dateSize:b.fontSize,
@@ -162,8 +163,8 @@ def validate_browser():
                                       weight:a.fontWeight,dateWeight:b.fontWeight,
                                       color:a.color,dateColor:b.color,
                                       topMargin:a.marginTop,bottomMargin:a.marginBottom,
-                                      beforeGap:rect(el).top-rect(before).bottom,
-                                      afterGap:rect(after).top-rect(el).bottom
+                                      beforeGap:(rect(el).top-rect(before).bottom)/scale,
+                                      afterGap:(rect(after).top-rect(el).bottom)/scale
                                     };
                                 }""")
                                 assert (metrics["font"]==metrics["dateFont"] and
