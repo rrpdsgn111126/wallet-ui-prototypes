@@ -1137,6 +1137,34 @@ def run():
                     expect(page.locator("#pickerLayer")).to_be_hidden()
                     expect(trigger).to_contain_text("Обучение")
                     context.close()
+            # Shared primary-CTA spinner on the real SEPA recipient -> review navigation.
+            # A disabled CTA must never display a pending indicator.
+            for width,height in [(390,844),(430,932)]:
+                context=browser.new_context(viewport={"width":width,"height":height}, reduced_motion="reduce")
+                page=context.new_page()
+                page.on("pageerror", lambda exc: errors.append(str(exc)))
+                page.goto(
+                    f"http://127.0.0.1:{PORT}/transfi-remittance/legacy.html"
+                    "?capture=1&embedded=1&flow=out&screen=out-recipient&rail=SEPA",
+                    wait_until="domcontentloaded"
+                )
+                page.wait_for_function("Boolean(window.altNavigationLoader)")
+                button=page.locator("#footer .btn")
+                expect(button).to_have_attribute("aria-disabled","true")
+                button.click()
+                expect(button.locator(".nav-spinner")).to_have_count(0)
+                page.evaluate("S.amount='100'; S.country='DE'; render()")
+                page.locator("#f-recipientName").fill("Alexander Müller")
+                page.locator("#f-iban").fill("DE00 0000 0000 0000 0000 00")
+                button=page.locator("#footer .btn")
+                expect(button).to_have_attribute("aria-disabled","false")
+                button.click()
+                expect(button).to_have_class(re.compile(r"nav-loading-button"))
+                expect(button.locator(".nav-spinner.spin")).to_have_count(1)
+                expect(page.locator("#content")).to_contain_text("IBAN получателя")
+                expect(page.locator("#content")).to_contain_text("Кому",timeout=15000)
+                expect(page.locator("#footer .nav-spinner")).to_have_count(0)
+                context.close()
             browser.close()
         assert not errors, f"Uncaught JS errors: {errors}"
         print("PASS: USDT/USDC/ALT.VU + SEPA/SWIFT route/FX, pickers, fee-aware use-all, navigation, 390/430/1440")
