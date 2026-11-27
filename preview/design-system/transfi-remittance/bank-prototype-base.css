@@ -182,7 +182,7 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid 
 .tf-field .fl select{width:100%;max-width:100%;border:0;outline:0;background:transparent;color:var(--n900,#161514);font-size:16px;font-weight:400;height:26px;cursor:pointer}
 .tf-field .fl input{min-width:0;max-width:100%;width:100%}.tf-field .fl i{margin-bottom:2px}
 .tf-amount{margin:16px 0 12px}
-.tf-requisites{margin:16px 0 0}.tf-copyrow{min-height:63px;gap:6px}
+.tf-requisites{margin:16px 0 0}.tf-copyrow{min-height:var(--ds-row-min-height);gap:var(--ds-row-gap)}
 .tf-copyrow .rt{font-size:16px;line-height:20px;overflow-wrap:anywhere}.tf-copyrow .rt i{font-size:12px;margin-bottom:3px}
 .tf-copy-value{font-size:16px;font-weight:400}.tf-copy{flex:0 0 34px;width:34px;height:34px;border:0;background:var(--n50,#f6f7f8);color:var(--n850,#211e1d);border-radius:10px;display:grid;place-items:center}
 .tf-quote{margin:0}.tf-rl{display:flex;justify-content:space-between;align-items:flex-start;gap:16px}
@@ -337,7 +337,7 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid 
 .phone.tf-phone .fld{border-radius:16px}
 .phone.tf-phone .tf-deposit-currency{margin-top:0}
 .phone.tf-phone .tf-requisites{margin-top:0}
-.phone.tf-phone .tf-copyrow{min-height:65px}
+.phone.tf-phone .tf-copyrow{min-height:var(--ds-row-min-height)}
 .phone.tf-phone .tf-copyrow .rt{font-size:16px}
 .phone.tf-phone .tf-copyrow .rt i{font-size:12px;color:var(--n500)}
 /* Playwright audit 2026-11-12: width:100% + 16px side padding caused +32px of horizontal scrolling. */
@@ -385,7 +385,7 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid 
 .phone.tf-phone .tf-profile-page .ptabs{display:flex;margin:4px 0 20px;padding:3px;border-radius:13px;background:var(--n100)}
 .phone.tf-phone .tf-profile-page .ptab{flex:1;padding:12px 4px;text-align:center;border:0;cursor:pointer;background:transparent;border-radius:11px;font-size:14px}
 .phone.tf-phone .tf-profile-page .ptab.on{background:#fff;box-shadow:0 1px 3px #00000012}
-.phone.tf-phone .tf-profile-page .box .row{min-height:62px;cursor:pointer}
+.phone.tf-phone .tf-profile-page .box .row{min-height:var(--ds-row-min-height);cursor:pointer}
 .phone.tf-phone .tf-profile-page .tf-section-label{font-size:14px;font-weight:600;margin:18px 3px 8px}
 .phone.tf-phone .tf-earn-page .bnr{margin-top:10px}
 .phone.tf-phone .tf-source-history .op{cursor:pointer}
@@ -579,5 +579,5 @@ html.tf-capture.tf-embedded .phone.tf-phone,html.tf-capture.tf-embedded .phone.t
   height:100%!important;min-height:0!important;border:0;border-radius:0;box-shadow:none
 }
 /* Currency glyphs share the native amount-field SVG geometry. */
-.phone.tf-phone .tf-quote .row{border:0;box-shadow:inset 0 1px 0 var(--n100,#e9ecf0)}
+.phone.tf-phone .tf-quote .row{border:0;box-shadow:var(--ds-row-divider)}
 .phone.tf-phone .tf-quote .row:first-child{box-shadow:none}
