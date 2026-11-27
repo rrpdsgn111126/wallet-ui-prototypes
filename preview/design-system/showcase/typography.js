@@ -273,7 +273,8 @@
         const components = Array.from(item.components.entries());
         for (const [id, name] of components.slice(0, 6)) {
           const link = elem('a', '', name);
-          link.href = '#' + id;
+          const target = document.documentElement.dataset.catalogTarget || '';
+          link.href = (id === 'type' ? '' : target) + '#' + id;
           locations.appendChild(link);
         }
         if (components.length > 6) locations.appendChild(elem('span', '', ' +' + (components.length - 6)));

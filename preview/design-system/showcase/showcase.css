@@ -230,3 +230,15 @@ figure.v.d iframe { background: #121211; box-shadow: none; }
 @media (max-width: 860px) {
   .ds-typography-intro { margin-left: 16px; margin-right: 16px; }
 }
+
+/* UI Kit pages: persistent navigation between components and foundations. */
+.toc .kit-page-link[aria-current] { background: var(--ink); color: var(--surface); }
+.toc .kit-page-link[aria-current]:hover { background: var(--ink-2); }
+.toc .kit-nav-divider {
+  flex: 0 0 1px; width: 1px; margin: 3px 6px;
+  background: #d5d9dc;
+}
+#ds-measurement-samples {
+  position: fixed; left: -20000px; top: 0; width: 1360px; height: 1px;
+  opacity: 0; pointer-events: none; z-index: -1;
+}
