@@ -37,7 +37,7 @@
     if(event.target.closest('[role="radio"],[role="option"],[data-picker-value],[data-ns],.nav-loading-exempt'))return null;
     const row=event.target.closest(
       '.phone .method-list .method-option, .phone .m[data-go], .phone .row[data-go], '+
-      '.phone .row[data-tf-bank], .phone .op[data-go], .phone .op[onclick], '+
+      '.phone .row[data-tf-bank], .phone .op[data-go], .phone .op[data-id], .phone .op[onclick], '+
       '.phone #v-history .op, .phone .row[data-open]'
     );
     if(row)return {element:row,kind:'row'};
