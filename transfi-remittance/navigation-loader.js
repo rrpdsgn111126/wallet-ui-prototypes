@@ -38,14 +38,14 @@
     const row=event.target.closest(
       '.phone .method-list .method-option, .phone .m[data-go], .phone .row[data-go], '+
       '.phone .row[data-tf-bank], .phone .op[data-go], .phone .op[data-id], .phone .op[onclick], '+
-      '.phone #v-history .op, .phone .row[data-open]'
+      '.phone #v-history .op, .phone .row[data-open], .phone .row[data-act^="open-"], .phone .row[data-act^="go-"]'
     );
     if(row)return {element:row,kind:'row'};
     const button=event.target.closest('.phone button.btn, .phone button.btno');
     if(!button)return null;
     const label=(button.textContent||'').trim();
     const action=(button.getAttribute('onclick')||'').toLowerCase();
-    if(!/^(продолжить|далее|проверить|перевести|вывести|пополнить|подтвердить|отправить|перейти|открыть|начать|создать|готово|завершить|оформить|получить|оплатить)/i.test(label) &&
+    if(!/^(продолжить|далее|проверить|перевести|вывести|пополнить|подтвердить|отправить|перейти|открыть|начать|создать|готово|завершить|оформить|получить|оплатить|на главную|показать|попробовать|сохранить|вернуться|войти)/i.test(label) &&
        !/\b(checkrecipient|checkconfig|checkreview|wdcheck|trcheck)\b/.test(action))return null;
     return {element:button,kind:'button'};
   }
