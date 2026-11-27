@@ -675,7 +675,16 @@
   const review=E('v-withdraw-check');
   const reviewButton=E('wdc-go');
   if(review&&reviewButton){
-    E('wdc-box').classList.add('tf-review-box','tf-quote','tf-review-quote');
+    const details=E('wdc-box');
+    details.classList.add('tf-review-box','tf-quote');
+    details.classList.remove('tf-review-quote');
+    const fees=document.createElement('div');
+    fees.id='wdc-fees';
+    fees.className='box tf-quote tf-review-quote';
+    details.after(fees);
+    // Reuse the existing warning DOM, not another rendering of its contents.
+    const warning=review.querySelector('.warn');
+    if(warning)reviewButton.before(warning);
     const reviewSwipe=window.AltvuSwipeConfirm.mount(reviewButton,()=>{
       if(review.classList.contains('on'))
         psOpen(wdSubmit,'Перевод в сеть необратим: отменить его не сможем ни мы, ни сеть','withdraw');
@@ -683,7 +692,27 @@
     const nativeCheck=wdCheck;
     wdCheck=function(){
       reviewSwipe.reset();
-      return nativeCheck.apply(this,arguments);
+      const result=nativeCheck.apply(this,arguments);
+      fees.replaceChildren();
+      // Native wdCheck owns all amounts, address and optional fees.
+      // Only reorganize its freshly rendered rows into the two shared cards.
+      let isFee=false;
+      for(const row of Array.from(details.children)){
+        const title=row.querySelector('.rt');
+        if(!title)continue;
+        const address=title.querySelector('i');
+        if(address && /^Кошелёк(?:\s|$)/.test(title.textContent)){
+          const value=document.createElement('div');
+          value.className='rv';
+          value.textContent=address.textContent;
+          title.textContent='Адрес';
+          row.classList.add('wdc-address-row');
+          row.appendChild(value);
+        }
+        if(row.classList.contains('tot')||/^Комиссия(?:\s|$)/.test(title.textContent))isFee=true;
+        if(isFee)fees.appendChild(row);
+      }
+      return result;
     };
   }
 

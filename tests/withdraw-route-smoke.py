@@ -146,14 +146,31 @@ def verify_crypto_review(page, coin, screenshot=None):
     review=page.locator("#v-withdraw-check")
     expect(review.locator("#wdc-box")).to_have_class(re.compile(r"\btf-quote\b"))
     expect(review.locator("#wdc-sub")).to_contain_text(coin)
-    expect(review.locator("#wdc-box .row.tot .rt")).to_have_css("font-weight","600")
+    expect(review.locator(".wrap > .box.tf-quote")).to_have_count(2)
+    expect(review.locator("#wdc-fees .row.tot .rt")).to_have_css("font-weight","600")
     expect(review.locator("#wdc-box .row").first).to_have_css("padding-top","14px")
     expect(review.locator("#wdc-box .row").first).to_have_css("border-bottom-width","1px")
-    expect(review.locator("#wdc-box .row .rt i")).to_have_text(re.compile(r".{20,}"))
-    expect(review.locator(".warn > .wi")).to_be_visible()
-    expect(review.locator(".warn > p")).to_be_visible()
+    expect(review.locator("#wdc-box .row .rt")).to_contain_text(["Сеть","Адрес"])
+    expect(review.locator("#wdc-box .wdc-address-row .rv")).to_have_text(re.compile(r".{20,}"))
+    expect(review.locator("#wdc-box .wdc-address-row .rt i")).to_have_count(0)
+    expect(review.locator("#wdc-fees .row .rt").first).to_have_text("Комиссия сети")
+    for table in review.locator(".wrap > .box.tf-quote").all():
+        assert table.evaluate("""el=>{const s=getComputedStyle(el);return s.backgroundColor!=='rgba(0, 0, 0, 0)'&&s.borderRadius==='20px'}""")
+    assert review.locator("#wdc-box").evaluate("""el=>{
+      const n=el.querySelector('.row .rv'),a=el.querySelector('.wdc-address-row .rv');
+      const keys=['fontSize','lineHeight','fontWeight','color','textAlign'];
+      return keys.every(k=>getComputedStyle(n)[k]===getComputedStyle(a)[k]) &&
+        a.scrollWidth<=a.clientWidth+1;
+    }""")
+    expect(review.locator(".foot > .warn > .wi")).to_be_visible()
+    expect(review.locator(".foot > .warn > p")).to_be_visible()
+    expect(review.locator(".foot > .warn")).to_have_css("margin-bottom","12px")
     slider=review.locator("#wdc-go.exp-confirm-slide")
     expect(slider).to_be_visible()
+    expect(slider).to_have_css("height","52px")
+    expect(slider).to_have_css("border-top-width","1px")
+    expect(slider.locator(".exp-slide-label")).to_have_text("Подтвердить")
+    expect(slider.locator(".exp-slide-fill")).to_have_css("background-color","rgb(203, 241, 74)")
     expect(slider.locator(".exp-slide-fill")).to_have_css("width","44px")
     assert slider.evaluate("el=>el.classList.contains('nav-loading-exempt')&&!!window.AltvuSwipeConfirm")
     if screenshot:
