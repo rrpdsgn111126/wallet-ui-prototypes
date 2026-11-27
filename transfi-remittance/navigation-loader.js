@@ -55,8 +55,10 @@
     const spinner=document.createElement('span');
     spinner.className='spin nav-spinner';
     spinner.setAttribute('aria-hidden','true');
-    const holder=kind==='row'&&element.querySelector('.method-chevron, .row-chevron, .chevron');
-    (holder||element).appendChild(spinner);
+    const holder=kind==='row'&&element.querySelector('.method-chevron, .row-chevron, .chevron, :scope > svg');
+    // SVG cannot render an HTML <span>; keep the spinner as a row sibling,
+    // in the same right-hand slot as the original chevron.
+    element.appendChild(spinner);
     if(kind==='row')element.classList.add(holder?'nav-loading-slot':'nav-loading-plain');
     else element.classList.add('nav-loading-button');
     return spinner;
