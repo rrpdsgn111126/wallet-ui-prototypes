@@ -1,4 +1,35 @@
+@import url("../../design-system/css/transfi-bank-altvu.css");
+@import url("./swipe-confirm.css");
 /* Transfer-route experiment: layout only. All palette / type uses alt.vu tokens. */
+/* Reuse native .spin in CTA and navigational list rows; never alter row geometry. */
+.phone .nav-loading{cursor:progress!important}
+.phone .nav-loading.nav-loading-plain{position:relative}
+.phone .nav-loading .method-chevron svg,
+.phone .nav-loading .row-chevron svg,
+.phone .nav-loading .chevron svg{visibility:hidden}
+.phone .nav-loading .method-chevron .nav-spinner,
+.phone .nav-loading .row-chevron .nav-spinner,
+.phone .nav-loading .chevron .nav-spinner{
+  display:block;position:absolute;inset:0;margin:auto;
+  /* .spin rotates with transform; centering must not use transform. */
+}
+.phone .nav-loading .method-chevron,
+.phone .nav-loading .row-chevron,
+.phone .nav-loading .chevron{position:relative}
+.phone .nav-loading.nav-loading-plain>.nav-spinner{
+  position:absolute;top:50%;right:22px;margin:-11px 0 0;
+}
+.phone button.nav-loading-button{position:relative;color:transparent!important}
+.phone button.nav-loading-button>*:not(.nav-spinner){visibility:hidden}
+.phone button.nav-loading-button>.nav-spinner{
+  position:absolute;left:50%;top:50%;margin:-11px 0 0 -11px;
+  color:var(--brand-ink);visibility:visible;
+}
+.phone .nav-spinner{flex:none;pointer-events:none}
+/* Native spinner already handles rotation; in reduced motion, keep the indicator visible. */
+@media(prefers-reduced-motion:reduce){
+  .phone .nav-spinner{animation:none;border-top-color:var(--brand-ink)}
+}
 #v-exp-route .exp-recipient{box-sizing:border-box;margin-top:4px;min-width:0}
 #v-exp-route .exp-recipient:focus{box-shadow:0 2px 0 var(--brand-600)}
 #v-exp-route .exp-actions{margin:0 -16px}
@@ -368,36 +399,10 @@ html.sbp-conversion-specimen #v-dep-sbp #sbp-cv{margin:0!important}
 #v-exp-route .exp-network-confirm .tbl .rl{padding:11px 0;margin:0;border-bottom:0}
 #v-exp-route .exp-network-confirm .tbl .rl b>.ds-icon-frame{display:flex;flex:0 0 var(--ds-icon-frame-size)}
 #v-exp-route .exp-network-confirm .tbl .rl b>span:not(.ds-icon-frame){flex:none;min-width:0;color:inherit;font:inherit}
-#v-exp-route .btn.exp-confirm-slide{
-  --slide-thumb-size:44px;
-  --slide-fill-edge:calc(4px + var(--slide-thumb-size) + var(--slide-x,0px));
-  position:relative;box-sizing:border-box;touch-action:none;overflow:hidden;user-select:none;
-  margin:16px 0 0;min-height:var(--ds-size-button);
-  border:1px solid var(--ds-sem-border);background:transparent;box-shadow:none;
-  color:var(--ds-sem-text-secondary);
-}
-#v-exp-route .btn.exp-confirm-slide:active{transform:none}
-.exp-confirm-slide .exp-slide-fill{
-  position:absolute;left:4px;top:3px;bottom:3px;
-  width:calc(var(--slide-thumb-size) + var(--slide-x,0px));
-  border-radius:12px;background:var(--brand);pointer-events:none;
-}
-.exp-confirm-slide .exp-slide-label{
-  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;z-index:1;
-  pointer-events:none;
-  background-image:linear-gradient(to right,var(--brand-ink) 0 var(--slide-fill-edge),var(--ds-sem-text-secondary) var(--slide-fill-edge) 100%);
-  background-clip:text;-webkit-background-clip:text;color:transparent;
-}
-.exp-confirm-slide .exp-slide-thumb{
-  position:absolute;left:4px;top:3px;bottom:3px;width:var(--slide-thumb-size);
-  border-radius:12px;background:transparent;color:var(--brand-ink);
-  display:flex;align-items:center;justify-content:center;z-index:2;pointer-events:none;
-  transform:translateX(var(--slide-x,0px));
-}
-.exp-confirm-slide:not(.dragging) .exp-slide-thumb{transition:transform .18s ease-out,opacity .12s ease-out}
-.exp-confirm-slide:not(.dragging) .exp-slide-fill{transition:width .18s ease-out}
-.exp-confirm-slide:focus-visible{outline:2px solid var(--brand-600);outline-offset:3px}
-@media(prefers-reduced-motion:reduce){.exp-confirm-slide .exp-slide-thumb,.exp-confirm-slide .exp-slide-fill{transition:none}}
+#v-exp-route .exp-network-confirm .btn.exp-confirm-slide{margin:16px 0 0}
+#v-withdraw-check .amsub{font:var(--ds-type-body-secondary)}
+#v-withdraw-check #wdc-box .rt i{white-space:normal;overflow:visible;text-overflow:clip;overflow-wrap:anywhere}
+#v-withdraw-check .warn{margin-top:16px}
 
 /* Keep developer-only recipient autofill outside active bank pickers. */
 body:has(#pickerLayer:not([hidden])) #recipientTools{display:none!important}

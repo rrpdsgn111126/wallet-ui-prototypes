@@ -16,7 +16,12 @@
     component.onload=function(){
       const route=document.createElement('script');
       route.src=versioned('./withdraw-route-experiment.js').href;
-      document.head.appendChild(route);
+      const swipe=document.createElement('script');
+      swipe.src=versioned('./swipe-confirm.js').href;
+      swipe.async=false;
+      swipe.onload=()=>document.head.appendChild(route);
+      swipe.onerror=()=>console.error('Failed to load shared swipe-confirm.js');
+      document.head.appendChild(swipe);
     };
     component.onerror=function(){console.error('Failed to load canonical route-card.js');};
     document.head.appendChild(component);
