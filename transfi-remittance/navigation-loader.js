@@ -45,7 +45,7 @@
     if(!button)return null;
     const label=(button.textContent||'').trim();
     const action=(button.getAttribute('onclick')||'').toLowerCase();
-    if(!/^(продолжить|далее|проверить|перевести|вывести|пополнить|подтвердить|отправить|перейти|открыть|начать|создать|готово|завершить|оформить|получить|оплатить|на главную|показать|попробовать|сохранить|вернуться|войти)/i.test(label) &&
+    if(!/^(продолжить|далее|проверить|перевести|вывести|пополнить|подтвердить|отправить|перейти|открыть|начать|создать|готово|завершить|оформить|получить|оплатить|на главную|показать|попробовать|вернуться|войти)/i.test(label) &&
        !/\b(checkrecipient|checkconfig|checkreview|wdcheck|trcheck)\b/.test(action))return null;
     return {element:button,kind:'button'};
   }
