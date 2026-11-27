@@ -1,4 +1,33 @@
 /* Transfer-route experiment: layout only. All palette / type uses alt.vu tokens. */
+/* Reuse native .spin in CTA and navigational list rows; never alter row geometry. */
+.phone .nav-loading{cursor:progress!important}
+.phone .nav-loading.nav-loading-plain{position:relative}
+.phone .nav-loading .method-chevron svg,
+.phone .nav-loading .row-chevron svg,
+.phone .nav-loading .chevron svg{visibility:hidden}
+.phone .nav-loading .method-chevron .nav-spinner,
+.phone .nav-loading .row-chevron .nav-spinner,
+.phone .nav-loading .chevron .nav-spinner{
+  display:block;position:absolute;left:50%;top:50%;
+  transform:translate(-50%,-50%);margin:0;
+}
+.phone .nav-loading .method-chevron,
+.phone .nav-loading .row-chevron,
+.phone .nav-loading .chevron{position:relative}
+.phone .nav-loading.nav-loading-plain>.nav-spinner{
+  position:absolute;top:50%;right:22px;margin:-11px 0 0;
+}
+.phone button.nav-loading-button{position:relative;color:transparent!important}
+.phone button.nav-loading-button>*:not(.nav-spinner){visibility:hidden}
+.phone button.nav-loading-button>.nav-spinner{
+  position:absolute;left:50%;top:50%;margin:-11px 0 0 -11px;
+  color:var(--brand-ink);visibility:visible;
+}
+.phone .nav-spinner{flex:none;pointer-events:none}
+/* Native spinner already handles rotation; in reduced motion, keep the indicator visible. */
+@media(prefers-reduced-motion:reduce){
+  .phone .nav-spinner{animation:none;border-top-color:var(--brand-ink)}
+}
 #v-exp-route .exp-recipient{box-sizing:border-box;margin-top:4px;min-width:0}
 #v-exp-route .exp-recipient:focus{box-shadow:0 2px 0 var(--brand-600)}
 #v-exp-route .exp-actions{margin:0 -16px}
