@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Экраны и композиции — alt.vu</title>
+<link rel="stylesheet" href="../showcase/fonts.css">
+<link rel="stylesheet" href="../showcase/showcase.css">
+<style id="current-prototype-gallery-css">
+.prototype-gallery-note{margin:14px 0;padding:14px 18px;background:#f2f5f3;border:1px solid #d5ded8;border-radius:12px;font-size:14px;line-height:1.6;color:#26342c}
+.prototype-gallery-links{display:flex;flex-wrap:wrap;gap:12px;margin:12px 0 20px}
+.prototype-gallery-links a{font-size:14px;color:#245a40;text-decoration:underline}
+.prototype-gallery-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:18px}
+.prototype-gallery-grid figure{margin:0;min-width:0;display:flex;flex-direction:column;align-items:center;background:#eff1f2;border-radius:16px;padding:15px}
+.prototype-gallery-grid figcaption{font-size:14px;font-weight:600;margin-bottom:12px;color:#26342c}
+.prototype-gallery-grid iframe{width:min(100%,390px);height:690px;border:1px solid #ccd3cc;border-radius:20px;background:#fff}
+</style>
+<style id="experimental-components-gallery">
+/* One reusable From/To card, shown in its live destination variants. */
+#g-experimental-compositions .exp-route-component{display:block}
+#g-experimental-compositions .exp-route-component>.meta{margin-bottom:20px}
+#g-experimental-compositions .exp-route-variants{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+#g-experimental-compositions .exp-route-preview{box-sizing:border-box;min-width:0;margin:0}
+#g-experimental-compositions .exp-route-preview iframe{display:block;width:100%;max-width:423px;height:280px!important;border-radius:16px;overflow:hidden}
+/* Single visual amount-conversion component, two live behavioral variants.
+   Frames load working instances from the experiment rather than duplicate markup. */
+#g-experimental-compositions .exp-conversion-component{display:block}
+#g-experimental-compositions .exp-conversion-variants{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+#g-experimental-compositions .exp-conversion-preview{box-sizing:border-box;min-width:0;margin:0}
+#g-experimental-compositions .exp-conversion-preview iframe{
+  display:block;width:100%;max-width:423px;height:336px!important;
+  border-radius:16px;overflow:hidden;background:#f6f7f8;
+}
+@media(max-width:860px){
+  #g-experimental-compositions .exp-route-variants{grid-template-columns:minmax(0,1fr)}
+  #g-experimental-compositions .exp-conversion-variants{grid-template-columns:minmax(0,1fr)}
+  #g-experimental-compositions .exp-conversion-preview iframe{max-width:none;height:336px!important;border-radius:0}
+  #g-experimental-compositions .exp-route-preview iframe{max-width:none;height:280px!important;border-radius:0}
+}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="brand"><span class="plate"><img src="../assets/img-27f3d8cf.png" width="29" height="29" alt="alt.vu"></span>
+  <div><h1>Экраны и композиции alt.vu</h1><p>Эталонные экраны и наборы существующих компонентов · <code>work/design-system</code></p></div></div>
+  <ul class="stats"><li><b>5</b>живых экранов</li><li><b>5</b>наборов компонентов</li><li><b>1</b>библиотека</li></ul>
+</header>
+<nav class="toc" aria-label="Разделы библиотеки"><ol>
+<li><a class="kit-page-link" href="./">Компоненты</a></li>
+<li><a class="kit-page-link" href="screens.html" aria-current="page">Экраны и композиции</a></li>
+<li><a class="kit-page-link" href="styles.html#tokens">Токены</a></li>
+<li><a class="kit-page-link" href="styles.html#text-styles">Текстовые стили</a></li>
+<li class="kit-nav-divider" aria-hidden="true"></li>
+<li><a href="#prototype-reference">Эталонные экраны</a><span>5</span></li>
+<li><a href="#g-canonical-fields">Банковские наборы полей</a><span>2</span></li>
+<li><a href="#g-canonical-status">Проверка и результат</a><span>1</span></li>
+<li><a href="#g-experimental-compositions">Экспериментальные композиции</a><span>2</span></li>
+</ol></nav>
+<main>
+<section class="grp" id="prototype-reference">
+<h2 class="grp-h">Эталон — актуальный TransFi Remittance</h2>
+<p class="prototype-gallery-note"><strong>Источник истины для интерфейса — текущий интерактивный прототип.</strong> Ниже показаны реальные экраны непосредственно из <code>transfi-remittance/</code>, а не вручную перерисованные копии. Таблица типографики и карточки ниже используют вычисленные стили актуальных образцов этой ветки; старые статические таблицы не используются. Для выбора валюты SWIFT, страны и назначения нажмите на соответствующее поле в живом экране: откроется нижняя шторка, как при выборе криптосети. При последующих изменениях сначала обновлять прототип, затем соответствующие компоненты библиотеки.</p>
+<p class="prototype-gallery-note">Исходные методы пополнения и вывода (USDT, USDC, ALT.VU, СБП) сохранены в главном прототипе. В тестовом режиме можно пройти исходные формы и подтверждение ПИН-кодом, открыть детали операции из истории и вызвать результат оплаты. Переключатель событий располагается вне экранов кошелька и включается только параметром <code>?qa=1</code>. Адреса и QR тестовые.</p>
+<div class="prototype-gallery-links"><a href="../transfi-remittance/" target="_blank" rel="noopener">Открыть основной прототип</a><a href="../transfi-remittance/?qa=1" target="_blank" rel="noopener">Проверить исходные методы, историю и callback</a><a href="../transfi-remittance/legacy.html?flow=in&amp;screen=in-details&amp;rail=SEPA" target="_blank" rel="noopener">Пополнение SEPA</a><a href="../transfi-remittance/legacy.html?flow=in&amp;screen=in-details&amp;rail=SWIFT" target="_blank" rel="noopener">Пополнение SWIFT</a><a href="../transfi-remittance/legacy.html?flow=out&amp;screen=out-config&amp;rail=SEPA" target="_blank" rel="noopener">Вывод SEPA</a><a href="../transfi-remittance/legacy.html?flow=out&amp;screen=out-config&amp;rail=SWIFT" target="_blank" rel="noopener">Вывод SWIFT</a></div>
+<div class="prototype-gallery-grid">
+<figure><figcaption>Текущий сценарий: пополнение SEPA</figcaption><iframe loading="lazy" title="Пополнение SEPA из актуального прототипа" src="../transfi-remittance/legacy.html?capture=1&amp;embedded=1&amp;flow=in&amp;screen=in-details&amp;rail=SEPA"></iframe></figure>
+<figure><figcaption>Текущий сценарий: пополнение SWIFT</figcaption><iframe loading="lazy" title="Пополнение SWIFT из актуального прототипа" src="../transfi-remittance/legacy.html?capture=1&amp;embedded=1&amp;flow=in&amp;screen=in-details&amp;rail=SWIFT"></iframe></figure>
+<figure><figcaption>Текущий сценарий: вывод SEPA</figcaption><iframe loading="lazy" title="Вывод SEPA из актуального прототипа" src="../transfi-remittance/legacy.html?capture=1&amp;embedded=1&amp;flow=out&amp;screen=out-config&amp;rail=SEPA"></iframe></figure>
+<figure><figcaption>Текущий сценарий: вывод SWIFT</figcaption><iframe loading="lazy" title="Вывод SWIFT из актуального прототипа" src="../transfi-remittance/legacy.html?capture=1&amp;embedded=1&amp;flow=out&amp;screen=out-config&amp;rail=SWIFT"></iframe></figure>
+<figure><figcaption>Вывод SWIFT: выбор назначения перевода</figcaption><iframe loading="lazy" title="Назначение перевода из актуального прототипа" src="../transfi-remittance/legacy.html?capture=1&amp;embedded=1&amp;flow=out&amp;screen=out-recipient&amp;rail=SWIFT"></iframe></figure>
+</div>
+</section>
+<section class="grp" id="g-canonical-fields">
+<h2 class="grp-h">Банковские наборы полей</h2>
+<p class="lead">Составные примеры SEPA / SWIFT. Поля и действия используют существующие компоненты и живые сценарии.</p>
+<article class="cmp" id="bankfields"><div class="meta">
+<h3>Источник списания и иконки валют</h3>
+<p>Каноническое поле «Со счёта alt.vu» — серое <code>.fld.g</code>, логотип в круге 40×40, подпись и доступная сумма. <strong>Никакого правого USD или отдельного <code>.addon</code>.</strong> Валюта указана в сумме.</p>
+<p>В фиксированном поле <strong>«Валюта пополнения» SEPA</strong> используется тот же круглый SVG-флаг ЕС, что в селекторе валюты SWIFT (через <code>uxCurrencyPickerIcon('EUR')</code>), и общая оправа <code>.ds-icon-frame</code>. В фиксированном поле валюты получения SEPA сохранена контурная иконка <code>.tf-currency-icon</code>. Для контурных валютных SVG действует единая геометрия 20×20, <code>viewBox="0 0 24 24"</code>, <code>stroke-width="1.8"</code>, как у иконки исходного поля суммы <code>components/amount.html</code>. Навбар на мобильной ширине использует оригинальный верхний отступ 14px + safe area.</p>
+<p class="cls"><code>.fld.g.tf-source .fi .fl</code> · <code>.fld.w.tf-fixed-currency .tf-currency-icon</code> · <code>.fld.w.tf-picker-trigger</code></p>
+<p class="sts"><b>Состояния:</b> SEPA — EUR · SWIFT — выбор валюты</p>
+<dl class="src"><dt>Исходное поле</dt><dd><code>components/fld.html</code></dd><dt>Иконка суммы</dt><dd><code>components/amount.html</code></dd><dt>Рабочие поля</dt><dd><code>transfi-remittance/legacy.html</code></dd><dt>Стили</dt><dd><code>css/transfi-bank-altvu.css</code></dd></dl>
+<a class="open" href="../components/bankfields.html">Разметка — components/bankfields.html</a>
+</div>
+<figure class="v"><figcaption>SEPA: счёт и EUR</figcaption><iframe loading="lazy" src="../components/bankfields.html?mode=sepa" title="Канонический счёт и валюта SEPA"></iframe></figure>
+<figure class="v"><figcaption>SWIFT: счёт и выбор валюты</figcaption><iframe loading="lazy" src="../components/bankfields.html?mode=swift" title="Канонический счёт и валюты SWIFT"></iframe></figure></article>
+<article class="cmp" id="recipientfields">
+<div class="meta"><h3>Реквизиты получателя · SEPA / SWIFT</h3>
+<p>Экран <code>out-recipient</code>: <strong>единое поле «Имя и фамилия получателя»</strong>, обязательные реквизиты и дополнительные поля без левых иконок. В раскрываемых реквизитах нет подписи «необязательно». Стандартные поля <code>.fld.w.tf-field.tf-recipient-field</code> сохраняют подписи, значения и валидацию.</p><p>Кнопка <strong>«Проверить перевод»</strong> неактивна, пока обязательные данные не заполнены; при нажатии объясняет причину. То же поведение у «Продолжить» на предыдущем шаге: <code>aria-disabled</code>, но не HTML <code>disabled</code>.</p>
+<p><strong>Дополнительные SWIFT-реквизиты</strong> расположены последними после назначения и его уточнения. Это самостоятельный кликабельный заголовок <code>details.tf-recipient-extra &gt; summary</code> без белого внешнего контейнера. Внутри раскрываются отдельные белые поля. Для SEPA используется тот же принцип с заголовком «Дополнительные реквизиты».</p>
+<p class="cls"><code>.tf-recipient-field</code> · <code>.tf-recipient-extra</code> · <code>.tf-recipient-extra[open]</code></p>
+<p class="sts"><b>Состояния:</b> SEPA · SWIFT (интерактивный заголовок)</p>
+<dl class="src"><dt>Разметка</dt><dd><code>transfi-remittance/legacy.html · out-recipient</code></dd><dt>Стили</dt><dd><code>css/transfi-bank-altvu.css</code></dd><dt>Контракт</dt><dd><code>docs/TRANSFI_ALT_VU_UI_PARITY.md</code></dd></dl>
+<a class="open" href="../components/recipientfields.html">Разметка — components/recipientfields.html</a>
+</div>
+<figure class="v"><figcaption>SEPA</figcaption><iframe loading="lazy" src="../components/recipientfields.html?mode=sepa" title="Реквизиты получателя SEPA без иконок"></iframe></figure>
+<figure class="v"><figcaption>SWIFT</figcaption><iframe loading="lazy" src="../components/recipientfields.html?mode=swift" title="Реквизиты получателя SWIFT без иконок"></iframe></figure>
+</article>
+</section>
+<section class="grp" id="g-canonical-status">
+<h2 class="grp-h">Проверка и результат перевода</h2>
+<article class="cmp" id="bankstatus">
+<div class="meta">
+<h3>Банковский перевод · проверка и результат</h3>
+<p>Каноническая проверка SEPA/SWIFT — исходный паттерн <strong>«Проверьте перевод»</strong> из внутреннего ALT.VU-перевода: сумма получателю в EUR, строка «Кому», затем курс, комиссия и <code>.row.tot</code> «Спишется со счёта» в долларах; кнопка «Перевести … EUR».</p>
+<p>После отправки три <strong>разных экрана</strong> вместо одного таймлайна: ожидание с индикатором как у СБП, завершение с лаймовой галочкой и ошибочный результат с серым крестом. Ожидание не выдаётся за успех; статусы обновляются только по тестовому callback или ответу провайдера.</p>
+<p>Ниже не картинки: каждое состояние загружает ту же HTML-разметку и CSS из работающего `transfi-remittance/legacy.html` с тестовыми значениями.</p>
+<p class="cls"><code>.tf-review-box</code> · <code>.tf-review-quote .row.tot</code> · <code>.sbp-wait</code> · <code>.hero.sbp-out</code></p>
+<p class="sts"><b>Состояния:</b> Проверка · Ожидание · Успех · Ошибка</p>
+<dl class="src"><dt>Эталон P2P</dt><dd><code>#v-transfer-check, #v-transfer-done</code></dd><dt>Эталон СБП</dt><dd><code>#v-dep-sbp-wait, #v-dep-sbp-out</code></dd><dt>Рабочая разметка</dt><dd><code>transfi-remittance/legacy.html</code></dd><dt>Правила</dt><dd><code>docs/TRANSFI_ALT_VU_UI_PARITY.md</code></dd></dl>
+<a class="open" href="../components/bankstatus.html">Разметка — components/bankstatus.html</a>
+</div>
+<figure class="v"><figcaption>Проверьте перевод</figcaption><iframe loading="lazy" src="../components/bankstatus.html?screen=out-review" title="SEPA экран проверки перевода"></iframe></figure>
+<figure class="v"><figcaption>Обрабатывается</figcaption><iframe loading="lazy" src="../components/bankstatus.html?screen=out-progress" title="SEPA экран ожидания"></iframe></figure>
+<figure class="v"><figcaption>Перевод выполнен</figcaption><iframe loading="lazy" src="../components/bankstatus.html?screen=out-success" title="SEPA экран успеха"></iframe></figure>
+<figure class="v"><figcaption>Ошибка перевода</figcaption><iframe loading="lazy" src="../components/bankstatus.html?screen=out-failed" title="SEPA экран ошибки"></iframe></figure>
+</article>
+</section>
+<section class="grp" id="g-experimental-compositions" data-status="experimental">
+<h2 class="grp-h">Экспериментальные композиции</h2>
+<p class="lead">Варианты собраны из существующих компонентов. Для интерактивной проверки используются действующие демонстрации, без статических копий.</p>
+<article class="cmp exp-route-component" id="experimental-transfer-route">
+<div class="meta">
+<h3>Откуда / Куда</h3>
+<p>Одна двухпольная карточка с постоянным источником ALT.VU и разными типами назначения. Все варианты используют один рендерер <code>AltvuRouteCard</code>, одинаковые отступы, иконки и разделитель. Показаны живые компоненты, не полные экраны. Редактируемый адрес, email или телефон используют общий крестик очистки справа. При заполнении он виден, при пустом значении скрыт; селекторы страны и банка не имеют крестика.</p>
+<p class="cls"><code>.tf-bank-route-card · .tf-bank-leg · .tf-bank-arrow-line · .tf-bank-arrow</code></p>
+<p class="sts"><b>Варианты:</b> USDT · SEPA · SWIFT · банк (демонстрационный).</p>
+<a class="open" href="https://rrpdsgn111126.github.io/wallet-ui-prototypes/preview/withdraw-route/transfi-remittance/?experiment=withdraw&amp;mode=usdt" target="_blank" rel="noopener">Открыть экспериментальный прототип</a>
+</div>
+<div class="exp-route-variants">
+<figure class="v exp-route-preview">
+<figcaption>Криптовалюта · ALT.VU → USDT · заполнено (можно очистить)</figcaption>
+<iframe loading="lazy" scrolling="no" src="https://rrpdsgn111126.github.io/wallet-ui-prototypes/preview/withdraw-route/transfi-remittance/?experiment=withdraw&amp;mode=usdt&amp;component=route-card&amp;filled=1" title="Общая карточка: источник ALT.VU, получатель USDT с адресом"></iframe>
+</figure>
+<figure class="v exp-route-preview">
+<figcaption>SEPA · Выбор страны</figcaption>
+<iframe loading="lazy" scrolling="no" src="https://rrpdsgn111126.github.io/wallet-ui-prototypes/preview/withdraw-route/transfi-remittance/legacy.html?flow=out&amp;screen=out-config&amp;rail=SEPA&amp;component=route-card&amp;kind=country" title="Общая карточка SEPA: страна получателя не выбрана"></iframe>
+</figure>
+<figure class="v exp-route-preview">
+<figcaption>SWIFT · Страна выбрана</figcaption>
+<iframe loading="lazy" scrolling="no" src="https://rrpdsgn111126.github.io/wallet-ui-prototypes/preview/withdraw-route/transfi-remittance/legacy.html?flow=out&amp;screen=out-config&amp;rail=SWIFT&amp;component=route-card&amp;kind=country&amp;country=GB" title="Общая карточка SWIFT: выбрана Великобритания"></iframe>
+</figure>
+<figure class="v exp-route-preview">
+<figcaption>Банк · Пример назначения</figcaption>
+<iframe loading="lazy" scrolling="no" src="https://rrpdsgn111126.github.io/wallet-ui-prototypes/preview/withdraw-route/transfi-remittance/legacy.html?flow=out&amp;screen=out-config&amp;rail=SWIFT&amp;component=route-card&amp;kind=bank" title="Общая карточка с банком-получателем, визуальный пример"></iframe>
+</figure>
+</div>
+</article>
+<article class="cmp exp-conversion-component" id="experimental-amount-conversion">
+<div class="meta">
+<h3>Сумма с конвертацией · варианты</h3>
+<p>Одна визуальная композиция <code>.sbp-cv.tf-bank-sbp</code> с двумя суммами и курсом в капсуле между ними. Это <strong>два живых варианта существующего компонента</strong>, а не нарисованные копии. Общие стили и токены сохранены; платёжная логика и обработчики пока различаются.</p>
+<p><strong>Вывод SEPA/SWIFT:</strong> ввод суммы USD → рассчитанная сумма в валюте получения; в SWIFT доступен выбор валюты и действие «Использовать всё». <strong>Пополнение СБП:</strong> ввод RUB или USD → расчёт другой суммы, курс с таймером; выбор банка находится вне этой карточки.</p>
+<p><strong>Отступы вокруг капсулы курса:</strong> по CSS 8 px от нижней границы верхнего числового поля до капсулы и 8 px от капсулы до нижней подписи. У «Откуда / Куда» такие же интервалы по 8 px: внутренние отступы возле разделителя унифицированы. От текста/числа до линии в обеих карточках — 24 px, внешние отступы не менялись.</p>
+<p class="cls"><code>.sbp-cv.tf-bank-sbp · .h · .mid · .sbp-rate</code> · <code>AltvuFieldClear</code></p>
+<p class="sts"><b>Варианты:</b> вывод SEPA/SWIFT · пополнение СБП. Состояния: пустое, заполнено; вычисления работают в живых компонентах.</p>
+<a class="open" href="https://rrpdsgn111126.github.io/wallet-ui-prototypes/preview/withdraw-route/transfi-remittance/legacy.html?component=amount-conversion&amp;filled=1" target="_blank" rel="noopener">Открыть компонент вывода</a>
+</div>
+<div class="exp-conversion-variants">
+<figure class="v exp-conversion-preview">
+<figcaption>Вывод SEPA/SWIFT · USD → валюта получения</figcaption>
+<iframe loading="lazy" scrolling="no" src="https://rrpdsgn111126.github.io/wallet-ui-prototypes/preview/withdraw-route/transfi-remittance/legacy.html?component=amount-conversion&amp;filled=1" title="Живой компонент конвертации при выводе"></iframe>
+</figure>
+<figure class="v exp-conversion-preview">
+<figcaption>Пополнение СБП · RUB ↔ USD</figcaption>
+<iframe loading="lazy" scrolling="no" src="https://rrpdsgn111126.github.io/wallet-ui-prototypes/preview/withdraw-route/transfi-remittance/?component=sbp-conversion&amp;filled=1" title="Живой компонент конвертации при пополнении через СБП"></iframe>
+</figure>
+</div>
+</article>
+</section>
+</main>
+<footer class="foot">Составные примеры и экранные сценарии. Базовые элементы — на странице <a href="./">«Компоненты»</a>.</footer>
+<script src="../showcase/showcase.js"></script>
+<script src="../showcase/typography.js"></script>
+</body>
+</html>
